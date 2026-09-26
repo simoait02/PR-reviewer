@@ -2,7 +2,7 @@ import asyncio
 import json
 from typing import Any
 
-import requests
+import httpx
 from pydantic import BaseModel, Field
 
 
@@ -19,6 +19,7 @@ class PRFile(BaseModel):
     additions: int
     deletions: int
     changes: int
+    patch: str | None = None
     previous_filename: str | None = None  # only set when status == "renamed"
 
 
@@ -40,6 +41,10 @@ class PullRequest(BaseModel):
     head_sha: str
 
 
+class GithubAPIError(RuntimeError):
+    """Raised when a GitHub API request fails."""
+
+
 class GithubClient:
     def __init__(self, github_request: GithubRequest) -> None:
         self.github_request = github_request
@@ -56,11 +61,47 @@ class GithubClient:
             "X-GitHub-Api-Version": "2026-03-10",
         }
 
+    async def _get(
+        self,
+        url: str,
+        params: dict[str, int] | None = None,
+    ) -> httpx.Response:
+        try:
+            async with httpx.AsyncClient(
+                headers=self._headers,
+                timeout=5.0,
+            ) as client:
+                response = await client.get(url, params=params)
+                response.raise_for_status()
+        except httpx.TimeoutException as exc:
+            raise GithubAPIError("GitHub API request timed out") from exc
+        except httpx.HTTPStatusError as exc:
+            try:
+                message = exc.response.json().get("message", exc.response.text)
+            except ValueError:
+                message = exc.response.text
+            raise GithubAPIError(
+                f"GitHub API returned {exc.response.status_code}: {message}"
+            ) from exc
+        except httpx.RequestError as exc:
+            raise GithubAPIError(f"GitHub API request failed: {exc}") from exc
+
+        return response
+
+    @staticmethod
+    def _json(response: httpx.Response) -> Any:
+        try:
+            return response.json()
+        except ValueError as exc:
+            raise GithubAPIError("GitHub API returned invalid JSON") from exc
+
     async def fetch_pr_comments(self, pull_number: int) -> list[PRComment]:
-        response = requests.get(
+        response = await self._get(
             url=f"{self._base_url}/issues/{pull_number}/comments",
-            headers=self._headers,
         )
+        comments = self._json(response)
+        if not isinstance(comments, list):
+            raise GithubAPIError("GitHub returned an invalid comments response")
         return [
             PRComment(
                 id=comment["id"],
@@ -69,7 +110,7 @@ class GithubClient:
                 created_at=comment["created_at"],
                 author_association=comment["author_association"],
             )
-            for comment in response.json()
+            for comment in comments
         ]
 
     async def fetch_pr_files(
@@ -77,23 +118,26 @@ class GithubClient:
         pull_number: int,
         page: int = 1,
     ) -> list[PRFile]:
-        """Fetch one page of changed files, with 100 files per page."""
-        response = requests.get(
+        """Fetch one page of changed files, with 15 files per page."""
+        if page < 1:
+            raise ValueError("page must be greater than or equal to 1")
+
+        response = await self._get(
             url=f"{self._base_url}/pulls/{pull_number}/files",
-            headers=self._headers,
-            params={"per_page": 100, "page": page},
+            params={"per_page": 15, "page": page},
         )
-        response.raise_for_status()
-        batch = response.json()
+        batch = self._json(response)
+        if not isinstance(batch, list):
+            raise GithubAPIError("GitHub returned an invalid files response")
         return [PRFile(**file) for file in batch]
 
     async def fetch_pr_infos(self, pull_number: int) -> PullRequest:
-        response = requests.get(
+        response = await self._get(
             url=f"{self._base_url}/pulls/{pull_number}",
-            headers=self._headers,
         )
-        response.raise_for_status()
-        response = response.json()
+        response = self._json(response)
+        if not isinstance(response, dict):
+            raise GithubAPIError("GitHub returned an invalid pull request response")
         return PullRequest(
             number=response["number"],
             title=response["title"],
@@ -109,33 +153,14 @@ class GithubClient:
         pr: PullRequest,
         file: PRFile,
     ) -> list[dict[str, Any]]:
-        response = requests.get(
+        response = await self._get(
             url=f"{self._base_url}/compare/{pr.base_sha}...{pr.head_sha}",
-            headers=self._headers,
         )
-        response.raise_for_status()
-        data = response.json()
-        return [file_diff for file_diff in data.get("files", []) if file_diff["sha"] == file.sha]
-
-
-async def run() -> None:
-    github_request = GithubRequest(
-        repository_owner="kubernetes",
-        repository_name="kubernetes",
-    )
-    client = GithubClient(github_request)
-
-    pr = await client.fetch_pr_infos(142409)
-
-    files = await client.fetch_pr_files(142409)
-    first_file = files[0]
-    res = await client.fetch_diff_content(pr, first_file)
-    print(json.dumps(res, indent=2))
-
-
-def main() -> None:
-    asyncio.run(run())
-
-
-if __name__ == "__main__":
-    main()
+        data = self._json(response)
+        if not isinstance(data, dict) or not isinstance(data.get("files", []), list):
+            raise GithubAPIError("GitHub returned an invalid comparison response")
+        return [
+            file_diff
+            for file_diff in data.get("files", [])
+            if file_diff.get("sha") == file.sha
+        ]

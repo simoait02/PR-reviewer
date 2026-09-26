@@ -42,14 +42,14 @@ async def get_pr_files(pull_number: int, page: int = 1) -> dict[str, Any]:
 
     Each file includes its path, change status, additions, deletions,
     and patch when available. Use the patch to identify the changes
-    introduced by the pull request. If the result contains 30 files,
+    introduced by the pull request. If the result contains 15 files,
     call this tool again with the next page number to retrieve more files.
     """
     files = await client.fetch_pr_files(pull_number, page)
     return {
         "files": [file.model_dump() for file in files],
         "page": page,
-        "has_next_page": len(files) == 100,
+        "has_next_page": len(files) == 15,
     }
 
 @mcp.tool()

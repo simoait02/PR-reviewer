@@ -535,16 +535,16 @@ version = "0.1.0"
 source = { editable = "packages/mcp" }
 dependencies = [
     { name = "fastmcp" },
+    { name = "httpx" },
     { name = "mcp" },
-    { name = "requests" },
     { name = "uvicorn" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "fastmcp", specifier = ">=2.3.0rc1" },
+    { name = "httpx", specifier = ">=0.28.1" },
     { name = "mcp", specifier = ">=1.8.0,<2" },
-    { name = "requests", specifier = ">=2.34.2" },
     { name = "uvicorn", specifier = ">=0.54.0" },
 ]
 
