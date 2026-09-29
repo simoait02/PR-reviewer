@@ -5,17 +5,18 @@ Revises: 36db49e0221b
 Create Date: 2026-09-25 17:07:14.581022
 
 """
-from typing import Sequence, Union
+from collections.abc import Sequence
 
-from alembic import op
 import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
+from alembic import op
+
 # revision identifiers, used by Alembic.
 revision: str = 'e37dc4034ed2'
-down_revision: Union[str, Sequence[str], None] = '36db49e0221b'
-branch_labels: Union[str, Sequence[str], None] = None
-depends_on: Union[str, Sequence[str], None] = None
+down_revision: str | Sequence[str] | None = '36db49e0221b'
+branch_labels: str | Sequence[str] | None = None
+depends_on: str | Sequence[str] | None = None
 
 
 def upgrade() -> None:
@@ -28,10 +29,8 @@ def upgrade() -> None:
         sa.Column("metadata", postgresql.JSONB, nullable=False),
         sa.Column("created_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.text("CURRENT_TIMESTAMP")),
     )
-    pass
 
 
 def downgrade() -> None:
     """Downgrade schema."""
     op.drop_table("chunks")
-    pass

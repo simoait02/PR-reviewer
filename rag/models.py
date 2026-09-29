@@ -3,10 +3,10 @@ import uuid
 from enum import Enum
 
 from pgvector.sqlalchemy import Vector
-from sqlalchemy import DateTime, Enum as SqlEnum, ForeignKey, String, Text, text
+from sqlalchemy import DateTime, ForeignKey, String, Text, text
+from sqlalchemy import Enum as SqlEnum
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
-
 
 
 class Category(str, Enum):

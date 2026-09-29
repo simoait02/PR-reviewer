@@ -1,5 +1,4 @@
 from enum import StrEnum
-from typing import Dict, Any, List
 
 from pydantic import BaseModel, Field
 
@@ -9,7 +8,7 @@ class AgentRequest(BaseModel):
         ...,
         description = "The task the agent must complete."
     )
-    facts: List[str] = Field(default_factory=list, description="Known facts the agent can use.")
+    facts: list[str] = Field(default_factory=list, description="Known facts the agent can use.")
 
 
 class AgentStatus(StrEnum):
@@ -36,6 +35,6 @@ class ReviewFinding(BaseModel):
 class AgentResponse(BaseModel):
     status: AgentStatus = AgentStatus.COMPLETED
     summary: str
-    findings: List[ReviewFinding] = Field(default_factory=list)
+    findings: list[ReviewFinding] = Field(default_factory=list)
     approved: bool
 

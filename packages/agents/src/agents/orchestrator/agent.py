@@ -1,6 +1,8 @@
 from __future__ import annotations
+
+from collections.abc import Sequence
 from pathlib import Path
-from typing import Sequence, Any
+from typing import Any
 
 import yaml
 from langchain_core.language_models import BaseChatModel
@@ -36,7 +38,7 @@ class CodeReviewOrchestrator(BaseOrchestrator):
         return OrchestratorConfig.model_validate(raw_config)
 
     @classmethod
-    async def create_orchestrator(cls) -> "CodeReviewOrchestrator":
+    async def create_orchestrator(cls) -> CodeReviewOrchestrator:
         orchestrator = cls(
             model = ChatOpenAI(
                 model="gpt-4o-mini",

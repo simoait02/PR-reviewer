@@ -1,5 +1,4 @@
 from enum import StrEnum
-from typing import List
 
 from pydantic import BaseModel, Field
 
@@ -13,7 +12,7 @@ class Specialist(StrEnum):
 
 class ReviewPlan(BaseModel):
     needs_deep_review: bool
-    applicable_specialists: List[Specialist] = Field(default_factory=list)
+    applicable_specialists: list[Specialist] = Field(default_factory=list)
     reasoning:str
 
 class OrchestratorConfig(BaseModel):

@@ -1,14 +1,14 @@
 from abc import ABC, abstractmethod
-from typing import ClassVar, Any, Dict, Sequence
+from collections.abc import Sequence
+from typing import Any, ClassVar
 
+from agents.internal.config import AgentConfig
+from agents.internal.protocol import AgentRequest, AgentResponse
+from agents.mcp.loader import aload_agent_mcp_tools
 from langchain.agents import create_agent
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import HumanMessage
 from langchain_core.tools import BaseTool, StructuredTool
-
-from agents.internal.config import AgentConfig
-from agents.internal.protocol import AgentResponse, AgentRequest
-from agents.mcp.loader import aload_agent_mcp_tools
 
 
 class BaseAgent(ABC):
@@ -59,7 +59,7 @@ class BaseAgent(ABC):
     async def ainvoke_raw(
             self,
             request: AgentRequest,
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         graph = await self.abuild()
 
         message = HumanMessage(

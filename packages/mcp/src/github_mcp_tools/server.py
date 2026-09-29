@@ -3,7 +3,12 @@ from typing import Any
 
 from fastmcp import FastMCP
 
-from github_mcp_tools.github_requests import GithubRequest, GithubClient, PullRequest, PRFile
+from github_mcp_tools.github_requests import (
+    GithubClient,
+    GithubRequest,
+    PRFile,
+    PullRequest,
+)
 
 github_request = GithubRequest(
     repository_owner=os.environ.get("GITHUB_REPO_OWNER", "kubernetes"),

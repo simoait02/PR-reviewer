@@ -1,7 +1,5 @@
-from langchain_core.language_models import BaseChatModel
-from pydantic import Field, BaseModel
-
 from agents.mcp.config import AgentMCPServer
+from pydantic import BaseModel, Field
 
 
 class AgentConfig(BaseModel):

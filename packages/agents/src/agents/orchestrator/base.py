@@ -1,4 +1,5 @@
-from typing import Sequence, Any, Dict
+from collections.abc import Sequence
+from typing import Any
 
 from langchain.agents import create_agent
 from langchain_core.language_models import BaseChatModel
@@ -61,7 +62,7 @@ class BaseOrchestrator:
     async def ainvoke_raw(
             self,
             request: AgentRequest
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         graph = await self.abuild()
 
         message = HumanMessage(

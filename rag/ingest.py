@@ -4,12 +4,12 @@ import os
 from pathlib import Path
 
 import frontmatter
-from openai import AsyncOpenAI
 from langchain_text_splitters import MarkdownHeaderTextSplitter
+from openai import AsyncOpenAI
 from sqlalchemy import URL, select
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
-from rag.models import Document, Category, Chunk, Embedding
+from rag.models import Category, Chunk, Document, Embedding
 
 DOCUMENTS_DIR = (
       Path(__file__).resolve().parents[1]
@@ -63,53 +63,52 @@ engine = create_async_engine(
 session_local = async_sessionmaker(engine,expire_on_commit=False)
 
 async def save_document(result):
-    async with session_local() as session:
-        async with session.begin():
-            existing_document = await session.scalar(
-                select(Document).where(
-                    Document.content_hash == result["content_hash"]
+    async with session_local() as session, session.begin():
+        existing_document = await session.scalar(
+            select(Document).where(
+                Document.content_hash == result["content_hash"]
+            )
+        )
+
+        if existing_document is not None:
+            print(f"Skipped: {result['file_path'].name}")
+            return
+
+        document = Document(
+            title=result["title"],
+            description=result["description"],
+            category=Category(result["category"]),
+            content_hash=result["content_hash"],
+        )
+
+        for chunk in result["chunks"]:
+            document.chunks.append(
+                Chunk(
+                    content=chunk.page_content,
+                    metadata_=chunk.metadata,
                 )
             )
 
-            if existing_document is not None:
-                print(f"Skipped: {result['file_path'].name}")
-                return
+        session.add(document)
+        await session.flush()
 
-            document = Document(
-                title=result["title"],
-                description=result["description"],
-                category=Category(result["category"]),
-                content_hash=result["content_hash"],
-            )
+        embedding_response = await openai_client.embeddings.create(
+            model=EMBEDDING_MODEL,
+            input=[chunk.content for chunk in document.chunks],
+        )
 
-            for chunk in result["chunks"]:
-                document.chunks.append(
-                    Chunk(
-                        content=chunk.page_content,
-                        metadata_=chunk.metadata,
-                    )
-                )
+        vectors = sorted(
+            embedding_response.data,
+            key=lambda item: item.index,
+        )
 
-            session.add(document)
-            await session.flush()
+        for chunk, vector in zip(document.chunks, vectors):
+            chunk.embedding = Embedding(embedding=vector.embedding)
 
-            embedding_response = await openai_client.embeddings.create(
-                model=EMBEDDING_MODEL,
-                input=[chunk.content for chunk in document.chunks],
-            )
-
-            vectors = sorted(
-                embedding_response.data,
-                key=lambda item: item.index,
-            )
-
-            for chunk, vector in zip(document.chunks, vectors):
-                chunk.embedding = Embedding(embedding=vector.embedding)
-
-            print(
-                f"Ingested {result['file_path'].name}: "
-                f"{len(document.chunks)} chunks"
-            )
+        print(
+            f"Ingested {result['file_path'].name}: "
+            f"{len(document.chunks)} chunks"
+        )
 
 async def main():
     files = sorted(DOCUMENTS_DIR.glob("*.md"))

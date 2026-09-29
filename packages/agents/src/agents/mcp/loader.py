@@ -4,10 +4,9 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from agents.mcp.config import AgentMCPServer, MCPServer
 from langchain_core.tools import BaseTool
 from langchain_mcp_adapters.tools import load_mcp_tools
-
-from agents.mcp.config import MCPServer, AgentMCPServer
 
 _REGISTRY_PATH = Path(__file__).parent / "servers.yaml"
 logger = logging.getLogger(__name__)
