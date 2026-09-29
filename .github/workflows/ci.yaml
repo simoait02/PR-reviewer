@@ -1,0 +1,44 @@
+name: CI pipeline of PR reviewer
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  quality:
+    name: Lint and dependency security
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Check lockfile
+        run: uv lock --check
+
+      - name: Install locked dependencies
+        run: uv sync --locked
+
+      - name: Run Ruff lint
+        run: uv run --with ruff ruff check .
+
+      - name: Check Ruff formatting
+        run: uv run --with ruff ruff format --check .
+
+      - name: Audit dependencies
+        run: uv run --with pip-audit pip-audit
