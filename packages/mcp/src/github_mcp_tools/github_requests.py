@@ -59,9 +59,7 @@ class GithubClient:
         }
 
         if self.github_request.access_token:
-            headers["Authorization"] = (
-                f"Bearer {self.github_request.access_token}"
-            )
+            headers["Authorization"] = f"Bearer {self.github_request.access_token}"
 
         return headers
 

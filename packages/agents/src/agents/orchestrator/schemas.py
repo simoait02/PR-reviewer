@@ -10,10 +10,12 @@ class Specialist(StrEnum):
     HISTORY = "history"
     IMPACT = "impact"
 
+
 class SpecialistTask(BaseModel):
-  specialist: Specialist
-  objective: str
-  focus: list[str] = Field(default_factory=list)
+    specialist: Specialist
+    objective: str
+    focus: list[str] = Field(default_factory=list)
+
 
 class ReviewPlan(BaseModel):
     needs_deep_review: bool

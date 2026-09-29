@@ -15,10 +15,11 @@ def get_github_token() -> str:
     headers = get_http_headers(include={"x-github-token"})
     return headers.get("x-github-token", "")
 
+
 def get_client(
-        repository_owner: str,
-        repository_name: str,
-)->GithubClient:
+    repository_owner: str,
+    repository_name: str,
+) -> GithubClient:
     return GithubClient(
         GithubRequest(
             repository_owner=repository_owner,
@@ -27,11 +28,14 @@ def get_client(
         )
     )
 
+
 mcp = FastMCP("github-pr-tools")
 
 
 @mcp.tool()
-async def get_pr_info(pull_number: int, repository_owner:str, repository_name: str) -> dict[str, Any]:
+async def get_pr_info(
+    pull_number: int, repository_owner: str, repository_name: str
+) -> dict[str, Any]:
     """
     Get the pull request's title, description, base and head branch names,
     and their commit SHAs. The commit SHAs identify the exact base and head
@@ -44,7 +48,9 @@ async def get_pr_info(pull_number: int, repository_owner:str, repository_name: s
 
 
 @mcp.tool()
-async def get_pr_comments(pull_number: int, repository_owner:str, repository_name: str) -> list[dict[str, Any]]:
+async def get_pr_comments(
+    pull_number: int, repository_owner: str, repository_name: str
+) -> list[dict[str, Any]]:
     """
     Retrieve all conversation comments on a pull request, including
     the author's username, comment body, creation timestamp, and
@@ -56,7 +62,9 @@ async def get_pr_comments(pull_number: int, repository_owner:str, repository_nam
 
 
 @mcp.tool()
-async def get_pr_files(pull_number: int, repository_owner:str, repository_name: str, page: int = 1) -> dict[str, Any]:
+async def get_pr_files(
+    pull_number: int, repository_owner: str, repository_name: str, page: int = 1
+) -> dict[str, Any]:
     """
     Retrieve a paginated list of files changed by a pull request.
 
@@ -75,7 +83,9 @@ async def get_pr_files(pull_number: int, repository_owner:str, repository_name: 
 
 
 @mcp.tool()
-async def get_diff_content(pr: PullRequest, file: PRFile, repository_owner:str, repository_name: str) -> list[dict[str, Any]]:
+async def get_diff_content(
+    pr: PullRequest, file: PRFile, repository_owner: str, repository_name: str
+) -> list[dict[str, Any]]:
     """
     Get the unified diff patch for one specific file changed in a pull
     request. Use `get_pr_files` first to see which filenames changed.

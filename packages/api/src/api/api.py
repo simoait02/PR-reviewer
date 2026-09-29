@@ -14,6 +14,7 @@ from api.schemas import UserQuestion
 
 github_bearer = HTTPBearer(auto_error=False)
 
+
 @asynccontextmanager
 async def lifespan(fastapi_app: FastAPI) -> AsyncIterator[None]:
     configure_tracing()

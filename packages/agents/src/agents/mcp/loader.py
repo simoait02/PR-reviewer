@@ -104,8 +104,7 @@ async def aload_agent_mcp_tools(
         if allowed is not None:
             prefix = f"{server.name}_"
             server_tools = [
-                t for t in server_tools
-                if t.name.removeprefix(prefix) in allowed
+                t for t in server_tools if t.name.removeprefix(prefix) in allowed
             ]
 
         tools.extend(server_tools)

@@ -8,5 +8,8 @@ class PullRequestContext(BaseModel):
 
 
 class UserQuestion(BaseModel):
-    question: str = Field(min_length=1,description="The user's question for the pull request review.",)
+    question: str = Field(
+        min_length=1,
+        description="The user's question for the pull request review.",
+    )
     pull_request: PullRequestContext
