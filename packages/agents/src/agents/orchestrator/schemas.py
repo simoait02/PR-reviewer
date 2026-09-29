@@ -11,9 +11,15 @@ class Specialist(StrEnum):
     IMPACT = "impact"
 
 
+class SpecialistTask(BaseModel):
+    specialist: Specialist
+    objective: str
+    focus: list[str] = Field(default_factory=list)
+
+
 class ReviewPlan(BaseModel):
     needs_deep_review: bool
-    applicable_specialists: list[Specialist] = Field(default_factory=list)
+    tasks: list[SpecialistTask] = Field(default_factory=list)
     reasoning: str
 
 

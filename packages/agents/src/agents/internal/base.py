@@ -33,7 +33,10 @@ class BaseAgent(ABC):
             parts.append(f"Facts: \n{facts}")
         return "\n\n".join(parts)
 
-    async def abuild(self) -> Any:
+    async def abuild(
+        self,
+        github_token: str | None = None,
+    ) -> Any:
         """build and cache the langgraph agent"""
 
         if self._graph is not None:

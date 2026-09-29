@@ -1,4 +1,10 @@
 services:
+  phoenix:
+    container_name: phoenix
+    image: arizephoenix/phoenix:latest
+    ports:
+      - "6006:6006"
+
   pgvector:
     container_name: pgvector
     image: pgvector/pgvector:0.8.6-pg18-trixie

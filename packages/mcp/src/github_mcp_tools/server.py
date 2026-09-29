@@ -1,7 +1,7 @@
-import os
 from typing import Any
 
 from fastmcp import FastMCP
+from fastmcp.server.dependencies import get_http_headers
 
 from github_mcp_tools.github_requests import (
     GithubClient,
@@ -10,41 +10,61 @@ from github_mcp_tools.github_requests import (
     PullRequest,
 )
 
-github_request = GithubRequest(
-    repository_owner=os.environ.get("GITHUB_REPO_OWNER", "kubernetes"),
-    repository_name=os.environ.get("GITHUB_REPO_NAME", "kubernetes"),
-    access_token=os.environ.get("GITHUB_TOKEN", ""),
-)
-client = GithubClient(github_request)
+
+def get_github_token() -> str:
+    headers = get_http_headers(include={"x-github-token"})
+    return headers.get("x-github-token", "")
+
+
+def get_client(
+    repository_owner: str,
+    repository_name: str,
+) -> GithubClient:
+    return GithubClient(
+        GithubRequest(
+            repository_owner=repository_owner,
+            repository_name=repository_name,
+            access_token=get_github_token(),
+        )
+    )
+
 
 mcp = FastMCP("github-pr-tools")
 
 
 @mcp.tool()
-async def get_pr_info(pull_number: int) -> dict[str, Any]:
+async def get_pr_info(
+    pull_number: int, repository_owner: str, repository_name: str
+) -> dict[str, Any]:
     """
     Get the pull request's title, description, base and head branch names,
     and their commit SHAs. The commit SHAs identify the exact base and head
     revisions of the pull request and can be used to retrieve or compare
     the changes introduced by the PR.
     """
+    client = get_client(repository_owner, repository_name)
     pr = await client.fetch_pr_infos(pull_number)
     return pr.model_dump()
 
 
 @mcp.tool()
-async def get_pr_comments(pull_number: int) -> list[dict[str, Any]]:
+async def get_pr_comments(
+    pull_number: int, repository_owner: str, repository_name: str
+) -> list[dict[str, Any]]:
     """
     Retrieve all conversation comments on a pull request, including
     the author's username, comment body, creation timestamp, and
     author association.
     """
+    client = get_client(repository_owner, repository_name)
     pr = await client.fetch_pr_comments(pull_number)
     return [p.model_dump() for p in pr]
 
 
 @mcp.tool()
-async def get_pr_files(pull_number: int, page: int = 1) -> dict[str, Any]:
+async def get_pr_files(
+    pull_number: int, repository_owner: str, repository_name: str, page: int = 1
+) -> dict[str, Any]:
     """
     Retrieve a paginated list of files changed by a pull request.
 
@@ -53,6 +73,7 @@ async def get_pr_files(pull_number: int, page: int = 1) -> dict[str, Any]:
     introduced by the pull request. If the result contains 15 files,
     call this tool again with the next page number to retrieve more files.
     """
+    client = get_client(repository_owner, repository_name)
     files = await client.fetch_pr_files(pull_number, page)
     return {
         "files": [file.model_dump() for file in files],
@@ -62,11 +83,14 @@ async def get_pr_files(pull_number: int, page: int = 1) -> dict[str, Any]:
 
 
 @mcp.tool()
-async def get_diff_content(pr: PullRequest, file: PRFile) -> list[dict[str, Any]]:
+async def get_diff_content(
+    pr: PullRequest, file: PRFile, repository_owner: str, repository_name: str
+) -> list[dict[str, Any]]:
     """
     Get the unified diff patch for one specific file changed in a pull
     request. Use `get_pr_files` first to see which filenames changed.
     """
+    client = get_client(repository_owner, repository_name)
     changes = await client.fetch_diff_content(pr, file)
     return changes
 

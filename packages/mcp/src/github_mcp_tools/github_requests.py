@@ -53,13 +53,15 @@ class GithubClient:
 
     @property
     def _headers(self) -> dict[str, str]:
-        return {
+        headers = {
             "Accept": "application/vnd.github+json",
-            "Authorization": f"Bearer {self.github_request.access_token}"
-            if self.github_request.access_token
-            else "",
             "X-GitHub-Api-Version": "2026-03-10",
         }
+
+        if self.github_request.access_token:
+            headers["Authorization"] = f"Bearer {self.github_request.access_token}"
+
+        return headers
 
     async def _get(
         self,
