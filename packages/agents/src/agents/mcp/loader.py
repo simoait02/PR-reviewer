@@ -68,7 +68,7 @@ def _load_registry() -> dict[str, MCPServer]:
 
 async def aload_agent_mcp_tools(
     servers: list[AgentMCPServer],
-    github_token: str | None = None,
+    allowed_tools: dict[str, set[str]] | None = None,
 ) -> list[BaseTool]:
     if not servers:
         return []
@@ -100,6 +100,13 @@ async def aload_agent_mcp_tools(
                 exc_info=True,
             )
             continue
+        allowed = (allowed_tools or {}).get(server.name)
+        if allowed is not None:
+            prefix = f"{server.name}_"
+            server_tools = [
+                t for t in server_tools
+                if t.name.removeprefix(prefix) in allowed
+            ]
 
         tools.extend(server_tools)
     return tools

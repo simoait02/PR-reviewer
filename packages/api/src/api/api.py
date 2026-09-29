@@ -1,43 +1,28 @@
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
-
-from starlette import status
+from typing import Annotated
 
 from agents.internal.protocol import AgentRequest
 from agents.orchestrator.agent import CodeReviewOrchestrator
 from agents.orchestrator.base import BaseOrchestrator
-from fastapi import Depends, FastAPI, HTTPException, Header
+from fastapi import Depends, FastAPI
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from api.dependencies import get_orchestrator
 from api.observability import configure_tracing
 from api.schemas import UserQuestion
 
-def extract_bearer_token(authorization: str | None) -> str | None:
-    if authorization is None:
-        return None
-
-    if not authorization.startswith("Bearer "):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
-        )
-    token = authorization.removeprefix("Bearer ") .strip()
-    if not token:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
-        )
-    return token
+github_bearer = HTTPBearer(auto_error=False)
 
 @asynccontextmanager
-async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+async def lifespan(fastapi_app: FastAPI) -> AsyncIterator[None]:
     configure_tracing()
-    app.state.orchestrator = await CodeReviewOrchestrator.create_orchestrator()
+    fastapi_app.state.orchestrator = await CodeReviewOrchestrator.create_orchestrator()
 
     try:
         yield
     finally:
-        app.state.orchestrator = None
+        fastapi_app.state.orchestrator = None
 
 
 app = FastAPI(lifespan=lifespan)
@@ -46,11 +31,11 @@ app = FastAPI(lifespan=lifespan)
 @app.post("/review")
 async def review(
     request: UserQuestion,
-    authorization: str | None = Header(default=None),
-    orchestrator: BaseOrchestrator = Depends(get_orchestrator),
+    credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(github_bearer)],
+    orchestrator: Annotated[BaseOrchestrator, Depends(get_orchestrator)],
 ):
     pr = request.pull_request
-    github_token = extract_bearer_token(authorization)
+    github_token = credentials.credentials if credentials else None
     internal_request = AgentRequest(
         objective=request.question,
         facts=[
@@ -64,4 +49,7 @@ async def review(
         ],
     )
 
-    return await orchestrator.ainvoke_structured(internal_request,github_token= github_token)
+    return await orchestrator.ainvoke_structured(
+        internal_request,
+        github_token=github_token,
+    )

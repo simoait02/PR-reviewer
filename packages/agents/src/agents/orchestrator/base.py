@@ -37,6 +37,7 @@ class BaseOrchestrator:
         if self._mcp_tools is None:
             self._mcp_tools = await aload_agent_mcp_tools(
                 self.config.mcp_servers,
+                allowed_tools={"github": {"get_pr_info", "get_pr_comments"}},
             )
 
         for agent in self.agents:
