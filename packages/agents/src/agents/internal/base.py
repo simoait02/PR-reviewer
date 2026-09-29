@@ -33,7 +33,7 @@ class BaseAgent(ABC):
             parts.append(f"Facts: \n{facts}")
         return "\n\n".join(parts)
 
-    async def abuild(self) -> Any:
+    async def abuild(self, github_token: str | None = None,) -> Any:
         """build and cache the langgraph agent"""
 
         if self._graph is not None:
@@ -41,6 +41,7 @@ class BaseAgent(ABC):
 
         mcp_tools = await aload_agent_mcp_tools(
             self.config.mcp_servers,
+            github_token=github_token,
         )
 
         local_tools = list(self.get_tools())
@@ -58,8 +59,9 @@ class BaseAgent(ABC):
     async def ainvoke_raw(
         self,
         request: AgentRequest,
+        github_token: str | None = None,
     ) -> dict[str, Any]:
-        graph = await self.abuild()
+        graph = await self.abuild(github_token=github_token)
 
         message = HumanMessage(
             content=self._render_request(request),
@@ -74,8 +76,9 @@ class BaseAgent(ABC):
     async def ainvoke_structured(
         self,
         request: AgentRequest,
+        github_token: str | None = None,
     ) -> AgentResponse:
-        result = await self.ainvoke_raw(request)
+        result = await self.ainvoke_raw(request,github_token=github_token)
 
         structured_response = result.get("structured_response")
 

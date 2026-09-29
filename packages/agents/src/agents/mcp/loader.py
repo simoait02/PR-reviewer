@@ -1,15 +1,50 @@
 import logging
 import os
+from collections.abc import Awaitable, Callable
+from contextvars import ContextVar
 from pathlib import Path
 from typing import Any
 
 import yaml
 from agents.mcp.config import AgentMCPServer, MCPServer
 from langchain_core.tools import BaseTool
+from langchain_mcp_adapters.interceptors import (
+    MCPToolCallRequest,
+    MCPToolCallResult,
+)
 from langchain_mcp_adapters.tools import load_mcp_tools
 
 _REGISTRY_PATH = Path(__file__).parent / "servers.yaml"
 logger = logging.getLogger(__name__)
+
+github_token_context: ContextVar[str | None] = ContextVar(
+    "github_token",
+    default=None,
+)
+
+
+class GithubTokenInterceptor:
+    async def __call__(
+        self,
+        request: MCPToolCallRequest,
+        handler: Callable[
+            [MCPToolCallRequest],
+            Awaitable[MCPToolCallResult],
+        ],
+    ) -> MCPToolCallResult:
+        github_token = github_token_context.get()
+
+        if not github_token:
+            return await handler(request)
+
+        headers = {
+            **(request.headers or {}),
+            "X-GitHub-Token": github_token,
+        }
+        return await handler(request.override(headers=headers))
+
+
+github_token_interceptor = GithubTokenInterceptor()
 
 
 def _load_registry() -> dict[str, MCPServer]:
@@ -33,6 +68,7 @@ def _load_registry() -> dict[str, MCPServer]:
 
 async def aload_agent_mcp_tools(
     servers: list[AgentMCPServer],
+    github_token: str | None = None,
 ) -> list[BaseTool]:
     if not servers:
         return []
@@ -43,11 +79,13 @@ async def aload_agent_mcp_tools(
         curr_server = registry.get(server.name)
         if curr_server is None:
             raise ValueError(f"Unknown MCP server: {server.name}")
+        connection = curr_server.model_dump()
 
         try:
             server_tools = await load_mcp_tools(
                 session=None,
-                connection=curr_server.model_dump(),
+                connection=connection,
+                tool_interceptors=[github_token_interceptor],
                 server_name=server.name,
                 tool_name_prefix=True,
             )

@@ -8,7 +8,7 @@ from langchain_core.tools import BaseTool
 
 from agents.internal.base import BaseAgent
 from agents.internal.protocol import AgentRequest
-from agents.mcp.loader import aload_agent_mcp_tools
+from agents.mcp.loader import aload_agent_mcp_tools, github_token_context
 from agents.orchestrator.schemas import OrchestratorConfig, ReviewPlan
 
 
@@ -33,6 +33,7 @@ class BaseOrchestrator:
     async def abuild(self) -> Any:
         if self._graph is not None:
             return self._graph
+
         if self._mcp_tools is None:
             self._mcp_tools = await aload_agent_mcp_tools(
                 self.config.mcp_servers,
@@ -57,18 +58,33 @@ class BaseOrchestrator:
         )
         return self._graph
 
-    async def ainvoke_raw(self, request: AgentRequest) -> dict[str, Any]:
+    async def ainvoke_raw(
+        self,
+        request: AgentRequest,
+        github_token: str | None = None,
+    ) -> dict[str, Any]:
         graph = await self.abuild()
 
         message = HumanMessage(content=self._render_request(request))
-        return await graph.ainvoke(
-            {
-                "messages": [message],
-            }
-        )
+        token = github_token_context.set(github_token)
+        try:
+            return await graph.ainvoke(
+                {
+                    "messages": [message],
+                }
+            )
+        finally:
+            github_token_context.reset(token)
 
-    async def ainvoke_structured(self, request: AgentRequest) -> ReviewPlan:
-        result = await self.ainvoke_raw(request)
+    async def ainvoke_structured(
+        self,
+        request: AgentRequest,
+        github_token: str | None = None,
+    ) -> ReviewPlan:
+        result = await self.ainvoke_raw(
+            request,
+            github_token=github_token,
+        )
         structured_response = result.get("structured_response")
 
         if structured_response is None:
