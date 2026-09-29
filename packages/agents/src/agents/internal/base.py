@@ -19,7 +19,6 @@ class BaseAgent(ABC):
         self.config = config
         self._graph = None
 
-
     @abstractmethod
     def get_tools(self) -> Sequence[BaseTool]:
         """Return tools implemented locally by this agent"""
@@ -57,8 +56,8 @@ class BaseAgent(ABC):
         return self._graph
 
     async def ainvoke_raw(
-            self,
-            request: AgentRequest,
+        self,
+        request: AgentRequest,
     ) -> dict[str, Any]:
         graph = await self.abuild()
 
@@ -73,8 +72,8 @@ class BaseAgent(ABC):
         )
 
     async def ainvoke_structured(
-            self,
-            request: AgentRequest,
+        self,
+        request: AgentRequest,
     ) -> AgentResponse:
         result = await self.ainvoke_raw(request)
 
@@ -90,9 +89,10 @@ class BaseAgent(ABC):
             request: AgentRequest = AgentRequest.model_validate(kwargs)
             response = await self.ainvoke_structured(request)
             return response.model_dump_json()
+
         return StructuredTool.from_function(
             coroutine=run_agent,
-            name= self.config.name,
-            description= self.config.description,
-            args_schema=AgentRequest
+            name=self.config.name,
+            description=self.config.description,
+            args_schema=AgentRequest,
         )

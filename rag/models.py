@@ -24,45 +24,45 @@ class Category(str, Enum):
     SECURITY_AND_PRIVACY = "security-and-privacy"
     TESTING = "testing"
 
+
 class Base(DeclarativeBase):
     pass
+
 
 class Document(Base):
     __tablename__ = "documents"
 
     id: Mapped[uuid.UUID] = mapped_column(
-        UUID,
-        primary_key=True,
-        server_default=text("gen_random_uuid()")
+        UUID, primary_key=True, server_default=text("gen_random_uuid()")
     )
 
-    title:Mapped[str] = mapped_column(
+    title: Mapped[str] = mapped_column(
         String,
         nullable=False,
     )
-    description:Mapped[str] = mapped_column(
+    description: Mapped[str] = mapped_column(
         String,
         nullable=False,
     )
-    category:Mapped[Category] = mapped_column(
+    category: Mapped[Category] = mapped_column(
         SqlEnum(
             Category,
         ),
         nullable=False,
     )
-    content_hash:Mapped[str] = mapped_column(
+    content_hash: Mapped[str] = mapped_column(
         String,
         nullable=False,
     )
-    created_at:Mapped[datetime.datetime] = mapped_column(
+    created_at: Mapped[datetime.datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,
-        server_default=text("CURRENT_TIMESTAMP")
+        server_default=text("CURRENT_TIMESTAMP"),
     )
-    updated_at:Mapped[datetime.datetime] = mapped_column(
+    updated_at: Mapped[datetime.datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,
-        server_default=text("CURRENT_TIMESTAMP")
+        server_default=text("CURRENT_TIMESTAMP"),
     )
 
     chunks: Mapped[list["Chunk"]] = relationship(
@@ -70,31 +70,30 @@ class Document(Base):
         cascade="all, delete-orphan",
     )
 
+
 class Chunk(Base):
     __tablename__ = "chunks"
     id: Mapped[uuid.UUID] = mapped_column(
-        UUID(as_uuid=True),
-        primary_key=True,
-        server_default=text("gen_random_uuid()")
+        UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
     )
-    document_id:Mapped[uuid.UUID] = mapped_column(
+    document_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
         ForeignKey("documents.id", ondelete="CASCADE"),
         nullable=False,
     )
-    content:Mapped[str] = mapped_column(
+    content: Mapped[str] = mapped_column(
         Text,
         nullable=False,
     )
-    metadata_:Mapped[dict] = mapped_column(
+    metadata_: Mapped[dict] = mapped_column(
         "metadata",
         JSONB,
         nullable=False,
     )
-    created_at:Mapped[datetime.datetime] = mapped_column(
+    created_at: Mapped[datetime.datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,
-        server_default=text("CURRENT_TIMESTAMP")
+        server_default=text("CURRENT_TIMESTAMP"),
     )
 
     document: Mapped[Document] = relationship(back_populates="chunks")

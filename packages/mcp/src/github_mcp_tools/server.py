@@ -19,6 +19,7 @@ client = GithubClient(github_request)
 
 mcp = FastMCP("github-pr-tools")
 
+
 @mcp.tool()
 async def get_pr_info(pull_number: int) -> dict[str, Any]:
     """
@@ -30,6 +31,7 @@ async def get_pr_info(pull_number: int) -> dict[str, Any]:
     pr = await client.fetch_pr_infos(pull_number)
     return pr.model_dump()
 
+
 @mcp.tool()
 async def get_pr_comments(pull_number: int) -> list[dict[str, Any]]:
     """
@@ -39,6 +41,7 @@ async def get_pr_comments(pull_number: int) -> list[dict[str, Any]]:
     """
     pr = await client.fetch_pr_comments(pull_number)
     return [p.model_dump() for p in pr]
+
 
 @mcp.tool()
 async def get_pr_files(pull_number: int, page: int = 1) -> dict[str, Any]:
@@ -57,18 +60,20 @@ async def get_pr_files(pull_number: int, page: int = 1) -> dict[str, Any]:
         "has_next_page": len(files) == 15,
     }
 
+
 @mcp.tool()
 async def get_diff_content(pr: PullRequest, file: PRFile) -> list[dict[str, Any]]:
     """
     Get the unified diff patch for one specific file changed in a pull
     request. Use `get_pr_files` first to see which filenames changed.
     """
-    changes = await client.fetch_diff_content(pr,file)
+    changes = await client.fetch_diff_content(pr, file)
     return changes
 
 
 def main() -> None:
     mcp.run(transport="streamable-http", host="0.0.0.0", port=9000)
+
 
 if __name__ == "__main__":
     main()

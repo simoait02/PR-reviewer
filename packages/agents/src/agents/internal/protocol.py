@@ -4,11 +4,10 @@ from pydantic import BaseModel, Field
 
 
 class AgentRequest(BaseModel):
-    objective: str = Field(
-        ...,
-        description = "The task the agent must complete."
+    objective: str = Field(..., description="The task the agent must complete.")
+    facts: list[str] = Field(
+        default_factory=list, description="Known facts the agent can use."
     )
-    facts: list[str] = Field(default_factory=list, description="Known facts the agent can use.")
 
 
 class AgentStatus(StrEnum):
@@ -24,17 +23,18 @@ class ReviewSeverity(StrEnum):
     LOW = "low"
     INFO = "info"
 
+
 class ReviewFinding(BaseModel):
-  severity: ReviewSeverity
-  filename: str
-  line: int | None = None
-  title: str
-  explanation: str
-  recommendation: str
+    severity: ReviewSeverity
+    filename: str
+    line: int | None = None
+    title: str
+    explanation: str
+    recommendation: str
+
 
 class AgentResponse(BaseModel):
     status: AgentStatus = AgentStatus.COMPLETED
     summary: str
     findings: list[ReviewFinding] = Field(default_factory=list)
     approved: bool
-

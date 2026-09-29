@@ -17,9 +17,9 @@ class CodeReviewOrchestrator(BaseOrchestrator):
     name = "code_review_orchestrator"
 
     def __init__(
-            self,
-            model: BaseChatModel,
-            agents: Sequence[BaseAgent] = (),
+        self,
+        model: BaseChatModel,
+        agents: Sequence[BaseAgent] = (),
     ):
         self.config = self._load_config()
         super().__init__(
@@ -39,11 +39,6 @@ class CodeReviewOrchestrator(BaseOrchestrator):
 
     @classmethod
     async def create_orchestrator(cls) -> CodeReviewOrchestrator:
-        orchestrator = cls(
-            model = ChatOpenAI(
-                model="gpt-4o-mini",
-                temperature=0
-            )
-        )
+        orchestrator = cls(model=ChatOpenAI(model="gpt-4o-mini", temperature=0))
         await orchestrator.abuild()
         return orchestrator

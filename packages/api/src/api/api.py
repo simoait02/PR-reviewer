@@ -12,9 +12,7 @@ from api.schemas import UserQuestion
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
-    app.state.orchestrator = (
-        await CodeReviewOrchestrator.create_orchestrator()
-    )
+    app.state.orchestrator = await CodeReviewOrchestrator.create_orchestrator()
 
     try:
         yield

@@ -42,9 +42,7 @@ async def aload_agent_mcp_tools(
     for server in servers:
         curr_server = registry.get(server.name)
         if curr_server is None:
-            raise ValueError(
-                f"Unknown MCP server: {server.name}"
-            )
+            raise ValueError(f"Unknown MCP server: {server.name}")
 
         try:
             server_tools = await load_mcp_tools(

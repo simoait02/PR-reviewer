@@ -10,10 +10,12 @@ class Specialist(StrEnum):
     HISTORY = "history"
     IMPACT = "impact"
 
+
 class ReviewPlan(BaseModel):
     needs_deep_review: bool
     applicable_specialists: list[Specialist] = Field(default_factory=list)
-    reasoning:str
+    reasoning: str
+
 
 class OrchestratorConfig(BaseModel):
     name: str

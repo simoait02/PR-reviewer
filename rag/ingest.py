@@ -11,10 +11,7 @@ from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 from rag.models import Category, Chunk, Document, Embedding
 
-DOCUMENTS_DIR = (
-      Path(__file__).resolve().parents[1]
-      / "docs"
-      / "good-practices")
+DOCUMENTS_DIR = Path(__file__).resolve().parents[1] / "docs" / "good-practices"
 
 DATABASE_URL = URL.create(
     drivername="postgresql+psycopg",
@@ -34,8 +31,9 @@ EMBEDDING_MODEL = "text-embedding-3-small"
 openai_client = AsyncOpenAI()
 
 markdown_header_splitter = MarkdownHeaderTextSplitter(
-    headers_to_split_on = headers_to_split_on,
+    headers_to_split_on=headers_to_split_on,
 )
+
 
 def process_file(file_path: Path):
     raw_content = file_path.read_bytes()
@@ -60,14 +58,13 @@ engine = create_async_engine(
     pool_pre_ping=True,
 )
 
-session_local = async_sessionmaker(engine,expire_on_commit=False)
+session_local = async_sessionmaker(engine, expire_on_commit=False)
+
 
 async def save_document(result):
     async with session_local() as session, session.begin():
         existing_document = await session.scalar(
-            select(Document).where(
-                Document.content_hash == result["content_hash"]
-            )
+            select(Document).where(Document.content_hash == result["content_hash"])
         )
 
         if existing_document is not None:
@@ -105,10 +102,8 @@ async def save_document(result):
         for chunk, vector in zip(document.chunks, vectors):
             chunk.embedding = Embedding(embedding=vector.embedding)
 
-        print(
-            f"Ingested {result['file_path'].name}: "
-            f"{len(document.chunks)} chunks"
-        )
+        print(f"Ingested {result['file_path'].name}: {len(document.chunks)} chunks")
+
 
 async def main():
     files = sorted(DOCUMENTS_DIR.glob("*.md"))
