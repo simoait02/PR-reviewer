@@ -4,15 +4,14 @@ Revision ID: 9f4a2c7b1d6e
 Revises: b62a5854a588
 """
 
-from typing import Sequence, Union
+from collections.abc import Sequence
 
 from alembic import op
 
-
 revision: str = "9f4a2c7b1d6e"
-down_revision: Union[str, Sequence[str], None] = "b62a5854a588"
-branch_labels: Union[str, Sequence[str], None] = None
-depends_on: Union[str, Sequence[str], None] = None
+down_revision: str | Sequence[str] | None = "b62a5854a588"
+branch_labels: str | Sequence[str] | None = None
+depends_on: str | Sequence[str] | None = None
 
 
 CATEGORIES = (

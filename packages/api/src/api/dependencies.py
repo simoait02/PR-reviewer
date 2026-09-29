@@ -1,6 +1,5 @@
-from fastapi import HTTPException, Request
-
 from agents.orchestrator.base import BaseOrchestrator
+from fastapi import HTTPException, Request
 
 
 def get_orchestrator(request: Request) -> BaseOrchestrator:

@@ -4,10 +4,9 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from agents.mcp.config import AgentMCPServer, MCPServer
 from langchain_core.tools import BaseTool
 from langchain_mcp_adapters.tools import load_mcp_tools
-
-from agents.mcp.config import MCPServer, AgentMCPServer
 
 _REGISTRY_PATH = Path(__file__).parent / "servers.yaml"
 logger = logging.getLogger(__name__)
@@ -43,9 +42,7 @@ async def aload_agent_mcp_tools(
     for server in servers:
         curr_server = registry.get(server.name)
         if curr_server is None:
-            raise ValueError(
-                f"Unknown MCP server: {server.name}"
-            )
+            raise ValueError(f"Unknown MCP server: {server.name}")
 
         try:
             server_tools = await load_mcp_tools(

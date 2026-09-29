@@ -1,4 +1,5 @@
-from typing import Sequence, Any, Dict
+from collections.abc import Sequence
+from typing import Any
 
 from langchain.agents import create_agent
 from langchain_core.language_models import BaseChatModel
@@ -19,7 +20,7 @@ class BaseOrchestrator:
         model: BaseChatModel,
         config: OrchestratorConfig,
         agents: Sequence[BaseAgent],
-        extra_tools:Sequence[BaseTool] | None = None
+        extra_tools: Sequence[BaseTool] | None = None,
     ):
         self.model = model
         self.config = config
@@ -29,9 +30,7 @@ class BaseOrchestrator:
         self._graph = None
         self._mcp_tools: list[BaseTool] | None = None
 
-
-
-    async def abuild(self)->Any:
+    async def abuild(self) -> Any:
         if self._graph is not None:
             return self._graph
         if self._mcp_tools is None:
@@ -54,19 +53,14 @@ class BaseOrchestrator:
             system_prompt=self.system_prompt,
             tools=tools,
             response_format=ReviewPlan,
-            name=self.name
+            name=self.name,
         )
         return self._graph
 
-    async def ainvoke_raw(
-            self,
-            request: AgentRequest
-    ) -> Dict[str, Any]:
+    async def ainvoke_raw(self, request: AgentRequest) -> dict[str, Any]:
         graph = await self.abuild()
 
-        message = HumanMessage(
-            content=self._render_request(request)
-        )
+        message = HumanMessage(content=self._render_request(request))
         return await graph.ainvoke(
             {
                 "messages": [message],
@@ -78,9 +72,7 @@ class BaseOrchestrator:
         structured_response = result.get("structured_response")
 
         if structured_response is None:
-            raise RuntimeError(
-                "Orchestrator did not return a structured response"
-            )
+            raise RuntimeError("Orchestrator did not return a structured response")
 
         return ReviewPlan.model_validate(structured_response)
 

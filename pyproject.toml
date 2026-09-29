@@ -17,6 +17,7 @@ dependencies = [
 
 [tool.uv.workspace]
 members = [
+    "packages/mcp",
     "packages/agents",
     "packages/api",
 ]
