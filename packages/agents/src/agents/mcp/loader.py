@@ -55,7 +55,7 @@ def _load_registry() -> dict[str, MCPServer]:
     registry: dict[str, MCPServer] = {}
 
     for name, server_config in raw_servers.items():
-        # Example: the `github` entry can be overridden with GITHUB_MCP_URL.
+        # Each registry entry can be overridden with <NAME>_MCP_URL.
         url_env_var = f"{name.upper()}_MCP_URL"
         server_config = {
             **server_config,
@@ -68,7 +68,6 @@ def _load_registry() -> dict[str, MCPServer]:
 
 async def aload_agent_mcp_tools(
     servers: list[AgentMCPServer],
-    allowed_tools: dict[str, set[str]] | None = None,
 ) -> list[BaseTool]:
     if not servers:
         return []
@@ -100,12 +99,5 @@ async def aload_agent_mcp_tools(
                 exc_info=True,
             )
             continue
-        allowed = (allowed_tools or {}).get(server.name)
-        if allowed is not None:
-            prefix = f"{server.name}_"
-            server_tools = [
-                t for t in server_tools if t.name.removeprefix(prefix) in allowed
-            ]
-
         tools.extend(server_tools)
     return tools

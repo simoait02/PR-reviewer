@@ -1,5 +1,10 @@
 servers:
-  github:
+  github_orchestrator:
     transport: streamable_http
-    url: http://127.0.0.1:9000/mcp
+    url: http://127.0.0.1:9000/orchestrator/mcp
+    headers: {}
+
+  github_reviewer:
+    transport: streamable_http
+    url: http://127.0.0.1:9000/reviewer/mcp
     headers: {}

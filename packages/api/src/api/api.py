@@ -38,15 +38,11 @@ async def review(
     pr = request.pull_request
     github_token = credentials.credentials if credentials else None
     internal_request = AgentRequest(
-        objective=request.question,
-        facts=[
+        task_objective=request.question,
+        focus=[
             f"Repository owner: {pr.repository_owner}",
             f"Repository name: {pr.repository_name}",
             f"Pull request number: {pr.pull_number}",
-            (
-                "Use the GitHub MCP tools to retrieve the pull request details, "
-                "comments, and changed files before deciding."
-            ),
         ],
     )
 

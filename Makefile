@@ -4,7 +4,7 @@ SHELL := /bin/bash
 
 help:
 	@printf '%s\n' \
-		'make mcp  - Start the GitHub MCP server on port 9000' \
+		'make mcp  - Start the GitHub MCP domains on port 9000' \
 		'make api  - Start the REST API on port 8000' \
 		'make phoenix - Start the Phoenix UI on port 6006' \
 		'make dev  - Start the MCP server and REST API together'
