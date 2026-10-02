@@ -4,7 +4,6 @@ from fastmcp import FastMCP
 
 from github_mcp_tools.domains.common import get_client
 
-
 mcp = FastMCP("github-orchestrator-tools")
 
 

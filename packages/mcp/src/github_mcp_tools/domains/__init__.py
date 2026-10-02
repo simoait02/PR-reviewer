@@ -1,4 +1,5 @@
 """Domain-specific GitHub MCP servers."""
+
 from fastmcp import FastMCP
 
 from github_mcp_tools.domains import orchestrator, reviewer

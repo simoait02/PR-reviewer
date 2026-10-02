@@ -1,11 +1,8 @@
 from collections.abc import Callable
-from typing import Any, Generic, TypeVar
+from typing import Any
 
 import httpx
 from pydantic import BaseModel, Field
-
-
-ItemT = TypeVar("ItemT")
 
 
 class GithubRequest(BaseModel):
@@ -30,8 +27,8 @@ class PRReviewComment(BaseModel):
     in_reply_to_id: int | None = None
 
 
-class PaginatedResponse(BaseModel, Generic[ItemT]):
-    items: list[ItemT]
+class PaginatedResponse[T](BaseModel):
+    items: list[T]
     page: int
     has_next_page: bool
 
@@ -114,14 +111,14 @@ class GithubClient:
     def _json(response: httpx.Response) -> Any:
         return response.json()
 
-    async def _fetch_paginated(
+    async def _fetch_paginated[T](
         self,
         *,
         url: str,
         page: int,
         page_size: int,
-        parser: Callable[[dict[str, Any]], ItemT],
-    ) -> PaginatedResponse[ItemT]:
+        parser: Callable[[dict[str, Any]], T],
+    ) -> PaginatedResponse[T]:
         if page < 1:
             raise ValueError("page must be greater than or equal to 1")
 
@@ -136,9 +133,7 @@ class GithubClient:
         return PaginatedResponse(
             items=items,
             page=page,
-            has_next_page=(
-                'rel="next"' in link_header or len(payload) == page_size
-            ),
+            has_next_page=('rel="next"' in link_header or len(payload) == page_size),
         )
 
     @staticmethod

@@ -1,6 +1,6 @@
 import logging
 import os
-from collections.abc import Awaitable, Callable, Mapping
+from collections.abc import Awaitable, Callable
 from pathlib import Path
 from typing import Any
 
@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 
 
 from langchain.tools import ToolRuntime
+
 
 def _runtime_github_token(runtime: ToolRuntime | None) -> str | None:
     if runtime is None:

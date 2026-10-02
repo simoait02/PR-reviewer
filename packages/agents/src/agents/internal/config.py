@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import inspect
 from pathlib import Path
+
 import yaml
 from agents.mcp.config import AgentMCPServer
 from pydantic import BaseModel, Field

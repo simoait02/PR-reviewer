@@ -1,12 +1,11 @@
 from typing import Any
 
 from fastmcp import FastMCP
+from rag.models import BestPracticeResult, Category
 
 from github_mcp_tools.domains.common import get_client
 from github_mcp_tools.github_requests import PRFile, PullRequest
 from github_mcp_tools.rag_service import get_best_practices_retriever
-from rag.models import BestPracticeResult, Category
-
 
 mcp = FastMCP("github-reviewer-tools")
 
