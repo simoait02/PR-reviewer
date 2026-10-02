@@ -11,8 +11,12 @@ dependencies = [
     "fastmcp>=2.3.0rc1",
     "httpx>=0.28.1",
     "mcp>=1.8.0,<2",
+    "rag",
     "uvicorn>=0.54.0",
 ]
+
+[tool.uv.sources]
+rag = { workspace = true }
 
 [project.scripts]
 mcp = "github_mcp_tools.server:main"

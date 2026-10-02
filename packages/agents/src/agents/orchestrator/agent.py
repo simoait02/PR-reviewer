@@ -45,5 +45,4 @@ class CodeReviewOrchestrator(BaseOrchestrator):
                 use_responses_api=config.model.use_responses_api,
             )
         )
-        await orchestrator.abuild()
         return orchestrator

@@ -3,9 +3,14 @@ from collections.abc import Sequence
 from typing import Any, ClassVar
 
 from agents.internal.config import load_agent_yaml
-from agents.internal.protocol import AgentRequest, AgentResponse
+from agents.internal.protocol import (
+    AgentRequest,
+    AgentResponse,
+    AgentRuntimeContext,
+)
 from agents.mcp.loader import aload_agent_mcp_tools
 from langchain.agents import create_agent
+from langchain.tools import ToolRuntime
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import HumanMessage
 from langchain_core.tools import BaseTool, StructuredTool
@@ -58,12 +63,14 @@ class BaseAgent(ABC):
             system_prompt=self.config.system_prompt,
             response_format=AgentResponse,
             name=self.config.name,
+            context_schema=AgentRuntimeContext,
         )
         return self._graph
 
     async def ainvoke_raw(
         self,
         request: AgentRequest,
+        context: AgentRuntimeContext | None = None,
     ) -> dict[str, Any]:
         graph = await self.abuild()
 
@@ -74,14 +81,16 @@ class BaseAgent(ABC):
         return await graph.ainvoke(
             {
                 "messages": [message],
-            }
+            },
+            context=context,
         )
 
     async def ainvoke_structured(
         self,
         request: AgentRequest,
+        context: AgentRuntimeContext | None = None,
     ) -> AgentResponse:
-        result = await self.ainvoke_raw(request)
+        result = await self.ainvoke_raw(request, context=context)
 
         structured_response = result.get("structured_response")
 
@@ -91,9 +100,12 @@ class BaseAgent(ABC):
         return AgentResponse.model_validate(structured_response)
 
     def as_tool(self) -> BaseTool:
-        async def run_agent(**kwargs: Any) -> str:
+        async def run_agent(runtime: ToolRuntime, **kwargs: Any) -> str:
             request: AgentRequest = AgentRequest.model_validate(kwargs)
-            response = await self.ainvoke_structured(request)
+            response = await self.ainvoke_structured(
+                request,
+                context=runtime.context,
+            )
             return response.model_dump_json()
 
         return StructuredTool.from_function(

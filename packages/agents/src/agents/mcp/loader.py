@@ -1,7 +1,6 @@
 import logging
 import os
-from collections.abc import Awaitable, Callable
-from contextvars import ContextVar
+from collections.abc import Awaitable, Callable, Mapping
 from pathlib import Path
 from typing import Any
 
@@ -17,13 +16,19 @@ from langchain_mcp_adapters.tools import load_mcp_tools
 _REGISTRY_PATH = Path(__file__).parent / "servers.yaml"
 logger = logging.getLogger(__name__)
 
-github_token_context: ContextVar[str | None] = ContextVar(
-    "github_token",
-    default=None,
-)
+
+from langchain.tools import ToolRuntime
+
+def _runtime_github_token(runtime: ToolRuntime | None) -> str | None:
+    if runtime is None:
+        return None
+
+    return runtime.context.get("github_token")
 
 
 class GithubTokenInterceptor:
+    """Forward the current request's GitHub token to the MCP server."""
+
     async def __call__(
         self,
         request: MCPToolCallRequest,
@@ -32,8 +37,7 @@ class GithubTokenInterceptor:
             Awaitable[MCPToolCallResult],
         ],
     ) -> MCPToolCallResult:
-        github_token = github_token_context.get()
-
+        github_token = _runtime_github_token(request.runtime)
         if not github_token:
             return await handler(request)
 

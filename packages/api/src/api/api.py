@@ -18,9 +18,10 @@ github_bearer = HTTPBearer(auto_error=False)
 @asynccontextmanager
 async def lifespan(fastapi_app: FastAPI) -> AsyncIterator[None]:
     configure_tracing()
-    fastapi_app.state.orchestrator = await CodeReviewOrchestrator.create_orchestrator()
-
     try:
+        fastapi_app.state.orchestrator = (
+            await CodeReviewOrchestrator.create_orchestrator()
+        )
         yield
     finally:
         fastapi_app.state.orchestrator = None

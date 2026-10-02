@@ -7,8 +7,8 @@ from langchain_core.messages import HumanMessage
 from langchain_core.tools import BaseTool
 
 from agents.internal.base import BaseAgent
-from agents.internal.protocol import AgentRequest
-from agents.mcp.loader import aload_agent_mcp_tools, github_token_context
+from agents.internal.protocol import AgentRequest, AgentRuntimeContext
+from agents.mcp.loader import aload_agent_mcp_tools
 from agents.orchestrator.schemas import OrchestratorConfig, OrchestratorResponse
 
 
@@ -28,14 +28,12 @@ class BaseOrchestrator:
         self.system_prompt = config.system_prompt
         self.extra_tools = list(extra_tools or [])
         self._graph = None
-        self._mcp_tools: list[BaseTool] | None = None
 
     async def abuild(self) -> Any:
         if self._graph is not None:
             return self._graph
 
-        if self._mcp_tools is None:
-            self._mcp_tools = await aload_agent_mcp_tools(self.config.mcp_servers)
+        mcp_tools = await aload_agent_mcp_tools(self.config.mcp_servers)
 
         for agent in self.agents:
             await agent.abuild()
@@ -45,7 +43,7 @@ class BaseOrchestrator:
         tools = [
             *agent_tools,
             *self.extra_tools,
-            *self._mcp_tools,
+            *mcp_tools,
         ]
         self._graph = create_agent(
             model=self.model,
@@ -53,6 +51,7 @@ class BaseOrchestrator:
             tools=tools,
             response_format=OrchestratorResponse,
             name=self.name,
+            context_schema=AgentRuntimeContext,
         )
         return self._graph
 
@@ -64,15 +63,12 @@ class BaseOrchestrator:
         graph = await self.abuild()
 
         message = HumanMessage(content=self._render_request(request))
-        token = github_token_context.set(github_token)
-        try:
-            return await graph.ainvoke(
-                {
-                    "messages": [message],
-                }
-            )
-        finally:
-            github_token_context.reset(token)
+        return await graph.ainvoke(
+            {
+                "messages": [message],
+            },
+            context={"github_token": github_token},
+        )
 
     async def ainvoke_structured(
         self,

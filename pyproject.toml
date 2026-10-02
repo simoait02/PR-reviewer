@@ -20,4 +20,5 @@ members = [
     "packages/mcp",
     "packages/agents",
     "packages/api",
+    "packages/rag",
 ]

@@ -4,9 +4,35 @@ from fastmcp import FastMCP
 
 from github_mcp_tools.domains.common import get_client
 from github_mcp_tools.github_requests import PRFile, PullRequest
+from github_mcp_tools.rag_service import get_best_practices_retriever
+from rag.models import BestPracticeResult, Category
 
 
 mcp = FastMCP("github-reviewer-tools")
+
+
+@mcp.tool()
+async def search_best_practices(
+    query: str,
+    category: Category | None = None,
+    limit: int = 5,
+) -> list[BestPracticeResult]:
+    """
+    Search engineering best-practice chunks relevant to the review question.
+    If category is provided, use one of the exact available category values:
+    architecture, code-quality, code-review, collaboration,
+    delivery-and-operations, dependencies-and-supply-chain,
+    documentation-and-team-practices, observability-and-reliability,
+    project-management, project-readiness, requirements-and-planning,
+    security-and-privacy, or testing.
+    """
+    if not query.strip():
+        raise ValueError("query must not be empty")
+    return await get_best_practices_retriever().search(
+        query=query,
+        category=category,
+        limit=limit,
+    )
 
 
 @mcp.tool()

@@ -1,8 +1,10 @@
 import datetime
 import uuid
 from enum import Enum
+from typing import Any
 
 from pgvector.sqlalchemy import Vector
+from pydantic import BaseModel, Field
 from sqlalchemy import DateTime, ForeignKey, String, Text, text
 from sqlalchemy import Enum as SqlEnum
 from sqlalchemy.dialects.postgresql import JSONB, UUID
@@ -23,6 +25,21 @@ class Category(str, Enum):
     REQUIREMENTS_AND_PLANNING = "requirements-and-planning"
     SECURITY_AND_PRIVACY = "security-and-privacy"
     TESTING = "testing"
+
+
+class BestPracticeResult(BaseModel):
+    """A best-practice chunk returned by semantic retrieval."""
+
+    title: str = Field(description="Title of the source best-practice document.")
+    category: Category = Field(description="Category of the source document.")
+    content: str = Field(description="Retrieved chunk content.")
+    metadata: dict[str, Any] = Field(
+        default_factory=dict,
+        description="Chunk metadata from the source document.",
+    )
+    distance: float = Field(
+        description="Cosine distance between the query and this chunk embedding."
+    )
 
 
 class Base(DeclarativeBase):
