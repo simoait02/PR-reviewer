@@ -2,6 +2,7 @@ from collections.abc import Callable
 from typing import Any
 
 import httpx
+from fastmcp.exceptions import ToolError
 from pydantic import BaseModel, Field
 
 
@@ -56,8 +57,8 @@ class PullRequest(BaseModel):
     head_sha: str
 
 
-class GithubAPIError(RuntimeError):
-    """Raised when a GitHub API request fails."""
+class GithubAPIError(ToolError):
+    """A safe, client-visible error from the GitHub API."""
 
 
 class GithubClient:
