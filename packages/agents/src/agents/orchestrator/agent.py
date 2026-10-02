@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from collections.abc import Sequence
 from pathlib import Path
 from typing import Any
 
@@ -8,9 +7,9 @@ import yaml
 from langchain_core.language_models import BaseChatModel
 from langchain_openai import ChatOpenAI
 
-from agents.internal.base import BaseAgent
 from agents.orchestrator.base import BaseOrchestrator
 from agents.orchestrator.schemas import OrchestratorConfig
+from agents.sub_agents import AGENT_MAP
 
 
 class CodeReviewOrchestrator(BaseOrchestrator):
@@ -19,13 +18,12 @@ class CodeReviewOrchestrator(BaseOrchestrator):
     def __init__(
         self,
         model: BaseChatModel,
-        agents: Sequence[BaseAgent] = (),
     ):
         self.config = self._load_config()
         super().__init__(
             model=model,
             config=self.config,
-            agents=agents or [],
+            agents=[AGENT_MAP[name]() for name in self.config.sub_agents],
         )
         self.name = self.config.name
 
@@ -39,6 +37,12 @@ class CodeReviewOrchestrator(BaseOrchestrator):
 
     @classmethod
     async def create_orchestrator(cls) -> CodeReviewOrchestrator:
-        orchestrator = cls(model=ChatOpenAI(model="gpt-4o-mini", temperature=0))
-        await orchestrator.abuild()
+        config = cls._load_config()
+        orchestrator = cls(
+            model=ChatOpenAI(
+                model=config.model.name,
+                temperature=config.model.temperature,
+                use_responses_api=config.model.use_responses_api,
+            )
+        )
         return orchestrator

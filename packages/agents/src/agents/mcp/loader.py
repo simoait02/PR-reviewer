@@ -1,7 +1,6 @@
 import logging
 import os
 from collections.abc import Awaitable, Callable
-from contextvars import ContextVar
 from pathlib import Path
 from typing import Any
 
@@ -17,13 +16,20 @@ from langchain_mcp_adapters.tools import load_mcp_tools
 _REGISTRY_PATH = Path(__file__).parent / "servers.yaml"
 logger = logging.getLogger(__name__)
 
-github_token_context: ContextVar[str | None] = ContextVar(
-    "github_token",
-    default=None,
-)
+
+from langchain.tools import ToolRuntime
+
+
+def _runtime_github_token(runtime: ToolRuntime | None) -> str | None:
+    if runtime is None:
+        return None
+
+    return runtime.context.get("github_token")
 
 
 class GithubTokenInterceptor:
+    """Forward the current request's GitHub token to the MCP server."""
+
     async def __call__(
         self,
         request: MCPToolCallRequest,
@@ -32,8 +38,7 @@ class GithubTokenInterceptor:
             Awaitable[MCPToolCallResult],
         ],
     ) -> MCPToolCallResult:
-        github_token = github_token_context.get()
-
+        github_token = _runtime_github_token(request.runtime)
         if not github_token:
             return await handler(request)
 
@@ -55,7 +60,7 @@ def _load_registry() -> dict[str, MCPServer]:
     registry: dict[str, MCPServer] = {}
 
     for name, server_config in raw_servers.items():
-        # Example: the `github` entry can be overridden with GITHUB_MCP_URL.
+        # Each registry entry can be overridden with <NAME>_MCP_URL.
         url_env_var = f"{name.upper()}_MCP_URL"
         server_config = {
             **server_config,
@@ -68,7 +73,6 @@ def _load_registry() -> dict[str, MCPServer]:
 
 async def aload_agent_mcp_tools(
     servers: list[AgentMCPServer],
-    allowed_tools: dict[str, set[str]] | None = None,
 ) -> list[BaseTool]:
     if not servers:
         return []
@@ -100,12 +104,5 @@ async def aload_agent_mcp_tools(
                 exc_info=True,
             )
             continue
-        allowed = (allowed_tools or {}).get(server.name)
-        if allowed is not None:
-            prefix = f"{server.name}_"
-            server_tools = [
-                t for t in server_tools if t.name.removeprefix(prefix) in allowed
-            ]
-
         tools.extend(server_tools)
     return tools

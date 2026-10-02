@@ -1,12 +1,36 @@
 from enum import StrEnum
+from typing import TypedDict
 
 from pydantic import BaseModel, Field
 
 
+class AgentRuntimeContext(TypedDict):
+    """Request-scoped values available to agent tools."""
+
+    github_token: str | None
+
+
 class AgentRequest(BaseModel):
-    objective: str = Field(..., description="The task the agent must complete.")
-    facts: list[str] = Field(
-        default_factory=list, description="Known facts the agent can use."
+    """Task envelope sent from the orchestrator to a specialist.
+
+    The orchestrator turns one internal plan task into this request. Agents
+    are stateless, so the task objective and focus required to complete that
+    task travel with every call.
+    """
+
+    task_objective: str = Field(
+        ...,
+        description=(
+            "One imperative sentence stating exactly what the specialist must "
+            "do. Do not put the internal review plan here."
+        ),
+    )
+    focus: list[str] = Field(
+        default_factory=list,
+        description=(
+            "Confirmed pull request context and review areas the specialist "
+            "must use. Do not include the internal plan or reasoning."
+        ),
     )
 
 
@@ -25,15 +49,33 @@ class ReviewSeverity(StrEnum):
 
 
 class ReviewFinding(BaseModel):
-    severity: ReviewSeverity
-    filename: str
-    line: int | None = None
+    severity: ReviewSeverity = Field(
+        default=ReviewSeverity.INFO,
+        description=(
+            "Finding severity. Use info when the evidence does not support "
+            "a stronger severity."
+        ),
+    )
+    filename: str = Field(
+        ...,
+        description="Exact changed-file path from the GitHub file listing.",
+    )
+    line: int | None = Field(
+        default=None,
+        description="Changed-file line number when the finding is line-specific.",
+    )
     title: str
     explanation: str
     recommendation: str
 
 
 class AgentResponse(BaseModel):
+    """Typed specialist feedback consumed by the orchestrator.
+
+    This response is never returned directly by the API. The orchestrator
+    uses it to write the final pull request review.
+    """
+
     status: AgentStatus = AgentStatus.COMPLETED
     summary: str
     findings: list[ReviewFinding] = Field(default_factory=list)

@@ -1,33 +1,22 @@
 import asyncio
 import hashlib
-import os
 from pathlib import Path
 
 import frontmatter
 from langchain_text_splitters import MarkdownHeaderTextSplitter
 from openai import AsyncOpenAI
-from sqlalchemy import URL, select
-from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
+from sqlalchemy import select
 
+from rag.database import EMBEDDING_MODEL, get_engine, get_session_factory
 from rag.models import Category, Chunk, Document, Embedding
 
-DOCUMENTS_DIR = Path(__file__).resolve().parents[1] / "docs" / "good-practices"
-
-DATABASE_URL = URL.create(
-    drivername="postgresql+psycopg",
-    username=os.environ["DB_USER"],
-    password=os.environ["DB_PASSWORD"],
-    host=os.getenv("DB_HOST", "localhost"),
-    port=os.environ["DB_PORT"],
-    database=os.environ["DB_NAME"],
-)
+DOCUMENTS_DIR = Path(__file__).resolve().parents[4] / "docs" / "good-practices"
 
 headers_to_split_on = [
     ("#", "Header 1"),
     ("##", "Header 2"),
 ]
 
-EMBEDDING_MODEL = "text-embedding-3-small"
 openai_client = AsyncOpenAI()
 
 markdown_header_splitter = MarkdownHeaderTextSplitter(
@@ -50,15 +39,8 @@ def process_file(file_path: Path):
     }
 
 
-engine = create_async_engine(
-    DATABASE_URL,
-    pool_size=5,
-    max_overflow=2,
-    pool_timeout=30,
-    pool_pre_ping=True,
-)
-
-session_local = async_sessionmaker(engine, expire_on_commit=False)
+engine = get_engine()
+session_local = get_session_factory()
 
 
 async def save_document(result):

@@ -18,9 +18,10 @@ github_bearer = HTTPBearer(auto_error=False)
 @asynccontextmanager
 async def lifespan(fastapi_app: FastAPI) -> AsyncIterator[None]:
     configure_tracing()
-    fastapi_app.state.orchestrator = await CodeReviewOrchestrator.create_orchestrator()
-
     try:
+        fastapi_app.state.orchestrator = (
+            await CodeReviewOrchestrator.create_orchestrator()
+        )
         yield
     finally:
         fastapi_app.state.orchestrator = None
@@ -38,15 +39,11 @@ async def review(
     pr = request.pull_request
     github_token = credentials.credentials if credentials else None
     internal_request = AgentRequest(
-        objective=request.question,
-        facts=[
+        task_objective=request.question,
+        focus=[
             f"Repository owner: {pr.repository_owner}",
             f"Repository name: {pr.repository_name}",
             f"Pull request number: {pr.pull_number}",
-            (
-                "Use the GitHub MCP tools to retrieve the pull request details, "
-                "comments, and changed files before deciding."
-            ),
         ],
     )
 
