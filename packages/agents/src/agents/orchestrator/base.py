@@ -63,8 +63,9 @@ class BaseOrchestrator:
     async def ainvoke_raw(
         self,
         request: AgentRequest,
-        thread_id: str,
         github_token: str | None = None,
+        *,
+        thread_id: str,
     ) -> dict[str, Any]:
         graph = await self.abuild()
 
@@ -87,8 +88,9 @@ class BaseOrchestrator:
     async def ainvoke_structured(
         self,
         request: AgentRequest,
-        thread_id: str,
         github_token: str | None = None,
+        *,
+        thread_id: str,
     ) -> OrchestratorResponse:
         result = await self.ainvoke_raw(
             request, github_token=github_token, thread_id=thread_id
