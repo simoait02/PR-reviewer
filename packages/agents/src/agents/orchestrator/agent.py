@@ -6,6 +6,8 @@ from typing import Any
 import yaml
 from langchain_core.language_models import BaseChatModel
 from langchain_openai import ChatOpenAI
+from langgraph.checkpoint.base import BaseCheckpointSaver
+from langgraph.checkpoint.memory import InMemorySaver
 
 from agents.orchestrator.base import BaseOrchestrator
 from agents.orchestrator.schemas import OrchestratorConfig
@@ -18,12 +20,14 @@ class CodeReviewOrchestrator(BaseOrchestrator):
     def __init__(
         self,
         model: BaseChatModel,
+        checkpointer: BaseCheckpointSaver,
     ):
         self.config = self._load_config()
         super().__init__(
             model=model,
             config=self.config,
             agents=[AGENT_MAP[name]() for name in self.config.sub_agents],
+            checkpointer=checkpointer,
         )
         self.name = self.config.name
 
@@ -38,11 +42,13 @@ class CodeReviewOrchestrator(BaseOrchestrator):
     @classmethod
     async def create_orchestrator(cls) -> CodeReviewOrchestrator:
         config = cls._load_config()
+        checkpointer = InMemorySaver()
         orchestrator = cls(
             model=ChatOpenAI(
                 model=config.model.name,
                 temperature=config.model.temperature,
                 use_responses_api=config.model.use_responses_api,
-            )
+            ),
+            checkpointer=checkpointer,
         )
         return orchestrator

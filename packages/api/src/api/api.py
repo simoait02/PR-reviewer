@@ -1,6 +1,7 @@
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 from typing import Annotated
+from uuid import uuid4
 
 from agents.internal.protocol import AgentRequest
 from agents.orchestrator.agent import CodeReviewOrchestrator
@@ -48,6 +49,5 @@ async def review(
     )
 
     return await orchestrator.ainvoke_structured(
-        internal_request,
-        github_token=github_token,
+        internal_request, github_token=github_token, thread_id=str(uuid4())
     )
