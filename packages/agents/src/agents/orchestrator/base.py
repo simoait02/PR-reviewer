@@ -22,7 +22,7 @@ class BaseOrchestrator:
         model: BaseChatModel,
         config: OrchestratorConfig,
         agents: Sequence[BaseAgent],
-        checkpointer: BaseCheckpointSaver,
+        checkpointer: BaseCheckpointSaver | None = None,
         extra_tools: Sequence[BaseTool] | None = None,
     ):
         self.model = model

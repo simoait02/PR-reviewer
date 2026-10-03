@@ -20,7 +20,7 @@ class CodeReviewOrchestrator(BaseOrchestrator):
     def __init__(
         self,
         model: BaseChatModel,
-        checkpointer: BaseCheckpointSaver,
+        checkpointer: BaseCheckpointSaver | None = None,
     ):
         self.config = self._load_config()
         super().__init__(
