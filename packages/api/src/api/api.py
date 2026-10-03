@@ -4,12 +4,11 @@ from typing import Annotated
 from uuid import uuid4
 
 from agents.internal.protocol import AgentRequest
-from agents.orchestrator.agent import CodeReviewOrchestrator
-from agents.orchestrator.base import BaseOrchestrator
+from agents.review_pipeline import ReviewPipeline
 from fastapi import Depends, FastAPI
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
-from api.dependencies import get_orchestrator
+from api.dependencies import get_pipeline
 from api.observability import configure_tracing
 from api.schemas import UserQuestion
 
@@ -20,12 +19,10 @@ github_bearer = HTTPBearer(auto_error=False)
 async def lifespan(fastapi_app: FastAPI) -> AsyncIterator[None]:
     configure_tracing()
     try:
-        fastapi_app.state.orchestrator = (
-            await CodeReviewOrchestrator.create_orchestrator()
-        )
+        fastapi_app.state.pipeline = await ReviewPipeline.create_pipeline()
         yield
     finally:
-        fastapi_app.state.orchestrator = None
+        fastapi_app.state.pipeline = None
 
 
 app = FastAPI(lifespan=lifespan)
@@ -35,7 +32,7 @@ app = FastAPI(lifespan=lifespan)
 async def review(
     request: UserQuestion,
     credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(github_bearer)],
-    orchestrator: Annotated[BaseOrchestrator, Depends(get_orchestrator)],
+    pipeline: Annotated[ReviewPipeline, Depends(get_pipeline)],
 ):
     pr = request.pull_request
     github_token = credentials.credentials if credentials else None
@@ -48,6 +45,6 @@ async def review(
         ],
     )
 
-    return await orchestrator.ainvoke_structured(
+    return await pipeline.ainvoke(
         internal_request, github_token=github_token, thread_id=str(uuid4())
     )
