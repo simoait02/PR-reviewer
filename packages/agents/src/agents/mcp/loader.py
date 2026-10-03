@@ -5,7 +5,9 @@ from pathlib import Path
 from typing import Any
 
 import yaml
+from agents.mcp.cache import mcp_result_cache_interceptor
 from agents.mcp.config import AgentMCPServer, MCPServer
+from langchain.tools import ToolRuntime
 from langchain_core.tools import BaseTool
 from langchain_mcp_adapters.interceptors import (
     MCPToolCallRequest,
@@ -15,9 +17,6 @@ from langchain_mcp_adapters.tools import load_mcp_tools
 
 _REGISTRY_PATH = Path(__file__).parent / "servers.yaml"
 logger = logging.getLogger(__name__)
-
-
-from langchain.tools import ToolRuntime
 
 
 def _runtime_github_token(runtime: ToolRuntime | None) -> str | None:
@@ -89,7 +88,10 @@ async def aload_agent_mcp_tools(
             server_tools = await load_mcp_tools(
                 session=None,
                 connection=connection,
-                tool_interceptors=[github_token_interceptor],
+                tool_interceptors=[
+                    mcp_result_cache_interceptor,
+                    github_token_interceptor,
+                ],
                 server_name=server.name,
                 tool_name_prefix=True,
             )

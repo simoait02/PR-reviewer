@@ -1,3 +1,4 @@
+import base64
 from collections.abc import Callable
 from typing import Any
 
@@ -39,6 +40,19 @@ class PRFile(BaseModel):
     sha: str  # blob sha of the file's content after the change
     status: str  # "added", "removed", "modified", "renamed"
     previous_filename: str | None = None  # only set when status == "renamed"
+
+
+class RepositoryCodeMatch(BaseModel):
+    path: str
+    sha: str
+    score: float | None = None
+    html_url: str | None = None
+
+
+class RepositoryCodeSearchResult(BaseModel):
+    total_count: int
+    incomplete_results: bool = False
+    items: list[RepositoryCodeMatch]
 
 
 class PRComment(BaseModel):
@@ -84,7 +98,7 @@ class GithubClient:
     async def _get(
         self,
         url: str,
-        params: dict[str, int] | None = None,
+        params: dict[str, int | str] | None = None,
     ) -> httpx.Response:
         try:
             async with httpx.AsyncClient(
@@ -208,6 +222,29 @@ class GithubClient:
             parser=self._parse_pr_file,
         )
 
+    async def search_repository_code(
+        self,
+        query: str,
+        max_results: int = 20,
+    ) -> RepositoryCodeSearchResult:
+        """Search indexed repository code and return compact file matches."""
+        response = await self._get(
+            url="https://api.github.com/search/code",
+            params={
+                "q": f"{query} repo:{self.github_request.repository_owner}/"
+                f"{self.github_request.repository_name}",
+                "per_page": max_results,
+            },
+        )
+        payload = self._json(response)
+        return RepositoryCodeSearchResult(
+            total_count=payload["total_count"],
+            incomplete_results=payload["incomplete_results"],
+            items=[
+                RepositoryCodeMatch.model_validate(item) for item in payload["items"]
+            ],
+        )
+
     async def fetch_pr_infos(self, pull_number: int) -> PullRequest:
         response = await self._get(
             url=f"{self._base_url}/pulls/{pull_number}",
@@ -232,12 +269,21 @@ class GithubClient:
             url=f"{self._base_url}/compare/{pr.base_sha}...{pr.head_sha}",
         )
         data = self._json(response)
-        for file_diff in data["files"]:
-            if file_diff.get("sha") == file.sha:
-                return {
-                    "filename": file_diff.get("filename", file.filename),
-                    "patch": file_diff.get("patch"),
-                }
+        files_by_filename = {
+            file_diff["filename"]: file_diff
+            for file_diff in data["files"]
+            if file_diff.get("filename")
+        }
+
+        file_diff = files_by_filename.get(file.filename)
+        if file_diff is None and file.previous_filename:
+            file_diff = files_by_filename.get(file.previous_filename)
+
+        if file_diff is not None:
+            return {
+                "filename": file_diff.get("filename") or file.filename,
+                "patch": file_diff.get("patch"),
+            }
 
         return None
 
@@ -253,3 +299,14 @@ class GithubClient:
             page_size=100,
             parser=self._parse_pr_review,
         )
+
+    async def fetch_file_blob(self, file_sha: str) -> str:
+        response = await self._get(
+            url=f"{self._base_url}/git/blobs/{file_sha}",
+        )
+
+        content = self._json(response).get("content")
+        if not isinstance(content, str):
+            raise GithubAPIError("GitHub returned no blob content")
+
+        return base64.b64decode(content).decode("utf-8")

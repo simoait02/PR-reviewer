@@ -8,3 +8,8 @@ servers:
     transport: streamable_http
     url: http://127.0.0.1:9000/reviewer/mcp
     headers: {}
+
+  github_impact:
+    transport: streamable_http
+    url: http://127.0.0.1:9000/impact/mcp
+    headers: {}

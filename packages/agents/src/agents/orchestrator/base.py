@@ -5,6 +5,8 @@ from langchain.agents import create_agent
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import HumanMessage
 from langchain_core.tools import BaseTool
+from langchain_mcp_adapters.interceptors import MCPToolCallResult
+from langgraph.checkpoint.base import BaseCheckpointSaver
 
 from agents.internal.base import BaseAgent
 from agents.internal.protocol import AgentRequest, AgentRuntimeContext
@@ -20,6 +22,7 @@ class BaseOrchestrator:
         model: BaseChatModel,
         config: OrchestratorConfig,
         agents: Sequence[BaseAgent],
+        checkpointer: BaseCheckpointSaver | None = None,
         extra_tools: Sequence[BaseTool] | None = None,
     ):
         self.model = model
@@ -27,6 +30,7 @@ class BaseOrchestrator:
         self.agents = list(agents)
         self.system_prompt = config.system_prompt
         self.extra_tools = list(extra_tools or [])
+        self.checkpointer = checkpointer
         self._graph = None
 
     async def abuild(self) -> Any:
@@ -52,6 +56,7 @@ class BaseOrchestrator:
             response_format=OrchestratorResponse,
             name=self.name,
             context_schema=AgentRuntimeContext,
+            checkpointer=self.checkpointer,
         )
         return self._graph
 
@@ -59,25 +64,36 @@ class BaseOrchestrator:
         self,
         request: AgentRequest,
         github_token: str | None = None,
+        *,
+        thread_id: str,
     ) -> dict[str, Any]:
         graph = await self.abuild()
 
         message = HumanMessage(content=self._render_request(request))
-        return await graph.ainvoke(
-            {
-                "messages": [message],
-            },
-            context={"github_token": github_token},
-        )
+        result_cache: dict[str, MCPToolCallResult] = {}
+        try:
+            return await graph.ainvoke(
+                {
+                    "messages": [message],
+                },
+                context={
+                    "github_token": github_token,
+                    "mcp_result_cache": result_cache,
+                },
+                config={"configurable": {"thread_id": thread_id}},
+            )
+        finally:
+            result_cache.clear()
 
     async def ainvoke_structured(
         self,
         request: AgentRequest,
         github_token: str | None = None,
+        *,
+        thread_id: str,
     ) -> OrchestratorResponse:
         result = await self.ainvoke_raw(
-            request,
-            github_token=github_token,
+            request, github_token=github_token, thread_id=thread_id
         )
         structured_response = result.get("structured_response")
         if structured_response is None:
