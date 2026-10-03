@@ -13,3 +13,8 @@ servers:
     transport: streamable_http
     url: http://127.0.0.1:9000/impact/mcp
     headers: {}
+
+  github_patch:
+    transport: streamable_http
+    url: http://127.0.0.1:9000/patch/mcp
+    headers: {}

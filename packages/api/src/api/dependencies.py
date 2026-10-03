@@ -1,14 +1,14 @@
-from agents.orchestrator.base import BaseOrchestrator
+from agents.review_pipeline import ReviewPipeline
 from fastapi import HTTPException, Request
 
 
-def get_orchestrator(request: Request) -> BaseOrchestrator:
-    orchestrator = getattr(request.app.state, "orchestrator", None)
+def get_pipeline(request: Request) -> ReviewPipeline:
+    pipeline = getattr(request.app.state, "pipeline", None)
 
-    if orchestrator is None:
+    if pipeline is None:
         raise HTTPException(
             status_code=503,
-            detail="Orchestrator is not initialized",
+            detail="Review pipeline is not initialized",
         )
 
-    return orchestrator
+    return pipeline
