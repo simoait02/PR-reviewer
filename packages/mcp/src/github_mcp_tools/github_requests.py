@@ -269,12 +269,21 @@ class GithubClient:
             url=f"{self._base_url}/compare/{pr.base_sha}...{pr.head_sha}",
         )
         data = self._json(response)
-        for file_diff in data["files"]:
-            if file_diff.get("sha") == file.sha:
-                return {
-                    "filename": file_diff.get("filename", file.filename),
-                    "patch": file_diff.get("patch"),
-                }
+        files_by_filename = {
+            file_diff["filename"]: file_diff
+            for file_diff in data["files"]
+            if file_diff.get("filename")
+        }
+
+        file_diff = files_by_filename.get(file.filename)
+        if file_diff is None and file.previous_filename:
+            file_diff = files_by_filename.get(file.previous_filename)
+
+        if file_diff is not None:
+            return {
+                "filename": file_diff.get("filename") or file.filename,
+                "patch": file_diff.get("patch"),
+            }
 
         return None
 
