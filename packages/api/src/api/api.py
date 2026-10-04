@@ -7,6 +7,7 @@ from agents.internal.protocol import AgentRequest
 from agents.review_pipeline import ReviewPipeline
 from fastapi import Depends, FastAPI
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from fastapi.responses import StreamingResponse
 
 from api.dependencies import get_pipeline
 from api.observability import configure_tracing
@@ -45,6 +46,18 @@ async def review(
         ],
     )
 
-    return await pipeline.ainvoke(
-        internal_request, github_token=github_token, thread_id=str(uuid4())
+    async def stream_review() -> AsyncIterator[str]:
+        async for response in pipeline.astream(
+            internal_request,
+            github_token=github_token,
+            thread_id=str(uuid4()),
+        ):
+            yield f"data: {response.model_dump_json()}\n\n"
+
+        yield "data: [DONE]\n\n"
+
+    return StreamingResponse(
+        stream_review(),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache"},
     )
