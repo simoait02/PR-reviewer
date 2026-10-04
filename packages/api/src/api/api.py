@@ -6,8 +6,8 @@ from uuid import uuid4
 from agents.internal.protocol import AgentRequest
 from agents.review_pipeline import ReviewPipeline
 from fastapi import Depends, FastAPI
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi.responses import StreamingResponse
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from api.dependencies import get_pipeline
 from api.observability import configure_tracing

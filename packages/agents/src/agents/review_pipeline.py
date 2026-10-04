@@ -43,7 +43,7 @@ class ReviewPipeline:
         return cls(
             orchestrator=await CodeReviewOrchestrator.create_orchestrator(),
             patch=await Patch.create_patch(),
-            synthesizer= Synthesizer.create_synthesizer()
+            synthesizer=Synthesizer.create_synthesizer(),
         )
 
     def abuild(self) -> Any:

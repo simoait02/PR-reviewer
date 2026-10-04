@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-from langchain_core.language_models import BaseChatModel
-from langchain_core.messages import SystemMessage, HumanMessage
-from langchain_openai import ChatOpenAI
-
 from agents.internal.config import load_agent_yaml
-from agents.synthesizer.schema import SynthesizerResponse, SynthesizerRequest
+from agents.synthesizer.schema import SynthesizerRequest, SynthesizerResponse
+from langchain_core.language_models import BaseChatModel
+from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_openai import ChatOpenAI
 
 
 class Synthesizer:
@@ -18,15 +17,15 @@ class Synthesizer:
             use_responses_api=config.model.use_responses_api,
         )
         self.system_prompt = config.system_prompt
-        self.structured_model = self.model.with_structured_output(
-            SynthesizerResponse
-        )
+        self.structured_model = self.model.with_structured_output(SynthesizerResponse)
 
     @classmethod
     def create_synthesizer(cls) -> Synthesizer:
         return cls()
 
-    async def ainvoke_structured(self, request: SynthesizerRequest) -> SynthesizerResponse:
+    async def ainvoke_structured(
+        self, request: SynthesizerRequest
+    ) -> SynthesizerResponse:
         messages = [
             SystemMessage(content=self.system_prompt),
             HumanMessage(

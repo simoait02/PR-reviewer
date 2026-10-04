@@ -1,8 +1,7 @@
-from pydantic import BaseModel, Field
-
 from agents.internal.protocol import AgentStatus
 from agents.orchestrator.schemas import OrchestratorResponse
-from agents.patch.schemas import PatchResponse, PatchFinding
+from agents.patch.schemas import PatchFinding, PatchResponse
+from pydantic import BaseModel, Field
 
 
 class SynthesizerRequest(BaseModel):
