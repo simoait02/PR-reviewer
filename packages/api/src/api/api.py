@@ -5,9 +5,10 @@ from uuid import uuid4
 
 from agents.internal.protocol import AgentRequest
 from agents.review_pipeline import ReviewPipeline
-from fastapi import Depends, FastAPI
-from fastapi.responses import StreamingResponse
+from fastapi import Depends, FastAPI, Header, Response
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from fastapi.sse import EventSourceResponse, ServerSentEvent
 
 from api.dependencies import get_pipeline
 from api.observability import configure_tracing
@@ -27,14 +28,27 @@ async def lifespan(fastapi_app: FastAPI) -> AsyncIterator[None]:
 
 
 app = FastAPI(lifespan=lifespan)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+    expose_headers=["X-Correlation-ID"],
+)
 
 
-@app.post("/review")
+@app.post("/review", response_class=EventSourceResponse)
 async def review(
     request: UserQuestion,
     credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(github_bearer)],
     pipeline: Annotated[ReviewPipeline, Depends(get_pipeline)],
-):
+    response: Response,
+    correlation_id: Annotated[str | None, Header(alias="X-Correlation-ID")] = None,
+) -> AsyncIterator[ServerSentEvent]:
+    thread_id = (correlation_id or "").strip() or str(uuid4())
+    response.headers["X-Correlation-ID"] = thread_id
+
     pr = request.pull_request
     github_token = credentials.credentials if credentials else None
     internal_request = AgentRequest(
@@ -46,18 +60,11 @@ async def review(
         ],
     )
 
-    async def stream_review() -> AsyncIterator[str]:
-        async for response in pipeline.astream(
-            internal_request,
-            github_token=github_token,
-            thread_id=str(uuid4()),
-        ):
-            yield f"data: {response.model_dump_json()}\n\n"
+    async for event_name, payload in pipeline.astream(
+        internal_request,
+        github_token=github_token,
+        thread_id=thread_id,
+    ):
+        yield ServerSentEvent(event=event_name, data=payload)
 
-        yield "data: [DONE]\n\n"
-
-    return StreamingResponse(
-        stream_review(),
-        media_type="text/event-stream",
-        headers={"Cache-Control": "no-cache"},
-    )
+    yield ServerSentEvent(event="done", data={})

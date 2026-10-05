@@ -127,7 +127,7 @@ class ReviewPipeline:
         github_token: str | None = None,
         *,
         thread_id: str,
-    ) -> AsyncIterator[SynthesizerResponse]:
+    ) -> AsyncIterator[tuple[str, dict[str, Any]]]:
         graph = self.abuild()
         async for update in graph.astream(
             {
@@ -137,6 +137,14 @@ class ReviewPipeline:
             context={"github_token": github_token},
             stream_mode="updates",
         ):
-            synthesizer_output = update.get("synthesizer")
-            if synthesizer_output is not None:
-                yield SynthesizerResponse.model_validate(synthesizer_output)
+            synthesizer_update = update.get("synthesizer")
+            if synthesizer_update is not None:
+                response = SynthesizerResponse.model_validate(synthesizer_update)
+                yield "status", {"status": response.status.value}
+                yield "summary", {"summary": response.summary}
+
+                for finding in response.findings:
+                    yield "findings", finding.model_dump(mode="json")
+
+                for limitation in response.limitations:
+                    yield "limitations", {"limitation": limitation}
