@@ -11,7 +11,7 @@ help:
 		'make test - Run unit tests with coverage (minimum 90%)'
 
 test:
-	uv run --with pytest --with pytest-cov pytest tests/unit \
+	uv run --all-packages --with pytest --with pytest-cov pytest tests/unit \
 		--cov=agents --cov=api --cov=github_mcp_tools --cov=rag \
 		--cov-report=term-missing --cov-report=xml:coverage.xml \
 		--cov-fail-under=90

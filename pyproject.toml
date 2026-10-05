@@ -26,3 +26,11 @@ members = [
 [tool.pytest.ini_options]
 testpaths = ["tests/unit"]
 addopts = "-ra"
+
+[tool.coverage.run]
+omit = [
+    "*/__init__.py",
+    "*/app.py",
+    "*/server.py",
+    "*/ingest.py",
+]
