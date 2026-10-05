@@ -2,7 +2,7 @@
 
 from functools import lru_cache
 
-from rag.retriever import BestPracticesRetriever
+from github_mcp_tools.rag.retriever import BestPracticesRetriever
 
 
 @lru_cache

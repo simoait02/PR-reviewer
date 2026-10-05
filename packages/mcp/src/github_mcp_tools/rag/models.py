@@ -35,7 +35,7 @@ class BestPracticeResult(BaseModel):
     content: str = Field(description="Retrieved chunk content.")
     metadata: dict[str, Any] = Field(
         default_factory=dict,
-        description="Chunk metadata from the source document.",
+        description="Chunk metadata from the source best-practice document.",
     )
     distance: float = Field(
         description="Cosine distance between the query and this chunk embedding."
@@ -52,25 +52,10 @@ class Document(Base):
     id: Mapped[uuid.UUID] = mapped_column(
         UUID, primary_key=True, server_default=text("gen_random_uuid()")
     )
-
-    title: Mapped[str] = mapped_column(
-        String,
-        nullable=False,
-    )
-    description: Mapped[str] = mapped_column(
-        String,
-        nullable=False,
-    )
-    category: Mapped[Category] = mapped_column(
-        SqlEnum(
-            Category,
-        ),
-        nullable=False,
-    )
-    content_hash: Mapped[str] = mapped_column(
-        String,
-        nullable=False,
-    )
+    title: Mapped[str] = mapped_column(String, nullable=False)
+    description: Mapped[str] = mapped_column(String, nullable=False)
+    category: Mapped[Category] = mapped_column(SqlEnum(Category), nullable=False)
+    content_hash: Mapped[str] = mapped_column(String, nullable=False)
     created_at: Mapped[datetime.datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,
@@ -90,6 +75,7 @@ class Document(Base):
 
 class Chunk(Base):
     __tablename__ = "chunks"
+
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True), primary_key=True, server_default=text("gen_random_uuid()")
     )
@@ -98,15 +84,8 @@ class Chunk(Base):
         ForeignKey("documents.id", ondelete="CASCADE"),
         nullable=False,
     )
-    content: Mapped[str] = mapped_column(
-        Text,
-        nullable=False,
-    )
-    metadata_: Mapped[dict] = mapped_column(
-        "metadata",
-        JSONB,
-        nullable=False,
-    )
+    content: Mapped[str] = mapped_column(Text, nullable=False)
+    metadata_: Mapped[dict] = mapped_column("metadata", JSONB, nullable=False)
     created_at: Mapped[datetime.datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,
@@ -134,10 +113,7 @@ class Embedding(Base):
         ForeignKey("chunks.id", ondelete="CASCADE"),
         nullable=False,
     )
-    embedding: Mapped[list[float]] = mapped_column(
-        Vector(1536),
-        nullable=False,
-    )
+    embedding: Mapped[list[float]] = mapped_column(Vector(1536), nullable=False)
     created_at: Mapped[datetime.datetime] = mapped_column(
         DateTime(timezone=True),
         nullable=False,

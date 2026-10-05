@@ -3,14 +3,18 @@ import hashlib
 from pathlib import Path
 
 import frontmatter
+from github_mcp_tools.rag.database import (
+    EMBEDDING_MODEL,
+    get_engine,
+    get_session_factory,
+)
+from github_mcp_tools.rag.models import Category, Chunk, Document, Embedding
 from langchain_text_splitters import MarkdownHeaderTextSplitter
 from openai import AsyncOpenAI
 from sqlalchemy import select
 
-from rag.database import EMBEDDING_MODEL, get_engine, get_session_factory
-from rag.models import Category, Chunk, Document, Embedding
-
-DOCUMENTS_DIR = Path(__file__).resolve().parents[4] / "docs" / "good-practices"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+DOCUMENTS_DIR = PROJECT_ROOT / "docs" / "good-practices"
 
 headers_to_split_on = [
     ("#", "Header 1"),
@@ -22,6 +26,9 @@ openai_client = AsyncOpenAI()
 markdown_header_splitter = MarkdownHeaderTextSplitter(
     headers_to_split_on=headers_to_split_on,
 )
+
+engine = get_engine()
+session_local = get_session_factory()
 
 
 def process_file(file_path: Path):
@@ -37,10 +44,6 @@ def process_file(file_path: Path):
         "content_hash": content_hash,
         "chunks": chunks,
     }
-
-
-engine = get_engine()
-session_local = get_session_factory()
 
 
 async def save_document(result):

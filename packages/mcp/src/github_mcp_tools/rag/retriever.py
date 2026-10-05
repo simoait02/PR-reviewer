@@ -6,8 +6,14 @@ from openai import AsyncOpenAI
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
-from rag.database import EMBEDDING_MODEL, get_session_factory
-from rag.models import BestPracticeResult, Category, Chunk, Document, Embedding
+from github_mcp_tools.rag.database import EMBEDDING_MODEL, get_session_factory
+from github_mcp_tools.rag.models import (
+    BestPracticeResult,
+    Category,
+    Chunk,
+    Document,
+    Embedding,
+)
 
 
 class BestPracticesRetriever:
@@ -34,7 +40,6 @@ class BestPracticesRetriever:
         category: Category | None = None,
         limit: int = 5,
     ) -> list[BestPracticeResult]:
-
         limit = max(1, min(limit, 8))
         response = await self.embedding_client.embeddings.create(
             model=EMBEDDING_MODEL,
