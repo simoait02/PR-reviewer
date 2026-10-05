@@ -13,9 +13,15 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql
     environment:
-      POSTGRES_USER: "${DB_USER}"
-      POSTGRES_PASSWORD: "${DB_PASSWORD}"
-      POSTGRES_DB: "${DB_NAME}"
+      POSTGRES_USER: "${DB_USER:-postgres}"
+      POSTGRES_DB: "${DB_NAME:-pr_reviewer}"
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets:
+      - postgres_password
 
 volumes:
   pgdata:
+
+secrets:
+  postgres_password:
+    environment: DB_PASSWORD
