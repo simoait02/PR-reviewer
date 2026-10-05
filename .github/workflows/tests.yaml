@@ -35,7 +35,7 @@ jobs:
       - name: Run tests with coverage
         run: >-
           uv run --with pytest --with pytest-cov pytest tests/unit
-          --cov=agents --cov=api --cov=github_mcp_tools --cov=rag
+          --cov=agents --cov=api --cov=github_mcp_tools
           --cov-report=term-missing
           --cov-report=xml:coverage.xml
           --cov-fail-under=90

@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-.PHONY: help mcp api phoenix dev test
+.PHONY: help mcp api phoenix dev test ingest
 
 help:
 	@printf '%s\n' \
@@ -8,13 +8,20 @@ help:
 		'make api  - Start the REST API on port 8000' \
 		'make phoenix - Start the Phoenix UI on port 6006' \
 		'make dev  - Start the MCP server and REST API together' \
+		'make ingest - Ingest RAG documents into the database' \
 		'make test - Run unit tests with coverage (minimum 90%)'
 
 test:
 	uv run --all-packages --with pytest --with pytest-cov pytest tests/unit \
-		--cov=agents --cov=api --cov=github_mcp_tools --cov=rag \
+		--cov=agents --cov=api --cov=github_mcp_tools \
 		--cov-report=term-missing --cov-report=xml:coverage.xml \
 		--cov-fail-under=90
+
+ingest:
+	@set -a; \
+	if [ -f .env ]; then . ./.env; fi; \
+	set +a; \
+	uv run --package github-mcp-tools python scripts/ingest_rag.py
 
 mcp:
 	@set -a; \

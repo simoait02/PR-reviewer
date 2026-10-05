@@ -3,9 +3,9 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from github_mcp_tools import rag_service
-from rag import database
-from rag.models import Category
-from rag.retriever import BestPracticesRetriever
+from github_mcp_tools.rag import database
+from github_mcp_tools.rag.models import Category
+from github_mcp_tools.rag.retriever import BestPracticesRetriever
 
 
 def run(coroutine):
@@ -86,8 +86,14 @@ def test_retriever_applies_category_filter_and_minimum_limit():
 def test_retriever_from_env_constructs_dependencies(monkeypatch):
     session_factory = object()
     embedding_client = object()
-    monkeypatch.setattr("rag.retriever.get_session_factory", lambda: session_factory)
-    monkeypatch.setattr("rag.retriever.AsyncOpenAI", lambda: embedding_client)
+    monkeypatch.setattr(
+        "github_mcp_tools.rag.retriever.get_session_factory",
+        lambda: session_factory,
+    )
+    monkeypatch.setattr(
+        "github_mcp_tools.rag.retriever.AsyncOpenAI",
+        lambda: embedding_client,
+    )
 
     retriever = BestPracticesRetriever.from_env()
     assert retriever.session_factory is session_factory

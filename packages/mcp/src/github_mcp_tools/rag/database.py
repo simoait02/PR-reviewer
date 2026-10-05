@@ -40,7 +40,7 @@ def get_engine() -> AsyncEngine:
 
 @lru_cache(maxsize=1)
 def get_session_factory() -> async_sessionmaker[AsyncSession]:
-    """Return the process-wide session factory backed by the shared engine."""
+    """Return the process-wide session factory backed by the shared database."""
     return async_sessionmaker(
         get_engine(),
         expire_on_commit=False,

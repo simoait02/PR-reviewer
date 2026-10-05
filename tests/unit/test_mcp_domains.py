@@ -4,7 +4,7 @@ from types import SimpleNamespace
 import pytest
 from github_mcp_tools.domains import common, impact, orchestrator, patch, reviewer
 from github_mcp_tools.github_requests import PRFile, PullRequest
-from rag.models import BestPracticeResult, Category
+from github_mcp_tools.rag.models import BestPracticeResult, Category
 
 
 def run(coroutine):
