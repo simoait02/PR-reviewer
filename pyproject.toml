@@ -22,3 +22,7 @@ members = [
     "packages/api",
     "packages/rag",
 ]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/unit"]
+addopts = "-ra"

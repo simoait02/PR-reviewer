@@ -40,5 +40,11 @@ jobs:
       - name: Check Ruff formatting
         run: uv run --with ruff ruff format --check .
 
+      - name: Run unit tests with coverage
+        run: >-
+          uv run --with pytest --with pytest-cov pytest tests/unit
+          --cov=agents --cov=api --cov=github_mcp_tools --cov=rag
+          --cov-report=term-missing
+
       - name: Audit dependencies
         run: uv run --with pip-audit pip-audit
