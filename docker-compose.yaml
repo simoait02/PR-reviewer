@@ -1,4 +1,40 @@
 services:
+  api:
+    image: pr-reviewer-api:ci
+    build:
+      context: .
+      dockerfile: packages/api/Dockerfile
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      GITHUB_ORCHESTRATOR_MCP_URL: http://mcp:9000/orchestrator/mcp
+      GITHUB_REVIEWER_MCP_URL: http://mcp:9000/reviewer/mcp
+      GITHUB_IMPACT_MCP_URL: http://mcp:9000/impact/mcp
+      GITHUB_PATCH_MCP_URL: http://mcp:9000/patch/mcp
+    depends_on:
+      mcp:
+        condition: service_started
+    ports:
+      - "8000:8000"
+
+  mcp:
+    image: pr-reviewer-mcp:ci
+    build:
+      context: .
+      dockerfile: packages/mcp/Dockerfile
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DB_HOST: pgvector
+      DB_PORT: "5432"
+    depends_on:
+      pgvector:
+        condition: service_started
+    ports:
+      - "9000:9000"
+
   phoenix:
     container_name: phoenix
     image: arizephoenix/phoenix:latest
@@ -9,7 +45,7 @@ services:
     container_name: pgvector
     image: pgvector/pgvector:0.8.6-pg18-trixie
     ports:
-      - "${DB_PORT}:5432"
+      - "${DB_PORT:-5432}:5432"
     volumes:
       - pgdata:/var/lib/postgresql
     environment:
