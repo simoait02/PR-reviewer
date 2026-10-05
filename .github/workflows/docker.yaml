@@ -1,0 +1,43 @@
+name: Docker image security
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  docker:
+    name: Build and scan Docker images
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker images
+        run: docker compose build api mcp
+
+      - name: Scan API image with Trivy
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: pr-reviewer-api:ci
+          format: table
+          exit-code: "1"
+          ignore-unfixed: true
+          vuln-type: os,library
+          severity: CRITICAL,HIGH
+
+      - name: Scan MCP image with Trivy
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: pr-reviewer-mcp:ci
+          format: table
+          exit-code: "1"
+          ignore-unfixed: true
+          vuln-type: os,library
+          severity: CRITICAL,HIGH
