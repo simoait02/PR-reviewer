@@ -3,10 +3,9 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 from github_mcp_tools import rag_service
+from rag import database
 from rag.models import Category
 from rag.retriever import BestPracticesRetriever
-
-from rag import database
 
 
 def run(coroutine):
