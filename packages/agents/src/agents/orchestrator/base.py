@@ -5,7 +5,6 @@ from langchain.agents import create_agent
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import HumanMessage
 from langchain_core.tools import BaseTool
-from langchain_mcp_adapters.interceptors import MCPToolCallResult
 from langgraph.checkpoint.base import BaseCheckpointSaver
 
 from agents.internal.base import BaseAgent
@@ -70,20 +69,13 @@ class BaseOrchestrator:
         graph = await self.abuild()
 
         message = HumanMessage(content=self._render_request(request))
-        result_cache: dict[str, MCPToolCallResult] = {}
-        try:
-            return await graph.ainvoke(
-                {
-                    "messages": [message],
-                },
-                context={
-                    "github_token": github_token,
-                    "mcp_result_cache": result_cache,
-                },
-                config={"configurable": {"thread_id": thread_id}},
-            )
-        finally:
-            result_cache.clear()
+        return await graph.ainvoke(
+            {
+                "messages": [message],
+            },
+            context={"github_token": github_token},
+            config={"configurable": {"thread_id": thread_id}},
+        )
 
     async def ainvoke_structured(
         self,

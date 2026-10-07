@@ -6,17 +6,18 @@ from agents.mcp.config import AgentMCPServer
 
 
 class OrchestratorResponse(BaseModel):
-    """Reviewer and impact output passed to the patch stage."""
+    """Specialist output passed to the final synthesizer."""
 
     task_objective: str = Field(
-        description="The task objective that the patch stage must continue.",
+        description="The task objective used by all review specialists.",
     )
     focus: list[str] = Field(
         default_factory=list,
-        description="The confirmed pull request context for the patch stage.",
+        description="The confirmed pull request context for specialist stages.",
     )
     reviewer_feedback: AgentResponse
     impact_feedback: AgentResponse
+    security_feedback: AgentResponse
 
 
 class OrchestratorConfig(BaseModel):

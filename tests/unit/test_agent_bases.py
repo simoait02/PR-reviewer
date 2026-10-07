@@ -6,7 +6,6 @@ import pytest
 from agents.internal.base import BaseAgent
 from agents.internal.config import AgentConfig
 from agents.orchestrator.base import BaseOrchestrator
-from agents.patch.base import BasePatch
 from langchain_core.tools import StructuredTool
 
 from .helpers import make_agent_response, make_orchestrator_response, make_request
@@ -154,45 +153,3 @@ def test_base_orchestrator_builds_specialist_and_mcp_tools():
 
     specialist.abuild.assert_awaited_once()
     assert created["tools"] == ["specialist-tool", "mcp-tool"]
-
-
-def test_base_patch_uses_patch_request_and_checkpointer():
-    config = agent_config("patch")
-    patch_agent = BasePatch(object(), config, checkpointer="checkpoint")
-    expected = make_orchestrator_response()
-    graph = FakeGraph(
-        {
-            "structured_response": {
-                "status": "completed",
-                "summary": "ok",
-                "patches": [],
-                "limitations": [],
-            }
-        }
-    )
-    patch_agent._graph = graph
-
-    result = run(
-        patch_agent.ainvoke_structured(
-            expected,
-            github_token="secret",
-            thread_id="thread-1:patch",
-        )
-    )
-
-    assert result.summary == "ok"
-    assert "Reviewer feedback:" in graph.calls[0][0]["messages"][0].content
-    assert "Impact feedback:" in graph.calls[0][0]["messages"][0].content
-    assert graph.calls[0][2] == {"configurable": {"thread_id": "thread-1:patch"}}
-
-
-def test_base_patch_reports_missing_response():
-    patch_agent = BasePatch(object(), agent_config("patch"))
-    patch_agent._graph = FakeGraph({})
-
-    with pytest.raises(RuntimeError, match="structured response"):
-        run(
-            patch_agent.ainvoke_structured(
-                make_orchestrator_response(), thread_id="thread-1:patch"
-            )
-        )

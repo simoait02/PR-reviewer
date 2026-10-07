@@ -19,6 +19,9 @@ FROM python:3.12-slim
 WORKDIR /app
 
 RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        passwd \
+        util-linux \
     && apt-get upgrade -y \
     && rm -rf /var/lib/apt/lists/*
 
@@ -30,8 +33,11 @@ ENV PATH="/app/.venv/bin:$PATH" \
     PYTHONUNBUFFERED=1
 
 RUN useradd --create-home appuser
-USER appuser
+
+COPY packages/mcp/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 EXPOSE 9000
 
-ENTRYPOINT ["mcp"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+CMD ["mcp"]

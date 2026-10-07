@@ -10,10 +10,13 @@ services:
     environment:
       GITHUB_ORCHESTRATOR_MCP_URL: http://mcp:9000/orchestrator/mcp
       GITHUB_REVIEWER_MCP_URL: http://mcp:9000/reviewer/mcp
-      GITHUB_IMPACT_MCP_URL: http://mcp:9000/impact/mcp
-      GITHUB_PATCH_MCP_URL: http://mcp:9000/patch/mcp
+      PHOENIX_ENABLED: "true"
+      PHOENIX_HOST: http://phoenix:6006
+      PHOENIX_PROJECT_NAME: pr-reviewer
     depends_on:
       mcp:
+        condition: service_started
+      phoenix:
         condition: service_started
     ports:
       - "8000:8000"
@@ -29,6 +32,8 @@ services:
     environment:
       DB_HOST: pgvector
       DB_PORT: "5432"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
       pgvector:
         condition: service_started

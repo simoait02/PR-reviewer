@@ -1,8 +1,17 @@
 from typing import Any
 
+from docker.errors import DockerException
 from fastmcp import FastMCP
+from fastmcp.exceptions import ToolError
 
-from github_mcp_tools.domains.common import get_client
+from github_mcp_tools.domains.common import get_client, get_github_token
+from github_mcp_tools.sandbox import (
+    CloneSandboxResponse,
+    CreateSandboxResponse,
+    DestroySandboxResponse,
+    Sandbox,
+    SandboxError,
+)
 
 mcp = FastMCP("github-orchestrator-tools")
 
@@ -58,6 +67,67 @@ async def get_pr_review_comments(
     comment_page = await client.fetch_pr_review_comments(pull_number, page)
     return comment_page.model_dump(mode="json", exclude_none=True)
 
+@mcp.tool()
+async def create_sandbox() -> CreateSandboxResponse:
+    """Create and start an isolated Docker sandbox."""
+    sandbox = Sandbox.get_instance()
+    try:
+        container_id = await sandbox.create_sandbox()
+    except (DockerException, SandboxError) as exc:
+        raise ToolError(f"Sandbox could not be created: {exc}") from exc
 
-def main() -> None:
-    mcp.run(transport="streamable-http", host="0.0.0.0", port=9000)
+    return CreateSandboxResponse(sandbox_id=container_id, status="running")
+
+
+@mcp.tool()
+async def clone_sandbox_repository(
+    sandbox_id: str,
+    repository_owner: str,
+    repository_name: str,
+    pull_number: int,
+    head_sha: str,
+) -> CloneSandboxResponse:
+    """Clone the exact pull request head commit into a created sandbox."""
+    sandbox = Sandbox.get_instance()
+    if sandbox.container is None or sandbox.container.id != sandbox_id:
+        raise ToolError("sandbox_id does not refer to the active sandbox")
+    try:
+        exit_code, stdout, stderr = await sandbox.clone(
+            repository_owner,
+            repository_name,
+            pull_number,
+            head_sha,
+            access_token=get_github_token(),
+        )
+    except SandboxError as exc:
+        raise ToolError(f"Repository could not be cloned: {exc}") from exc
+
+    if exit_code != 0:
+        detail = stderr or stdout or "git clone failed"
+        raise ToolError(f"Repository could not be cloned: {detail}")
+
+    return CloneSandboxResponse(
+        sandbox_id=sandbox_id,
+        repository_owner=repository_owner,
+        repository_name=repository_name,
+        pull_number=pull_number,
+        head_sha=head_sha,
+        path="/workspace/repo",
+        status="cloned",
+    )
+
+
+@mcp.tool()
+async def destroy_sandbox(sandbox_id: str) -> DestroySandboxResponse:
+    """Destroy a sandbox previously created by the orchestrator."""
+    sandbox = Sandbox.get_instance()
+
+    try:
+        destroyed = await sandbox.destroy_sandbox(sandbox_id)
+    except (DockerException, SandboxError) as exc:
+        raise ToolError(f"Sandbox could not be destroyed: {exc}") from exc
+
+    return DestroySandboxResponse(
+        sandbox_id=sandbox_id,
+        status="destroyed" if destroyed else "not_found",
+    )

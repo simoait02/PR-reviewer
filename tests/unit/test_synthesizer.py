@@ -6,7 +6,6 @@ from langchain_core.messages import HumanMessage, SystemMessage
 
 from .helpers import (
     make_orchestrator_response,
-    make_patch_response,
     make_synthesizer_response,
 )
 
@@ -36,7 +35,6 @@ def test_synthesizer_uses_stable_system_and_human_roles():
     synthesizer = Synthesizer(model=FakeModel(structured_model))
     request = SynthesizerRequest(
         orchestrator_response=make_orchestrator_response(),
-        patch_response=make_patch_response(),
     )
 
     result = asyncio.run(synthesizer.ainvoke_structured(request))
@@ -46,7 +44,7 @@ def test_synthesizer_uses_stable_system_and_human_roles():
     assert structured_model.messages[0].content == synthesizer.system_prompt
     assert isinstance(structured_model.messages[1], HumanMessage)
     assert "Orchestrator result:" in structured_model.messages[1].content
-    assert "Patch result:" in structured_model.messages[1].content
+    assert "Patch feedback is included" in structured_model.messages[1].content
 
 
 def test_synthesizer_validates_mapping_results():
@@ -58,7 +56,6 @@ def test_synthesizer_validates_mapping_results():
         synthesizer.ainvoke_structured(
             SynthesizerRequest(
                 orchestrator_response=make_orchestrator_response(),
-                patch_response=make_patch_response(),
             )
         )
     )
