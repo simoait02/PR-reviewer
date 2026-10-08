@@ -9,7 +9,7 @@ from agents.internal.protocol import (
 )
 from agents.orchestrator.agent import CodeReviewOrchestrator
 from agents.sub_agents import AGENT_MAP
-from agents.sub_agents.patch.agent import PatchAgent
+from agents.sub_agents.security.agent import SecurityAgent
 from agents.synthesizer.agent import Synthesizer
 from pydantic import ValidationError
 
@@ -46,10 +46,10 @@ def test_load_agent_yaml_reads_each_agent_configuration():
     orchestrator_config = CodeReviewOrchestrator._load_config()
     assert orchestrator_config.name == "code_review_orchestrator"
     assert orchestrator_config.system_prompt
-    assert orchestrator_config.sub_agents == ["reviewer", "impact", "patch"]
+    assert orchestrator_config.sub_agents == ["reviewer", "impact", "security"]
 
     for agent_type, expected_name in (
-        (PatchAgent, "patch"),
+        (SecurityAgent, "security"),
         (Synthesizer, "synthesizer"),
     ):
         config = load_agent_yaml(agent_type)
@@ -58,9 +58,9 @@ def test_load_agent_yaml_reads_each_agent_configuration():
         assert config.system_prompt
 
 
-def test_patch_is_registered_as_a_standard_subagent():
-    assert AGENT_MAP["patch"] is PatchAgent
-    assert PatchAgent(model=object()).get_tools() == []
+def test_security_is_registered_as_a_standard_subagent():
+    assert AGENT_MAP["security"] is SecurityAgent
+    assert SecurityAgent(model=object()).get_tools() == []
 
 
 def test_agent_config_rejects_missing_required_fields():

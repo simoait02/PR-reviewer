@@ -10,7 +10,6 @@ from github_mcp_tools.domains.git_tools import (
 )
 from github_mcp_tools.sandbox import Sandbox
 
-
 _SECURITY_RULES = "/opt/pr-reviewer/security-rules"
 
 

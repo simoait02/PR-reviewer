@@ -44,7 +44,7 @@ def test_synthesizer_uses_stable_system_and_human_roles():
     assert structured_model.messages[0].content == synthesizer.system_prompt
     assert isinstance(structured_model.messages[1], HumanMessage)
     assert "Orchestrator result:" in structured_model.messages[1].content
-    assert "Patch feedback is included" in structured_model.messages[1].content
+    assert "Security feedback is included" in structured_model.messages[1].content
 
 
 def test_synthesizer_validates_mapping_results():

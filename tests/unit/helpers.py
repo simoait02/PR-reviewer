@@ -34,7 +34,9 @@ def make_agent_response() -> AgentResponse:
         status=AgentStatus.COMPLETED,
         summary="The review completed.",
         findings=[
-            ReviewFinding.model_validate(finding.model_dump(exclude={"suggested_patch"}))
+            ReviewFinding.model_validate(
+                finding.model_dump(exclude={"suggested_patch"})
+            )
         ],
         approved=False,
     )
@@ -47,16 +49,7 @@ def make_orchestrator_response() -> OrchestratorResponse:
         focus=["owner=acme", "repo=payments", "pull=42"],
         reviewer_feedback=feedback,
         impact_feedback=feedback,
-        patch_feedback=make_patch_response(),
-    )
-
-
-def make_patch_response() -> AgentResponse:
-    return AgentResponse(
-        status=AgentStatus.COMPLETED,
-        summary="A safe patch was generated.",
-        findings=[make_finding(patch="if value is not None:\n    process(value)")],
-        approved=True,
+        security_feedback=feedback,
     )
 
 

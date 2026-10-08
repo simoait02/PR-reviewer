@@ -166,6 +166,7 @@ def test_fetch_pr_info(monkeypatch):
         head_branch="feature",
         head_sha="head",
     )
+
     async def fake_get(*, url, params=None):
         if "/pulls/42" in url:
             return response(

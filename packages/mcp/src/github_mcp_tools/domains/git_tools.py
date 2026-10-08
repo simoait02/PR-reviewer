@@ -3,7 +3,6 @@ from pydantic import BaseModel
 
 from github_mcp_tools.sandbox import Sandbox
 
-
 WORKDIR = "/workspace/repo"
 MAX_OUTPUT_CHARS = 100_000
 
@@ -138,19 +137,16 @@ def register_read_only_git_tools(mcp) -> None:
 
 
 def _check_revision(revision: str) -> None:
-    if not revision or revision.startswith("-") or any(
-        character in revision for character in "\x00\r\n\t "
+    if (
+        not revision
+        or revision.startswith("-")
+        or any(character in revision for character in "\x00\r\n\t ")
     ):
         raise ToolError(f"invalid Git revision: {revision!r}")
 
 
 def _check_path(path: str) -> None:
-    if (
-        not path
-        or path.startswith("/")
-        or "\x00" in path
-        or ".." in path.split("/")
-    ):
+    if not path or path.startswith("/") or "\x00" in path or ".." in path.split("/"):
         raise ToolError(f"path must be repository-relative: {path!r}")
 
 

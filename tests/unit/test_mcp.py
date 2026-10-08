@@ -91,12 +91,7 @@ def test_load_mcp_tools_handles_empty_unknown_and_failure(monkeypatch):
 
     monkeypatch.setattr(loader, "load_mcp_tools", unavailable)
     assert (
-        run(
-            loader.aload_agent_mcp_tools(
-                [AgentMCPServer(name="orchestrator")]
-            )
-        )
-        == []
+        run(loader.aload_agent_mcp_tools([AgentMCPServer(name="orchestrator")])) == []
     )
 
 
@@ -111,7 +106,5 @@ def test_load_mcp_tools_collects_tools(monkeypatch):
         return ["tool-1", "tool-2"]
 
     monkeypatch.setattr(loader, "load_mcp_tools", available)
-    result = run(
-        loader.aload_agent_mcp_tools([AgentMCPServer(name="orchestrator")])
-    )
+    result = run(loader.aload_agent_mcp_tools([AgentMCPServer(name="orchestrator")]))
     assert result == ["tool-1", "tool-2"]
