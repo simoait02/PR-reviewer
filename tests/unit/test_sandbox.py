@@ -3,7 +3,6 @@ from types import SimpleNamespace
 
 import pytest
 from docker.errors import NotFound
-
 from github_mcp_tools.sandbox import Sandbox, SandboxError
 
 
@@ -14,9 +13,7 @@ def run(coroutine):
 class FakeContainer:
     def __init__(self, *, managed=True):
         self.id = "sandbox-id"
-        self.labels = (
-            {"com.pr-reviewer.sandbox": "true"} if managed else {}
-        )
+        self.labels = {"com.pr-reviewer.sandbox": "true"} if managed else {}
         self.removed = False
         self.reloaded = False
 

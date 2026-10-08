@@ -2,7 +2,6 @@ import asyncio
 from types import SimpleNamespace
 
 import pytest
-
 from github_mcp_tools.domains import common, impact, orchestrator, security
 
 
@@ -170,10 +169,18 @@ def test_security_tools_validate_inputs_and_run_profiles(monkeypatch):
     with pytest.raises(Exception, match="context_lines"):
         run(security.read_diff("sandbox-id", "base", "head", context_lines=-1))
     with pytest.raises(Exception, match="line range"):
-        run(security.read_file("sandbox-id", "head", "app.py", start_line=2, end_line=1))
+        run(
+            security.read_file("sandbox-id", "head", "app.py", start_line=2, end_line=1)
+        )
     with pytest.raises(Exception, match="query"):
         run(security.search_code("sandbox-id", "head", "  "))
 
-    assert run(security.run_semgrep_security_scan("sandbox-id", "base")).profile == "security"
+    assert (
+        run(security.run_semgrep_security_scan("sandbox-id", "base")).profile
+        == "security"
+    )
     assert run(security.check_auth_coverage("sandbox-id", "base")).profile == "auth"
-    assert run(security.check_input_validation("sandbox-id", "base")).profile == "input_validation"
+    assert (
+        run(security.check_input_validation("sandbox-id", "base")).profile
+        == "input_validation"
+    )
