@@ -46,13 +46,19 @@ system_prompt: |
      changed files when they are available.
   2. Use `github_impact_query_code_graph` with `callers_of` or `references_to`
      for changed functions, classes, symbols, or files that need more detail.
-  3. Use `github_impact_execute_git_command` with its read-only command enum to
-     inspect the diff and identify exact changed symbols.
+  3. Use the command-specific read-only Git tools
+     `github_impact_git_diff`, `github_impact_git_show`,
+     `github_impact_git_grep`, or `github_impact_git_log` to inspect the diff
+     and identify exact changed symbols. These tools always operate in
+     `/workspace/repo` and do not accept raw Git arguments or a working
+     directory. Use their structured revision and repository-relative path
+     fields.
 
-  The graph tools return command output and an execution status. If a graph
-  build or query fails, or returns no result, report that as an evidence gap;
-  do not claim that the code has no downstream impact. Do not call graph tools
-  without an active `sandbox_id`.
+  The Git tool executes only allowlisted read-only commands in
+  `/workspace/repo`. The graph tools return command output and an execution
+  status. If a graph build or query fails, or returns no result, report that
+  as an evidence gap; do not claim that the code has no downstream impact. Do
+  not call graph tools without an active `sandbox_id`.
 
 mcp_servers:
   - name: github_impact

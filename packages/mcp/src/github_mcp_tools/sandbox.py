@@ -49,10 +49,9 @@ class Sandbox:
         self.image = image
         self.cpus = cpus
         self.memory = memory
-        self.container = None
 
     async def create_sandbox(self):
-        self.container = await asyncio.to_thread(
+        container = await asyncio.to_thread(
             self.client.containers.run,
             image=self.image,
             command=["sleep", "infinity"],
@@ -62,14 +61,29 @@ class Sandbox:
             labels={self._MANAGED_LABEL: self._MANAGED_VALUE},
             detach=True,
         )
-        return self.container.id
+        return container.id
 
-    async def exec(self, cmd, workdir=None, environment=None):
-        if self.container is None:
-            raise SandboxError("sandbox has not been created")
+    async def _get_container(self, sandbox_id, missing_ok=False):
+        try:
+            container = await asyncio.to_thread(
+                self.client.containers.get,
+                sandbox_id,
+            )
+            await asyncio.to_thread(container.reload)
+        except NotFound:
+            if missing_ok:
+                return None
+            raise SandboxError("sandbox does not exist") from None
+
+        if container.labels.get(self._MANAGED_LABEL) != self._MANAGED_VALUE:
+            raise SandboxError("container is not managed by the sandbox")
+        return container
+
+    async def exec(self, sandbox_id, cmd, workdir=None, environment=None):
+        container = await self._get_container(sandbox_id)
 
         result = await asyncio.to_thread(
-            self.container.exec_run,
+            container.exec_run,
             cmd,
             workdir=workdir,
             environment=environment,
@@ -80,6 +94,7 @@ class Sandbox:
 
     async def clone(
         self,
+        sandbox_id,
         owner,
         repo,
         pull_number,
@@ -137,6 +152,7 @@ class Sandbox:
 
         for command, workdir in commands:
             result = await self.exec(
+                sandbox_id,
                 command,
                 workdir=workdir,
                 environment=environment,
@@ -145,6 +161,7 @@ class Sandbox:
                 return result
 
         result = await self.exec(
+            sandbox_id,
             ["git", "rev-parse", "HEAD"],
             workdir="/workspace/repo",
             environment=environment,
@@ -164,24 +181,10 @@ class Sandbox:
 
     # --------------------------------------------------------------- teardown
 
-    async def destroy_sandbox(self, container_id=None):
-        container = self.container
-
-        if container_id and (container is None or container.id != container_id):
-            try:
-                container = await asyncio.to_thread(
-                    self.client.containers.get,
-                    container_id,
-                )
-            except NotFound:
-                return False
-
+    async def destroy_sandbox(self, sandbox_id):
+        container = await self._get_container(sandbox_id, missing_ok=True)
         if container is None:
             return False
-
-        await asyncio.to_thread(container.reload)
-        if container.labels.get(self._MANAGED_LABEL) != self._MANAGED_VALUE:
-            raise SandboxError("container is not managed by the sandbox")
 
         try:
             await asyncio.to_thread(
@@ -191,17 +194,7 @@ class Sandbox:
             )
         except NotFound:
             return False
-        finally:
-            if container is self.container:
-                self.container = None
         return True
-
-    async def __aenter__(self):
-        await self.create_sandbox()
-        return self
-
-    async def __aexit__(self, *args):
-        await self.destroy_sandbox()
 
     @staticmethod
     def _decode(value):

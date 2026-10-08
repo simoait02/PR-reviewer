@@ -1,0 +1,49 @@
+rules:
+  - id: security-input-python-request
+    languages: [python]
+    message: Untrusted input source requires validation and sink review.
+    severity: INFO
+    pattern-either:
+      - pattern: request.args.get(...)
+      - pattern: request.form.get(...)
+      - pattern: request.get_json(...)
+      - pattern: input(...)
+      - pattern: os.environ.get(...)
+
+  - id: security-input-javascript-request
+    languages: [javascript, typescript]
+    message: Untrusted input source requires validation and sink review.
+    severity: INFO
+    pattern-either:
+      - pattern: $REQ.body
+      - pattern: $REQ.query
+      - pattern: $REQ.params
+
+  - id: security-input-java-request
+    languages: [java]
+    message: Untrusted input source requires validation and sink review.
+    severity: INFO
+    pattern: $REQUEST.getParameter(...)
+
+  - id: security-input-go-request
+    languages: [go]
+    message: Untrusted input source requires validation and sink review.
+    severity: INFO
+    pattern-either:
+      - pattern: $REQ.FormValue(...)
+      - pattern: $REQ.URL.Query()
+
+  - id: security-sink-python-eval
+    languages: [python]
+    message: Dynamic evaluation requires strict validation review.
+    severity: WARNING
+    pattern-either:
+      - pattern: eval(...)
+      - pattern: exec(...)
+      - pattern: os.system(...)
+
+  - id: security-sink-javascript-eval
+    languages: [javascript, typescript]
+    message: Dynamic evaluation requires strict validation review.
+    severity: WARNING
+    pattern: eval(...)

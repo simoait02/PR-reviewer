@@ -11,6 +11,7 @@ services:
       GITHUB_ORCHESTRATOR_MCP_URL: http://mcp:9000/orchestrator/mcp
       GITHUB_REVIEWER_MCP_URL: http://mcp:9000/reviewer/mcp
       GITHUB_IMPACT_MCP_URL: http://mcp:9000/impact/mcp
+      GITHUB_SECURITY_MCP_URL: http://mcp:9000/security/mcp
       PHOENIX_ENABLED: "true"
       PHOENIX_HOST: http://phoenix:6006
       PHOENIX_PROJECT_NAME: pr-reviewer
@@ -33,13 +34,29 @@ services:
     environment:
       DB_HOST: pgvector
       DB_PORT: "5432"
+      DOCKER_HOST: tcp://sandbox-docker:2376
+      DOCKER_TLS_VERIFY: "1"
+      DOCKER_CERT_PATH: /certs/client
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - sandbox-docker-certs:/certs:ro
     depends_on:
       pgvector:
         condition: service_started
+      sandbox-docker:
+        condition: service_started
     ports:
       - "9000:9000"
+
+  sandbox-docker:
+    image: docker:27-dind-rootless
+    privileged: true
+    environment:
+      DOCKER_TLS_CERTDIR: /certs
+    volumes:
+      - sandbox-docker-data:/home/rootless/.local/share/docker
+      - sandbox-docker-certs:/certs
+    expose:
+      - "2376"
 
   phoenix:
     container_name: phoenix
@@ -63,6 +80,8 @@ services:
 
 volumes:
   pgdata:
+  sandbox-docker-data:
+  sandbox-docker-certs:
 
 secrets:
   postgres_password:

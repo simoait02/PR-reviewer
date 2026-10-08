@@ -5,7 +5,10 @@ from fastmcp import FastMCP
 from fastmcp.exceptions import ToolError
 from pydantic import BaseModel
 
-from github_mcp_tools.domains.common import get_client, get_github_token
+from github_mcp_tools.domains.common import (
+    get_client,
+    get_github_token,
+)
 from github_mcp_tools.sandbox import (
     CloneSandboxResponse,
     CreateSandboxResponse,
@@ -100,10 +103,9 @@ async def clone_sandbox_repository(
 ) -> CloneSandboxResponse:
     """Clone the PR base and exact head commit into a created sandbox."""
     sandbox = Sandbox.get_instance()
-    if sandbox.container is None or sandbox.container.id != sandbox_id:
-        raise ToolError("sandbox_id does not refer to the active sandbox")
     try:
         exit_code, stdout, stderr = await sandbox.clone(
+            sandbox_id,
             repository_owner,
             repository_name,
             pull_number,
@@ -134,10 +136,9 @@ async def clone_sandbox_repository(
 async def build_code_graph(sandbox_id: str) -> BuildCodeGraphResponse:
     """Build or update the code graph for the cloned repository."""
     sandbox = Sandbox.get_instance()
-    if sandbox.container is None or sandbox.container.id != sandbox_id:
-        raise ToolError("sandbox_id does not refer to the active sandbox")
 
     exit_code, stdout, stderr = await sandbox.exec(
+        sandbox_id,
         ["code-review-graph", "build"],
         workdir="/workspace/repo",
         environment={

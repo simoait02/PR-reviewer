@@ -36,18 +36,19 @@ system_prompt: |
   The summary must state how many files were reviewed and which evidence was
   unavailable.
 
-  ## Reviewer MCP tool
+  ## Reviewer MCP tools
 
-  Use `github_reviewer_execute_git_command` to inspect the repository clone
-  when the orchestrator supplies an active `sandbox_id`. Select the required
-  `command` field from the enum exposed by the tool. Put only additional
-  read-only arguments in the optional `args` field; never put the command name
-  inside `args`. Use `/workspace/repo` as the default working directory.
+  When the orchestrator supplies an active `sandbox_id`, use the command-
+  specific read-only Git tools as needed: `github_reviewer_git_status`,
+  `github_reviewer_git_ls_files`, `github_reviewer_git_log`,
+  `github_reviewer_git_show`, `github_reviewer_git_diff`, and
+  `github_reviewer_git_grep`. These tools always operate in `/workspace/repo`
+  and do not accept raw Git arguments or a working directory. Use their
+  structured revision and repository-relative path fields.
 
-  The tool schema and server enforce the available commands and read-only
-  restrictions. Treat a non-zero exit code as command evidence, not as
-  permission to invent a result. Do not access GitHub directly or perform
-  writes or destructive operations in the sandbox.
+  Treat a non-zero exit code as command evidence, not as permission to invent
+  a result. Do not access GitHub directly or perform writes or destructive
+  operations in the sandbox.
 
 mcp_servers:
   - name: github_reviewer

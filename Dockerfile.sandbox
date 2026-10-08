@@ -14,14 +14,23 @@ RUN apt-get update \
         --no-cache-dir \
         --disable-pip-version-check \
         "code-review-graph==${CODE_REVIEW_GRAPH_VERSION}" \
+    && python3 -m venv /opt/security-tools \
+    && /opt/security-tools/bin/pip install \
+        --no-cache-dir \
+        --disable-pip-version-check \
+        semgrep \
     && ln -s /opt/code-review-graph/bin/code-review-graph \
         /usr/local/bin/code-review-graph \
+    && ln -s /opt/security-tools/bin/semgrep \
+        /usr/local/bin/semgrep \
     && rm -rf /var/lib/apt/lists/* \
     && useradd --create-home --shell /bin/bash sandbox \
     && mkdir -p /workspace \
     && chown -R sandbox:sandbox /workspace
 
 WORKDIR /workspace
+
+COPY security-rules /opt/pr-reviewer/security-rules
 
 USER sandbox
 
