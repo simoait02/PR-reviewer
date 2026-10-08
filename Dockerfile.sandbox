@@ -1,15 +1,27 @@
 FROM debian:bookworm-slim
 
+ARG CODE_REVIEW_GRAPH_VERSION=2.3.9
+
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         git \
         ca-certificates \
         bash \
+        python3 \
+        python3-venv \
+    && python3 -m venv /opt/code-review-graph \
+    && /opt/code-review-graph/bin/pip install \
+        --no-cache-dir \
+        --disable-pip-version-check \
+        "code-review-graph==${CODE_REVIEW_GRAPH_VERSION}" \
+    && ln -s /opt/code-review-graph/bin/code-review-graph \
+        /usr/local/bin/code-review-graph \
     && rm -rf /var/lib/apt/lists/* \
-    && useradd --create-home --shell /bin/bash sandbox
+    && useradd --create-home --shell /bin/bash sandbox \
+    && mkdir -p /workspace \
+    && chown -R sandbox:sandbox /workspace
 
 WORKDIR /workspace
-RUN chown sandbox:sandbox /workspace
 
 USER sandbox
 

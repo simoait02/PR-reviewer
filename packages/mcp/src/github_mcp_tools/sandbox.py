@@ -43,7 +43,7 @@ class Sandbox:
             cls._instance = cls()
         return cls._instance
 
-    def __init__(self, image="pr-reviewer-sandbox:ci", cpus=2, memory="1g"):
+    def __init__(self, image="pr-reviewer-sandbox:ci", cpus=2, memory="6g"):
         self.client = docker.from_env()
         self.image = image
         self.cpus = cpus
@@ -102,14 +102,8 @@ class Sandbox:
                 "GIT_CONFIG_VALUE_0": f"Authorization: Basic {credentials}",
             }
         commands = [
-            (
-                ["git", "init", "repo"],
-                "/workspace",
-            ),
-            (
-                ["git", "remote", "add", "origin", url],
-                "/workspace/repo",
-            ),
+            (["git", "init", "repo"], "/workspace"),
+            (["git", "remote", "add", "origin", url], "/workspace/repo"),
             (
                 [
                     "git",
@@ -122,10 +116,7 @@ class Sandbox:
                 ],
                 "/workspace/repo",
             ),
-            (
-                ["git", "checkout", "--detach", "FETCH_HEAD"],
-                "/workspace/repo",
-            ),
+            (["git", "checkout", "--detach", "FETCH_HEAD"], "/workspace/repo"),
         ]
 
         for command, workdir in commands:
@@ -154,6 +145,8 @@ class Sandbox:
             )
 
         return 0, actual_sha, result[2]
+
+    # --------------------------------------------------------------- teardown
 
     async def destroy_sandbox(self, container_id=None):
         container = self.container
@@ -185,7 +178,6 @@ class Sandbox:
         finally:
             if container is self.container:
                 self.container = None
-
         return True
 
     async def __aenter__(self):

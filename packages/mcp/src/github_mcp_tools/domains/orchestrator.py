@@ -1,8 +1,9 @@
-from typing import Any
+from typing import Any, Literal
 
 from docker.errors import DockerException
 from fastmcp import FastMCP
 from fastmcp.exceptions import ToolError
+from pydantic import BaseModel
 
 from github_mcp_tools.domains.common import get_client, get_github_token
 from github_mcp_tools.sandbox import (
@@ -14,6 +15,15 @@ from github_mcp_tools.sandbox import (
 )
 
 mcp = FastMCP("github-orchestrator-tools")
+
+
+class BuildCodeGraphResponse(BaseModel):
+    sandbox_id: str
+    command: list[str]
+    exit_code: int
+    stdout: str
+    stderr: str
+    status: Literal["succeeded", "failed"]
 
 
 @mcp.tool()
@@ -114,6 +124,30 @@ async def clone_sandbox_repository(
         head_sha=head_sha,
         path="/workspace/repo",
         status="cloned",
+    )
+
+
+@mcp.tool()
+async def build_code_graph(sandbox_id: str) -> BuildCodeGraphResponse:
+    """Build or update the code graph for the cloned repository."""
+    sandbox = Sandbox.get_instance()
+    if sandbox.container is None or sandbox.container.id != sandbox_id:
+        raise ToolError("sandbox_id does not refer to the active sandbox")
+
+    exit_code, stdout, stderr = await sandbox.exec(
+        ["code-review-graph", "build"],
+        workdir="/workspace/repo",
+        environment={
+            "CRG_DATA_DIR": "/workspace/.pr-review/code-review-graph",
+        },
+    )
+    return BuildCodeGraphResponse(
+        sandbox_id=sandbox_id,
+        command=["code-review-graph", "build"],
+        exit_code=exit_code,
+        stdout=stdout,
+        stderr=stderr,
+        status="succeeded" if exit_code == 0 else "failed",
     )
 
 

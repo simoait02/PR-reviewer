@@ -1,4 +1,5 @@
 SHELL := /bin/bash
+CODE_REVIEW_GRAPH_VERSION ?= 2.3.9
 
 .PHONY: help mcp api phoenix dev test ingest sandbox
 
@@ -25,7 +26,9 @@ ingest:
 	uv run --package github-mcp-tools python scripts/ingest_rag.py
 
 sandbox:
-	docker build -t pr-reviewer-sandbox:ci -f Dockerfile.sandbox .
+	docker build \
+		--build-arg CODE_REVIEW_GRAPH_VERSION=$(CODE_REVIEW_GRAPH_VERSION) \
+		-t pr-reviewer-sandbox:ci -f Dockerfile.sandbox .
 
 mcp:
 	@set -a; \

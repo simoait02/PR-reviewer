@@ -10,6 +10,7 @@ services:
     environment:
       GITHUB_ORCHESTRATOR_MCP_URL: http://mcp:9000/orchestrator/mcp
       GITHUB_REVIEWER_MCP_URL: http://mcp:9000/reviewer/mcp
+      GITHUB_IMPACT_MCP_URL: http://mcp:9000/impact/mcp
       PHOENIX_ENABLED: "true"
       PHOENIX_HOST: http://phoenix:6006
       PHOENIX_PROJECT_NAME: pr-reviewer
