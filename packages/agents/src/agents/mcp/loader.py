@@ -5,7 +5,6 @@ from pathlib import Path
 from typing import Any
 
 import yaml
-from agents.mcp.cache import mcp_result_cache_interceptor
 from agents.mcp.config import AgentMCPServer, MCPServer
 from langchain.tools import ToolRuntime
 from langchain_core.tools import BaseTool
@@ -89,7 +88,6 @@ async def aload_agent_mcp_tools(
                 session=None,
                 connection=connection,
                 tool_interceptors=[
-                    mcp_result_cache_interceptor,
                     github_token_interceptor,
                 ],
                 server_name=server.name,

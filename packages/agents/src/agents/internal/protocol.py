@@ -1,7 +1,6 @@
 from enum import StrEnum
-from typing import NotRequired, TypedDict
+from typing import TypedDict
 
-from langchain_mcp_adapters.interceptors import MCPToolCallResult
 from pydantic import BaseModel, Field
 
 
@@ -9,7 +8,6 @@ class AgentRuntimeContext(TypedDict):
     """Request-scoped values available to agent tools."""
 
     github_token: str | None
-    mcp_result_cache: NotRequired[dict[str, MCPToolCallResult]]
 
 
 class AgentRequest(BaseModel):
@@ -69,6 +67,13 @@ class ReviewFinding(BaseModel):
     title: str
     explanation: str
     recommendation: str
+    suggested_patch: str | None = Field(
+        default=None,
+        description=(
+            "Optional unified diff or focused replacement snippet proposed "
+            "for this finding."
+        ),
+    )
 
 
 class AgentResponse(BaseModel):

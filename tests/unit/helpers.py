@@ -6,7 +6,6 @@ from agents.internal.protocol import (
     ReviewSeverity,
 )
 from agents.orchestrator.schemas import OrchestratorResponse
-from agents.patch.schemas import PatchFinding, PatchResponse
 from agents.synthesizer.schema import SynthesizerResponse
 
 
@@ -17,8 +16,8 @@ def make_request() -> AgentRequest:
     )
 
 
-def make_finding(*, patch: str | None = None) -> PatchFinding:
-    return PatchFinding(
+def make_finding(*, patch: str | None = None) -> ReviewFinding:
+    return ReviewFinding(
         severity=ReviewSeverity.HIGH,
         filename="src/payment.py",
         line=42,
@@ -50,15 +49,7 @@ def make_orchestrator_response() -> OrchestratorResponse:
         focus=["owner=acme", "repo=payments", "pull=42"],
         reviewer_feedback=feedback,
         impact_feedback=feedback,
-    )
-
-
-def make_patch_response() -> PatchResponse:
-    return PatchResponse(
-        status=AgentStatus.COMPLETED,
-        summary="A safe patch was generated.",
-        patches=[make_finding(patch="if value is not None:\n    process(value)")],
-        limitations=["The full test suite was unavailable."],
+        security_feedback=feedback,
     )
 
 

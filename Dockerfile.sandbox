@@ -1,0 +1,37 @@
+FROM debian:bookworm-slim
+
+ARG CODE_REVIEW_GRAPH_VERSION=2.3.9
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        git \
+        ca-certificates \
+        bash \
+        python3 \
+        python3-venv \
+    && python3 -m venv /opt/code-review-graph \
+    && /opt/code-review-graph/bin/pip install \
+        --no-cache-dir \
+        --disable-pip-version-check \
+        "code-review-graph==${CODE_REVIEW_GRAPH_VERSION}" \
+    && python3 -m venv /opt/security-tools \
+    && /opt/security-tools/bin/pip install \
+        --no-cache-dir \
+        --disable-pip-version-check \
+        semgrep \
+    && ln -s /opt/code-review-graph/bin/code-review-graph \
+        /usr/local/bin/code-review-graph \
+    && ln -s /opt/security-tools/bin/semgrep \
+        /usr/local/bin/semgrep \
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd --create-home --shell /bin/bash sandbox \
+    && mkdir -p /workspace \
+    && chown -R sandbox:sandbox /workspace
+
+WORKDIR /workspace
+
+COPY security-rules /opt/pr-reviewer/security-rules
+
+USER sandbox
+
+CMD ["sleep", "infinity"]

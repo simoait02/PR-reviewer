@@ -1,5 +1,4 @@
 import asyncio
-import base64
 
 import httpx
 import pytest
@@ -7,7 +6,6 @@ from github_mcp_tools.github_requests import (
     GithubAPIError,
     GithubClient,
     GithubRequest,
-    PRFile,
     PullRequest,
 )
 
@@ -122,36 +120,7 @@ def test_get_returns_success_and_sends_client_configuration(monkeypatch):
     assert captured["params"] == {"page": 2}
 
 
-def test_fetch_paginated_validates_page_and_detects_next_page(monkeypatch):
-    github_client = client()
-    pages = [
-        response(
-            [{"filename": "a.py", "sha": "a", "status": "modified"}],
-            headers={"Link": '<next>; rel="next"'},
-        ),
-        response(
-            [{"filename": "b.py", "sha": "b", "status": "added"}],
-            headers={},
-        ),
-    ]
-
-    async def fake_get(*, url, params):
-        assert params["page"] in (1, 2)
-        return pages[params["page"] - 1]
-
-    monkeypatch.setattr(github_client, "_get", fake_get)
-    first = run(github_client.fetch_pr_files(42, page=1))
-    second = run(github_client.fetch_pr_files(42, page=2))
-
-    assert first.items == [PRFile(filename="a.py", sha="a", status="modified")]
-    assert first.has_next_page is True
-    assert second.items[0].filename == "b.py"
-    assert second.has_next_page is False
-    with pytest.raises(ValueError, match="page"):
-        run(github_client.fetch_pr_files(42, page=0))
-
-
-def test_fetch_comment_review_and_file_parsers(monkeypatch):
+def test_fetch_comment_and_review_parsers(monkeypatch):
     github_client = client()
     payloads = {
         "comments": [{"user": {"login": "alice"}, "body": None, "created_at": "today"}],
@@ -186,7 +155,7 @@ def test_fetch_comment_review_and_file_parsers(monkeypatch):
     assert reviews.items[0].state == "UNKNOWN"
 
 
-def test_fetch_pr_info_search_diff_and_blob(monkeypatch):
+def test_fetch_pr_info(monkeypatch):
     github_client = client()
     pr = PullRequest(
         number=42,
@@ -196,9 +165,6 @@ def test_fetch_pr_info_search_diff_and_blob(monkeypatch):
         base_sha="base",
         head_branch="feature",
         head_sha="head",
-    )
-    changed_file = PRFile(
-        filename="new.py", sha="blob", status="renamed", previous_filename="old.py"
     )
 
     async def fake_get(*, url, params=None):
@@ -212,50 +178,9 @@ def test_fetch_pr_info_search_diff_and_blob(monkeypatch):
                     "head": {"ref": "feature", "sha": "head"},
                 }
             )
-        if url.endswith("search/code"):
-            return response(
-                {
-                    "total_count": 1,
-                    "incomplete_results": False,
-                    "items": [{"path": "new.py", "sha": "blob", "score": 1.0}],
-                }
-            )
-        if "/compare/" in url:
-            return response({"files": [{"filename": "old.py", "patch": "@@"}]})
-        return response({"content": base64.b64encode(b"hello").decode()})
+        raise AssertionError(f"unexpected URL: {url}")
 
     monkeypatch.setattr(github_client, "_get", fake_get)
     fetched_pr = run(github_client.fetch_pr_infos(42))
-    search = run(github_client.search_repository_code("payment", max_results=3))
-    diff = run(github_client.fetch_diff_content(pr, changed_file))
-    blob = run(github_client.fetch_file_blob("blob"))
 
     assert fetched_pr == pr
-    assert search.total_count == 1
-    assert search.items[0].path == "new.py"
-    assert diff == {"filename": "old.py", "patch": "@@"}
-    assert blob == "hello"
-
-
-def test_fetch_diff_returns_none_and_blob_rejects_missing_content(monkeypatch):
-    github_client = client()
-    pr = PullRequest(
-        number=42,
-        title="Title",
-        body="",
-        base_branch="main",
-        base_sha="base",
-        head_branch="feature",
-        head_sha="head",
-    )
-    changed_file = PRFile(filename="new.py", sha="blob", status="modified")
-
-    async def fake_get(*, url, params=None):
-        if "/compare/" in url:
-            return response({"files": []})
-        return response({})
-
-    monkeypatch.setattr(github_client, "_get", fake_get)
-    assert run(github_client.fetch_diff_content(pr, changed_file)) is None
-    with pytest.raises(GithubAPIError, match="no blob content"):
-        run(github_client.fetch_file_blob("blob"))

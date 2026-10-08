@@ -2,13 +2,13 @@
 
 from fastmcp import FastMCP
 
-from github_mcp_tools.domains import impact, orchestrator, patch, reviewer
+from github_mcp_tools.domains import impact, orchestrator, reviewer, security
 
 DOMAINS: dict[str, FastMCP] = {
+    "impact": impact.mcp,
     "orchestrator": orchestrator.mcp,
     "reviewer": reviewer.mcp,
-    "impact": impact.mcp,
-    "patch": patch.mcp,
+    "security": security.mcp,
 }
 
-__all__ = ["DOMAINS", "impact", "orchestrator", "patch", "reviewer"]
+__all__ = ["DOMAINS", "impact", "orchestrator", "reviewer", "security"]

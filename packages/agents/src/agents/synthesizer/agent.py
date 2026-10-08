@@ -32,8 +32,7 @@ class Synthesizer:
                 content=(
                     "Orchestrator result:\n"
                     f"{request.orchestrator_response.model_dump_json(indent=2)}\n\n"
-                    "Patch result:\n"
-                    f"{request.patch_response.model_dump_json(indent=2)}"
+                    "Security feedback is included in the orchestrator result."
                 )
             ),
         ]

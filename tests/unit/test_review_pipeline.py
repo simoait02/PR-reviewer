@@ -5,7 +5,6 @@ from agents.review_pipeline import ReviewPipeline
 
 from .helpers import (
     make_orchestrator_response,
-    make_patch_response,
     make_request,
     make_synthesizer_response,
 )
@@ -38,16 +37,6 @@ class FakeOrchestrator:
         return self.response
 
 
-class FakePatch:
-    def __init__(self, response):
-        self.response = response
-        self.calls = []
-
-    async def ainvoke_structured(self, request, *, github_token, thread_id):
-        self.calls.append((request, github_token, thread_id))
-        return self.response
-
-
 class FakeSynthesizer:
     def __init__(self, response):
         self.response = response
@@ -70,11 +59,10 @@ def test_astream_exposes_only_synthesizer_fields():
     graph = FakeGraph(
         updates=[
             {"orchestrator": {"orchestrator_response": make_orchestrator_response()}},
-            {"patch": {"patch_response": make_patch_response()}},
             {"synthesizer": synthesizer.model_dump()},
         ]
     )
-    pipeline = ReviewPipeline(None, None, None)
+    pipeline = ReviewPipeline(None, None)
     pipeline._graph = graph
 
     events = collect(
@@ -96,8 +84,8 @@ def test_astream_exposes_only_synthesizer_fields():
 
 
 def test_astream_ignores_updates_without_synthesizer_output():
-    graph = FakeGraph(updates=[{"orchestrator": {}}, {"patch": {}}])
-    pipeline = ReviewPipeline(None, None, None)
+    graph = FakeGraph(updates=[{"orchestrator": {}}])
+    pipeline = ReviewPipeline(None, None)
     pipeline._graph = graph
 
     assert collect(pipeline.astream(make_request(), thread_id="thread-1")) == []
@@ -106,7 +94,7 @@ def test_astream_ignores_updates_without_synthesizer_output():
 def test_ainvoke_validates_typed_final_response():
     expected = make_synthesizer_response()
     graph = FakeGraph(result=expected.model_dump())
-    pipeline = ReviewPipeline(None, None, None)
+    pipeline = ReviewPipeline(None, None)
     pipeline._graph = graph
 
     result = asyncio.run(
@@ -120,38 +108,25 @@ def test_ainvoke_validates_typed_final_response():
 
 def test_pipeline_nodes_forward_context_and_chain_outputs():
     orchestrator_response = make_orchestrator_response()
-    patch_response = make_patch_response()
     synthesizer_response = make_synthesizer_response()
     orchestrator = FakeOrchestrator(orchestrator_response)
-    patch = FakePatch(patch_response)
     synthesizer = FakeSynthesizer(synthesizer_response)
-    pipeline = ReviewPipeline(orchestrator, patch, synthesizer)
-    runtime = SimpleNamespace(context={"github_token": "secret"})
+    pipeline = ReviewPipeline(orchestrator, synthesizer)
 
     async def run():
         orchestrator_update = await pipeline._run_orchestrator(
             {"request": make_request(), "thread_id": "thread-1"},
-            runtime=runtime,
-        )
-        patch_update = await pipeline._run_patch(
-            {
-                "orchestrator_response": orchestrator_update["orchestrator_response"],
-                "thread_id": "thread-1",
-            },
-            runtime=runtime,
+            runtime=SimpleNamespace(context={"github_token": "secret"}),
         )
         synthesizer_update = await pipeline._run_synthesizer(
             {
                 "orchestrator_response": orchestrator_update["orchestrator_response"],
-                "patch_response": patch_update["patch_response"],
             }
         )
-        return orchestrator_update, patch_update, synthesizer_update
+        return orchestrator_update, synthesizer_update
 
-    orchestrator_update, patch_update, synthesizer_update = asyncio.run(run())
+    orchestrator_update, synthesizer_update = asyncio.run(run())
     assert orchestrator_update == {"orchestrator_response": orchestrator_response}
-    assert patch_update == {"patch_response": patch_response}
     assert synthesizer_update == synthesizer_response.model_dump()
     assert orchestrator.calls[0][1:] == ("secret", "thread-1")
-    assert patch.calls[0][1:] == ("secret", "thread-1:patch")
     assert synthesizer.calls[0].orchestrator_response == orchestrator_response

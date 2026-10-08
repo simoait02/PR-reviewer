@@ -1,12 +1,14 @@
 SHELL := /bin/bash
+CODE_REVIEW_GRAPH_VERSION ?= 2.3.9
 
-.PHONY: help mcp api phoenix dev test ingest
+.PHONY: help mcp api phoenix dev test ingest sandbox
 
 help:
 	@printf '%s\n' \
 		'make mcp  - Start the GitHub MCP domains on port 9000' \
 		'make api  - Start the REST API on port 8000' \
 		'make phoenix - Start the Phoenix UI on port 6006' \
+		'make sandbox - Build the isolated sandbox image' \
 		'make dev  - Start the MCP server and REST API together' \
 		'make ingest - Ingest RAG documents into the database' \
 		'make test - Run unit tests with coverage (minimum 90%)'
@@ -22,6 +24,11 @@ ingest:
 	if [ -f .env ]; then . ./.env; fi; \
 	set +a; \
 	uv run --package github-mcp-tools python scripts/ingest_rag.py
+
+sandbox:
+	docker build \
+		--build-arg CODE_REVIEW_GRAPH_VERSION=$(CODE_REVIEW_GRAPH_VERSION) \
+		-t pr-reviewer-sandbox:ci -f Dockerfile.sandbox .
 
 mcp:
 	@set -a; \
