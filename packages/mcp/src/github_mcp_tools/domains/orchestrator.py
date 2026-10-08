@@ -95,9 +95,10 @@ async def clone_sandbox_repository(
     repository_owner: str,
     repository_name: str,
     pull_number: int,
+    base_sha: str,
     head_sha: str,
 ) -> CloneSandboxResponse:
-    """Clone the exact pull request head commit into a created sandbox."""
+    """Clone the PR base and exact head commit into a created sandbox."""
     sandbox = Sandbox.get_instance()
     if sandbox.container is None or sandbox.container.id != sandbox_id:
         raise ToolError("sandbox_id does not refer to the active sandbox")
@@ -106,6 +107,7 @@ async def clone_sandbox_repository(
             repository_owner,
             repository_name,
             pull_number,
+            base_sha,
             head_sha,
             access_token=get_github_token(),
         )
@@ -121,6 +123,7 @@ async def clone_sandbox_repository(
         repository_owner=repository_owner,
         repository_name=repository_name,
         pull_number=pull_number,
+        base_sha=base_sha,
         head_sha=head_sha,
         path="/workspace/repo",
         status="cloned",

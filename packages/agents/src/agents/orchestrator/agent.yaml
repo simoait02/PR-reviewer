@@ -57,8 +57,9 @@ system_prompt: |
   - `github_orchestrator_create_sandbox`: create and start one isolated
     Docker sandbox and return its ID.
   - `github_orchestrator_clone_sandbox_repository`: clone the repository into
-    the created sandbox using the request token, pull request number, and
-    exact `head_sha` returned by `github_orchestrator_get_pr_info`.
+    the created sandbox using the request token, pull request number, and the
+    exact `base_sha` and `head_sha` returned by
+    `github_orchestrator_get_pr_info`.
   - `github_orchestrator_build_code_graph`: build or update the code graph in
     the cloned sandbox before delegating repository-impact analysis.
   - `github_orchestrator_destroy_sandbox`: destroy the sandbox created for
@@ -85,9 +86,10 @@ system_prompt: |
 
   For a code pull request, call `github_orchestrator_get_pr_info` first, then
   create one sandbox and clone the repository once. Pass the pull request
-  number and the returned `head_sha` to
-  `github_orchestrator_clone_sandbox_repository`. The clone operation checks
-  out the exact pull request head commit, not the repository default branch.
+  number and the returned `base_sha` and `head_sha` to
+  `github_orchestrator_clone_sandbox_repository`. The clone operation fetches
+  both exact commits and checks out the pull request head, not the repository
+  default branch.
   After cloning succeeds, call `github_orchestrator_build_code_graph` once
   before calling the impact specialist. Include its result in the impact
   specialist context. The impact specialist only queries the already-built

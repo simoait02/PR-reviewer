@@ -22,6 +22,7 @@ class CloneSandboxResponse(BaseModel):
     repository_owner: str
     repository_name: str
     pull_number: int
+    base_sha: str
     head_sha: str
     path: str
     status: Literal["cloned"]
@@ -82,11 +83,14 @@ class Sandbox:
         owner,
         repo,
         pull_number,
+        base_sha,
         head_sha,
         access_token=None,
     ):
         if pull_number < 1:
             raise SandboxError("pull number must be greater than zero")
+        if not re.fullmatch(r"[0-9a-fA-F]{40}", base_sha):
+            raise SandboxError("base_sha must be a full 40-character commit SHA")
         if not re.fullmatch(r"[0-9a-fA-F]{40}", head_sha):
             raise SandboxError("head_sha must be a full 40-character commit SHA")
 
@@ -104,6 +108,18 @@ class Sandbox:
         commands = [
             (["git", "init", "repo"], "/workspace"),
             (["git", "remote", "add", "origin", url], "/workspace/repo"),
+            (
+                [
+                    "git",
+                    "fetch",
+                    "--depth",
+                    "1",
+                    "--no-tags",
+                    "origin",
+                    base_sha,
+                ],
+                "/workspace/repo",
+            ),
             (
                 [
                     "git",
