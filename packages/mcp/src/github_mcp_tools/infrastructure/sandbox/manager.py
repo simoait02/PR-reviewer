@@ -6,6 +6,9 @@ from typing import ClassVar, Literal, Self
 import docker
 from docker.errors import NotFound
 from pydantic import BaseModel
+from pr_logging.core import get_logger
+
+logger = get_logger(__name__)
 
 
 class SandboxError(Exception):
@@ -41,6 +44,7 @@ class Sandbox:
     @classmethod
     def get_instance(cls) -> Self:
         if cls._instance is None:
+            logger.debug("Creating sandbox manager")
             cls._instance = cls()
         return cls._instance
 
@@ -50,7 +54,16 @@ class Sandbox:
         self.cpus = cpus
         self.memory = memory
 
+        logger.debug(
+            "Initialized sandbox manager with image '{}', CPUs={}, memory='{}'",
+            image,
+            cpus,
+            memory,
+        )
+
     async def create_sandbox(self):
+        logger.info("Creating Docker sandbox")
+
         container = await asyncio.to_thread(
             self.client.containers.run,
             image=self.image,
@@ -61,6 +74,12 @@ class Sandbox:
             labels={self._MANAGED_LABEL: self._MANAGED_VALUE},
             detach=True,
         )
+
+        logger.info(
+            "Created Docker sandbox '{}'",
+            container.id,
+        )
+
         return container.id
 
     async def _get_container(self, sandbox_id, missing_ok=False):
@@ -72,14 +91,33 @@ class Sandbox:
             await asyncio.to_thread(container.reload)
         except NotFound:
             if missing_ok:
+                logger.debug(
+                    "Sandbox '{}' was not found",
+                    sandbox_id,
+                )
                 return None
+            logger.error(
+                "Sandbox '{}' does not exist",
+                sandbox_id,
+            )
             raise SandboxError("sandbox does not exist") from None
 
         if container.labels.get(self._MANAGED_LABEL) != self._MANAGED_VALUE:
+            logger.error(
+                "Sandbox '{}' is not managed by this application",
+                sandbox_id,
+            )
             raise SandboxError("container is not managed by the sandbox")
         return container
 
     async def exec(self, sandbox_id, cmd, workdir=None, environment=None):
+        operation = cmd[0] if cmd else "unknown"
+        logger.debug(
+            "Executing '{}' in sandbox '{}'",
+            operation,
+            sandbox_id,
+        )
+
         container = await self._get_container(sandbox_id)
 
         result = await asyncio.to_thread(
@@ -90,7 +128,20 @@ class Sandbox:
             demux=True,
         )
         stdout, stderr = result.output
-        return result.exit_code, self._decode(stdout), self._decode(stderr)
+        stdout_text = self._decode(stdout)
+        stderr_text = self._decode(stderr)
+
+        log_method = logger.debug if result.exit_code == 0 else logger.warning
+        log_method(
+            "Sandbox operation '{}' completed with exit code {}, "
+            "stdout={} chars, stderr={} chars",
+            operation,
+            result.exit_code,
+            len(stdout_text),
+            len(stderr_text),
+        )
+
+        return result.exit_code, stdout_text, stderr_text
 
     async def clone(
         self,
@@ -102,6 +153,15 @@ class Sandbox:
         head_sha,
         access_token=None,
     ):
+        logger.info(
+            "Cloning {}/{} PR #{} into sandbox '{}' (authenticated={})",
+            owner,
+            repo,
+            pull_number,
+            sandbox_id,
+            bool(access_token),
+        )
+
         if pull_number < 1:
             raise SandboxError("pull number must be greater than zero")
         if not re.fullmatch(r"[0-9a-fA-F]{40}", base_sha):
@@ -158,6 +218,11 @@ class Sandbox:
                 environment=environment,
             )
             if result[0] != 0:
+                logger.warning(
+                    "Clone command '{}' failed in sandbox '{}'",
+                    command[1] if len(command) > 1 else command[0],
+                    sandbox_id,
+                )
                 return result
 
         result = await self.exec(
@@ -167,21 +232,42 @@ class Sandbox:
             environment=environment,
         )
         if result[0] != 0:
+            logger.warning(
+                "Could not verify cloned revision in sandbox '{}'",
+                sandbox_id,
+            )
             return result
 
         actual_sha = result[1].strip()
         if actual_sha.lower() != head_sha.lower():
+            logger.warning(
+                "Clone revision mismatch in sandbox '{}'",
+                sandbox_id,
+            )
             return (
                 1,
                 actual_sha,
                 f"checked out commit {actual_sha}, expected {head_sha}",
             )
 
+        logger.info(
+            "Cloned {}/{} PR #{} into sandbox '{}'",
+            owner,
+            repo,
+            pull_number,
+            sandbox_id,
+        )
+
         return 0, actual_sha, result[2]
 
     # --------------------------------------------------------------- teardown
 
     async def destroy_sandbox(self, sandbox_id):
+        logger.info(
+            "Destroying sandbox '{}'",
+            sandbox_id,
+        )
+
         container = await self._get_container(sandbox_id, missing_ok=True)
         if container is None:
             return False
@@ -193,7 +279,17 @@ class Sandbox:
                 v=True,
             )
         except NotFound:
+            logger.debug(
+                "Sandbox '{}' disappeared during destruction",
+                sandbox_id,
+            )
             return False
+
+        logger.info(
+            "Destroyed sandbox '{}'",
+            sandbox_id,
+        )
+
         return True
 
     @staticmethod

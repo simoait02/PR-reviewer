@@ -1,4 +1,3 @@
-import logging
 import os
 from collections.abc import Awaitable, Callable
 from pathlib import Path
@@ -13,9 +12,10 @@ from langchain_mcp_adapters.interceptors import (
     MCPToolCallResult,
 )
 from langchain_mcp_adapters.tools import load_mcp_tools
+from pr_logging.core import get_logger
 
 _REGISTRY_PATH = Path(__file__).parent / "servers.yaml"
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 def _runtime_github_token(runtime: ToolRuntime | None) -> str | None:
@@ -51,6 +51,11 @@ github_token_interceptor = GithubTokenInterceptor()
 
 
 def _load_registry() -> dict[str, MCPServer]:
+    logger.debug(
+        "Loading MCP server registry from '{}'",
+        _REGISTRY_PATH,
+    )
+
     with _REGISTRY_PATH.open() as f:
         raw_config: dict[str, Any] = yaml.safe_load(f) or {}
 
@@ -66,6 +71,11 @@ def _load_registry() -> dict[str, MCPServer]:
         }
         registry[name] = MCPServer.model_validate(server_config)
 
+    logger.debug(
+        "Loaded {} MCP server definitions",
+        len(registry),
+    )
+
     return registry
 
 
@@ -73,14 +83,29 @@ async def aload_agent_mcp_tools(
     servers: list[AgentMCPServer],
 ) -> list[BaseTool]:
     if not servers:
+        logger.debug("No MCP servers configured for agent")
         return []
+
+    logger.debug(
+        "Loading tools from {} MCP servers",
+        len(servers),
+    )
 
     registry = _load_registry()
     tools: list[BaseTool] = []
     for server in servers:
         curr_server = registry.get(server.name)
         if curr_server is None:
+            logger.error(
+                "MCP server '{}' is not registered",
+                server.name,
+            )
             raise ValueError(f"Unknown MCP server: {server.name}")
+
+        logger.debug(
+            "Connecting to MCP server '{}'",
+            server.name,
+        )
         connection = curr_server.model_dump()
 
         try:
@@ -93,16 +118,28 @@ async def aload_agent_mcp_tools(
                 server_name=server.name,
                 tool_name_prefix=True,
             )
-        except Exception:
+        except Exception:  # noqa: BLE001
             logger.warning(
-                "MCP server '%s' is unavailable; continuing without its tools",
+                "MCP server '{}' is unavailable; continuing without its tools",
                 server.name,
             )
-            logger.debug(
-                "MCP tool discovery failed for server '%s'",
+            logger.opt(exception=True).debug(
+                "MCP tool discovery failed for server '{}'",
                 server.name,
-                exc_info=True,
             )
             continue
+
+        logger.debug(
+            "Loaded {} tools from MCP server '{}'",
+            len(server_tools),
+            server.name,
+        )
         tools.extend(server_tools)
+
+    logger.info(
+        "Loaded {} MCP tools from {} configured servers",
+        len(tools),
+        len(servers),
+    )
+
     return tools

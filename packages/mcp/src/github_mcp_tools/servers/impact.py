@@ -4,10 +4,13 @@ from typing import Literal
 from fastmcp import FastMCP
 from pydantic import BaseModel
 
-from github_mcp_tools.domains.git_tools import (
+from github_mcp_tools.tools.git import (
     register_read_only_git_tools,
 )
-from github_mcp_tools.sandbox import Sandbox
+from github_mcp_tools.infrastructure.sandbox import Sandbox
+from pr_logging.core import get_logger
+
+logger = get_logger(__name__)
 
 
 class GraphQueryPattern(str, Enum):
@@ -46,6 +49,14 @@ async def _run_graph_command(
     sandbox_id: str,
     command: list[str],
 ) -> CodeGraphResponse:
+    operation = command[1] if len(command) > 1 else "unknown"
+
+    logger.debug(
+        "Running code graph operation '{}' in sandbox '{}'",
+        operation,
+        sandbox_id,
+    )
+
     sandbox = Sandbox.get_instance()
     exit_code, stdout, stderr = await sandbox.exec(
         sandbox_id,
@@ -55,6 +66,17 @@ async def _run_graph_command(
             "CRG_DATA_DIR": "/workspace/.pr-review/code-review-graph",
         },
     )
+
+    log_method = logger.debug if exit_code == 0 else logger.warning
+    log_method(
+        "Code graph operation '{}' completed with exit code {}, "
+        "stdout={} chars, stderr={} chars",
+        operation,
+        exit_code,
+        len(stdout),
+        len(stderr),
+    )
+
     return CodeGraphResponse(
         sandbox_id=sandbox_id,
         command=command,
@@ -100,12 +122,26 @@ async def get_code_graph_impact(
         graph results. Check ``status`` and ``exit_code`` before using the
         output as evidence.
     """
+    logger.info(
+        "Starting code graph impact analysis in sandbox '{}' with {} "
+        "changed files and max depth {}",
+        sandbox_id,
+        len(changed_files or []),
+        max_depth,
+    )
+
     command = ["code-review-graph", "impact"]
     if changed_files:
         command.extend(["--files", *changed_files])
     command.extend(["--depth", str(max_depth), "--base", base])
 
     result = await _run_graph_command(sandbox_id, command)
+    logger.debug(
+        "Completed code graph impact analysis in sandbox '{}' with status '{}'",
+        sandbox_id,
+        result.status,
+    )
+
     return CodeGraphImpactResponse(
         **result.model_dump(),
         base=base,
@@ -141,6 +177,12 @@ async def query_code_graph(
         graph results. A failed status means the query did not establish
         impact evidence.
     """
+    logger.info(
+        "Starting code graph query '{}' in sandbox '{}'",
+        pattern.value,
+        sandbox_id,
+    )
+
     command = [
         "code-review-graph",
         "query",
@@ -148,6 +190,13 @@ async def query_code_graph(
         target,
     ]
     result = await _run_graph_command(sandbox_id, command)
+    logger.debug(
+        "Completed code graph query '{}' in sandbox '{}' with status '{}'",
+        pattern.value,
+        sandbox_id,
+        result.status,
+    )
+
     return CodeGraphQueryResponse(
         **result.model_dump(),
         pattern=pattern,

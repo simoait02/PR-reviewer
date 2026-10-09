@@ -8,20 +8,31 @@ from sqlalchemy.ext.asyncio import (
     async_sessionmaker,
     create_async_engine,
 )
+from pr_logging.core import get_logger
 
 DEFAULT_DB_HOST = "localhost"
 DEFAULT_DB_PORT = "5432"
 EMBEDDING_MODEL = "text-embedding-3-small"
+logger = get_logger(__name__)
 
 
 def get_database_url() -> URL:
     """Build the shared database URL used by ingestion and retrieval."""
+    host = os.getenv("DB_HOST", DEFAULT_DB_HOST)
+    port = os.getenv("DB_PORT", DEFAULT_DB_PORT)
+
+    logger.debug(
+        "Building RAG database URL for host '{}' and port '{}'",
+        host,
+        port,
+    )
+
     return URL.create(
         drivername="postgresql+psycopg",
         username=os.environ["DB_USER"],
         password=os.environ["DB_PASSWORD"],
-        host=os.getenv("DB_HOST", DEFAULT_DB_HOST),
-        port=os.getenv("DB_PORT", DEFAULT_DB_PORT),
+        host=host,
+        port=port,
         database=os.environ["DB_NAME"],
     )
 
@@ -29,7 +40,9 @@ def get_database_url() -> URL:
 @lru_cache(maxsize=1)
 def get_engine() -> AsyncEngine:
     """Return the process-wide async engine for the RAG database."""
-    return create_async_engine(
+    logger.info("Creating RAG database engine")
+
+    engine = create_async_engine(
         get_database_url(),
         pool_size=5,
         max_overflow=2,
@@ -37,11 +50,21 @@ def get_engine() -> AsyncEngine:
         pool_pre_ping=True,
     )
 
+    logger.info("Created RAG database engine")
+
+    return engine
+
 
 @lru_cache(maxsize=1)
 def get_session_factory() -> async_sessionmaker[AsyncSession]:
     """Return the process-wide session factory backed by the shared database."""
-    return async_sessionmaker(
+    logger.debug("Creating RAG database session factory")
+
+    session_factory = async_sessionmaker(
         get_engine(),
         expire_on_commit=False,
     )
+
+    logger.debug("Created RAG database session factory")
+
+    return session_factory

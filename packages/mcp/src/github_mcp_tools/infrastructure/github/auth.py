@@ -1,6 +1,9 @@
 from fastmcp.server.dependencies import get_http_headers
 
-from github_mcp_tools.github_requests import GithubClient, GithubRequest
+from github_mcp_tools.infrastructure.github.client import (
+    GithubClient,
+    GithubRequest,
+)
 
 
 def get_github_token() -> str:

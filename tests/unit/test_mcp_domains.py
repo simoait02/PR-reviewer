@@ -2,7 +2,8 @@ import asyncio
 from types import SimpleNamespace
 
 import pytest
-from github_mcp_tools.domains import common, impact, orchestrator, security
+from github_mcp_tools.infrastructure.github import auth as common
+from github_mcp_tools.servers import impact, orchestrator, security
 
 
 def run(coroutine):

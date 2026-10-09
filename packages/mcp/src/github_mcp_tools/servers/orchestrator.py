@@ -5,19 +5,21 @@ from fastmcp import FastMCP
 from fastmcp.exceptions import ToolError
 from pydantic import BaseModel
 
-from github_mcp_tools.domains.common import (
+from github_mcp_tools.infrastructure.github.auth import (
     get_client,
     get_github_token,
 )
-from github_mcp_tools.sandbox import (
+from github_mcp_tools.infrastructure.sandbox import (
     CloneSandboxResponse,
     CreateSandboxResponse,
     DestroySandboxResponse,
     Sandbox,
     SandboxError,
 )
+from pr_logging.core import get_logger
 
 mcp = FastMCP("github-orchestrator-tools")
+logger = get_logger(__name__)
 
 
 class BuildCodeGraphResponse(BaseModel):
@@ -48,8 +50,21 @@ async def get_pr_info(
         Pull-request metadata as a dictionary. Confirm that the base and head
         SHAs are present before creating a sandbox or cloning source code.
     """
+    logger.debug(
+        "Fetching pull request info for {}/{} PR #{}",
+        repository_owner,
+        repository_name,
+        pull_number,
+    )
+
     client = get_client(repository_owner, repository_name)
     pr = await client.fetch_pr_infos(pull_number)
+    logger.debug(
+        "Fetched pull request info for {}/{} PR #{}",
+        repository_owner,
+        repository_name,
+        pull_number,
+    )
     return pr.model_dump()
 
 
@@ -77,6 +92,14 @@ async def get_pr_comments(
         the complete discussion unless the response confirms there is no next
         page.
     """
+    logger.debug(
+        "Fetching pull request comments for {}/{} PR #{} page {}",
+        repository_owner,
+        repository_name,
+        pull_number,
+        page,
+    )
+
     client = get_client(repository_owner, repository_name)
     comment_page = await client.fetch_pr_comments(pull_number, page)
     return comment_page.model_dump(mode="json", exclude_none=True)
@@ -105,6 +128,14 @@ async def get_pr_reviews(
         One page of submitted reviews and pagination metadata. A single page
         is not proof that all reviews have been retrieved.
     """
+    logger.debug(
+        "Fetching pull request reviews for {}/{} PR #{} page {}",
+        repository_owner,
+        repository_name,
+        pull_number,
+        page,
+    )
+
     client = get_client(repository_owner, repository_name)
     review_page = await client.fetch_pr_reviews(pull_number, page)
     return review_page.model_dump(mode="json", exclude_none=True)
@@ -134,6 +165,14 @@ async def get_pr_review_comments(
         One page of inline review comments and pagination metadata. Preserve
         the file and line references when passing relevant comments onward.
     """
+    logger.debug(
+        "Fetching inline review comments for {}/{} PR #{} page {}",
+        repository_owner,
+        repository_name,
+        pull_number,
+        page,
+    )
+
     client = get_client(repository_owner, repository_name)
     comment_page = await client.fetch_pr_review_comments(pull_number, page)
     return comment_page.model_dump(mode="json", exclude_none=True)
@@ -153,11 +192,16 @@ async def create_sandbox() -> CreateSandboxResponse:
         A running sandbox ID. If creation fails, no repository evidence is
         available from the sandbox.
     """
+    logger.info("Creating repository sandbox")
+
     sandbox = Sandbox.get_instance()
     try:
         container_id = await sandbox.create_sandbox()
     except (DockerException, SandboxError) as exc:
+        logger.opt(exception=True).error("Failed to create repository sandbox")
         raise ToolError(f"Sandbox could not be created: {exc}") from exc
+
+    logger.info("Created repository sandbox")
 
     return CreateSandboxResponse(sandbox_id=container_id, status="running")
 
@@ -191,6 +235,14 @@ async def clone_sandbox_repository(
         operation succeeded and that the returned head SHA matches the PR
         metadata before claiming repository inspection.
     """
+    logger.info(
+        "Cloning {}/{} PR #{} into sandbox '{}'",
+        repository_owner,
+        repository_name,
+        pull_number,
+        sandbox_id,
+    )
+
     sandbox = Sandbox.get_instance()
     try:
         exit_code, stdout, stderr = await sandbox.clone(
@@ -203,11 +255,35 @@ async def clone_sandbox_repository(
             access_token=get_github_token(),
         )
     except SandboxError as exc:
+        logger.opt(exception=True).error(
+            "Failed to clone {}/{} PR #{} into sandbox '{}'",
+            repository_owner,
+            repository_name,
+            pull_number,
+            sandbox_id,
+        )
         raise ToolError(f"Repository could not be cloned: {exc}") from exc
 
     if exit_code != 0:
+        logger.warning(
+            "Repository clone failed for {}/{} PR #{} in sandbox '{}' "
+            "with exit code {}",
+            repository_owner,
+            repository_name,
+            pull_number,
+            sandbox_id,
+            exit_code,
+        )
         detail = stderr or stdout or "git clone failed"
         raise ToolError(f"Repository could not be cloned: {detail}")
+
+    logger.info(
+        "Cloned {}/{} PR #{} into sandbox '{}'",
+        repository_owner,
+        repository_name,
+        pull_number,
+        sandbox_id,
+    )
 
     return CloneSandboxResponse(
         sandbox_id=sandbox_id,
@@ -237,6 +313,11 @@ async def build_code_graph(sandbox_id: str) -> BuildCodeGraphResponse:
         failed status. A failed graph build means graph-based impact evidence
         is unavailable.
     """
+    logger.info(
+        "Building code graph in sandbox '{}'",
+        sandbox_id,
+    )
+
     sandbox = Sandbox.get_instance()
 
     exit_code, stdout, stderr = await sandbox.exec(
@@ -247,6 +328,16 @@ async def build_code_graph(sandbox_id: str) -> BuildCodeGraphResponse:
             "CRG_DATA_DIR": "/workspace/.pr-review/code-review-graph",
         },
     )
+    log_method = logger.debug if exit_code == 0 else logger.warning
+    log_method(
+        "Code graph build in sandbox '{}' completed with exit code {}, "
+        "stdout={} chars, stderr={} chars",
+        sandbox_id,
+        exit_code,
+        len(stdout),
+        len(stderr),
+    )
+
     return BuildCodeGraphResponse(
         sandbox_id=sandbox_id,
         command=["code-review-graph", "build"],
@@ -272,12 +363,27 @@ async def destroy_sandbox(sandbox_id: str) -> DestroySandboxResponse:
         Destruction status. ``destroyed`` confirms cleanup; ``not_found`` is
         acceptable when the sandbox has already disappeared.
     """
+    logger.info(
+        "Destroying repository sandbox '{}'",
+        sandbox_id,
+    )
+
     sandbox = Sandbox.get_instance()
 
     try:
         destroyed = await sandbox.destroy_sandbox(sandbox_id)
     except (DockerException, SandboxError) as exc:
+        logger.opt(exception=True).error(
+            "Failed to destroy repository sandbox '{}'",
+            sandbox_id,
+        )
         raise ToolError(f"Sandbox could not be destroyed: {exc}") from exc
+
+    logger.info(
+        "Destroyed repository sandbox '{}' with status '{}'",
+        sandbox_id,
+        "destroyed" if destroyed else "not_found",
+    )
 
     return DestroySandboxResponse(
         sandbox_id=sandbox_id,

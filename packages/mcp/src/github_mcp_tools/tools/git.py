@@ -1,7 +1,8 @@
 from fastmcp.exceptions import ToolError
 from pydantic import BaseModel
 
-from github_mcp_tools.sandbox import Sandbox
+from github_mcp_tools.infrastructure.sandbox import Sandbox
+from pr_logging.core import get_logger
 
 WORKDIR = "/workspace/repo"
 MAX_OUTPUT_CHARS = 100_000
@@ -13,6 +14,7 @@ GIT_ENV = {
     "GIT_PAGER": "cat",
     "GIT_LITERAL_PATHSPECS": "1",
 }
+logger = get_logger(__name__)
 
 
 class GitResult(BaseModel):
@@ -221,12 +223,34 @@ async def _run(
     validate_repository_paths(paths)
 
     command = ["git", *args, *revisions, "--", *paths]
+    operation = args[0] if args else "unknown"
+
+    logger.debug(
+        "Running git operation '{}' in sandbox '{}' with {} revisions "
+        "and {} paths",
+        operation,
+        sandbox_id,
+        len(revisions),
+        len(paths),
+    )
+
     exit_code, stdout, stderr = await Sandbox.get_instance().exec(
         sandbox_id,
         command,
         workdir=WORKDIR,
         environment=GIT_ENV,
     )
+
+    log_method = logger.debug if exit_code == 0 else logger.warning
+    log_method(
+        "Git operation '{}' completed with exit code {}, "
+        "stdout={} chars, stderr={} chars",
+        operation,
+        exit_code,
+        len(stdout),
+        len(stderr),
+    )
+
     return GitResult(
         exit_code=exit_code,
         stdout=_truncate(stdout),

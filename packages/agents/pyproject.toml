@@ -18,7 +18,11 @@ dependencies = [
     "opentelemetry-exporter-otlp>=1.39.0,<2.0.0",
     "opentelemetry-sdk>=1.44.0,<2.0.0",
     "pyyaml>=6.0",
+    "pr-logging"
 ]
+
+[tool.uv.sources]
+pr-logging = { path = "../logging", editable = true }
 
 [project.scripts]
 agents = "agents:main"

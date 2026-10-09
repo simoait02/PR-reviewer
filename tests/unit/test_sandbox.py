@@ -3,7 +3,7 @@ from types import SimpleNamespace
 
 import pytest
 from docker.errors import NotFound
-from github_mcp_tools.sandbox import Sandbox, SandboxError
+from github_mcp_tools.infrastructure.sandbox import Sandbox, SandboxError
 
 
 def run(coroutine):
