@@ -50,8 +50,10 @@ services:
   sandbox-docker:
     image: docker:27-dind-rootless
     privileged: true
+    hostname: sandbox-docker
     environment:
       DOCKER_TLS_CERTDIR: /certs
+      DOCKER_TLS_SAN: DNS:sandbox-docker
     volumes:
       - sandbox-docker-data:/home/rootless/.local/share/docker
       - sandbox-docker-certs:/certs

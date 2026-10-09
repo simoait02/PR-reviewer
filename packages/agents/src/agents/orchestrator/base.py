@@ -2,8 +2,9 @@ from collections.abc import Sequence
 from typing import Any
 
 from langchain.agents import create_agent
+from langchain.agents.middleware import AgentMiddleware
 from langchain_core.language_models import BaseChatModel
-from langchain_core.messages import HumanMessage
+from langchain_core.messages import HumanMessage, ToolMessage
 from langchain_core.tools import BaseTool
 from langgraph.checkpoint.base import BaseCheckpointSaver
 
@@ -11,6 +12,36 @@ from agents.internal.base import BaseAgent
 from agents.internal.protocol import AgentRequest, AgentRuntimeContext
 from agents.mcp.loader import aload_agent_mcp_tools
 from agents.orchestrator.schemas import OrchestratorConfig, OrchestratorResponse
+
+
+class ToolErrorsAsObservations(AgentMiddleware):
+    """Return tool failures to the model as tool messages instead of raising."""
+
+    @staticmethod
+    def _error_message(request, exc: Exception) -> ToolMessage:
+        name = request.tool_call["name"]
+        return ToolMessage(
+            content=(
+                f"Tool `{name}` failed: {exc}\n"
+                "Decide whether to retry with different arguments, continue "
+                "without this result, or report the limitation."
+            ),
+            tool_call_id=request.tool_call["id"],
+            name=name,
+            status="error",
+        )
+
+    def wrap_tool_call(self, request, handler):
+        try:
+            return handler(request)
+        except Exception as exc:  # noqa: BLE001 - expose tool failures to the model
+            return self._error_message(request, exc)
+
+    async def awrap_tool_call(self, request, handler):
+        try:
+            return await handler(request)
+        except Exception as exc:  # noqa: BLE001 - expose tool failures to the model
+            return self._error_message(request, exc)
 
 
 class BaseOrchestrator:
@@ -56,6 +87,7 @@ class BaseOrchestrator:
             name=self.name,
             context_schema=AgentRuntimeContext,
             checkpointer=self.checkpointer,
+            middleware=[ToolErrorsAsObservations()],
         )
         return self._graph
 

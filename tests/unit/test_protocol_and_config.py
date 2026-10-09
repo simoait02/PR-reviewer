@@ -39,7 +39,7 @@ def test_review_models_use_safe_defaults():
 def test_model_config_defaults_are_stable():
     config = ModelConfig()
     assert config.temperature == 0
-    assert config.use_responses_api is True
+    assert config.use_responses_api is False
 
 
 def test_load_agent_yaml_reads_each_agent_configuration():

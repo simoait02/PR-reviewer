@@ -3,7 +3,8 @@ name: impact
 model:
   name: gpt-5.6-luna
   temperature: 0
-  use_responses_api: true
+  use_responses_api: false
+  reasoning: medium
 
 description: >-
   Analyzes downstream impact using the repository evidence supplied by the

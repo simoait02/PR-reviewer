@@ -9,9 +9,11 @@ from pydantic import BaseModel, Field
 
 
 class ModelConfig(BaseModel):
+    provider: str = "openai"
     name: str = "gpt-5.6-luna"
     temperature: float = 0.0
-    use_responses_api: bool = True
+    use_responses_api: bool = False
+    reasoning: str | None = None
 
 
 class AgentConfig(BaseModel):

@@ -78,7 +78,28 @@ async def get_code_graph_impact(
     changed_files: list[str] | None = None,
     max_depth: int = 2,
 ) -> CodeGraphImpactResponse:
-    """Find the downstream impact of changed files from a PR base revision."""
+    """Analyze downstream consumers affected by pull-request changes.
+
+    Use this after the repository has been cloned and the code graph has been
+    built. It is appropriate when changed symbols, interfaces, modules, or
+    files may affect callers, tests, or dependent components. Do not use it
+    when no implementation evidence or changed files are available.
+
+    Args:
+        sandbox_id: ID of a running sandbox containing the cloned repository
+            and a successfully built code graph.
+        base: Base commit or revision used to determine the pull-request
+            changes.
+        changed_files: Optional repository-relative files to scope the impact
+            analysis. Leave unset to analyze all changes relative to ``base``.
+        max_depth: Maximum dependency depth to follow. Use a smaller value for
+            focused results and increase it only when deeper consumers matter.
+
+    Returns:
+        Impact-analysis output with the command status, changed files, and
+        graph results. Check ``status`` and ``exit_code`` before using the
+        output as evidence.
+    """
     command = ["code-review-graph", "impact"]
     if changed_files:
         command.extend(["--files", *changed_files])
@@ -99,7 +120,27 @@ async def query_code_graph(
     pattern: GraphQueryPattern,
     target: str,
 ) -> CodeGraphQueryResponse:
-    """Query callers, references, imports, tests, or summaries in the code graph."""
+    """Query relationships or summaries in the built repository code graph.
+
+    Use this for a focused impact question after ``build_code_graph`` has
+    succeeded. Choose the pattern that matches the relationship being tested,
+    then provide the exact symbol, file, or target expected by that query.
+
+    Args:
+        sandbox_id: ID of a running sandbox containing the cloned repository
+            and built code graph.
+        pattern: Relationship to inspect, such as ``callers_of``,
+            ``references_to``, ``callees_of``, ``imports_of``,
+            ``importers_of``, ``children_of``, ``tests_for``,
+            ``inheritors_of``, or ``file_summary``.
+        target: Exact graph target, such as a symbol name or repository-
+            relative file path, appropriate for the selected pattern.
+
+    Returns:
+        Query output with the selected pattern, target, command status, and
+        graph results. A failed status means the query did not establish
+        impact evidence.
+    """
     command = [
         "code-review-graph",
         "query",
