@@ -2,7 +2,8 @@ name: reviewer
 model:
   name: gpt-5.6-luna
   temperature: 0
-  use_responses_api: true
+  use_responses_api: false
+  reasoning: medium
 
 description: >-
   Reviews a pull request against the metadata, files, diffs, and discussion
@@ -49,6 +50,11 @@ system_prompt: |
   Treat a non-zero exit code as command evidence, not as permission to invent
   a result. Do not access GitHub directly or perform writes or destructive
   operations in the sandbox.
+
+  Use `github_reviewer_search_best_practices` when a review question benefits
+  from the project's documented engineering guidance. Treat retrieved guidance
+  as review context, not as proof of a defect, and do not claim a rule applies
+  unless the pull request evidence supports it.
 
 mcp_servers:
   - name: github_reviewer

@@ -3,6 +3,7 @@ from collections.abc import Sequence
 from typing import Any, ClassVar
 
 from agents.internal.config import load_agent_yaml
+from agents.internal.model_factory import build_chat_model
 from agents.internal.protocol import (
     AgentRequest,
     AgentResponse,
@@ -14,7 +15,6 @@ from langchain.tools import ToolRuntime
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import HumanMessage
 from langchain_core.tools import BaseTool, StructuredTool
-from langchain_openai import ChatOpenAI
 
 
 class BaseAgent(ABC):
@@ -25,11 +25,7 @@ class BaseAgent(ABC):
         model: BaseChatModel | None = None,
     ):
         self.config = load_agent_yaml(type(self))
-        self.model = model or ChatOpenAI(
-            model=self.config.model.name,
-            temperature=self.config.model.temperature,
-            use_responses_api=self.config.model.use_responses_api,
-        )
+        self.model = model or build_chat_model(self.config.model)
         self._graph = None
 
     @abstractmethod

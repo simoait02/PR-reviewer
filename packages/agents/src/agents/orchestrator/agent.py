@@ -5,10 +5,10 @@ from typing import Any
 
 import yaml
 from langchain_core.language_models import BaseChatModel
-from langchain_openai import ChatOpenAI
 from langgraph.checkpoint.base import BaseCheckpointSaver
 from langgraph.checkpoint.memory import InMemorySaver
 
+from agents.internal.model_factory import build_chat_model
 from agents.orchestrator.base import BaseOrchestrator
 from agents.orchestrator.schemas import OrchestratorConfig
 from agents.sub_agents import AGENT_MAP
@@ -44,11 +44,7 @@ class CodeReviewOrchestrator(BaseOrchestrator):
         config = cls._load_config()
         checkpointer = InMemorySaver()
         orchestrator = cls(
-            model=ChatOpenAI(
-                model=config.model.name,
-                temperature=config.model.temperature,
-                use_responses_api=config.model.use_responses_api,
-            ),
+            model=build_chat_model(config.model),
             checkpointer=checkpointer,
         )
         return orchestrator
