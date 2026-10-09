@@ -15,7 +15,6 @@ from langchain.tools import ToolRuntime
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import HumanMessage
 from langchain_core.tools import BaseTool, StructuredTool
-
 from pr_logging.core import get_logger
 
 logger = get_logger(__name__)

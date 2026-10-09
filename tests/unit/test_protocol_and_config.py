@@ -1,4 +1,5 @@
 import pytest
+from agents.internal import model_factory
 from agents.internal.config import AgentConfig, ModelConfig, load_agent_yaml
 from agents.internal.protocol import (
     AgentRequest,
@@ -40,6 +41,37 @@ def test_model_config_defaults_are_stable():
     config = ModelConfig()
     assert config.temperature == 0
     assert config.use_responses_api is False
+
+
+def test_build_chat_model_uses_configured_openai_options(monkeypatch):
+    captured = {}
+
+    class FakeChatOpenAI:
+        def __init__(self, **kwargs):
+            captured.update(kwargs)
+
+    monkeypatch.setattr(model_factory, "ChatOpenAI", FakeChatOpenAI)
+
+    result = model_factory.build_chat_model(
+        ModelConfig(
+            name="gpt-5.6-luna",
+            temperature=0.2,
+            reasoning="low",
+        )
+    )
+
+    assert isinstance(result, FakeChatOpenAI)
+    assert captured == {
+        "model": "gpt-5.6-luna",
+        "temperature": 0.2,
+        "reasoning_effort": "low",
+        "use_responses_api": True,
+    }
+
+
+def test_build_chat_model_rejects_unsupported_provider():
+    with pytest.raises(ValueError, match="Unsupported model provider"):
+        model_factory.build_chat_model(ModelConfig(provider="anthropic"))
 
 
 def test_load_agent_yaml_reads_each_agent_configuration():

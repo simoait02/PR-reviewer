@@ -2,8 +2,9 @@ import asyncio
 from types import SimpleNamespace
 
 import pytest
+from fastmcp.exceptions import ToolError
 from github_mcp_tools.infrastructure.github import auth as common
-from github_mcp_tools.servers import impact, orchestrator, security
+from github_mcp_tools.servers import impact, orchestrator, reviewer, security
 
 
 def run(coroutine):
@@ -185,3 +186,40 @@ def test_security_tools_validate_inputs_and_run_profiles(monkeypatch):
         run(security.check_input_validation("sandbox-id", "base")).profile
         == "input_validation"
     )
+
+
+def test_reviewer_search_validates_and_queries_best_practices(monkeypatch):
+    calls = []
+
+    class FakeRetriever:
+        async def search(self, **kwargs):
+            calls.append(kwargs)
+            return ["guidance"]
+
+    monkeypatch.setattr(
+        reviewer,
+        "get_best_practices_retriever",
+        lambda: FakeRetriever(),
+    )
+
+    with pytest.raises(ToolError, match="query must not be empty"):
+        run(reviewer.search_best_practices("  "))
+
+    with pytest.raises(ToolError, match="limit must be greater than zero"):
+        run(reviewer.search_best_practices("authentication", limit=0))
+
+    result = run(
+        reviewer.search_best_practices(
+            "authentication requirements",
+            limit=3,
+        )
+    )
+
+    assert result == ["guidance"]
+    assert calls == [
+        {
+            "query": "authentication requirements",
+            "category": None,
+            "limit": 3,
+        }
+    ]

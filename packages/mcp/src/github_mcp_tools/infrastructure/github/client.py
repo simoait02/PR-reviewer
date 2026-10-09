@@ -3,8 +3,8 @@ from typing import Any
 
 import httpx
 from fastmcp.exceptions import ToolError
-from pydantic import BaseModel, Field
 from pr_logging.core import get_logger
+from pydantic import BaseModel, Field
 
 logger = get_logger(__name__)
 
@@ -103,9 +103,7 @@ class GithubClient:
                 response = await client.get(url, params=params)
                 response.raise_for_status()
         except httpx.TimeoutException as exc:
-            logger.opt(exception=True).warning(
-                "GitHub API request timed out"
-            )
+            logger.opt(exception=True).warning("GitHub API request timed out")
             raise GithubAPIError("GitHub API request timed out") from exc
         except httpx.HTTPStatusError as exc:
             logger.opt(exception=True).warning(

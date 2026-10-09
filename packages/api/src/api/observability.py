@@ -36,7 +36,8 @@ def configure_tracing() -> None:
                     "service.name": "pr-reviewer-api",
                     "openinference.project.name": project_name,
                 }
-            )
+            ),
+            span_limits=trace_sdk.SpanLimits(max_span_attributes=10_000),
         )
         tracer_provider.add_span_processor(
             BatchSpanProcessor(

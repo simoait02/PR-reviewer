@@ -1,8 +1,8 @@
 from fastmcp.exceptions import ToolError
+from pr_logging.core import get_logger
 from pydantic import BaseModel
 
 from github_mcp_tools.infrastructure.sandbox import Sandbox
-from pr_logging.core import get_logger
 
 WORKDIR = "/workspace/repo"
 MAX_OUTPUT_CHARS = 100_000
@@ -226,8 +226,7 @@ async def _run(
     operation = args[0] if args else "unknown"
 
     logger.debug(
-        "Running git operation '{}' in sandbox '{}' with {} revisions "
-        "and {} paths",
+        "Running git operation '{}' in sandbox '{}' with {} revisions and {} paths",
         operation,
         sandbox_id,
         len(revisions),

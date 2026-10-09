@@ -2,13 +2,13 @@ from enum import Enum
 from typing import Literal
 
 from fastmcp import FastMCP
+from pr_logging.core import get_logger
 from pydantic import BaseModel
 
+from github_mcp_tools.infrastructure.sandbox import Sandbox
 from github_mcp_tools.tools.git import (
     register_read_only_git_tools,
 )
-from github_mcp_tools.infrastructure.sandbox import Sandbox
-from pr_logging.core import get_logger
 
 logger = get_logger(__name__)
 

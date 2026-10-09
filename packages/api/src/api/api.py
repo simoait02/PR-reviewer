@@ -9,11 +9,11 @@ from fastapi import Depends, FastAPI, Header, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi.sse import EventSourceResponse, ServerSentEvent
+from pr_logging.core import get_logger
 
 from api.dependencies import get_pipeline
 from api.observability import configure_tracing
 from api.schemas import UserQuestion
-from pr_logging.core import get_logger
 
 github_bearer = HTTPBearer(auto_error=False)
 logger = get_logger(__name__)
@@ -92,7 +92,7 @@ async def review(
             "Completed review request with correlation id '{}'",
             thread_id,
         )
-    except Exception:  # noqa: BLE001 - log and propagate API request failures
+    except Exception:
         logger.exception(
             "Review request failed with correlation id '{}'",
             thread_id,

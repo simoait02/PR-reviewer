@@ -7,12 +7,12 @@ import yaml
 from langchain_core.language_models import BaseChatModel
 from langgraph.checkpoint.base import BaseCheckpointSaver
 from langgraph.checkpoint.memory import InMemorySaver
+from pr_logging.core import get_logger
 
 from agents.internal.model_factory import build_chat_model
 from agents.orchestrator.base import BaseOrchestrator
 from agents.orchestrator.schemas import OrchestratorConfig
 from agents.sub_agents import AGENT_MAP
-from pr_logging.core import get_logger
 
 logger = get_logger(__name__)
 

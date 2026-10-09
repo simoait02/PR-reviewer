@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastmcp.utilities.lifespan import combine_lifespans
+from pr_logging.core import get_logger
 
 from github_mcp_tools.servers import DOMAINS
-from pr_logging.core import get_logger
 
 logger = get_logger(__name__)
 

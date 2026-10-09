@@ -5,8 +5,8 @@ from typing import ClassVar, Literal, Self
 
 import docker
 from docker.errors import NotFound
-from pydantic import BaseModel
 from pr_logging.core import get_logger
+from pydantic import BaseModel
 
 logger = get_logger(__name__)
 

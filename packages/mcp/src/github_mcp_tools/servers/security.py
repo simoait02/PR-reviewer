@@ -2,14 +2,14 @@ from typing import Literal
 
 from fastmcp import FastMCP
 from fastmcp.exceptions import ToolError
+from pr_logging.core import get_logger
 from pydantic import BaseModel
 
+from github_mcp_tools.infrastructure.sandbox import Sandbox
 from github_mcp_tools.tools.git import (
     register_read_only_git_tools,
     validate_repository_paths,
 )
-from github_mcp_tools.infrastructure.sandbox import Sandbox
-from pr_logging.core import get_logger
 
 _SECURITY_RULES = "/opt/pr-reviewer/security-rules"
 logger = get_logger(__name__)
@@ -102,8 +102,7 @@ async def _run_semgrep(
     validate_repository_paths(targets)
 
     logger.info(
-        "Starting '{}' security scan in sandbox '{}' with {} "
-        "changed files",
+        "Starting '{}' security scan in sandbox '{}' with {} changed files",
         profile,
         sandbox_id,
         len(files),
@@ -291,8 +290,7 @@ async def search_code(
     search_paths = paths or []
 
     logger.info(
-        "Searching security code in sandbox '{}' with regex={} across "
-        "{} paths",
+        "Searching security code in sandbox '{}' with regex={} across {} paths",
         sandbox_id,
         regex,
         len(search_paths),

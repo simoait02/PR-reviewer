@@ -3,6 +3,7 @@ from typing import Any, Literal
 from docker.errors import DockerException
 from fastmcp import FastMCP
 from fastmcp.exceptions import ToolError
+from pr_logging.core import get_logger
 from pydantic import BaseModel
 
 from github_mcp_tools.infrastructure.github.auth import (
@@ -16,7 +17,6 @@ from github_mcp_tools.infrastructure.sandbox import (
     Sandbox,
     SandboxError,
 )
-from pr_logging.core import get_logger
 
 mcp = FastMCP("github-orchestrator-tools")
 logger = get_logger(__name__)

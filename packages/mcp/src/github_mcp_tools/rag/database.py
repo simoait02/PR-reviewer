@@ -1,6 +1,7 @@
 import os
 from functools import lru_cache
 
+from pr_logging.core import get_logger
 from sqlalchemy import URL
 from sqlalchemy.ext.asyncio import (
     AsyncEngine,
@@ -8,7 +9,6 @@ from sqlalchemy.ext.asyncio import (
     async_sessionmaker,
     create_async_engine,
 )
-from pr_logging.core import get_logger
 
 DEFAULT_DB_HOST = "localhost"
 DEFAULT_DB_PORT = "5432"

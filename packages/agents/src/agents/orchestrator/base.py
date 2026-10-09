@@ -7,12 +7,12 @@ from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import HumanMessage, ToolMessage
 from langchain_core.tools import BaseTool
 from langgraph.checkpoint.base import BaseCheckpointSaver
+from pr_logging.core import get_logger
 
 from agents.internal.base import BaseAgent
 from agents.internal.protocol import AgentRequest, AgentRuntimeContext
 from agents.mcp.loader import aload_agent_mcp_tools
 from agents.orchestrator.schemas import OrchestratorConfig, OrchestratorResponse
-from pr_logging.core import get_logger
 
 logger = get_logger(__name__)
 

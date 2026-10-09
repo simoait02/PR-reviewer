@@ -3,11 +3,14 @@ FROM astral/uv:python3.12-trixie-slim AS builder
 WORKDIR /app
 
 COPY pyproject.toml uv.lock ./
+COPY packages/logging/pyproject.toml packages/logging/pyproject.toml
+COPY packages/logging/README.md packages/logging/README.md
 COPY packages/agents/pyproject.toml packages/agents/pyproject.toml
 COPY packages/agents/README.md packages/agents/README.md
 COPY packages/api/pyproject.toml packages/api/pyproject.toml
 COPY packages/api/README.md packages/api/README.md
 COPY packages/mcp/pyproject.toml packages/mcp/pyproject.toml
+COPY packages/logging/src packages/logging/src
 
 RUN uv sync --locked --package api --no-dev --no-install-workspace
 
@@ -26,6 +29,7 @@ RUN apt-get update \
 COPY --from=builder /app/.venv /app/.venv
 COPY --from=builder /app/packages/agents/src /app/packages/agents/src
 COPY --from=builder /app/packages/api/src /app/packages/api/src
+COPY --from=builder /app/packages/logging/src /app/packages/logging/src
 
 ENV PATH="/app/.venv/bin:$PATH" \
     PYTHONDONTWRITEBYTECODE=1 \

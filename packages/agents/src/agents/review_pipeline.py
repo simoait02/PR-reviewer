@@ -5,13 +5,13 @@ from typing import Any, TypedDict
 
 from langgraph.graph import END, START, StateGraph
 from langgraph.runtime import Runtime
+from pr_logging.core import get_logger
 
 from agents.internal.protocol import AgentRequest
 from agents.orchestrator.agent import CodeReviewOrchestrator
 from agents.orchestrator.schemas import OrchestratorResponse
 from agents.synthesizer.agent import Synthesizer
 from agents.synthesizer.schema import SynthesizerRequest, SynthesizerResponse
-from pr_logging.core import get_logger
 
 logger = get_logger(__name__)
 

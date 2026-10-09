@@ -3,10 +3,13 @@ FROM astral/uv:python3.12-trixie-slim AS builder
 WORKDIR /app
 
 COPY pyproject.toml uv.lock ./
+COPY packages/logging/pyproject.toml packages/logging/pyproject.toml
+COPY packages/logging/README.md packages/logging/README.md
 COPY packages/agents/pyproject.toml packages/agents/pyproject.toml
 COPY packages/api/pyproject.toml packages/api/pyproject.toml
 COPY packages/mcp/pyproject.toml packages/mcp/pyproject.toml
 COPY packages/mcp/README.md packages/mcp/README.md
+COPY packages/logging/src packages/logging/src
 
 RUN uv sync --locked --package github-mcp-tools --no-dev --no-install-workspace
 
@@ -27,6 +30,7 @@ RUN apt-get update \
 
 COPY --from=builder /app/.venv /app/.venv
 COPY --from=builder /app/packages/mcp/src /app/packages/mcp/src
+COPY --from=builder /app/packages/logging/src /app/packages/logging/src
 
 ENV PATH="/app/.venv/bin:$PATH" \
     PYTHONDONTWRITEBYTECODE=1 \

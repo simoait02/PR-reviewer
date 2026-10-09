@@ -1,12 +1,12 @@
 from fastmcp import FastMCP
 from fastmcp.exceptions import ToolError
+from pr_logging.core import get_logger
 
+from github_mcp_tools.rag.models import BestPracticeResult, Category
+from github_mcp_tools.rag.service import get_best_practices_retriever
 from github_mcp_tools.tools.git import (
     register_read_only_git_tools,
 )
-from github_mcp_tools.rag.models import BestPracticeResult, Category
-from github_mcp_tools.rag.service import get_best_practices_retriever
-from pr_logging.core import get_logger
 
 mcp = FastMCP("github-reviewer-tools")
 register_read_only_git_tools(mcp)

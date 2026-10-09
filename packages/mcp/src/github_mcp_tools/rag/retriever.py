@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from openai import AsyncOpenAI
+from pr_logging.core import get_logger
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
@@ -14,7 +15,6 @@ from github_mcp_tools.rag.models import (
     Document,
     Embedding,
 )
-from pr_logging.core import get_logger
 
 logger = get_logger(__name__)
 

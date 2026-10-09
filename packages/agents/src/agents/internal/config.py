@@ -5,9 +5,8 @@ from pathlib import Path
 
 import yaml
 from agents.mcp.config import AgentMCPServer
-from pydantic import BaseModel, Field, ValidationError
-
 from pr_logging.core import get_logger
+from pydantic import BaseModel, Field, ValidationError
 
 logger = get_logger(__name__)
 

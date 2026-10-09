@@ -2,8 +2,8 @@ import asyncio
 from types import SimpleNamespace
 from unittest.mock import patch
 
-from github_mcp_tools.rag import service as rag_service
 from github_mcp_tools.rag import database
+from github_mcp_tools.rag import service as rag_service
 from github_mcp_tools.rag.models import Category
 from github_mcp_tools.rag.retriever import BestPracticesRetriever
 
