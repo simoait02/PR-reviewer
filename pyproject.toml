@@ -26,6 +26,9 @@ members = [
 testpaths = ["tests/unit"]
 addopts = "-ra"
 
+[tool.ruff.lint]
+ignore = ["PLE1205"]
+
 [tool.coverage.run]
 omit = [
     "*/__init__.py",

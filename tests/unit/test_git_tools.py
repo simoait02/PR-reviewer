@@ -2,7 +2,8 @@ import asyncio
 
 import pytest
 from fastmcp.exceptions import ToolError
-from github_mcp_tools.domains import git_tools, security
+from github_mcp_tools.servers import security
+from github_mcp_tools.tools import git as git_tools
 
 
 def run(coroutine):

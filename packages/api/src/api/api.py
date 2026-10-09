@@ -9,22 +9,28 @@ from fastapi import Depends, FastAPI, Header, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastapi.sse import EventSourceResponse, ServerSentEvent
+from pr_logging.core import get_logger
 
 from api.dependencies import get_pipeline
 from api.observability import configure_tracing
 from api.schemas import UserQuestion
 
 github_bearer = HTTPBearer(auto_error=False)
+logger = get_logger(__name__)
 
 
 @asynccontextmanager
 async def lifespan(fastapi_app: FastAPI) -> AsyncIterator[None]:
+    logger.info("Starting API application")
     configure_tracing()
+    fastapi_app.state.pipeline = await ReviewPipeline.create_pipeline()
+    logger.info("Review pipeline is ready")
+
     try:
-        fastapi_app.state.pipeline = await ReviewPipeline.create_pipeline()
         yield
     finally:
         fastapi_app.state.pipeline = None
+        logger.info("Stopped API application")
 
 
 app = FastAPI(lifespan=lifespan)
@@ -60,11 +66,35 @@ async def review(
         ],
     )
 
-    async for event_name, payload in pipeline.astream(
-        internal_request,
-        github_token=github_token,
-        thread_id=thread_id,
-    ):
-        yield ServerSentEvent(event=event_name, data=payload)
+    logger.info(
+        "Received review request for {}/{} PR #{}",
+        pr.repository_owner,
+        pr.repository_name,
+        pr.pull_number,
+    )
 
-    yield ServerSentEvent(event="done", data={})
+    try:
+        async for event_name, payload in pipeline.astream(
+            internal_request,
+            github_token=github_token,
+            thread_id=thread_id,
+        ):
+            logger.debug(
+                "Sending review event '{}' for correlation id '{}'",
+                event_name,
+                thread_id,
+            )
+            yield ServerSentEvent(event=event_name, data=payload)
+
+        yield ServerSentEvent(event="done", data={})
+
+        logger.info(
+            "Completed review request with correlation id '{}'",
+            thread_id,
+        )
+    except Exception:
+        logger.exception(
+            "Review request failed with correlation id '{}'",
+            thread_id,
+        )
+        raise

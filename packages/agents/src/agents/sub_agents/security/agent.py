@@ -1,8 +1,7 @@
 from collections.abc import Sequence
 
-from langchain_core.tools import BaseTool
-
 from agents.internal.base import BaseAgent
+from langchain_core.tools import BaseTool
 
 
 class SecurityAgent(BaseAgent):

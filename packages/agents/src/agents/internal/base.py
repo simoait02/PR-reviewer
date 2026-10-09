@@ -15,6 +15,9 @@ from langchain.tools import ToolRuntime
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import HumanMessage
 from langchain_core.tools import BaseTool, StructuredTool
+from pr_logging.core import get_logger
+
+logger = get_logger(__name__)
 
 
 class BaseAgent(ABC):
@@ -25,8 +28,17 @@ class BaseAgent(ABC):
         model: BaseChatModel | None = None,
     ):
         self.config = load_agent_yaml(type(self))
+        logger.debug(
+            "Loaded agent configuration '{}'",
+            self.config.name,
+        )
         self.model = model or build_chat_model(self.config.model)
         self._graph = None
+
+        logger.debug(
+            "Initialized agent '{}'",
+            self.config.name,
+        )
 
     @abstractmethod
     def get_tools(self) -> Sequence[BaseTool]:
@@ -43,10 +55,19 @@ class BaseAgent(ABC):
         return "\n\n".join(parts)
 
     async def abuild(self) -> Any:
-        """build and cache the langgraph agent"""
+        """Build and cache the LangGraph agent."""
 
         if self._graph is not None:
+            logger.debug(
+                "Using cached graph for agent '{}'",
+                self.config.name,
+            )
             return self._graph
+
+        logger.info(
+            "Building graph for agent '{}'",
+            self.config.name,
+        )
 
         mcp_tools = await aload_agent_mcp_tools(self.config.mcp_servers)
 
@@ -61,6 +82,14 @@ class BaseAgent(ABC):
             name=self.config.name,
             context_schema=AgentRuntimeContext,
         )
+
+        logger.info(
+            "Built graph for agent '{}' with {} local tools and {} MCP tools",
+            self.config.name,
+            len(local_tools),
+            len(mcp_tools),
+        )
+
         return self._graph
 
     async def ainvoke_raw(
@@ -68,18 +97,27 @@ class BaseAgent(ABC):
         request: AgentRequest,
         context: AgentRuntimeContext | None = None,
     ) -> dict[str, Any]:
+        logger.info(
+            "Invoking agent '{}'",
+            self.config.name,
+        )
         graph = await self.abuild()
 
         message = HumanMessage(
             content=self._render_request(request),
         )
 
-        return await graph.ainvoke(
+        result = await graph.ainvoke(
             {
                 "messages": [message],
             },
             context=context,
         )
+        logger.debug(
+            "Agent '{}' invocation completed",
+            self.config.name,
+        )
+        return result
 
     async def ainvoke_structured(
         self,
@@ -91,6 +129,10 @@ class BaseAgent(ABC):
         structured_response = result.get("structured_response")
 
         if structured_response is None:
+            logger.error(
+                "Agent '{}' returned no structured response",
+                self.config.name,
+            )
             raise RuntimeError("Agent did not return a structured response")
 
         return AgentResponse.model_validate(structured_response)

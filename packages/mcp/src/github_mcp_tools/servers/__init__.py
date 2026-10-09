@@ -2,7 +2,7 @@
 
 from fastmcp import FastMCP
 
-from github_mcp_tools.domains import impact, orchestrator, reviewer, security
+from github_mcp_tools.servers import impact, orchestrator, reviewer, security
 
 DOMAINS: dict[str, FastMCP] = {
     "impact": impact.mcp,

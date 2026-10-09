@@ -1,4 +1,3 @@
-import logging
 import os
 
 from openinference.instrumentation.langchain import LangChainInstrumentor
@@ -7,15 +6,21 @@ from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExport
 from opentelemetry.sdk import trace as trace_sdk
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from pr_logging.core import get_logger
 
 _configured = False
-logger = logging.getLogger(__name__)
+logger = get_logger(__name__)
 
 
 def configure_tracing() -> None:
     global _configured
 
-    if _configured or os.getenv("PHOENIX_ENABLED", "true").lower() != "true":
+    if _configured:
+        logger.debug("Phoenix tracing is already configured")
+        return
+
+    if os.getenv("PHOENIX_ENABLED", "true").lower() != "true":
+        logger.debug("Phoenix tracing is disabled")
         return
 
     try:
@@ -31,7 +36,8 @@ def configure_tracing() -> None:
                     "service.name": "pr-reviewer-api",
                     "openinference.project.name": project_name,
                 }
-            )
+            ),
+            span_limits=trace_sdk.SpanLimits(max_span_attributes=10_000),
         )
         tracer_provider.add_span_processor(
             BatchSpanProcessor(
@@ -46,10 +52,10 @@ def configure_tracing() -> None:
         _configured = True
 
         logger.info(
-            "Phoenix tracing configured: endpoint=%s project=%s authenticated=%s",
+            "Phoenix tracing configured: endpoint='{}' project='{}' authenticated={}",
             endpoint,
             project_name,
             bool(api_key),
         )
-    except Exception:
-        logger.warning("Phoenix tracing setup failed", exc_info=True)
+    except Exception:  # noqa: BLE001 - tracing must not stop API startup
+        logger.opt(exception=True).warning("Phoenix tracing setup failed")

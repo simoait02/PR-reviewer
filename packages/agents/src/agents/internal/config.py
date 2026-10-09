@@ -5,7 +5,10 @@ from pathlib import Path
 
 import yaml
 from agents.mcp.config import AgentMCPServer
-from pydantic import BaseModel, Field
+from pr_logging.core import get_logger
+from pydantic import BaseModel, Field, ValidationError
+
+logger = get_logger(__name__)
 
 
 class ModelConfig(BaseModel):
@@ -28,7 +31,43 @@ def load_agent_yaml(cls: type) -> AgentConfig:
     source_file = inspect.getfile(cls)
     yaml_path = Path(source_file).parent / "agent.yaml"
 
-    with yaml_path.open() as f:
-        raw_config = yaml.safe_load(f) or {}
+    logger.debug(
+        "Loading agent configuration for '{}' from '{}'",
+        cls.__name__,
+        yaml_path,
+    )
 
-    return AgentConfig.model_validate(raw_config)
+    try:
+        with yaml_path.open() as f:
+            raw_config = yaml.safe_load(f) or {}
+
+        config = AgentConfig.model_validate(raw_config)
+
+    except OSError:
+        logger.exception(
+            "Could not read agent configuration '{}'",
+            yaml_path,
+        )
+        raise
+
+    except yaml.YAMLError:
+        logger.exception(
+            "Invalid YAML in agent configuration '{}'",
+            yaml_path,
+        )
+        raise
+
+    except ValidationError:
+        logger.exception(
+            "Invalid agent configuration '{}'",
+            yaml_path,
+        )
+        raise
+
+    logger.debug(
+        "Loaded agent configuration '{}' with {} MCP servers",
+        config.name,
+        len(config.mcp_servers),
+    )
+
+    return config

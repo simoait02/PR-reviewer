@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from openai import AsyncOpenAI
+from pr_logging.core import get_logger
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
@@ -14,6 +15,8 @@ from github_mcp_tools.rag.models import (
     Document,
     Embedding,
 )
+
+logger = get_logger(__name__)
 
 
 class BestPracticesRetriever:
@@ -27,12 +30,20 @@ class BestPracticesRetriever:
         self.session_factory = session_factory
         self.embedding_client = embedding_client
 
+        logger.debug("Initialized best-practices retriever")
+
     @classmethod
     def from_env(cls) -> BestPracticesRetriever:
-        return cls(
+        logger.debug("Creating best-practices retriever from environment")
+
+        retriever = cls(
             session_factory=get_session_factory(),
             embedding_client=AsyncOpenAI(),
         )
+
+        logger.debug("Created best-practices retriever")
+
+        return retriever
 
     async def search(
         self,
@@ -40,12 +51,29 @@ class BestPracticesRetriever:
         category: Category | None = None,
         limit: int = 5,
     ) -> list[BestPracticeResult]:
+        requested_limit = limit
         limit = max(1, min(limit, 8))
+
+        logger.info(
+            "Searching best practices with category '{}', limit {} "
+            "(requested {}), query length {}",
+            category.value if category else "all",
+            limit,
+            requested_limit,
+            len(query),
+        )
+
         response = await self.embedding_client.embeddings.create(
             model=EMBEDDING_MODEL,
             input=query,
         )
         query_vector = response.data[0].embedding
+
+        logger.debug(
+            "Generated query embedding with model '{}'",
+            EMBEDDING_MODEL,
+        )
+
         distance = Embedding.embedding.cosine_distance(query_vector)
 
         statement = (
@@ -68,7 +96,7 @@ class BestPracticesRetriever:
         async with self.session_factory() as session:
             rows = (await session.execute(statement)).mappings().all()
 
-        return [
+        results = [
             BestPracticeResult(
                 title=row["title"],
                 category=row["category"],
@@ -78,3 +106,10 @@ class BestPracticesRetriever:
             )
             for row in rows
         ]
+
+        logger.debug(
+            "Retrieved {} best-practices results",
+            len(results),
+        )
+
+        return results

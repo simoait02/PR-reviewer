@@ -1,14 +1,16 @@
 from fastmcp import FastMCP
 from fastmcp.exceptions import ToolError
+from pr_logging.core import get_logger
 
-from github_mcp_tools.domains.git_tools import (
+from github_mcp_tools.rag.models import BestPracticeResult, Category
+from github_mcp_tools.rag.service import get_best_practices_retriever
+from github_mcp_tools.tools.git import (
     register_read_only_git_tools,
 )
-from github_mcp_tools.rag.models import BestPracticeResult, Category
-from github_mcp_tools.rag_service import get_best_practices_retriever
 
 mcp = FastMCP("github-reviewer-tools")
 register_read_only_git_tools(mcp)
+logger = get_logger(__name__)
 
 
 @mcp.tool()
@@ -46,12 +48,30 @@ async def search_best_practices(
         request's actual code and diff.
     """
     if not query.strip():
+        logger.warning("Rejected empty best-practices search query")
         raise ToolError("query must not be empty")
     if limit < 1:
+        logger.warning(
+            "Rejected best-practices search with invalid limit {}",
+            limit,
+        )
         raise ToolError("limit must be greater than zero")
 
-    return await get_best_practices_retriever().search(
+    logger.info(
+        "Searching best practices with category '{}' and limit {}",
+        category.value if category else "all",
+        limit,
+    )
+
+    results = await get_best_practices_retriever().search(
         query=query,
         category=category,
         limit=limit,
     )
+
+    logger.debug(
+        "Best-practices search returned {} results",
+        len(results),
+    )
+
+    return results

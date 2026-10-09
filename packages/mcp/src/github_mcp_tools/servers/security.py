@@ -2,15 +2,17 @@ from typing import Literal
 
 from fastmcp import FastMCP
 from fastmcp.exceptions import ToolError
+from pr_logging.core import get_logger
 from pydantic import BaseModel
 
-from github_mcp_tools.domains.git_tools import (
+from github_mcp_tools.infrastructure.sandbox import Sandbox
+from github_mcp_tools.tools.git import (
     register_read_only_git_tools,
     validate_repository_paths,
 )
-from github_mcp_tools.sandbox import Sandbox
 
 _SECURITY_RULES = "/opt/pr-reviewer/security-rules"
+logger = get_logger(__name__)
 
 
 class SecurityCommandResponse(BaseModel):
@@ -53,6 +55,14 @@ async def _run_security_command(
     sandbox_id: str,
     command: list[str],
 ) -> SecurityCommandResponse:
+    operation = command[1] if len(command) > 1 else "unknown"
+
+    logger.debug(
+        "Running security operation '{}' in sandbox '{}'",
+        operation,
+        sandbox_id,
+    )
+
     sandbox = Sandbox.get_instance()
     exit_code, stdout, stderr = await sandbox.exec(
         sandbox_id,
@@ -60,6 +70,17 @@ async def _run_security_command(
         workdir="/workspace/repo",
         environment={"GIT_OPTIONAL_LOCKS": "0"},
     )
+
+    log_method = logger.debug if exit_code == 0 else logger.warning
+    log_method(
+        "Security operation '{}' completed with exit code {}, "
+        "stdout={} chars, stderr={} chars",
+        operation,
+        exit_code,
+        len(stdout),
+        len(stderr),
+    )
+
     return SecurityCommandResponse(
         sandbox_id=sandbox_id,
         command=command,
@@ -79,6 +100,14 @@ async def _run_semgrep(
     files = changed_files or []
     targets = files or ["."]
     validate_repository_paths(targets)
+
+    logger.info(
+        "Starting '{}' security scan in sandbox '{}' with {} changed files",
+        profile,
+        sandbox_id,
+        len(files),
+    )
+
     config = {
         "security": "auto",
         "auth": f"{_SECURITY_RULES}/auth.yml",
@@ -141,8 +170,15 @@ async def read_diff(
         diff evidence.
     """
     if context_lines < 0:
+        logger.warning("Rejected diff request with negative context lines")
         raise ToolError("context_lines must not be negative")
     files = changed_files or []
+
+    logger.info(
+        "Reading security diff in sandbox '{}' with {} changed files",
+        sandbox_id,
+        len(files),
+    )
 
     command = [
         "git",
@@ -192,7 +228,19 @@ async def read_file(
         A failed status means the requested source was not established.
     """
     if start_line < 1 or (end_line is not None and end_line < start_line):
+        logger.warning(
+            "Rejected source read in sandbox '{}' due to invalid line range",
+            sandbox_id,
+        )
         raise ToolError("invalid source line range")
+
+    logger.info(
+        "Reading source file '{}' in sandbox '{}' from line {} to {}",
+        path,
+        sandbox_id,
+        start_line,
+        end_line or "end",
+    )
 
     command = ["git", "show", "--no-ext-diff", f"{head_sha}:{path}"]
     result = await _run_security_command(sandbox_id, command)
@@ -237,8 +285,17 @@ async def search_code(
         different outcomes.
     """
     if not query.strip():
+        logger.warning("Rejected empty security search query")
         raise ToolError("query must not be empty")
     search_paths = paths or []
+
+    logger.info(
+        "Searching security code in sandbox '{}' with regex={} across {} paths",
+        sandbox_id,
+        regex,
+        len(search_paths),
+    )
+
     search_mode = "--extended-regexp" if regex else "--fixed-strings"
     command = [
         "git",

@@ -2,7 +2,7 @@ import asyncio
 
 import httpx
 import pytest
-from github_mcp_tools.github_requests import (
+from github_mcp_tools.infrastructure.github.client import (
     GithubAPIError,
     GithubClient,
     GithubRequest,
@@ -61,7 +61,7 @@ def test_get_wraps_timeout_http_and_request_errors(monkeypatch):
         (httpx.ConnectError("down"), "request failed"),
     ):
         monkeypatch.setattr(
-            "github_mcp_tools.github_requests.httpx.AsyncClient",
+            "github_mcp_tools.infrastructure.github.client.httpx.AsyncClient",
             lambda error=error, **_: FakeAsyncClient(error),
         )
         with pytest.raises(GithubAPIError, match=expected):
@@ -82,7 +82,7 @@ def test_get_wraps_github_http_status_error(monkeypatch):
             return github_response
 
     monkeypatch.setattr(
-        "github_mcp_tools.github_requests.httpx.AsyncClient",
+        "github_mcp_tools.infrastructure.github.client.httpx.AsyncClient",
         lambda **_: FakeAsyncClient(),
     )
 
@@ -110,7 +110,7 @@ def test_get_returns_success_and_sends_client_configuration(monkeypatch):
             return github_response
 
     monkeypatch.setattr(
-        "github_mcp_tools.github_requests.httpx.AsyncClient",
+        "github_mcp_tools.infrastructure.github.client.httpx.AsyncClient",
         FakeAsyncClient,
     )
 

@@ -7,11 +7,14 @@ from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import HumanMessage, ToolMessage
 from langchain_core.tools import BaseTool
 from langgraph.checkpoint.base import BaseCheckpointSaver
+from pr_logging.core import get_logger
 
 from agents.internal.base import BaseAgent
 from agents.internal.protocol import AgentRequest, AgentRuntimeContext
 from agents.mcp.loader import aload_agent_mcp_tools
 from agents.orchestrator.schemas import OrchestratorConfig, OrchestratorResponse
+
+logger = get_logger(__name__)
 
 
 class ToolErrorsAsObservations(AgentMiddleware):
@@ -35,12 +38,28 @@ class ToolErrorsAsObservations(AgentMiddleware):
         try:
             return handler(request)
         except Exception as exc:  # noqa: BLE001 - expose tool failures to the model
+            logger.warning(
+                "Tool '{}' failed; returning an error observation",
+                request.tool_call["name"],
+            )
+            logger.opt(exception=True).debug(
+                "Tool '{}' failure details",
+                request.tool_call["name"],
+            )
             return self._error_message(request, exc)
 
     async def awrap_tool_call(self, request, handler):
         try:
             return await handler(request)
         except Exception as exc:  # noqa: BLE001 - expose tool failures to the model
+            logger.warning(
+                "Tool '{}' failed; returning an error observation",
+                request.tool_call["name"],
+            )
+            logger.opt(exception=True).debug(
+                "Tool '{}' failure details",
+                request.tool_call["name"],
+            )
             return self._error_message(request, exc)
 
 
@@ -63,9 +82,27 @@ class BaseOrchestrator:
         self.checkpointer = checkpointer
         self._graph = None
 
+        logger.debug(
+            "Initialized orchestrator '{}' with {} agents, "
+            "{} extra tools, and {} MCP servers",
+            self.name,
+            len(self.agents),
+            len(self.extra_tools),
+            len(self.config.mcp_servers),
+        )
+
     async def abuild(self) -> Any:
         if self._graph is not None:
+            logger.debug(
+                "Using cached graph for orchestrator '{}'",
+                self.name,
+            )
             return self._graph
+
+        logger.info(
+            "Building graph for orchestrator '{}'",
+            self.name,
+        )
 
         mcp_tools = await aload_agent_mcp_tools(self.config.mcp_servers)
 
@@ -89,6 +126,16 @@ class BaseOrchestrator:
             checkpointer=self.checkpointer,
             middleware=[ToolErrorsAsObservations()],
         )
+
+        logger.info(
+            "Built graph for orchestrator '{}' with {} agent tools, "
+            "{} extra tools, and {} MCP tools",
+            self.name,
+            len(agent_tools),
+            len(self.extra_tools),
+            len(mcp_tools),
+        )
+
         return self._graph
 
     async def ainvoke_raw(
@@ -98,16 +145,28 @@ class BaseOrchestrator:
         *,
         thread_id: str,
     ) -> dict[str, Any]:
+        logger.info(
+            "Invoking orchestrator '{}'",
+            self.name,
+        )
+
         graph = await self.abuild()
 
         message = HumanMessage(content=self._render_request(request))
-        return await graph.ainvoke(
+        result = await graph.ainvoke(
             {
                 "messages": [message],
             },
             context={"github_token": github_token},
             config={"configurable": {"thread_id": thread_id}},
         )
+
+        logger.debug(
+            "Orchestrator '{}' invocation completed",
+            self.name,
+        )
+
+        return result
 
     async def ainvoke_structured(
         self,
@@ -121,6 +180,10 @@ class BaseOrchestrator:
         )
         structured_response = result.get("structured_response")
         if structured_response is None:
+            logger.error(
+                "Orchestrator '{}' returned no structured response",
+                self.name,
+            )
             raise RuntimeError("Orchestrator did not return a structured response")
         return OrchestratorResponse.model_validate(structured_response)
 
