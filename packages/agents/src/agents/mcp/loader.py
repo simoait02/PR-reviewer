@@ -19,8 +19,8 @@ logger = get_logger(__name__)
 __all__ = [
     "GithubTokenInterceptor",
     "_runtime_github_token",
-    "github_token_interceptor",
     "aload_agent_mcp_tools",
+    "github_token_interceptor",
 ]
 
 

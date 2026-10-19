@@ -9,7 +9,6 @@ logger = get_logger(__name__)
 def build_chat_model(config: ModelConfig) -> BaseChatModel:
     """Build the configured chat model."""
 
-
     logger.debug(
         "Building chat model: provider='{}', model='{}', responses_api={}",
         config.provider,

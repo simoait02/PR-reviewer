@@ -3,8 +3,8 @@ from collections.abc import Sequence
 from typing import Any, ClassVar
 
 from agents.internal.config import load_agent_yaml
-from agents.internal.model_factory import build_chat_model
 from agents.internal.middleware import SandboxMiddleware
+from agents.internal.model_factory import build_chat_model
 from agents.internal.protocol import (
     AgentRequest,
     AgentResponse,

@@ -102,10 +102,13 @@ def test_middleware_covers_context_and_tool_call_lifecycle_branches():
         content=[{"text": '{"sandbox_id": "new-sandbox"}'}],
     )
 
-    assert SandboxMiddleware().wrap_tool_call(
-        lifecycle_request,
-        lambda request: result,
-    ) is result
+    assert (
+        SandboxMiddleware().wrap_tool_call(
+            lifecycle_request,
+            lambda request: result,
+        )
+        is result
+    )
     assert context.sandbox_id == "new-sandbox"
 
 
