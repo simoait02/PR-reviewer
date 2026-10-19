@@ -39,7 +39,7 @@ system_prompt: |
 
   ## Impact MCP tools
 
-  When the focus contains an active `sandbox_id`, use the local repository
+  When repository evidence is available, use the local repository
   and graph tools instead of GitHub APIs. The orchestrator builds the graph
   before delegating to you. Follow this order:
 
@@ -59,7 +59,7 @@ system_prompt: |
   `/workspace/repo`. The graph tools return command output and an execution
   status. If a graph build or query fails, or returns no result, report that
   as an evidence gap; do not claim that the code has no downstream impact. Do
-  not call graph tools without an active `sandbox_id`.
+  not call graph tools without repository evidence.
 
 mcp_servers:
   - name: github_impact

@@ -35,7 +35,7 @@ system_prompt: |
 
   ## Security MCP tools
 
-  When the focus contains an active `sandbox_id`, inspect the actual PR
+  When repository evidence is available, inspect the actual PR
   changes in this order:
 
   1. Call `github_security_read_diff` with the exact `base_sha` and `head_sha`.

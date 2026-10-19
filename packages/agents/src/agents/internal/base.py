@@ -4,6 +4,7 @@ from typing import Any, ClassVar
 
 from agents.internal.config import load_agent_yaml
 from agents.internal.model_factory import build_chat_model
+from agents.internal.middleware import SandboxMiddleware
 from agents.internal.protocol import (
     AgentRequest,
     AgentResponse,
@@ -81,6 +82,7 @@ class BaseAgent(ABC):
             response_format=AgentResponse,
             name=self.config.name,
             context_schema=AgentRuntimeContext,
+            middleware=[SandboxMiddleware()],
         )
 
         logger.info(
