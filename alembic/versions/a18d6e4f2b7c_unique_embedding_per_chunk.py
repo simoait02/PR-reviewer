@@ -1,7 +1,7 @@
 """enforce one embedding per chunk
 
 Revision ID: a18d6e4f2b7c
-Revises: 9f4a2c7b1d6e
+Revises: b62a5854a588
 """
 
 from collections.abc import Sequence
@@ -9,7 +9,7 @@ from collections.abc import Sequence
 from alembic import op
 
 revision: str = "a18d6e4f2b7c"
-down_revision: str | Sequence[str] | None = "9f4a2c7b1d6e"
+down_revision: str | Sequence[str] | None = "b62a5854a588"
 branch_labels: str | Sequence[str] | None = None
 depends_on: str | Sequence[str] | None = None
 

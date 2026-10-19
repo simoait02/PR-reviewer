@@ -43,7 +43,7 @@ rag-eval:
 	set +a; \
 	RAG_EVAL_MAX_CONCURRENT=$(RAG_EVAL_MAX_CONCURRENT) \
 	DEEPEVAL_PER_TASK_TIMEOUT_SECONDS_OVERRIDE=$(RAG_EVAL_TIMEOUT_SECONDS) \
-	uv run python evals/retreival/test.py
+	uv run python tests/evals/retrieval/test.py
 
 start:
 	@set -eu; \

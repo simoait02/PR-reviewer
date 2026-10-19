@@ -14,11 +14,10 @@ from deepeval.test_case import LLMTestCase
 from mcp import ClientSession
 from mcp.client.streamable_http import streamable_http_client
 
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
 MCP_URL = "http://127.0.0.1:9000/reviewer/mcp"
-DATASET_DIR = Path(__file__).resolve().parent.parent / "datasets"
-FAILED_CASES_PATH = (
-    Path(__file__).resolve().parents[2] / ".deepeval" / "failed_cases.json"
-)
+DATASET_DIR = PROJECT_ROOT / "evals" / "datasets"
+FAILED_CASES_PATH = PROJECT_ROOT / ".deepeval" / "failed_cases.json"
 MAX_CONCURRENT = int(os.getenv("RAG_EVAL_MAX_CONCURRENT", "20"))
 
 
