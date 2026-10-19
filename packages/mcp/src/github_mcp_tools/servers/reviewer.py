@@ -2,7 +2,7 @@ from fastmcp import FastMCP
 from fastmcp.exceptions import ToolError
 from pr_logging.core import get_logger
 
-from github_mcp_tools.rag.models import BestPracticeResult, Category
+from github_mcp_tools.rag.models import BestPracticeResult
 from github_mcp_tools.rag.service import get_best_practices_retriever
 from github_mcp_tools.tools.git import (
     register_read_only_git_tools,
@@ -16,7 +16,6 @@ logger = get_logger(__name__)
 @mcp.tool()
 async def search_best_practices(
     query: str,
-    category: Category | None = None,
     limit: int = 5,
 ) -> list[BestPracticeResult]:
     """Search the engineering best-practices knowledge base for review guidance.
@@ -32,11 +31,6 @@ async def search_best_practices(
             investigate. Include important concepts such as the component,
             data flow, or suspected risk instead of using a vague query like
             ``"best practices"``.
-        category: Optional category filter for narrowing the search. Use it
-            when the review question clearly belongs to one area, such as
-            security-and-privacy, testing, architecture, code-quality, or
-            dependencies-and-supply-chain. Leave it unset for cross-cutting
-            questions.
         limit: Maximum number of ranked guidance chunks to return. Use a small
             value for a focused answer and a larger value when exploring a
             broad question. The valid range is 1 to 8; the default is 5.
@@ -58,14 +52,12 @@ async def search_best_practices(
         raise ToolError("limit must be greater than zero")
 
     logger.info(
-        "Searching best practices with category '{}' and limit {}",
-        category.value if category else "all",
+        "Searching best practices with limit {}",
         limit,
     )
 
     results = await get_best_practices_retriever().search(
         query=query,
-        category=category,
         limit=limit,
     )
 

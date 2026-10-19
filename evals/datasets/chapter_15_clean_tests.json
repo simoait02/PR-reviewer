@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch15-001",
+    "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+    "question": "What should a code reviewer look for in a diff related to \"Make each test readable at the behavior level\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ct-readable-behavior",
+        "heading": "Make each test readable at the behavior level",
+        "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+        "heading_path": [
+          "Clean Code, Chapter 15: Clean Tests, PR review rules",
+          "Make each test readable at the behavior level"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make each test readable at the behavior level",
+      "Test bodies dominated by framework setup, casts, transport details, or object construction noise",
+      "readability",
+      "tests",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch15-002",
+    "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+    "question": "What should a code reviewer look for in a diff related to \"Structure tests as Arrange, Act, Assert\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ct-arrange-act-assert",
+        "heading": "Structure tests as Arrange, Act, Assert",
+        "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+        "heading_path": [
+          "Clean Code, Chapter 15: Clean Tests, PR review rules",
+          "Structure tests as Arrange, Act, Assert"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Structure tests as Arrange, Act, Assert",
+      "Setup, actions, and assertions interleaved without a clear boundary",
+      "aaa",
+      "arrange",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch15-003",
+    "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+    "question": "What should a code reviewer look for in a diff related to \"Build a small domain-specific test language\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ct-test-domain-language",
+        "heading": "Build a small domain-specific test language",
+        "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+        "heading_path": [
+          "Clean Code, Chapter 15: Clean Tests, PR review rules",
+          "Build a small domain-specific test language"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Build a small domain-specific test language",
+      "Repeated low-level setup or protocol calls across many tests",
+      "test-api",
+      "helpers",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch15-004",
+    "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+    "question": "What should a code reviewer look for in a diff related to \"Use composed assertions for one logical fact\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ct-composed-assertions",
+        "heading": "Use composed assertions for one logical fact",
+        "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+        "heading_path": [
+          "Clean Code, Chapter 15: Clean Tests, PR review rules",
+          "Use composed assertions for one logical fact"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use composed assertions for one logical fact",
+      "Several low-level assertions repeated to verify one meaningful state or contract",
+      "assertions",
+      "readability",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch15-005",
+    "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+    "question": "What should a code reviewer look for in a diff related to \"Compose complex results into an explicit test representation\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ct-composed-test-results",
+        "heading": "Compose complex results into an explicit test representation",
+        "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+        "heading_path": [
+          "Clean Code, Chapter 15: Clean Tests, PR review rules",
+          "Compose complex results into an explicit test representation"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Compose complex results into an explicit test representation",
+      "Long lists of repetitive state assertions that obscure the expected outcome",
+      "test-results",
+      "state",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch15-006",
+    "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep production efficiency separate from test readability\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ct-test-production-tradeoff",
+        "heading": "Keep production efficiency separate from test readability",
+        "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+        "heading_path": [
+          "Clean Code, Chapter 15: Clean Tests, PR review rules",
+          "Keep production efficiency separate from test readability"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep production efficiency separate from test readability",
+      "Production-oriented micro-optimizations making tests cryptic",
+      "test-code",
+      "performance",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch15-007",
+    "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+    "question": "What should a code reviewer look for in a diff related to \"Test one action per test\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ct-single-act",
+        "heading": "Test one action per test",
+        "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+        "heading_path": [
+          "Clean Code, Chapter 15: Clean Tests, PR review rules",
+          "Test one action per test"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Test one action per test",
+      "Arrange, act, assert, act, assert sequences in one test",
+      "single-act",
+      "isolation",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch15-008",
+    "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep tests fast\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ct-fast-tests",
+        "heading": "Keep tests fast",
+        "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+        "heading_path": [
+          "Clean Code, Chapter 15: Clean Tests, PR review rules",
+          "Keep tests fast"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep tests fast",
+      "Unit tests starting processes, making network calls, waiting on real time, or using large unnecessary fixtures",
+      "first",
+      "fast",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch15-009",
+    "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+    "question": "What should a code reviewer look for in a diff related to \"Isolate tests from one another\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ct-isolated-tests",
+        "heading": "Isolate tests from one another",
+        "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+        "heading_path": [
+          "Clean Code, Chapter 15: Clean Tests, PR review rules",
+          "Isolate tests from one another"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Isolate tests from one another",
+      "Tests sharing mutable fixtures, database rows, filesystem paths, or global configuration",
+      "first",
+      "isolated",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch15-010",
+    "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+    "question": "What should a code reviewer look for in a diff related to \"Make tests repeatable in constrained environments\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ct-repeatable-tests",
+        "heading": "Make tests repeatable in constrained environments",
+        "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+        "heading_path": [
+          "Clean Code, Chapter 15: Clean Tests, PR review rules",
+          "Make tests repeatable in constrained environments"
+        ],
+        "chunk_index": 9,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make tests repeatable in constrained environments",
+      "Dependence on a developer machine, current time zone, locale, network, filesystem layout, or random seed",
+      "first",
+      "repeatable",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch15-011",
+    "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+    "question": "What should a code reviewer look for in a diff related to \"Make tests self-validating\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ct-self-validating-tests",
+        "heading": "Make tests self-validating",
+        "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+        "heading_path": [
+          "Clean Code, Chapter 15: Clean Tests, PR review rules",
+          "Make tests self-validating"
+        ],
+        "chunk_index": 10,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make tests self-validating",
+      "Tests that require reading logs or manually comparing output files to decide pass/fail",
+      "first",
+      "self-validating",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch15-012",
+    "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+    "question": "What should a code reviewer look for in a diff related to \"Write tests in a timely fashion\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ct-timely-tests",
+        "heading": "Write tests in a timely fashion",
+        "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+        "heading_path": [
+          "Clean Code, Chapter 15: Clean Tests, PR review rules",
+          "Write tests in a timely fashion"
+        ],
+        "chunk_index": 11,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Write tests in a timely fashion",
+      "Production code merged with no test and a promise to test later",
+      "first",
+      "timely",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch15-013",
+    "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep test helpers less coupled than production details\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ct-minimize-test-coupling",
+        "heading": "Keep test helpers less coupled than production details",
+        "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+        "heading_path": [
+          "Clean Code, Chapter 15: Clean Tests, PR review rules",
+          "Keep test helpers less coupled than production details"
+        ],
+        "chunk_index": 12,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep test helpers less coupled than production details",
+      "One production signature change requiring edits to many unrelated tests",
+      "test-design",
+      "coupling",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch15-014",
+    "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+    "question": "What should a code reviewer look for in a diff related to \"Preserve diagnostic quality when abstracting tests\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ct-preserve-test-diagnostics",
+        "heading": "Preserve diagnostic quality when abstracting tests",
+        "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+        "heading_path": [
+          "Clean Code, Chapter 15: Clean Tests, PR review rules",
+          "Preserve diagnostic quality when abstracting tests"
+        ],
+        "chunk_index": 13,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Preserve diagnostic quality when abstracting tests",
+      "Generic helpers whose failure message omits the expected scenario or mismatched value",
+      "assertions",
+      "helpers",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch15-015",
+    "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep the test suite clean as behavior evolves\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ct-maintain-test-cleanliness",
+        "heading": "Keep the test suite clean as behavior evolves",
+        "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+        "heading_path": [
+          "Clean Code, Chapter 15: Clean Tests, PR review rules",
+          "Keep the test suite clean as behavior evolves"
+        ],
+        "chunk_index": 14,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep the test suite clean as behavior evolves",
+      "New duplication, unclear names, oversized fixtures, or dead tests",
+      "clean-tests",
+      "refactoring",
+      "maintainability"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch15-016",
+    "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+    "question": "Why does the rule \"Make each test readable at the behavior level\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ct-readable-behavior",
+        "heading": "Make each test readable at the behavior level",
+        "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+        "heading_path": [
+          "Clean Code, Chapter 15: Clean Tests, PR review rules",
+          "Make each test readable at the behavior level"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make each test readable at the behavior level",
+      "Tests are executable documentation. If their intent is obscured, reviewers miss coverage gaps and future changes are more likely to break or bypass the wrong contract.",
+      "readability",
+      "tests",
+      "testing"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch15-017",
+    "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+    "question": "What fix does the guidance recommend for \"Structure tests as Arrange, Act, Assert\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ct-arrange-act-assert",
+        "heading": "Structure tests as Arrange, Act, Assert",
+        "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+        "heading_path": [
+          "Clean Code, Chapter 15: Clean Tests, PR review rules",
+          "Structure tests as Arrange, Act, Assert"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Structure tests as Arrange, Act, Assert",
+      "Organize the test into Arrange, Act, and Assert sections, using small helpers only when they preserve that structure.",
+      "aaa",
+      "arrange",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch15-018",
+    "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+    "question": "How can a reviewer spot a problem related to \"Build a small domain-specific test language\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ct-test-domain-language",
+        "heading": "Build a small domain-specific test language",
+        "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+        "heading_path": [
+          "Clean Code, Chapter 15: Clean Tests, PR review rules",
+          "Build a small domain-specific test language"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Build a small domain-specific test language",
+      "Repeated low-level setup or protocol calls across many tests",
+      "test-api",
+      "helpers",
+      "testing"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch15-019",
+    "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+    "question": "What review guidance applies to \"Use composed assertions for one logical fact\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ct-composed-assertions",
+        "heading": "Use composed assertions for one logical fact",
+        "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+        "heading_path": [
+          "Clean Code, Chapter 15: Clean Tests, PR review rules",
+          "Use composed assertions for one logical fact"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use composed assertions for one logical fact",
+      "A composed assertion can state the business-level fact directly and keep the test readable. It must still report enough detail to identify which part failed.",
+      "assertions",
+      "readability",
+      "testing"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch15-020",
+    "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+    "question": "Why does the rule \"Compose complex results into an explicit test representation\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ct-composed-test-results",
+        "heading": "Compose complex results into an explicit test representation",
+        "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+        "heading_path": [
+          "Clean Code, Chapter 15: Clean Tests, PR review rules",
+          "Compose complex results into an explicit test representation"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Compose complex results into an explicit test representation",
+      "A deliberate test representation can make repeated state expectations easy to scan and compare. The representation is safe only when its ordering and symbols are obvious to test readers.",
+      "test-results",
+      "state",
+      "testing"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch15-021",
+    "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+    "question": "What fix does the guidance recommend for \"Keep production efficiency separate from test readability\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ct-test-production-tradeoff",
+        "heading": "Keep production efficiency separate from test readability",
+        "source_path": "docs/Part_I_Code/chapter_15_clean_tests.md",
+        "heading_path": [
+          "Clean Code, Chapter 15: Clean Tests, PR review rules",
+          "Keep production efficiency separate from test readability"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep production efficiency separate from test readability",
+      "Optimize tests only for a measured suite problem; otherwise choose the clearest representation that preserves the behavior under test.",
+      "test-code",
+      "performance",
+      "testing"
+    ],
+    "difficulty": "direct"
+  }
+]

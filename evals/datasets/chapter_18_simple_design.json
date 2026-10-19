@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch18-001",
+    "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep high-level policy independent of low-level details\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "sd-policy-independent-of-details",
+        "heading": "Keep high-level policy independent of low-level details",
+        "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+        "heading_path": [
+          "Clean Code, Chapter 18: Simple Design, PR review rules",
+          "Keep high-level policy independent of low-level details"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep high-level policy independent of low-level details",
+      "Business rules directly constructing SQL, HTTP, UI, filesystem, or framework objects",
+      "policy",
+      "details",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch18-002",
+    "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+    "question": "What should a code reviewer look for in a diff related to \"Use abstractions to preserve essential policy\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "sd-abstraction-preserves-policy",
+        "heading": "Use abstractions to preserve essential policy",
+        "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+        "heading_path": [
+          "Clean Code, Chapter 18: Simple Design, PR review rules",
+          "Use abstractions to preserve essential policy"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use abstractions to preserve essential policy",
+      "An interface that exposes framework or storage details to callers",
+      "abstraction",
+      "polymorphism",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch18-003",
+    "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+    "question": "What should a code reviewer look for in a diff related to \"Apply YAGNI using change cost and evidence\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "sd-yagni-evidence",
+        "heading": "Apply YAGNI using change cost and evidence",
+        "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+        "heading_path": [
+          "Clean Code, Chapter 18: Simple Design, PR review rules",
+          "Apply YAGNI using change cost and evidence"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Apply YAGNI using change cost and evidence",
+      "Extension hooks, configuration options, or generic frameworks with no current requirement",
+      "yagni",
+      "overengineering",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch18-004",
+    "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+    "question": "What should a code reviewer look for in a diff related to \"Make changed behavior testable\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "sd-testable-design",
+        "heading": "Make changed behavior testable",
+        "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+        "heading_path": [
+          "Clean Code, Chapter 18: Simple Design, PR review rules",
+          "Make changed behavior testable"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make changed behavior testable",
+      "New branches or policies with no focused tests",
+      "tests",
+      "coverage",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch18-005",
+    "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+    "question": "What should a code reviewer look for in a diff related to \"Treat full coverage as a direction, not a substitute for meaningful tests\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "sd-coverage-asymptotic-goal",
+        "heading": "Treat full coverage as a direction, not a substitute for meaningful tests",
+        "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+        "heading_path": [
+          "Clean Code, Chapter 18: Simple Design, PR review rules",
+          "Treat full coverage as a direction, not a substitute for meaningful tests"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Treat full coverage as a direction, not a substitute for meaningful tests",
+      "New logic merged with no tests because the project already has a high percentage",
+      "coverage",
+      "branches",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch18-006",
+    "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+    "question": "What should a code reviewer look for in a diff related to \"Make code reveal its intent\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "sd-reveal-intent",
+        "heading": "Make code reveal its intent",
+        "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+        "heading_path": [
+          "Clean Code, Chapter 18: Simple Design, PR review rules",
+          "Make code reveal its intent"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make code reveal its intent",
+      "Generic names, unexplained flags, or nested control flow that hides the business rule",
+      "intent",
+      "naming",
+      "readability"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch18-007",
+    "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+    "question": "What should a code reviewer look for in a diff related to \"Use tests to document how abstractions are used\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "sd-tests-express-usage",
+        "heading": "Use tests to document how abstractions are used",
+        "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+        "heading_path": [
+          "Clean Code, Chapter 18: Simple Design, PR review rules",
+          "Use tests to document how abstractions are used"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use tests to document how abstractions are used",
+      "A new abstraction with tests that exercise internals but do not show supported usage",
+      "tests",
+      "documentation",
+      "documentation"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch18-008",
+    "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+    "question": "What should a code reviewer look for in a diff related to \"Eliminate convergent duplication\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "sd-remove-convergent-duplication",
+        "heading": "Eliminate convergent duplication",
+        "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+        "heading_path": [
+          "Clean Code, Chapter 18: Simple Design, PR review rules",
+          "Eliminate convergent duplication"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Eliminate convergent duplication",
+      "The same business rule, traversal, normalization, or invariant implemented in multiple places",
+      "duplication",
+      "abstraction",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch18-009",
+    "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+    "question": "What should a code reviewer look for in a diff related to \"Preserve divergent duplication when responsibilities differ\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "sd-preserve-divergent-duplication",
+        "heading": "Preserve divergent duplication when responsibilities differ",
+        "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+        "heading_path": [
+          "Clean Code, Chapter 18: Simple Design, PR review rules",
+          "Preserve divergent duplication when responsibilities differ"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Preserve divergent duplication when responsibilities differ",
+      "A shared helper created only because two snippets look similar today",
+      "duplication",
+      "srp",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch18-010",
+    "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+    "question": "What should a code reviewer look for in a diff related to \"Refactor duplication only when tests protect behavior\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "sd-safe-duplication-refactoring",
+        "heading": "Refactor duplication only when tests protect behavior",
+        "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+        "heading_path": [
+          "Clean Code, Chapter 18: Simple Design, PR review rules",
+          "Refactor duplication only when tests protect behavior"
+        ],
+        "chunk_index": 9,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Refactor duplication only when tests protect behavior",
+      "A broad deduplication refactor with weak or missing regression coverage",
+      "duplication",
+      "refactoring",
+      "process"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch18-011",
+    "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+    "question": "What should a code reviewer look for in a diff related to \"Reduce design size after coverage, intent, and duplication are sound\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "sd-minimize-design-size",
+        "heading": "Reduce design size after coverage, intent, and duplication are sound",
+        "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+        "heading_path": [
+          "Clean Code, Chapter 18: Simple Design, PR review rules",
+          "Reduce design size after coverage, intent, and duplication are sound"
+        ],
+        "chunk_index": 10,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Reduce design size after coverage, intent, and duplication are sound",
+      "Extra modules, wrappers, classes, or configuration layers that add no change boundary",
+      "simplicity",
+      "size",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch18-012",
+    "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+    "question": "What should a code reviewer look for in a diff related to \"Apply simple-design rules in priority order\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "sd-priority-order",
+        "heading": "Apply simple-design rules in priority order",
+        "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+        "heading_path": [
+          "Clean Code, Chapter 18: Simple Design, PR review rules",
+          "Apply simple-design rules in priority order"
+        ],
+        "chunk_index": 11,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Apply simple-design rules in priority order",
+      "Size reduction that removes tests or obscures intent",
+      "tests",
+      "intent",
+      "review-guidance"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch18-013",
+    "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+    "question": "Why does the rule \"Keep high-level policy independent of low-level details\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "sd-policy-independent-of-details",
+        "heading": "Keep high-level policy independent of low-level details",
+        "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+        "heading_path": [
+          "Clean Code, Chapter 18: Simple Design, PR review rules",
+          "Keep high-level policy independent of low-level details"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep high-level policy independent of low-level details",
+      "Entangling policy with details makes ordinary changes expensive and spreads infrastructure assumptions through the core. Simple design isolates what changes for different reasons.",
+      "policy",
+      "details",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch18-014",
+    "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+    "question": "What fix does the guidance recommend for \"Use abstractions to preserve essential policy\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "sd-abstraction-preserves-policy",
+        "heading": "Use abstractions to preserve essential policy",
+        "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+        "heading_path": [
+          "Clean Code, Chapter 18: Simple Design, PR review rules",
+          "Use abstractions to preserve essential policy"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use abstractions to preserve essential policy",
+      "Define interfaces at the level of the policy, implement them in detail-oriented adapters, and keep the contract minimal.",
+      "abstraction",
+      "polymorphism",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch18-015",
+    "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+    "question": "How can a reviewer spot a problem related to \"Apply YAGNI using change cost and evidence\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "sd-yagni-evidence",
+        "heading": "Apply YAGNI using change cost and evidence",
+        "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+        "heading_path": [
+          "Clean Code, Chapter 18: Simple Design, PR review rules",
+          "Apply YAGNI using change cost and evidence"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Apply YAGNI using change cost and evidence",
+      "Extension hooks, configuration options, or generic frameworks with no current requirement",
+      "yagni",
+      "overengineering",
+      "design"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch18-016",
+    "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+    "question": "What review guidance applies to \"Make changed behavior testable\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "sd-testable-design",
+        "heading": "Make changed behavior testable",
+        "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+        "heading_path": [
+          "Clean Code, Chapter 18: Simple Design, PR review rules",
+          "Make changed behavior testable"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make changed behavior testable",
+      "Testability is a practical signal of decoupling. A trusted suite enables later refactoring toward simpler boundaries without relying on fear or manual inspection.",
+      "tests",
+      "coverage",
+      "testing"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch18-017",
+    "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+    "question": "Why does the rule \"Treat full coverage as a direction, not a substitute for meaningful tests\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "sd-coverage-asymptotic-goal",
+        "heading": "Treat full coverage as a direction, not a substitute for meaningful tests",
+        "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+        "heading_path": [
+          "Clean Code, Chapter 18: Simple Design, PR review rules",
+          "Treat full coverage as a direction, not a substitute for meaningful tests"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Treat full coverage as a direction, not a substitute for meaningful tests",
+      "Coverage is evidence that code was exercised, not proof that its assertions are correct. Pursuing complete meaningful coverage exposes coupling and prevents unverified behavior from accumulating.",
+      "coverage",
+      "branches",
+      "testing"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch18-018",
+    "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+    "question": "What fix does the guidance recommend for \"Make code reveal its intent\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "sd-reveal-intent",
+        "heading": "Make code reveal its intent",
+        "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+        "heading_path": [
+          "Clean Code, Chapter 18: Simple Design, PR review rules",
+          "Make code reveal its intent"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make code reveal its intent",
+      "Choose precise names, extract meaningful decisions, separate abstraction levels, and remove incidental detail from policy code.",
+      "intent",
+      "naming",
+      "readability"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch18-019",
+    "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+    "question": "How can a reviewer spot a problem related to \"Use tests to document how abstractions are used\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "sd-tests-express-usage",
+        "heading": "Use tests to document how abstractions are used",
+        "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+        "heading_path": [
+          "Clean Code, Chapter 18: Simple Design, PR review rules",
+          "Use tests to document how abstractions are used"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use tests to document how abstractions are used",
+      "A new abstraction with tests that exercise internals but do not show supported usage",
+      "tests",
+      "documentation",
+      "documentation"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch18-020",
+    "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+    "question": "What review guidance applies to \"Eliminate convergent duplication\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "sd-remove-convergent-duplication",
+        "heading": "Eliminate convergent duplication",
+        "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+        "heading_path": [
+          "Clean Code, Chapter 18: Simple Design, PR review rules",
+          "Eliminate convergent duplication"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Eliminate convergent duplication",
+      "Real duplication creates multiple sources of truth and makes coordinated changes easy to miss. Centralizing the shared concept reduces fragility and review burden.",
+      "duplication",
+      "abstraction",
+      "design"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch18-021",
+    "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+    "question": "Why does the rule \"Preserve divergent duplication when responsibilities differ\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "sd-preserve-divergent-duplication",
+        "heading": "Preserve divergent duplication when responsibilities differ",
+        "source_path": "docs/Part_II_Design/chapter_18_simple_design.md",
+        "heading_path": [
+          "Clean Code, Chapter 18: Simple Design, PR review rules",
+          "Preserve divergent duplication when responsibilities differ"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Preserve divergent duplication when responsibilities differ",
+      "Not all textual similarity is a shared concept. Prematurely merging divergent behavior couples unrelated changes and can be harder to maintain than explicit duplication.",
+      "duplication",
+      "srp",
+      "design"
+    ],
+    "difficulty": "paraphrase"
+  }
+]

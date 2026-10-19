@@ -219,7 +219,6 @@ def test_reviewer_search_validates_and_queries_best_practices(monkeypatch):
     assert calls == [
         {
             "query": "authentication requirements",
-            "category": None,
             "limit": 3,
         }
     ]

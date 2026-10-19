@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch34-001",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep critical knowledge from becoming a single-person silo\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "wt-no-knowledge-silos",
+        "heading": "Keep critical knowledge from becoming a single-person silo",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+        "heading_path": [
+          "Clean Code, Chapter 34: Work as a Team, PR review rules",
+          "Keep critical knowledge from becoming a single-person silo"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep critical knowledge from becoming a single-person silo",
+      "A critical subsystem understandable or deployable by only one person",
+      "teamwork",
+      "bus-factor",
+      "collaboration"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch34-002",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+    "question": "What should a code reviewer look for in a diff related to \"Use collaborative programming to spread context\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "wt-collaborative-programming",
+        "heading": "Use collaborative programming to spread context",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+        "heading_path": [
+          "Clean Code, Chapter 34: Work as a Team, PR review rules",
+          "Use collaborative programming to spread context"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use collaborative programming to spread context",
+      "Complex or high-risk changes developed and reviewed in isolation",
+      "pairing",
+      "mob-programming",
+      "collaboration"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch34-003",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+    "question": "What should a code reviewer look for in a diff related to \"Make changes reviewable by teammates\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "wt-reviewable-team-changes",
+        "heading": "Make changes reviewable by teammates",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+        "heading_path": [
+          "Clean Code, Chapter 34: Work as a Team, PR review rules",
+          "Make changes reviewable by teammates"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make changes reviewable by teammates",
+      "A patch relying on private context, unexplained shortcuts, or unrecorded conversations",
+      "code-review",
+      "readability",
+      "collaboration"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch34-004",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+    "question": "What should a code reviewer look for in a diff related to \"Ensure teammates can cover operational duties\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "wt-operational-cover",
+        "heading": "Ensure teammates can cover operational duties",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+        "heading_path": [
+          "Clean Code, Chapter 34: Work as a Team, PR review rules",
+          "Ensure teammates can cover operational duties"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Ensure teammates can cover operational duties",
+      "New services/jobs/deployments with no runbook or backup operator",
+      "on-call",
+      "runbooks",
+      "operations"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch34-005",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+    "question": "What should a code reviewer look for in a diff related to \"Share ownership across connected components\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "wt-shared-boundary-context",
+        "heading": "Share ownership across connected components",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+        "heading_path": [
+          "Clean Code, Chapter 34: Work as a Team, PR review rules",
+          "Share ownership across connected components"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Share ownership across connected components",
+      "Teams owning adjacent components without a shared contract or integration practice",
+      "components",
+      "ownership",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch34-006",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+    "question": "What should a code reviewer look for in a diff related to \"Design remote collaboration intentionally\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "wt-remote-collaboration-contract",
+        "heading": "Design remote collaboration intentionally",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+        "heading_path": [
+          "Clean Code, Chapter 34: Work as a Team, PR review rules",
+          "Design remote collaboration intentionally"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Design remote collaboration intentionally",
+      "Distributed teams unable to obtain timely design decisions or reviews",
+      "remote",
+      "async",
+      "collaboration"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch34-007",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+    "question": "What should a code reviewer look for in a diff related to \"Preserve human connection in distributed teams\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "wt-human-team-connection",
+        "heading": "Preserve human connection in distributed teams",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+        "heading_path": [
+          "Clean Code, Chapter 34: Work as a Team, PR review rules",
+          "Preserve human connection in distributed teams"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Preserve human connection in distributed teams",
+      "Hostile or dismissive review language enabled by distance or text-only communication",
+      "remote",
+      "empathy",
+      "team-health"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch34-008",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+    "question": "Why does the rule \"Keep critical knowledge from becoming a single-person silo\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "wt-no-knowledge-silos",
+        "heading": "Keep critical knowledge from becoming a single-person silo",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+        "heading_path": [
+          "Clean Code, Chapter 34: Work as a Team, PR review rules",
+          "Keep critical knowledge from becoming a single-person silo"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep critical knowledge from becoming a single-person silo",
+      "A team must be able to continue when someone is unavailable. Knowledge silos create delivery and incident risk and make reviews less effective.",
+      "teamwork",
+      "bus-factor",
+      "collaboration"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch34-009",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+    "question": "What fix does the guidance recommend for \"Use collaborative programming to spread context\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "wt-collaborative-programming",
+        "heading": "Use collaborative programming to spread context",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+        "heading_path": [
+          "Clean Code, Chapter 34: Work as a Team, PR review rules",
+          "Use collaborative programming to spread context"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use collaborative programming to spread context",
+      "Match collaboration to risk, rotate participants, and capture the resulting decisions in the code/repository.",
+      "pairing",
+      "mob-programming",
+      "collaboration"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch34-010",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+    "question": "How can a reviewer spot a problem related to \"Make changes reviewable by teammates\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "wt-reviewable-team-changes",
+        "heading": "Make changes reviewable by teammates",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+        "heading_path": [
+          "Clean Code, Chapter 34: Work as a Team, PR review rules",
+          "Make changes reviewable by teammates"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make changes reviewable by teammates",
+      "A patch relying on private context, unexplained shortcuts, or unrecorded conversations",
+      "code-review",
+      "readability",
+      "collaboration"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch34-011",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+    "question": "What review guidance applies to \"Ensure teammates can cover operational duties\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "wt-operational-cover",
+        "heading": "Ensure teammates can cover operational duties",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+        "heading_path": [
+          "Clean Code, Chapter 34: Work as a Team, PR review rules",
+          "Ensure teammates can cover operational duties"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Ensure teammates can cover operational duties",
+      "A team cannot respond reliably if the only operator is unavailable. Code review should include how the change is built, deployed, monitored, and recovered by others.",
+      "on-call",
+      "runbooks",
+      "operations"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch34-012",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+    "question": "Why does the rule \"Share ownership across connected components\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "wt-shared-boundary-context",
+        "heading": "Share ownership across connected components",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+        "heading_path": [
+          "Clean Code, Chapter 34: Work as a Team, PR review rules",
+          "Share ownership across connected components"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Share ownership across connected components",
+      "Component boundaries do not remove collaboration needs. Shared context around contracts prevents teams from optimizing locally while breaking the system globally.",
+      "components",
+      "ownership",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch34-013",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+    "question": "What fix does the guidance recommend for \"Design remote collaboration intentionally\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "wt-remote-collaboration-contract",
+        "heading": "Design remote collaboration intentionally",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+        "heading_path": [
+          "Clean Code, Chapter 34: Work as a Team, PR review rules",
+          "Design remote collaboration intentionally"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Design remote collaboration intentionally",
+      "Define collaboration hours/channels, use pairing or shared sessions for complex work, and record decisions in durable project artifacts.",
+      "remote",
+      "async",
+      "collaboration"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch34-014",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+    "question": "How can a reviewer spot a problem related to \"Preserve human connection in distributed teams\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "wt-human-team-connection",
+        "heading": "Preserve human connection in distributed teams",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+        "heading_path": [
+          "Clean Code, Chapter 34: Work as a Team, PR review rules",
+          "Preserve human connection in distributed teams"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Preserve human connection in distributed teams",
+      "Hostile or dismissive review language enabled by distance or text-only communication",
+      "remote",
+      "empathy",
+      "team-health"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch34-015",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+    "question": "What review guidance applies to \"Keep critical knowledge from becoming a single-person silo\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "wt-no-knowledge-silos",
+        "heading": "Keep critical knowledge from becoming a single-person silo",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+        "heading_path": [
+          "Clean Code, Chapter 34: Work as a Team, PR review rules",
+          "Keep critical knowledge from becoming a single-person silo"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep critical knowledge from becoming a single-person silo",
+      "A team must be able to continue when someone is unavailable. Knowledge silos create delivery and incident risk and make reviews less effective.",
+      "teamwork",
+      "bus-factor",
+      "collaboration"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch34-016",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+    "question": "Why does the rule \"Use collaborative programming to spread context\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "wt-collaborative-programming",
+        "heading": "Use collaborative programming to spread context",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+        "heading_path": [
+          "Clean Code, Chapter 34: Work as a Team, PR review rules",
+          "Use collaborative programming to spread context"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use collaborative programming to spread context",
+      "Pairing, mobbing, and active design collaboration spread the reasoning behind code, not just the final patch. Shared context improves both resilience and decision quality.",
+      "pairing",
+      "mob-programming",
+      "collaboration"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch34-017",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+    "question": "What fix does the guidance recommend for \"Make changes reviewable by teammates\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "wt-reviewable-team-changes",
+        "heading": "Make changes reviewable by teammates",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+        "heading_path": [
+          "Clean Code, Chapter 34: Work as a Team, PR review rules",
+          "Make changes reviewable by teammates"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make changes reviewable by teammates",
+      "Keep changes focused, name intent clearly, link relevant decisions, and invite review from people who will maintain adjacent behavior.",
+      "code-review",
+      "readability",
+      "collaboration"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch34-018",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+    "question": "How can a reviewer spot a problem related to \"Ensure teammates can cover operational duties\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "wt-operational-cover",
+        "heading": "Ensure teammates can cover operational duties",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+        "heading_path": [
+          "Clean Code, Chapter 34: Work as a Team, PR review rules",
+          "Ensure teammates can cover operational duties"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Ensure teammates can cover operational duties",
+      "New services/jobs/deployments with no runbook or backup operator",
+      "on-call",
+      "runbooks",
+      "operations"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch34-019",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+    "question": "What review guidance applies to \"Share ownership across connected components\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "wt-shared-boundary-context",
+        "heading": "Share ownership across connected components",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+        "heading_path": [
+          "Clean Code, Chapter 34: Work as a Team, PR review rules",
+          "Share ownership across connected components"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Share ownership across connected components",
+      "Component boundaries do not remove collaboration needs. Shared context around contracts prevents teams from optimizing locally while breaking the system globally.",
+      "components",
+      "ownership",
+      "architecture"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch34-020",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+    "question": "Why does the rule \"Design remote collaboration intentionally\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "wt-remote-collaboration-contract",
+        "heading": "Design remote collaboration intentionally",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+        "heading_path": [
+          "Clean Code, Chapter 34: Work as a Team, PR review rules",
+          "Design remote collaboration intentionally"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Design remote collaboration intentionally",
+      "Remote work can support strong collaboration when communication channels, overlap, and artifacts are deliberate. Unstructured distribution increases delay and misunderstanding.",
+      "remote",
+      "async",
+      "collaboration"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch34-021",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+    "question": "What fix does the guidance recommend for \"Preserve human connection in distributed teams\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "wt-human-team-connection",
+        "heading": "Preserve human connection in distributed teams",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_34_work_as_a_team.md",
+        "heading_path": [
+          "Clean Code, Chapter 34: Work as a Team, PR review rules",
+          "Preserve human connection in distributed teams"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Preserve human connection in distributed teams",
+      "Use respectful communication, direct conversation for high-context conflict, and durable written outcomes for the team.",
+      "remote",
+      "empathy",
+      "team-health"
+    ],
+    "difficulty": "direct"
+  }
+]

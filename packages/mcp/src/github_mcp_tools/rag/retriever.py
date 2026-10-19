@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import re
+
 from openai import AsyncOpenAI
 from pr_logging.core import get_logger
 from sqlalchemy import select
@@ -10,13 +12,37 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from github_mcp_tools.rag.database import EMBEDDING_MODEL, get_session_factory
 from github_mcp_tools.rag.models import (
     BestPracticeResult,
-    Category,
     Chunk,
     Document,
     Embedding,
 )
 
 logger = get_logger(__name__)
+
+
+def _normalize_for_matching(value: str) -> str:
+    return " ".join(re.findall(r"\w+", value.casefold()))
+
+
+def _heading_match_score(query: str, metadata: object) -> int:
+    if not isinstance(metadata, dict):
+        return 0
+
+    heading_path = metadata.get("heading_path", [])
+    if not isinstance(heading_path, list):
+        return 0
+
+    normalized_query = f" {_normalize_for_matching(query)} "
+    return max(
+        (
+            len(normalized_heading.split())
+            for heading in heading_path
+            if isinstance(heading, str)
+            for normalized_heading in [_normalize_for_matching(heading)]
+            if normalized_heading and f" {normalized_heading} " in normalized_query
+        ),
+        default=0,
+    )
 
 
 class BestPracticesRetriever:
@@ -48,18 +74,18 @@ class BestPracticesRetriever:
     async def search(
         self,
         query: str,
-        category: Category | None = None,
         limit: int = 5,
     ) -> list[BestPracticeResult]:
         requested_limit = limit
         limit = max(1, min(limit, 8))
+        candidate_limit = min(max(limit * 10, 50), 100)
 
         logger.info(
-            "Searching best practices with category '{}', limit {} "
-            "(requested {}), query length {}",
-            category.value if category else "all",
+            "Searching best practices with limit {} (requested {}), "
+            "candidate pool {}, query length {}",
             limit,
             requested_limit,
+            candidate_limit,
             len(query),
         )
 
@@ -79,32 +105,38 @@ class BestPracticesRetriever:
         statement = (
             select(
                 Document.title,
-                Document.category,
                 Chunk.content,
-                Chunk.metadata_,
+                Chunk.metadata_.label("metadata_"),
                 distance.label("distance"),
             )
             .join(Chunk, Chunk.document_id == Document.id)
             .join(Embedding, Embedding.chunk_id == Chunk.id)
+            # Older databases may still contain parent/child rows. Restrict
+            # retrieval to the focused chunks created by the new ingestion.
+            .where(Chunk.metadata_["chunk_type"].as_string() == "rule")
             .order_by(distance)
-            .limit(limit)
+            .limit(candidate_limit)
         )
-
-        if category is not None:
-            statement = statement.where(Document.category == category)
 
         async with self.session_factory() as session:
             rows = (await session.execute(statement)).mappings().all()
 
+            ranked_rows = sorted(
+                rows,
+                key=lambda row: (
+                    -_heading_match_score(query, row["metadata_"]),
+                    float(row["distance"]),
+                ),
+            )[:limit]
+
         results = [
             BestPracticeResult(
                 title=row["title"],
-                category=row["category"],
                 content=row["content"],
                 metadata=row["metadata_"],
                 distance=float(row["distance"]),
             )
-            for row in rows
+            for row in ranked_rows
         ]
 
         logger.debug(

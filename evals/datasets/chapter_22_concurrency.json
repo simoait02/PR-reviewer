@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch22-001",
+    "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+    "question": "What should a code reviewer look for in a diff related to \"Justify concurrency with a concrete throughput or structure need\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-justify-concurrency",
+        "heading": "Justify concurrency with a concrete throughput or structure need",
+        "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+        "heading_path": [
+          "Clean Code, Chapter 22: Concurrency, PR review rules",
+          "Justify concurrency with a concrete throughput or structure need"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Justify concurrency with a concrete throughput or structure need",
+      "Threads, tasks, or async code added without a measurable latency/throughput need",
+      "concurrency",
+      "throughput",
+      "concurrency"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch22-002",
+    "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+    "question": "What should a code reviewer look for in a diff related to \"Separate concurrency mechanics from application policy\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-separate-concurrency-responsibility",
+        "heading": "Separate concurrency mechanics from application policy",
+        "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+        "heading_path": [
+          "Clean Code, Chapter 22: Concurrency, PR review rules",
+          "Separate concurrency mechanics from application policy"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Separate concurrency mechanics from application policy",
+      "Business rules mixed with thread creation, locks, queues, retries, or cancellation",
+      "concurrency",
+      "srp",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch22-003",
+    "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+    "question": "What should a code reviewer look for in a diff related to \"Minimize shared mutable state\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-limit-shared-state",
+        "heading": "Minimize shared mutable state",
+        "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+        "heading_path": [
+          "Clean Code, Chapter 22: Concurrency, PR review rules",
+          "Minimize shared mutable state"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Minimize shared mutable state",
+      "Multiple threads reading and writing the same mutable field",
+      "shared-state",
+      "race-condition",
+      "concurrency"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch22-004",
+    "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+    "question": "What should a code reviewer look for in a diff related to \"Prefer copies, immutable values, or single-owner state\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-avoid-sharing-by-copy",
+        "heading": "Prefer copies, immutable values, or single-owner state",
+        "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+        "heading_path": [
+          "Clean Code, Chapter 22: Concurrency, PR review rules",
+          "Prefer copies, immutable values, or single-owner state"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Prefer copies, immutable values, or single-owner state",
+      "Workers sharing mutable objects when each could operate on a snapshot",
+      "immutability",
+      "copies",
+      "concurrency"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch22-005",
+    "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+    "question": "What should a code reviewer look for in a diff related to \"Design workers to be independent where possible\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-independent-workers",
+        "heading": "Design workers to be independent where possible",
+        "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+        "heading_path": [
+          "Clean Code, Chapter 22: Concurrency, PR review rules",
+          "Design workers to be independent where possible"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Design workers to be independent where possible",
+      "Workers coordinating through incidental shared fields",
+      "workers",
+      "partitioning",
+      "concurrency"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch22-006",
+    "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+    "question": "What should a code reviewer look for in a diff related to \"Use thread-safe libraries and know their guarantees\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-use-proven-threading-primitives",
+        "heading": "Use thread-safe libraries and know their guarantees",
+        "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+        "heading_path": [
+          "Clean Code, Chapter 22: Concurrency, PR review rules",
+          "Use thread-safe libraries and know their guarantees"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use thread-safe libraries and know their guarantees",
+      "A custom queue, pool, atomic operation, or lock protocol replacing a proven library primitive",
+      "thread-safe",
+      "collections",
+      "concurrency"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch22-007",
+    "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+    "question": "What should a code reviewer look for in a diff related to \"Choose and document the execution model\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-explicit-execution-model",
+        "heading": "Choose and document the execution model",
+        "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+        "heading_path": [
+          "Clean Code, Chapter 22: Concurrency, PR review rules",
+          "Choose and document the execution model"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Choose and document the execution model",
+      "A queue, pool, or lock protocol with no stated ownership, backpressure, or completion semantics",
+      "producer-consumer",
+      "readers-writers",
+      "concurrency"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch22-008",
+    "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+    "question": "What should a code reviewer look for in a diff related to \"Prevent deadlock, livelock, and starvation\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-prevent-lock-pathologies",
+        "heading": "Prevent deadlock, livelock, and starvation",
+        "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+        "heading_path": [
+          "Clean Code, Chapter 22: Concurrency, PR review rules",
+          "Prevent deadlock, livelock, and starvation"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Prevent deadlock, livelock, and starvation",
+      "Multiple locks acquired in inconsistent order",
+      "deadlock",
+      "livelock",
+      "concurrency"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch22-009",
+    "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+    "question": "What should a code reviewer look for in a diff related to \"Avoid multi-call protocols on synchronized objects\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-atomic-client-operation",
+        "heading": "Avoid multi-call protocols on synchronized objects",
+        "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+        "heading_path": [
+          "Clean Code, Chapter 22: Concurrency, PR review rules",
+          "Avoid multi-call protocols on synchronized objects"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Avoid multi-call protocols on synchronized objects",
+      "A client calling two or more individually synchronized methods as one logical operation",
+      "synchronization",
+      "atomicity",
+      "concurrency"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch22-010",
+    "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep critical sections minimal and complete\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-small-complete-critical-sections",
+        "heading": "Keep critical sections minimal and complete",
+        "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+        "heading_path": [
+          "Clean Code, Chapter 22: Concurrency, PR review rules",
+          "Keep critical sections minimal and complete"
+        ],
+        "chunk_index": 9,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep critical sections minimal and complete",
+      "Locks held across I/O, callbacks, slow computation, or unrelated work",
+      "critical-section",
+      "locks",
+      "concurrency"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch22-011",
+    "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+    "question": "What should a code reviewer look for in a diff related to \"Design startup and shutdown as explicit protocols\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-lifecycle-protocol",
+        "heading": "Design startup and shutdown as explicit protocols",
+        "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+        "heading_path": [
+          "Clean Code, Chapter 22: Concurrency, PR review rules",
+          "Design startup and shutdown as explicit protocols"
+        ],
+        "chunk_index": 10,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Design startup and shutdown as explicit protocols",
+      "Workers started without readiness/error reporting or stopped without cancellation",
+      "startup",
+      "shutdown",
+      "concurrency"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch22-012",
+    "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+    "question": "What should a code reviewer look for in a diff related to \"Make concurrent code pluggable and tunable\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-pluggable-tunable-concurrency",
+        "heading": "Make concurrent code pluggable and tunable",
+        "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+        "heading_path": [
+          "Clean Code, Chapter 22: Concurrency, PR review rules",
+          "Make concurrent code pluggable and tunable"
+        ],
+        "chunk_index": 11,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make concurrent code pluggable and tunable",
+      "Thread counts, timing, and dependencies hard-coded into production logic",
+      "concurrency",
+      "executors",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch22-013",
+    "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+    "question": "What should a code reviewer look for in a diff related to \"Test non-threaded behavior before threaded behavior\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-test-sequential-core-first",
+        "heading": "Test non-threaded behavior before threaded behavior",
+        "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+        "heading_path": [
+          "Clean Code, Chapter 22: Concurrency, PR review rules",
+          "Test non-threaded behavior before threaded behavior"
+        ],
+        "chunk_index": 12,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Test non-threaded behavior before threaded behavior",
+      "Threading introduced before the underlying calculation or state transition has focused tests",
+      "concurrency",
+      "unit-tests",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch22-014",
+    "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+    "question": "What should a code reviewer look for in a diff related to \"Treat every intermittent failure as a real defect candidate\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-investigate-intermittent-failures",
+        "heading": "Treat every intermittent failure as a real defect candidate",
+        "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+        "heading_path": [
+          "Clean Code, Chapter 22: Concurrency, PR review rules",
+          "Treat every intermittent failure as a real defect candidate"
+        ],
+        "chunk_index": 13,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Treat every intermittent failure as a real defect candidate",
+      "A flaky or one-off failure ignored because the next run passed",
+      "concurrency",
+      "flaky-tests",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch22-015",
+    "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+    "question": "What should a code reviewer look for in a diff related to \"Stress concurrent code across schedules and environments\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-stress-schedules-platforms",
+        "heading": "Stress concurrent code across schedules and environments",
+        "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+        "heading_path": [
+          "Clean Code, Chapter 22: Concurrency, PR review rules",
+          "Stress concurrent code across schedules and environments"
+        ],
+        "chunk_index": 14,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Stress concurrent code across schedules and environments",
+      "Concurrency tests run once with one worker count and one platform",
+      "concurrency",
+      "stress",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch22-016",
+    "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+    "question": "What should a code reviewer look for in a diff related to \"Instrument scheduling to expose hidden races\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-schedule-instrumentation",
+        "heading": "Instrument scheduling to expose hidden races",
+        "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+        "heading_path": [
+          "Clean Code, Chapter 22: Concurrency, PR review rules",
+          "Instrument scheduling to expose hidden races"
+        ],
+        "chunk_index": 15,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Instrument scheduling to expose hidden races",
+      "A race-prone section with no way to force alternate interleavings",
+      "concurrency",
+      "instrumentation",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch22-017",
+    "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+    "question": "What should a code reviewer look for in a diff related to \"Choose a data-integrity strategy for concurrent updates\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-explicit-shared-data-strategy",
+        "heading": "Choose a data-integrity strategy for concurrent updates",
+        "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+        "heading_path": [
+          "Clean Code, Chapter 22: Concurrency, PR review rules",
+          "Choose a data-integrity strategy for concurrent updates"
+        ],
+        "chunk_index": 16,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Choose a data-integrity strategy for concurrent updates",
+      "Concurrent check-then-write operations against eventually consistent or shared storage",
+      "shared-data",
+      "transactions",
+      "data-integrity"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch22-018",
+    "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+    "question": "What should a code reviewer look for in a diff related to \"Prefer simpler serialized workflows when they preserve correctness\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-serialize-hard-shared-operation",
+        "heading": "Prefer simpler serialized workflows when they preserve correctness",
+        "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+        "heading_path": [
+          "Clean Code, Chapter 22: Concurrency, PR review rules",
+          "Prefer simpler serialized workflows when they preserve correctness"
+        ],
+        "chunk_index": 17,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Prefer simpler serialized workflows when they preserve correctness",
+      "Complex locking added to make a naturally sequential business operation concurrent",
+      "concurrency",
+      "serialization",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch22-019",
+    "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+    "question": "Why does the rule \"Justify concurrency with a concrete throughput or structure need\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-justify-concurrency",
+        "heading": "Justify concurrency with a concrete throughput or structure need",
+        "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+        "heading_path": [
+          "Clean Code, Chapter 22: Concurrency, PR review rules",
+          "Justify concurrency with a concrete throughput or structure need"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Justify concurrency with a concrete throughput or structure need",
+      "Concurrency adds scheduling, synchronization, testing, and operational complexity. It helps when work can overlap or when decoupling “what” from “when” improves the design, but it is not free performance.",
+      "concurrency",
+      "throughput",
+      "concurrency"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch22-020",
+    "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+    "question": "What fix does the guidance recommend for \"Separate concurrency mechanics from application policy\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-separate-concurrency-responsibility",
+        "heading": "Separate concurrency mechanics from application policy",
+        "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+        "heading_path": [
+          "Clean Code, Chapter 22: Concurrency, PR review rules",
+          "Separate concurrency mechanics from application policy"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Separate concurrency mechanics from application policy",
+      "Separate thread-aware orchestration from thread-ignorant behavior and define a clear handoff between them.",
+      "concurrency",
+      "srp",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch22-021",
+    "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+    "question": "How can a reviewer spot a problem related to \"Minimize shared mutable state\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-limit-shared-state",
+        "heading": "Minimize shared mutable state",
+        "source_path": "docs/Part_II_Design/chapter_22_concurrency.md",
+        "heading_path": [
+          "Clean Code, Chapter 22: Concurrency, PR review rules",
+          "Minimize shared mutable state"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Minimize shared mutable state",
+      "Multiple threads reading and writing the same mutable field",
+      "shared-state",
+      "race-condition",
+      "concurrency"
+    ],
+    "difficulty": "paraphrase"
+  }
+]

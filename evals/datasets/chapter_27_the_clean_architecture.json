@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch27-001",
+    "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+    "question": "What should a code reviewer look for in a diff related to \"Point source dependencies toward higher-level policy\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ca-dependencies-point-inward",
+        "heading": "Point source dependencies toward higher-level policy",
+        "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+        "heading_path": [
+          "Clean Code, Chapter 27: The Clean Architecture, PR review rules",
+          "Point source dependencies toward higher-level policy"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Point source dependencies toward higher-level policy",
+      "Entities or use cases importing UI, database, web, framework, or vendor code",
+      "clean-architecture",
+      "dependency-rule",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch27-002",
+    "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep entities independent of application and delivery concerns\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ca-entities-protect-enterprise-rules",
+        "heading": "Keep entities independent of application and delivery concerns",
+        "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+        "heading_path": [
+          "Clean Code, Chapter 27: The Clean Architecture, PR review rules",
+          "Keep entities independent of application and delivery concerns"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep entities independent of application and delivery concerns",
+      "Core business entities depending on navigation, authorization framework, ORM, HTTP, or UI concerns",
+      "entities",
+      "business-rules",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch27-003",
+    "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep use cases isolated from frameworks and infrastructure\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ca-use-cases-independent",
+        "heading": "Keep use cases isolated from frameworks and infrastructure",
+        "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+        "heading_path": [
+          "Clean Code, Chapter 27: The Clean Architecture, PR review rules",
+          "Keep use cases isolated from frameworks and infrastructure"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep use cases isolated from frameworks and infrastructure",
+      "Use cases directly querying databases, returning HTTP responses, or invoking UI/framework APIs",
+      "use-cases",
+      "frameworks",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch27-004",
+    "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep interface adapters responsible for data conversion\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ca-adapters-translate-data",
+        "heading": "Keep interface adapters responsible for data conversion",
+        "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+        "heading_path": [
+          "Clean Code, Chapter 27: The Clean Architecture, PR review rules",
+          "Keep interface adapters responsible for data conversion"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep interface adapters responsible for data conversion",
+      "Controllers passing framework request objects into use cases",
+      "adapters",
+      "controllers",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch27-005",
+    "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep frameworks and drivers at the outer edge\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ca-frameworks-at-the-edge",
+        "heading": "Keep frameworks and drivers at the outer edge",
+        "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+        "heading_path": [
+          "Clean Code, Chapter 27: The Clean Architecture, PR review rules",
+          "Keep frameworks and drivers at the outer edge"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep frameworks and drivers at the outer edge",
+      "Framework conventions determining domain module structure",
+      "frameworks",
+      "drivers",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch27-006",
+    "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+    "question": "What should a code reviewer look for in a diff related to \"Use only the layers the change actually needs\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ca-layers-are-not-a-fixed-count",
+        "heading": "Use only the layers the change actually needs",
+        "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+        "heading_path": [
+          "Clean Code, Chapter 27: The Clean Architecture, PR review rules",
+          "Use only the layers the change actually needs"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use only the layers the change actually needs",
+      "Empty layers or wrappers added solely to match a diagram",
+      "layers",
+      "architecture",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch27-007",
+    "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+    "question": "What should a code reviewer look for in a diff related to \"Invert output dependencies at the boundary\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ca-invert-output-boundary",
+        "heading": "Invert output dependencies at the boundary",
+        "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+        "heading_path": [
+          "Clean Code, Chapter 27: The Clean Architecture, PR review rules",
+          "Invert output dependencies at the boundary"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Invert output dependencies at the boundary",
+      "A use case directly constructing or calling a presenter/view/controller",
+      "dependency-inversion",
+      "output-port",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch27-008",
+    "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+    "question": "What should a code reviewer look for in a diff related to \"Pass simple boundary data structures\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ca-simple-boundary-data",
+        "heading": "Pass simple boundary data structures",
+        "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+        "heading_path": [
+          "Clean Code, Chapter 27: The Clean Architecture, PR review rules",
+          "Pass simple boundary data structures"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Pass simple boundary data structures",
+      "Entities, ORM records, framework request objects, or database rows crossing architectural boundaries",
+      "dto",
+      "data-transfer",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch27-009",
+    "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep presentation formatting out of policy\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ca-presenter-formats-output",
+        "heading": "Keep presentation formatting out of policy",
+        "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+        "heading_path": [
+          "Clean Code, Chapter 27: The Clean Architecture, PR review rules",
+          "Keep presentation formatting out of policy"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep presentation formatting out of policy",
+      "Use cases formatting dates, currency, labels, button names, or display flags for one view",
+      "presenter",
+      "formatting",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch27-010",
+    "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+    "question": "What should a code reviewer look for in a diff related to \"Test inner circles without outer systems\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ca-test-inner-circles-isolated",
+        "heading": "Test inner circles without outer systems",
+        "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+        "heading_path": [
+          "Clean Code, Chapter 27: The Clean Architecture, PR review rules",
+          "Test inner circles without outer systems"
+        ],
+        "chunk_index": 9,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Test inner circles without outer systems",
+      "Entity/use-case tests requiring a web server, database, framework, or real external service",
+      "testability",
+      "use-cases",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch27-011",
+    "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+    "question": "What should a code reviewer look for in a diff related to \"Verify the dependency rule when adding a framework feature\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ca-framework-feature-does-not-invert-core",
+        "heading": "Verify the dependency rule when adding a framework feature",
+        "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+        "heading_path": [
+          "Clean Code, Chapter 27: The Clean Architecture, PR review rules",
+          "Verify the dependency rule when adding a framework feature"
+        ],
+        "chunk_index": 10,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Verify the dependency rule when adding a framework feature",
+      "A convenience framework feature adding outer imports to inner modules",
+      "framework",
+      "dependency-rule",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch27-012",
+    "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+    "question": "Why does the rule \"Point source dependencies toward higher-level policy\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ca-dependencies-point-inward",
+        "heading": "Point source dependencies toward higher-level policy",
+        "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+        "heading_path": [
+          "Clean Code, Chapter 27: The Clean Architecture, PR review rules",
+          "Point source dependencies toward higher-level policy"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Point source dependencies toward higher-level policy",
+      "Inner policy is more valuable and stable than outer mechanisms. Inward dependencies protect business rules from changes in delivery, persistence, and frameworks.",
+      "clean-architecture",
+      "dependency-rule",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch27-013",
+    "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+    "question": "What fix does the guidance recommend for \"Keep entities independent of application and delivery concerns\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ca-entities-protect-enterprise-rules",
+        "heading": "Keep entities independent of application and delivery concerns",
+        "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+        "heading_path": [
+          "Clean Code, Chapter 27: The Clean Architecture, PR review rules",
+          "Keep entities independent of application and delivery concerns"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep entities independent of application and delivery concerns",
+      "Keep entities focused on general business invariants and translate external/application concerns at the appropriate boundary.",
+      "entities",
+      "business-rules",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch27-014",
+    "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+    "question": "How can a reviewer spot a problem related to \"Keep use cases isolated from frameworks and infrastructure\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ca-use-cases-independent",
+        "heading": "Keep use cases isolated from frameworks and infrastructure",
+        "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+        "heading_path": [
+          "Clean Code, Chapter 27: The Clean Architecture, PR review rules",
+          "Keep use cases isolated from frameworks and infrastructure"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep use cases isolated from frameworks and infrastructure",
+      "Use cases directly querying databases, returning HTTP responses, or invoking UI/framework APIs",
+      "use-cases",
+      "frameworks",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch27-015",
+    "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+    "question": "What review guidance applies to \"Keep interface adapters responsible for data conversion\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ca-adapters-translate-data",
+        "heading": "Keep interface adapters responsible for data conversion",
+        "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+        "heading_path": [
+          "Clean Code, Chapter 27: The Clean Architecture, PR review rules",
+          "Keep interface adapters responsible for data conversion"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep interface adapters responsible for data conversion",
+      "Adapters convert external representations into forms convenient for policy and back again. Centralizing translation keeps each layer independent and reduces format leakage.",
+      "adapters",
+      "controllers",
+      "architecture"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch27-016",
+    "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+    "question": "Why does the rule \"Keep frameworks and drivers at the outer edge\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ca-frameworks-at-the-edge",
+        "heading": "Keep frameworks and drivers at the outer edge",
+        "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+        "heading_path": [
+          "Clean Code, Chapter 27: The Clean Architecture, PR review rules",
+          "Keep frameworks and drivers at the outer edge"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep frameworks and drivers at the outer edge",
+      "Frameworks and drivers are details and often change. Keeping their code thin limits the impact of replacement, upgrades, and testing constraints.",
+      "frameworks",
+      "drivers",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch27-017",
+    "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+    "question": "What fix does the guidance recommend for \"Use only the layers the change actually needs\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ca-layers-are-not-a-fixed-count",
+        "heading": "Use only the layers the change actually needs",
+        "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+        "heading_path": [
+          "Clean Code, Chapter 27: The Clean Architecture, PR review rules",
+          "Use only the layers the change actually needs"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use only the layers the change actually needs",
+      "Use as many layers as provide meaningful change protection, and judge them by dependency direction and responsibility.",
+      "layers",
+      "architecture",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch27-018",
+    "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+    "question": "How can a reviewer spot a problem related to \"Invert output dependencies at the boundary\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ca-invert-output-boundary",
+        "heading": "Invert output dependencies at the boundary",
+        "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+        "heading_path": [
+          "Clean Code, Chapter 27: The Clean Architecture, PR review rules",
+          "Invert output dependencies at the boundary"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Invert output dependencies at the boundary",
+      "A use case directly constructing or calling a presenter/view/controller",
+      "dependency-inversion",
+      "output-port",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch27-019",
+    "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+    "question": "What review guidance applies to \"Pass simple boundary data structures\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ca-simple-boundary-data",
+        "heading": "Pass simple boundary data structures",
+        "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+        "heading_path": [
+          "Clean Code, Chapter 27: The Clean Architecture, PR review rules",
+          "Pass simple boundary data structures"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Pass simple boundary data structures",
+      "Data crossing a boundary should be shaped for the receiving inner layer. Passing outer objects leaks implementation details and creates transitive coupling.",
+      "dto",
+      "data-transfer",
+      "architecture"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch27-020",
+    "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+    "question": "Why does the rule \"Keep presentation formatting out of policy\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ca-presenter-formats-output",
+        "heading": "Keep presentation formatting out of policy",
+        "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+        "heading_path": [
+          "Clean Code, Chapter 27: The Clean Architecture, PR review rules",
+          "Keep presentation formatting out of policy"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep presentation formatting out of policy",
+      "Presenters translate application output into a view model while policy remains independent of display technology. This allows multiple UIs and consistent business behavior.",
+      "presenter",
+      "formatting",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch27-021",
+    "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+    "question": "What fix does the guidance recommend for \"Test inner circles without outer systems\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ca-test-inner-circles-isolated",
+        "heading": "Test inner circles without outer systems",
+        "source_path": "docs/Part_III_Architecture/chapter_27_the_clean_architecture.md",
+        "heading_path": [
+          "Clean Code, Chapter 27: The Clean Architecture, PR review rules",
+          "Test inner circles without outer systems"
+        ],
+        "chunk_index": 9,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Test inner circles without outer systems",
+      "Test entities and use cases against simple inputs and fakes; test adapters and full integration separately.",
+      "testability",
+      "use-cases",
+      "testing"
+    ],
+    "difficulty": "direct"
+  }
+]

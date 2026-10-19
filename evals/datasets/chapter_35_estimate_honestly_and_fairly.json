@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch35-001",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+    "question": "What should a code reviewer look for in a diff related to \"Distinguish an estimate from a commitment\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ef-estimate-is-not-commitment",
+        "heading": "Distinguish an estimate from a commitment",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+        "heading_path": [
+          "Clean Code, Chapter 35: Estimate Honestly and Fairly, PR review rules",
+          "Distinguish an estimate from a commitment"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Distinguish an estimate from a commitment",
+      "A single date presented as certain despite unresolved technical or product uncertainty",
+      "estimates",
+      "commitments",
+      "planning"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch35-002",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+    "question": "What should a code reviewer look for in a diff related to \"Express estimates as ranges with confidence\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ef-range-with-confidence",
+        "heading": "Express estimates as ranges with confidence",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+        "heading_path": [
+          "Clean Code, Chapter 35: Estimate Honestly and Fairly, PR review rules",
+          "Express estimates as ranges with confidence"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Express estimates as ranges with confidence",
+      "Exact dates without best/nominal/worst cases or confidence level",
+      "estimates",
+      "ranges",
+      "planning"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch35-003",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+    "question": "What should a code reviewer look for in a diff related to \"Expose unknowns instead of hiding them in optimism\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ef-name-estimate-unknowns",
+        "heading": "Expose unknowns instead of hiding them in optimism",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+        "heading_path": [
+          "Clean Code, Chapter 35: Estimate Honestly and Fairly, PR review rules",
+          "Expose unknowns instead of hiding them in optimism"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Expose unknowns instead of hiding them in optimism",
+      "Estimates based on unfamiliar architecture, vendor behavior, migration complexity, or unclear requirements with no discovery work",
+      "estimates",
+      "unknowns",
+      "planning"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch35-004",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+    "question": "What should a code reviewer look for in a diff related to \"Estimate the real work, including integration and verification\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ef-estimate-full-delivery-work",
+        "heading": "Estimate the real work, including integration and verification",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+        "heading_path": [
+          "Clean Code, Chapter 35: Estimate Honestly and Fairly, PR review rules",
+          "Estimate the real work, including integration and verification"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Estimate the real work, including integration and verification",
+      "Implementation effort estimated without tests, refactoring, review, migration, deployment, or operational work",
+      "estimates",
+      "testing",
+      "planning"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch35-005",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+    "question": "What should a code reviewer look for in a diff related to \"Use experiments to increase certainty\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ef-buy-down-uncertainty",
+        "heading": "Use experiments to increase certainty",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+        "heading_path": [
+          "Clean Code, Chapter 35: Estimate Honestly and Fairly, PR review rules",
+          "Use experiments to increase certainty"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use experiments to increase certainty",
+      "A team pressured for precision without being given time to investigate unknowns",
+      "estimates",
+      "spikes",
+      "planning"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch35-006",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+    "question": "What should a code reviewer look for in a diff related to \"Decompose large work before estimating it\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ef-decompose-before-estimating",
+        "heading": "Decompose large work before estimating it",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+        "heading_path": [
+          "Clean Code, Chapter 35: Estimate Honestly and Fairly, PR review rules",
+          "Decompose large work before estimating it"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Decompose large work before estimating it",
+      "A single estimate for a multi-component effort with hidden dependencies",
+      "estimates",
+      "decomposition",
+      "planning"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch35-007",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+    "question": "What should a code reviewer look for in a diff related to \"Update estimates when evidence changes\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ef-estimates-are-revisable",
+        "heading": "Update estimates when evidence changes",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+        "heading_path": [
+          "Clean Code, Chapter 35: Estimate Honestly and Fairly, PR review rules",
+          "Update estimates when evidence changes"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Update estimates when evidence changes",
+      "A stale estimate preserved after new complexity, scope, or dependency information appears",
+      "estimates",
+      "forecasting",
+      "planning"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch35-008",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+    "question": "What should a code reviewer look for in a diff related to \"Say no to commitments without reasonable confidence\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ef-no-unreliable-commitments",
+        "heading": "Say no to commitments without reasonable confidence",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+        "heading_path": [
+          "Clean Code, Chapter 35: Estimate Honestly and Fairly, PR review rules",
+          "Say no to commitments without reasonable confidence"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Say no to commitments without reasonable confidence",
+      "A developer promising a date they know is unlikely to meet",
+      "commitments",
+      "honesty",
+      "professional-responsibility"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch35-009",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+    "question": "What should a code reviewer look for in a diff related to \"Separate schedule pressure from technical truth\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ef-deadline-does-not-change-estimate",
+        "heading": "Separate schedule pressure from technical truth",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+        "heading_path": [
+          "Clean Code, Chapter 35: Estimate Honestly and Fairly, PR review rules",
+          "Separate schedule pressure from technical truth"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Separate schedule pressure from technical truth",
+      "A desired deadline used as evidence that the work can be completed by then",
+      "deadlines",
+      "estimates",
+      "planning"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch35-010",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+    "question": "What should a code reviewer look for in a diff related to \"Use estimates to manage risk, not to assign blame\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ef-estimates-enable-risk-management",
+        "heading": "Use estimates to manage risk, not to assign blame",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+        "heading_path": [
+          "Clean Code, Chapter 35: Estimate Honestly and Fairly, PR review rules",
+          "Use estimates to manage risk, not to assign blame"
+        ],
+        "chunk_index": 9,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use estimates to manage risk, not to assign blame",
+      "Estimate variance used to punish rather than improve assumptions and process",
+      "estimates",
+      "risk-management",
+      "collaboration"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch35-011",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+    "question": "Why does the rule \"Distinguish an estimate from a commitment\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ef-estimate-is-not-commitment",
+        "heading": "Distinguish an estimate from a commitment",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+        "heading_path": [
+          "Clean Code, Chapter 35: Estimate Honestly and Fairly, PR review rules",
+          "Distinguish an estimate from a commitment"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Distinguish an estimate from a commitment",
+      "An estimate communicates uncertainty; a commitment accepts responsibility for achieving a result. Confusing them transfers risk silently and undermines planning trust.",
+      "estimates",
+      "commitments",
+      "planning"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch35-012",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+    "question": "What fix does the guidance recommend for \"Express estimates as ranges with confidence\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ef-range-with-confidence",
+        "heading": "Express estimates as ranges with confidence",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+        "heading_path": [
+          "Clean Code, Chapter 35: Estimate Honestly and Fairly, PR review rules",
+          "Express estimates as ranges with confidence"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Express estimates as ranges with confidence",
+      "Provide best, expected, and worst cases or an equivalent probability range, and update it as evidence improves.",
+      "estimates",
+      "ranges",
+      "planning"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch35-013",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+    "question": "How can a reviewer spot a problem related to \"Expose unknowns instead of hiding them in optimism\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ef-name-estimate-unknowns",
+        "heading": "Expose unknowns instead of hiding them in optimism",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+        "heading_path": [
+          "Clean Code, Chapter 35: Estimate Honestly and Fairly, PR review rules",
+          "Expose unknowns instead of hiding them in optimism"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Expose unknowns instead of hiding them in optimism",
+      "Estimates based on unfamiliar architecture, vendor behavior, migration complexity, or unclear requirements with no discovery work",
+      "estimates",
+      "unknowns",
+      "planning"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch35-014",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+    "question": "What review guidance applies to \"Estimate the real work, including integration and verification\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ef-estimate-full-delivery-work",
+        "heading": "Estimate the real work, including integration and verification",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+        "heading_path": [
+          "Clean Code, Chapter 35: Estimate Honestly and Fairly, PR review rules",
+          "Estimate the real work, including integration and verification"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Estimate the real work, including integration and verification",
+      "Coding is only one part of delivery. Excluding verification and integration makes estimates systematically optimistic and creates late schedule surprises.",
+      "estimates",
+      "testing",
+      "planning"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch35-015",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+    "question": "Why does the rule \"Use experiments to increase certainty\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ef-buy-down-uncertainty",
+        "heading": "Use experiments to increase certainty",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+        "heading_path": [
+          "Clean Code, Chapter 35: Estimate Honestly and Fairly, PR review rules",
+          "Use experiments to increase certainty"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use experiments to increase certainty",
+      "Certainty comes from doing the work or representative parts of it. Small experiments can narrow the range more honestly than debate or pressure.",
+      "estimates",
+      "spikes",
+      "planning"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch35-016",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+    "question": "What fix does the guidance recommend for \"Decompose large work before estimating it\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ef-decompose-before-estimating",
+        "heading": "Decompose large work before estimating it",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+        "heading_path": [
+          "Clean Code, Chapter 35: Estimate Honestly and Fairly, PR review rules",
+          "Decompose large work before estimating it"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Decompose large work before estimating it",
+      "Split work into coherent slices, estimate each with assumptions and confidence, and identify dependency-driven sequencing.",
+      "estimates",
+      "decomposition",
+      "planning"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch35-017",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+    "question": "How can a reviewer spot a problem related to \"Update estimates when evidence changes\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ef-estimates-are-revisable",
+        "heading": "Update estimates when evidence changes",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+        "heading_path": [
+          "Clean Code, Chapter 35: Estimate Honestly and Fairly, PR review rules",
+          "Update estimates when evidence changes"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Update estimates when evidence changes",
+      "A stale estimate preserved after new complexity, scope, or dependency information appears",
+      "estimates",
+      "forecasting",
+      "planning"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch35-018",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+    "question": "What review guidance applies to \"Say no to commitments without reasonable confidence\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ef-no-unreliable-commitments",
+        "heading": "Say no to commitments without reasonable confidence",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+        "heading_path": [
+          "Clean Code, Chapter 35: Estimate Honestly and Fairly, PR review rules",
+          "Say no to commitments without reasonable confidence"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Say no to commitments without reasonable confidence",
+      "Unreliable commitments create a chain of failed dependencies and destroy trust. Honest uncertainty lets leaders manage risk rather than discovering it at the deadline.",
+      "commitments",
+      "honesty",
+      "professional-responsibility"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch35-019",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+    "question": "Why does the rule \"Separate schedule pressure from technical truth\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ef-deadline-does-not-change-estimate",
+        "heading": "Separate schedule pressure from technical truth",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+        "heading_path": [
+          "Clean Code, Chapter 35: Estimate Honestly and Fairly, PR review rules",
+          "Separate schedule pressure from technical truth"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Separate schedule pressure from technical truth",
+      "A date requirement is a constraint, not a solution. Changing the estimate to match it hides the tradeoff and increases the chance of late failure or unsafe release.",
+      "deadlines",
+      "estimates",
+      "planning"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch35-020",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+    "question": "What fix does the guidance recommend for \"Use estimates to manage risk, not to assign blame\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ef-estimates-enable-risk-management",
+        "heading": "Use estimates to manage risk, not to assign blame",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+        "heading_path": [
+          "Clean Code, Chapter 35: Estimate Honestly and Fairly, PR review rules",
+          "Use estimates to manage risk, not to assign blame"
+        ],
+        "chunk_index": 9,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use estimates to manage risk, not to assign blame",
+      "Compare forecasts with outcomes, update assumptions, improve discovery/decomposition, and keep reporting honest and non-punitive.",
+      "estimates",
+      "risk-management",
+      "collaboration"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch35-021",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+    "question": "How can a reviewer spot a problem related to \"Distinguish an estimate from a commitment\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ef-estimate-is-not-commitment",
+        "heading": "Distinguish an estimate from a commitment",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_35_estimate_honestly_and_fairly.md",
+        "heading_path": [
+          "Clean Code, Chapter 35: Estimate Honestly and Fairly, PR review rules",
+          "Distinguish an estimate from a commitment"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Distinguish an estimate from a commitment",
+      "A single date presented as certain despite unresolved technical or product uncertainty",
+      "estimates",
+      "commitments",
+      "planning"
+    ],
+    "difficulty": "paraphrase"
+  }
+]

@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch05-001",
+    "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+    "question": "What should a code reviewer look for in a diff related to \"Express intent in code before writing a comment\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cm-express-in-code-first",
+        "heading": "Express intent in code before writing a comment",
+        "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+        "heading_path": [
+          "Clean Code, Chapter 5: Comments, PR review rules",
+          "Express intent in code before writing a comment"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Express intent in code before writing a comment",
+      "A comment explaining what a condition or block does, where a function or variable name could say the same thing",
+      "comments",
+      "explanatory-variable",
+      "comments"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch05-002",
+    "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+    "question": "What should a code reviewer look for in a diff related to \"Clean confusing code instead of commenting it\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cm-clean-dont-comment",
+        "heading": "Clean confusing code instead of commenting it",
+        "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+        "heading_path": [
+          "Clean Code, Chapter 5: Comments, PR review rules",
+          "Clean confusing code instead of commenting it"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Clean confusing code instead of commenting it",
+      "A comment that apologizes for or warns about confusing code (\"hacky\", \"complicated, bear with me\")",
+      "comments",
+      "bad-code",
+      "comments"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch05-003",
+    "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+    "question": "What should a code reviewer look for in a diff related to \"Comments must be true: no stale, drifted, or misleading comments\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cm-comments-must-be-true",
+        "heading": "Comments must be true: no stale, drifted, or misleading comments",
+        "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+        "heading_path": [
+          "Clean Code, Chapter 5: Comments, PR review rules",
+          "Comments must be true: no stale, drifted, or misleading comments"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Comments must be true: no stale, drifted, or misleading comments",
+      "A comment that no longer matches the code that was just changed",
+      "stale-comment",
+      "lying-comment",
+      "comments"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch05-004",
+    "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+    "question": "What should a code reviewer look for in a diff related to \"Write comments for readers who don't know the code\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cm-too-intimate",
+        "heading": "Write comments for readers who don't know the code",
+        "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+        "heading_path": [
+          "Clean Code, Chapter 5: Comments, PR review rules",
+          "Write comments for readers who don't know the code"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Write comments for readers who don't know the code",
+      "Comments that use internal shorthand or assume knowledge of the author's design",
+      "comments",
+      "reader-perspective",
+      "comments"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch05-005",
+    "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+    "question": "What should a code reviewer look for in a diff related to \"Make the link between a comment and its code obvious\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cm-unobvious-connection",
+        "heading": "Make the link between a comment and its code obvious",
+        "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+        "heading_path": [
+          "Clean Code, Chapter 5: Comments, PR review rules",
+          "Make the link between a comment and its code obvious"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make the link between a comment and its code obvious",
+      "A comment beside code where it's unclear which part it refers to",
+      "unclear-comment",
+      "unexplained-constant",
+      "comments"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch05-006",
+    "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep comments local: no system-wide facts in a local comment\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cm-nonlocal-information",
+        "heading": "Keep comments local: no system-wide facts in a local comment",
+        "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+        "heading_path": [
+          "Clean Code, Chapter 5: Comments, PR review rules",
+          "Keep comments local: no system-wide facts in a local comment"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep comments local: no system-wide facts in a local comment",
+      "A docstring on a setter or function that states a default controlled somewhere else (\"Defaults to 8082\")",
+      "nonlocal-comment",
+      "default-value-in-comment",
+      "comments"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch05-007",
+    "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+    "question": "What should a code reviewer look for in a diff related to \"Short legal headers are fine, long ones are not\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cm-legal-comments",
+        "heading": "Short legal headers are fine, long ones are not",
+        "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+        "heading_path": [
+          "Clean Code, Chapter 5: Comments, PR review rules",
+          "Short legal headers are fine, long ones are not"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Short legal headers are fine, long ones are not",
+      "A copyright or license header at the top of a new file",
+      "license",
+      "copyright",
+      "comments"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch05-008",
+    "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+    "question": "What should a code reviewer look for in a diff related to \"Informative and clarifying comments are fine, but verify them\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cm-informative-clarifying",
+        "heading": "Informative and clarifying comments are fine, but verify them",
+        "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+        "heading_path": [
+          "Clean Code, Chapter 5: Comments, PR review rules",
+          "Informative and clarifying comments are fine, but verify them"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Informative and clarifying comments are fine, but verify them",
+      "A comment describing the format a regular expression is meant to match",
+      "regex-comment",
+      "clarifying-comment",
+      "comments"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch05-009",
+    "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+    "question": "What should a code reviewer look for in a diff related to \"Comments that explain why are worth keeping\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cm-explain-intent",
+        "heading": "Comments that explain why are worth keeping",
+        "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+        "heading_path": [
+          "Clean Code, Chapter 5: Comments, PR review rules",
+          "Comments that explain why are worth keeping"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Comments that explain why are worth keeping",
+      "A comment explaining the reason behind a non-obvious decision (ordering rule, workaround, trade-off)",
+      "intent",
+      "rationale",
+      "comments"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch05-010",
+    "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+    "question": "What should a code reviewer look for in a diff related to \"Comments that warn of consequences or stress a non-obvious step are worth keeping\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cm-warn-amplify",
+        "heading": "Comments that warn of consequences or stress a non-obvious step are worth keeping",
+        "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+        "heading_path": [
+          "Clean Code, Chapter 5: Comments, PR review rules",
+          "Comments that warn of consequences or stress a non-obvious step are worth keeping"
+        ],
+        "chunk_index": 9,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Comments that warn of consequences or stress a non-obvious step are worth keeping",
+      "A comment warning about a consequence (not thread-safe, slow, order-sensitive)",
+      "warning-comment",
+      "amplification",
+      "comments"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch05-011",
+    "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+    "question": "What should a code reviewer look for in a diff related to \"Document public APIs well, and keep those docs accurate\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cm-public-api-docs",
+        "heading": "Document public APIs well, and keep those docs accurate",
+        "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+        "heading_path": [
+          "Clean Code, Chapter 5: Comments, PR review rules",
+          "Document public APIs well, and keep those docs accurate"
+        ],
+        "chunk_index": 10,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Document public APIs well, and keep those docs accurate",
+      "A new public function, class, or endpoint in a library or public API with no docstring",
+      "docstring",
+      "public-api",
+      "comments"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch05-012",
+    "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+    "question": "What should a code reviewer look for in a diff related to \"Don't require doc comments on everything\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cm-mandated-doc-comments",
+        "heading": "Don't require doc comments on everything",
+        "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+        "heading_path": [
+          "Clean Code, Chapter 5: Comments, PR review rules",
+          "Don't require doc comments on everything"
+        ],
+        "chunk_index": 11,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Don't require doc comments on everything",
+      "Docstrings or Javadoc on every function or field that restate the signature (`:param title: The title of the CD`)",
+      "mandatory-docstring",
+      "javadoc",
+      "comments"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch05-013",
+    "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+    "question": "What should a code reviewer look for in a diff related to \"Don't mumble: make every comment specific or delete it\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cm-mumbling",
+        "heading": "Don't mumble: make every comment specific or delete it",
+        "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+        "heading_path": [
+          "Clean Code, Chapter 5: Comments, PR review rules",
+          "Don't mumble: make every comment specific or delete it"
+        ],
+        "chunk_index": 12,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Don't mumble: make every comment specific or delete it",
+      "A comment added because the process demands one, with no real information",
+      "vague-comment",
+      "cryptic-comment",
+      "comments"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch05-014",
+    "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+    "question": "What should a code reviewer look for in a diff related to \"Delete redundant and noise comments\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cm-redundant-noise",
+        "heading": "Delete redundant and noise comments",
+        "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+        "heading_path": [
+          "Clean Code, Chapter 5: Comments, PR review rules",
+          "Delete redundant and noise comments"
+        ],
+        "chunk_index": 13,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Delete redundant and noise comments",
+      "A comment that restates the code (`# increment i`, `# the day of the month` above `day_of_month`)",
+      "redundant-comment",
+      "noise-comment",
+      "comments"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch05-015",
+    "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+    "question": "What should a code reviewer look for in a diff related to \"A clear name and signature beat a function header comment\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cm-function-headers",
+        "heading": "A clear name and signature beat a function header comment",
+        "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+        "heading_path": [
+          "Clean Code, Chapter 5: Comments, PR review rules",
+          "A clear name and signature beat a function header comment"
+        ],
+        "chunk_index": 14,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "A clear name and signature beat a function header comment",
+      "A header docstring on a short, single-purpose function that restates its name and signature",
+      "function-header",
+      "docstring",
+      "comments"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch05-016",
+    "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+    "question": "What should a code reviewer look for in a diff related to \"Don't keep a change journal in comments\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cm-journal-comments",
+        "heading": "Don't keep a change journal in comments",
+        "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+        "heading_path": [
+          "Clean Code, Chapter 5: Comments, PR review rules",
+          "Don't keep a change journal in comments"
+        ],
+        "chunk_index": 15,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Don't keep a change journal in comments",
+      "A log at the top of a file that records each edit with a date or author",
+      "changelog-in-code",
+      "journal-comment",
+      "comments"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch05-017",
+    "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+    "question": "What should a code reviewer look for in a diff related to \"Don't check in TODO comments\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cm-todo-comments",
+        "heading": "Don't check in TODO comments",
+        "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+        "heading_path": [
+          "Clean Code, Chapter 5: Comments, PR review rules",
+          "Don't check in TODO comments"
+        ],
+        "chunk_index": 16,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Don't check in TODO comments",
+      "A new `TODO` or `FIXME` comment",
+      "todo",
+      "fixme",
+      "comments"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch05-018",
+    "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+    "question": "What should a code reviewer look for in a diff related to \"Don't decorate comments with HTML or banners\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cm-comment-decoration",
+        "heading": "Don't decorate comments with HTML or banners",
+        "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+        "heading_path": [
+          "Clean Code, Chapter 5: Comments, PR review rules",
+          "Don't decorate comments with HTML or banners"
+        ],
+        "chunk_index": 17,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Don't decorate comments with HTML or banners",
+      "Hand-written HTML tags in comments (`<p>`, `<pre>`, `<ul>`)",
+      "html-in-comments",
+      "banner-comment",
+      "comments"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch05-019",
+    "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep attributions and ticket numbers out of source comments\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cm-attributions-bylines",
+        "heading": "Keep attributions and ticket numbers out of source comments",
+        "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+        "heading_path": [
+          "Clean Code, Chapter 5: Comments, PR review rules",
+          "Keep attributions and ticket numbers out of source comments"
+        ],
+        "chunk_index": 18,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep attributions and ticket numbers out of source comments",
+      "Comments like `# Added by Rick` or `# Fixed by Jane, 2024`",
+      "byline",
+      "attribution",
+      "comments"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch05-020",
+    "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+    "question": "What should a code reviewer look for in a diff related to \"Don't check in commented-out code\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cm-commented-out-code",
+        "heading": "Don't check in commented-out code",
+        "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+        "heading_path": [
+          "Clean Code, Chapter 5: Comments, PR review rules",
+          "Don't check in commented-out code"
+        ],
+        "chunk_index": 19,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Don't check in commented-out code",
+      "Blocks of code turned into comments",
+      "commented-out-code",
+      "dead-code",
+      "comments"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch05-021",
+    "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep comments free of long history and background\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cm-too-much-information",
+        "heading": "Keep comments free of long history and background",
+        "source_path": "docs/Part_I_Code/chapter_05_comments.md",
+        "heading_path": [
+          "Clean Code, Chapter 5: Comments, PR review rules",
+          "Keep comments free of long history and background"
+        ],
+        "chunk_index": 20,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep comments free of long history and background",
+      "A comment with historical discussion or long background",
+      "long-comment",
+      "rfc-excerpt",
+      "comments"
+    ],
+    "difficulty": "direct"
+  }
+]

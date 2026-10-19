@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch33-001",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+    "question": "What should a code reviewer look for in a diff related to \"Optimize the whole feedback loop, not typing speed\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mp-optimize-feedback-loop",
+        "heading": "Optimize the whole feedback loop, not typing speed",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+        "heading_path": [
+          "Clean Code, Chapter 33: Maintain High Productivity, PR review rules",
+          "Optimize the whole feedback loop, not typing speed"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Optimize the whole feedback loop, not typing speed",
+      "A local coding optimization that slows build, test, debug, or deployment cycles",
+      "productivity",
+      "build",
+      "productivity"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch33-002",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep builds fast enough for small changes\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mp-fast-builds",
+        "heading": "Keep builds fast enough for small changes",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+        "heading_path": [
+          "Clean Code, Chapter 33: Maintain High Productivity, PR review rules",
+          "Keep builds fast enough for small changes"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep builds fast enough for small changes",
+      "A small edit requiring a full slow rebuild without a clear reason",
+      "build",
+      "speed",
+      "build"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch33-003",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep tests fast without reducing meaningful coverage\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mp-fast-tests-with-real-coverage",
+        "heading": "Keep tests fast without reducing meaningful coverage",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+        "heading_path": [
+          "Clean Code, Chapter 33: Maintain High Productivity, PR review rules",
+          "Keep tests fast without reducing meaningful coverage"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep tests fast without reducing meaningful coverage",
+      "Repeated login/navigation/database/network setup in every test",
+      "tests",
+      "speed",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch33-004",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+    "question": "What should a code reviewer look for in a diff related to \"Automate deployment and test the deployment procedure\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mp-automated-tested-deployment",
+        "heading": "Automate deployment and test the deployment procedure",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+        "heading_path": [
+          "Clean Code, Chapter 33: Maintain High Productivity, PR review rules",
+          "Automate deployment and test the deployment procedure"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Automate deployment and test the deployment procedure",
+      "Manual deployment commands, configuration edits, or server preparation",
+      "deployment",
+      "automation",
+      "delivery"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch33-005",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+    "question": "What should a code reviewer look for in a diff related to \"Reduce debugging by improving proof and diagnostics\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mp-debugging-through-proof",
+        "heading": "Reduce debugging by improving proof and diagnostics",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+        "heading_path": [
+          "Clean Code, Chapter 33: Maintain High Productivity, PR review rules",
+          "Reduce debugging by improving proof and diagnostics"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Reduce debugging by improving proof and diagnostics",
+      "A recurring defect class with no regression test or useful failure output",
+      "debugging",
+      "tests",
+      "diagnostics"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch33-006",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+    "question": "What should a code reviewer look for in a diff related to \"Protect focused work from unnecessary interruption\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mp-protect-focused-work",
+        "heading": "Protect focused work from unnecessary interruption",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+        "heading_path": [
+          "Clean Code, Chapter 33: Maintain High Productivity, PR review rules",
+          "Protect focused work from unnecessary interruption"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Protect focused work from unnecessary interruption",
+      "Review/process changes that require repeated context switching for trivial updates",
+      "focus",
+      "interruptions",
+      "collaboration"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch33-007",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+    "question": "What should a code reviewer look for in a diff related to \"Use pairing/review to counter tunnel vision\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mp-counter-tunnel-vision",
+        "heading": "Use pairing/review to counter tunnel vision",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+        "heading_path": [
+          "Clean Code, Chapter 33: Maintain High Productivity, PR review rules",
+          "Use pairing/review to counter tunnel vision"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use pairing/review to counter tunnel vision",
+      "A complex change authored and merged without a second perspective",
+      "pairing",
+      "review",
+      "collaboration"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch33-008",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+    "question": "What should a code reviewer look for in a diff related to \"Treat developer capacity as a finite system resource\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mp-sustainable-engineering-capacity",
+        "heading": "Treat developer capacity as a finite system resource",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+        "heading_path": [
+          "Clean Code, Chapter 33: Maintain High Productivity, PR review rules",
+          "Treat developer capacity as a finite system resource"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Treat developer capacity as a finite system resource",
+      "Schedule pressure that removes testing, cleanup, review, or recovery time",
+      "sustainability",
+      "workload",
+      "team-health"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch33-009",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep productivity measures aligned with quality\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mp-measure-quality-and-flow",
+        "heading": "Keep productivity measures aligned with quality",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+        "heading_path": [
+          "Clean Code, Chapter 33: Maintain High Productivity, PR review rules",
+          "Keep productivity measures aligned with quality"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep productivity measures aligned with quality",
+      "Incentives based only on lines changed, tickets closed, or meeting attendance",
+      "metrics",
+      "productivity",
+      "process"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch33-010",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+    "question": "Why does the rule \"Optimize the whole feedback loop, not typing speed\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mp-optimize-feedback-loop",
+        "heading": "Optimize the whole feedback loop, not typing speed",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+        "heading_path": [
+          "Clean Code, Chapter 33: Maintain High Productivity, PR review rules",
+          "Optimize the whole feedback loop, not typing speed"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Optimize the whole feedback loop, not typing speed",
+      "Writing code is only one part of delivery. Fast feedback through build, test, diagnosis, and deployment lets the team move quickly without sacrificing quality.",
+      "productivity",
+      "build",
+      "productivity"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch33-011",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+    "question": "What fix does the guidance recommend for \"Keep builds fast enough for small changes\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mp-fast-builds",
+        "heading": "Keep builds fast enough for small changes",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+        "heading_path": [
+          "Clean Code, Chapter 33: Maintain High Productivity, PR review rules",
+          "Keep builds fast enough for small changes"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep builds fast enough for small changes",
+      "Measure and remove bottlenecks, use safe incremental builds/caching, and keep fast local/PR checks separate from deep validation.",
+      "build",
+      "speed",
+      "build"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch33-012",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+    "question": "How can a reviewer spot a problem related to \"Keep tests fast without reducing meaningful coverage\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mp-fast-tests-with-real-coverage",
+        "heading": "Keep tests fast without reducing meaningful coverage",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+        "heading_path": [
+          "Clean Code, Chapter 33: Maintain High Productivity, PR review rules",
+          "Keep tests fast without reducing meaningful coverage"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep tests fast without reducing meaningful coverage",
+      "Repeated login/navigation/database/network setup in every test",
+      "tests",
+      "speed",
+      "testing"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch33-013",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+    "question": "What review guidance applies to \"Automate deployment and test the deployment procedure\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mp-automated-tested-deployment",
+        "heading": "Automate deployment and test the deployment procedure",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+        "heading_path": [
+          "Clean Code, Chapter 33: Maintain High Productivity, PR review rules",
+          "Automate deployment and test the deployment procedure"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Automate deployment and test the deployment procedure",
+      "Deployment is a procedure that can fail like application code. Automation makes it repeatable, while tests and health checks make releases safer.",
+      "deployment",
+      "automation",
+      "delivery"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch33-014",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+    "question": "Why does the rule \"Reduce debugging by improving proof and diagnostics\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mp-debugging-through-proof",
+        "heading": "Reduce debugging by improving proof and diagnostics",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+        "heading_path": [
+          "Clean Code, Chapter 33: Maintain High Productivity, PR review rules",
+          "Reduce debugging by improving proof and diagnostics"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Reduce debugging by improving proof and diagnostics",
+      "Strong tests, semantic checks, and diagnostics shorten debugging by turning vague failures into localized evidence.",
+      "debugging",
+      "tests",
+      "diagnostics"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch33-015",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+    "question": "What fix does the guidance recommend for \"Protect focused work from unnecessary interruption\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mp-protect-focused-work",
+        "heading": "Protect focused work from unnecessary interruption",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+        "heading_path": [
+          "Clean Code, Chapter 33: Maintain High Productivity, PR review rules",
+          "Protect focused work from unnecessary interruption"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Protect focused work from unnecessary interruption",
+      "Use clear ownership, concise async context, time-boxed meetings, and protected focus periods while preserving necessary collaboration.",
+      "focus",
+      "interruptions",
+      "collaboration"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch33-016",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+    "question": "How can a reviewer spot a problem related to \"Use pairing/review to counter tunnel vision\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mp-counter-tunnel-vision",
+        "heading": "Use pairing/review to counter tunnel vision",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+        "heading_path": [
+          "Clean Code, Chapter 33: Maintain High Productivity, PR review rules",
+          "Use pairing/review to counter tunnel vision"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use pairing/review to counter tunnel vision",
+      "A complex change authored and merged without a second perspective",
+      "pairing",
+      "review",
+      "collaboration"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch33-017",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+    "question": "What review guidance applies to \"Treat developer capacity as a finite system resource\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mp-sustainable-engineering-capacity",
+        "heading": "Treat developer capacity as a finite system resource",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+        "heading_path": [
+          "Clean Code, Chapter 33: Maintain High Productivity, PR review rules",
+          "Treat developer capacity as a finite system resource"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Treat developer capacity as a finite system resource",
+      "Unsustainable pace increases defects and structural degradation, which later reduces productivity. Sustainable capacity is part of delivering reliably.",
+      "sustainability",
+      "workload",
+      "team-health"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch33-018",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+    "question": "Why does the rule \"Keep productivity measures aligned with quality\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mp-measure-quality-and-flow",
+        "heading": "Keep productivity measures aligned with quality",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+        "heading_path": [
+          "Clean Code, Chapter 33: Maintain High Productivity, PR review rules",
+          "Keep productivity measures aligned with quality"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep productivity measures aligned with quality",
+      "Narrow metrics create perverse incentives and can reward unsafe speed. Useful measures include flow time, recovery, build health, defect rates, and confidence in releases.",
+      "metrics",
+      "productivity",
+      "process"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch33-019",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+    "question": "What fix does the guidance recommend for \"Optimize the whole feedback loop, not typing speed\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mp-optimize-feedback-loop",
+        "heading": "Optimize the whole feedback loop, not typing speed",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+        "heading_path": [
+          "Clean Code, Chapter 33: Maintain High Productivity, PR review rules",
+          "Optimize the whole feedback loop, not typing speed"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Optimize the whole feedback loop, not typing speed",
+      "Measure cycle time across edit, build, test, debug, and deploy; remove bottlenecks that affect the team’s ability to verify changes.",
+      "productivity",
+      "build",
+      "productivity"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch33-020",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+    "question": "How can a reviewer spot a problem related to \"Keep builds fast enough for small changes\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mp-fast-builds",
+        "heading": "Keep builds fast enough for small changes",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+        "heading_path": [
+          "Clean Code, Chapter 33: Maintain High Productivity, PR review rules",
+          "Keep builds fast enough for small changes"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep builds fast enough for small changes",
+      "A small edit requiring a full slow rebuild without a clear reason",
+      "build",
+      "speed",
+      "build"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch33-021",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+    "question": "What review guidance applies to \"Keep tests fast without reducing meaningful coverage\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mp-fast-tests-with-real-coverage",
+        "heading": "Keep tests fast without reducing meaningful coverage",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_33_maintain_high_productivity.md",
+        "heading_path": [
+          "Clean Code, Chapter 33: Maintain High Productivity, PR review rules",
+          "Keep tests fast without reducing meaningful coverage"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep tests fast without reducing meaningful coverage",
+      "Fast tests run frequently, but speed must not come from deleting meaningful assertions. Controlled test APIs and doubles can bypass repeated mechanics while preserving contracts.",
+      "tests",
+      "speed",
+      "testing"
+    ],
+    "difficulty": "synthesis"
+  }
+]

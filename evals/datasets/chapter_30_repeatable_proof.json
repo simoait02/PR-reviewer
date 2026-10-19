@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch30-001",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+    "question": "What should a code reviewer look for in a diff related to \"Provide a quick, reliable, repeatable demonstration\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rp-quick-sure-repeatable-proof",
+        "heading": "Provide a quick, reliable, repeatable demonstration",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+        "heading_path": [
+          "Clean Code, Chapter 30: Repeatable Proof, PR review rules",
+          "Provide a quick, reliable, repeatable demonstration"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Provide a quick, reliable, repeatable demonstration",
+      "A release with no automated evidence that changed behavior works",
+      "proof",
+      "tests",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch30-002",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+    "question": "What should a code reviewer look for in a diff related to \"Use structured control flow that can be reasoned about\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rp-structured-control-flow",
+        "heading": "Use structured control flow that can be reasoned about",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+        "heading_path": [
+          "Clean Code, Chapter 30: Repeatable Proof, PR review rules",
+          "Use structured control flow that can be reasoned about"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use structured control flow that can be reasoned about",
+      "Unconstrained jumps, hidden re-entry, or control flow that bypasses invariants and cleanup",
+      "structured-programming",
+      "control-flow",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch30-003",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+    "question": "What should a code reviewer look for in a diff related to \"Decompose behavior into small testable units\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rp-functional-decomposition",
+        "heading": "Decompose behavior into small testable units",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+        "heading_path": [
+          "Clean Code, Chapter 30: Repeatable Proof, PR review rules",
+          "Decompose behavior into small testable units"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Decompose behavior into small testable units",
+      "A large function containing multiple independent decisions and side effects",
+      "decomposition",
+      "functions",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch30-004",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+    "question": "What should a code reviewer look for in a diff related to \"Test each required behavior, not just execution paths\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rp-tests-cover-required-behavior",
+        "heading": "Test each required behavior, not just execution paths",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+        "heading_path": [
+          "Clean Code, Chapter 30: Repeatable Proof, PR review rules",
+          "Test each required behavior, not just execution paths"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Test each required behavior, not just execution paths",
+      "Code executed by tests but with no meaningful assertion about the requirement",
+      "tests",
+      "behavior",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch30-005",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep the proof suite fast enough to run frequently\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rp-fast-feedback-suite",
+        "heading": "Keep the proof suite fast enough to run frequently",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+        "heading_path": [
+          "Clean Code, Chapter 30: Repeatable Proof, PR review rules",
+          "Keep the proof suite fast enough to run frequently"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep the proof suite fast enough to run frequently",
+      "A unit/regression suite slowed by unnecessary integration setup or sleeps",
+      "tests",
+      "speed",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch30-006",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+    "question": "What should a code reviewer look for in a diff related to \"Make failures unambiguous and actionable\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rp-clear-pass-fail-results",
+        "heading": "Make failures unambiguous and actionable",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+        "heading_path": [
+          "Clean Code, Chapter 30: Repeatable Proof, PR review rules",
+          "Make failures unambiguous and actionable"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make failures unambiguous and actionable",
+      "Tests requiring log inspection or manual output comparison to decide correctness",
+      "tests",
+      "diagnostics",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch30-007",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+    "question": "What should a code reviewer look for in a diff related to \"Make verification repeatable for any contributor and environment\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rp-repeatable-environment",
+        "heading": "Make verification repeatable for any contributor and environment",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+        "heading_path": [
+          "Clean Code, Chapter 30: Repeatable Proof, PR review rules",
+          "Make verification repeatable for any contributor and environment"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make verification repeatable for any contributor and environment",
+      "Tests depending on machine-specific paths, state, locale, time, network, or undocumented setup",
+      "repeatability",
+      "environment",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch30-008",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+    "question": "What should a code reviewer look for in a diff related to \"Use tests as empirical proof, not absolute certainty\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rp-tests-are-evidence",
+        "heading": "Use tests as empirical proof, not absolute certainty",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+        "heading_path": [
+          "Clean Code, Chapter 30: Repeatable Proof, PR review rules",
+          "Use tests as empirical proof, not absolute certainty"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use tests as empirical proof, not absolute certainty",
+      "A claim that passing tests proves all possible behavior correct",
+      "tests",
+      "evidence",
+      "review-guidance"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch30-009",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep proof aligned with the release contract\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rp-release-proof-matches-contract",
+        "heading": "Keep proof aligned with the release contract",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+        "heading_path": [
+          "Clean Code, Chapter 30: Repeatable Proof, PR review rules",
+          "Keep proof aligned with the release contract"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep proof aligned with the release contract",
+      "CI checks that remain green while the user-visible requirement changed",
+      "release",
+      "acceptance",
+      "delivery"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch30-010",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+    "question": "What should a code reviewer look for in a diff related to \"Run proof continuously, not only at release time\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rp-continuous-proof",
+        "heading": "Run proof continuously, not only at release time",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+        "heading_path": [
+          "Clean Code, Chapter 30: Repeatable Proof, PR review rules",
+          "Run proof continuously, not only at release time"
+        ],
+        "chunk_index": 9,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Run proof continuously, not only at release time",
+      "Tests that run only before deployment or after a large batch of changes",
+      "ci",
+      "continuous",
+      "delivery"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch30-011",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+    "question": "Why does the rule \"Provide a quick, reliable, repeatable demonstration\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rp-quick-sure-repeatable-proof",
+        "heading": "Provide a quick, reliable, repeatable demonstration",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+        "heading_path": [
+          "Clean Code, Chapter 30: Repeatable Proof, PR review rules",
+          "Provide a quick, reliable, repeatable demonstration"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Provide a quick, reliable, repeatable demonstration",
+      "A professional release needs fast evidence that the implemented behavior matches what was paid for and expected. Repeatable proof reduces uncertainty and supports safe change.",
+      "proof",
+      "tests",
+      "testing"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch30-012",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+    "question": "What fix does the guidance recommend for \"Use structured control flow that can be reasoned about\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rp-structured-control-flow",
+        "heading": "Use structured control flow that can be reasoned about",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+        "heading_path": [
+          "Clean Code, Chapter 30: Repeatable Proof, PR review rules",
+          "Use structured control flow that can be reasoned about"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use structured control flow that can be reasoned about",
+      "Use explicit sequence, selection, and iteration; isolate unavoidable control transfers behind a small tested abstraction.",
+      "structured-programming",
+      "control-flow",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch30-013",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+    "question": "How can a reviewer spot a problem related to \"Decompose behavior into small testable units\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rp-functional-decomposition",
+        "heading": "Decompose behavior into small testable units",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+        "heading_path": [
+          "Clean Code, Chapter 30: Repeatable Proof, PR review rules",
+          "Decompose behavior into small testable units"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Decompose behavior into small testable units",
+      "A large function containing multiple independent decisions and side effects",
+      "decomposition",
+      "functions",
+      "design"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch30-014",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+    "question": "What review guidance applies to \"Test each required behavior, not just execution paths\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rp-tests-cover-required-behavior",
+        "heading": "Test each required behavior, not just execution paths",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+        "heading_path": [
+          "Clean Code, Chapter 30: Repeatable Proof, PR review rules",
+          "Test each required behavior, not just execution paths"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Test each required behavior, not just execution paths",
+      "Tests are empirical evidence, not a formal proof. They provide confidence only when they assert the behaviors and invariants the system must preserve.",
+      "tests",
+      "behavior",
+      "testing"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch30-015",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+    "question": "Why does the rule \"Keep the proof suite fast enough to run frequently\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rp-fast-feedback-suite",
+        "heading": "Keep the proof suite fast enough to run frequently",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+        "heading_path": [
+          "Clean Code, Chapter 30: Repeatable Proof, PR review rules",
+          "Keep the proof suite fast enough to run frequently"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep the proof suite fast enough to run frequently",
+      "“Quick” proof supports frequent feedback and refactoring. Delayed feedback increases the cost of locating and correcting defects.",
+      "tests",
+      "speed",
+      "testing"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch30-016",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+    "question": "What fix does the guidance recommend for \"Make failures unambiguous and actionable\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rp-clear-pass-fail-results",
+        "heading": "Make failures unambiguous and actionable",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+        "heading_path": [
+          "Clean Code, Chapter 30: Repeatable Proof, PR review rules",
+          "Make failures unambiguous and actionable"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make failures unambiguous and actionable",
+      "Encode acceptance criteria, fail on unavailable required checks, and report scenario, expected, actual, and environment details.",
+      "tests",
+      "diagnostics",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch30-017",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+    "question": "How can a reviewer spot a problem related to \"Make verification repeatable for any contributor and environment\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rp-repeatable-environment",
+        "heading": "Make verification repeatable for any contributor and environment",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+        "heading_path": [
+          "Clean Code, Chapter 30: Repeatable Proof, PR review rules",
+          "Make verification repeatable for any contributor and environment"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make verification repeatable for any contributor and environment",
+      "Tests depending on machine-specific paths, state, locale, time, network, or undocumented setup",
+      "repeatability",
+      "environment",
+      "testing"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch30-018",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+    "question": "What review guidance applies to \"Use tests as empirical proof, not absolute certainty\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rp-tests-are-evidence",
+        "heading": "Use tests as empirical proof, not absolute certainty",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+        "heading_path": [
+          "Clean Code, Chapter 30: Repeatable Proof, PR review rules",
+          "Use tests as empirical proof, not absolute certainty"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use tests as empirical proof, not absolute certainty",
+      "Tests can reveal defects and build strong confidence, but they do not cover every possible execution. Risk, coverage, invariants, and independent review still matter.",
+      "tests",
+      "evidence",
+      "review-guidance"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch30-019",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+    "question": "Why does the rule \"Keep proof aligned with the release contract\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rp-release-proof-matches-contract",
+        "heading": "Keep proof aligned with the release contract",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+        "heading_path": [
+          "Clean Code, Chapter 30: Repeatable Proof, PR review rules",
+          "Keep proof aligned with the release contract"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep proof aligned with the release contract",
+      "The proof suite should demonstrate that the delivered system does what users and stakeholders paid for, not merely that code executes.",
+      "release",
+      "acceptance",
+      "delivery"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch30-020",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+    "question": "What fix does the guidance recommend for \"Run proof continuously, not only at release time\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rp-continuous-proof",
+        "heading": "Run proof continuously, not only at release time",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+        "heading_path": [
+          "Clean Code, Chapter 30: Repeatable Proof, PR review rules",
+          "Run proof continuously, not only at release time"
+        ],
+        "chunk_index": 9,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Run proof continuously, not only at release time",
+      "Run fast proof on every change, publish visible results, and reserve slower full-system validation for appropriate stages.",
+      "ci",
+      "continuous",
+      "delivery"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch30-021",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+    "question": "How can a reviewer spot a problem related to \"Provide a quick, reliable, repeatable demonstration\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rp-quick-sure-repeatable-proof",
+        "heading": "Provide a quick, reliable, repeatable demonstration",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_30_repeatable_proof.md",
+        "heading_path": [
+          "Clean Code, Chapter 30: Repeatable Proof, PR review rules",
+          "Provide a quick, reliable, repeatable demonstration"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Provide a quick, reliable, repeatable demonstration",
+      "A release with no automated evidence that changed behavior works",
+      "proof",
+      "tests",
+      "testing"
+    ],
+    "difficulty": "paraphrase"
+  }
+]
