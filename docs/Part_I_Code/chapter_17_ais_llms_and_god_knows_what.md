@@ -1,166 +1,211 @@
-# Chapter 17: AIs, LLMs, and God Knows What
+# Clean Code, Chapter 17: AIs, LLMs, and God Knows What, PR review rules
 
-## God Knows What
+## Treat AI-generated code as unverified implementation
 
-In the late 1940s, Grace Hopper wrote her first lines of code. Each line looked something like this:
+`id: ai-generated-code-needs-review | category: ai-review | severity: high | source: book (Ch.17) + editorial | languages: any | tags: ai, llm, generated-code, verification, correctness`
 
-```text
-| 521|   53|   2|
-```
+**Look for in a diff:**
+- AI-generated code accepted because it compiles or looks plausible
+- No evidence that the implementation was checked against requirements and failure cases
+- Generated code added across a broad boundary without focused human review
 
-Each digit represented a particular hole on a paper tape that looked like this:
+**Why it matters:** LLM output is probabilistic and can contain subtle semantic, security, or integration defects while appearing polished. Compilation is not evidence that the behavior is correct.
 
-Each row of that paper tape was an instruction for the Harvard Mark I to execute. The instructions were very simple —something like “Add Register 10 to Register 12.” I’ll leave you to imagine just how hard programming was back then. Within a few years, it became clear that a computer program could be used to generate codes like that from a more abstract textual representation like “add 10, 12.” Hopper called this automatic programming. Before a decade had passed from Hopper’s first line of code, John Backus and his team had produced the first Fortran compiler, which used statements like “a = b + c.” Algol came a handful of years later, and within a decade, Dahl and
+**Suggested comment:** "This code appears generated, but the diff does not show how its behavior was verified against the requirement and edge cases. Could you add tests or explain the independent checks?"
 
-Nygaard had created Simula-67, the first object-oriented language. C, Unix, Smalltalk, and C++ were born within a few years. And within the next few, Java and C# appeared. At each one of those transitions, the productivity of programmers increased. The first leap in productivity was the greatest. In the ’50s, the productivity of programmers using a Fortran-like compiler was shown to be 45 times that of programmers using machine code. Each productivity leap thereafter was smaller than the previous. C was probably twice that of Fortran. C++ was likely a 20% improvement on C. Java/C# was perhaps on the order of another 20%. Ruby/Python are likely 20% better than Java, and Clojure likely adds another 10%. Each of these transitions in language was driven by an increase in abstraction. Each new language in that sequence was another step further removed from Grace Hopper’s holes in that paper tape. And each of those steps was accompanied by the fear that programming was being ruined. Yes, you read that correctly. At every stage, there were those who predicted the end of programming. Books were published that predicted the doom of the industry. They claimed that programmers would become as rare as dodo birds. Every time we made programming a little easier, those of us who were invested in the current complexity were liable to fear that unwashed masses would take our jobs. And so we predicted the doom of the profession. And every time, those fears and predictions were the exact opposite of the actual outcomes. With every new advance, the number of projects and the demand for programmers grew.
+**Fix:** Review generated code as if it came from an unfamiliar contributor, verify its contract, and keep the change small enough to inspect.
 
-Today, we face yet another such transition—the transition of AI. And there is, of course, rampant fear that programming is dead and that programmers will soon go extinct. Baloney! This is just another increase in the level of abstraction of our languages—another step away from the holes in the paper tape. And as we come to grips with it, the number of projects and the demand for programmers will continue to grow.
+## Define ambiguous terms before prompting or implementing
 
-## Programming by Prompt
+`id: ai-define-domain-terms | category: requirements | severity: high | source: book (Ch.17) + editorial | languages: any | tags: ai, prompt, ambiguity, specification, domain-language`
 
-This is a very new technology, and we don’t have a good handle on how to use it yet. This is reminiscent of our first forays into Java and the Web. Does anybody remember applets? It took several years before we worked out the rudiments of how to use Java/C# well. It took several more to refine those rudiments. The same happened with Ruby and Python. At first we stumbled and bumbled around, and then we gradually figured out the best ways to proceed. And believe me, when Fortran first came out, there was plenty of fear, anguish, doubt, and bumbling and stumbling. And so it will be with AIs. At this point, we have no idea what to do. We are just now barely able to bumble and stumble our way to write programs with prompts. We have no idea how to do it well. So, for example, consider the following prompt that I gave to Grok.
+**Look for in a diff:**
+- Requirements using undefined terms such as "word," "sentence," "active," "valid," or "next"
+- Different code paths making different assumptions about the same domain term
+- Prompt instructions that describe intent without defining inputs, boundaries, or special cases
 
-```text
-write a clojure program that finds all sentences
+**Why it matters:** Ambiguous requirements lead humans and models to fill gaps with incompatible assumptions. Precise definitions make implementation and review deterministic.
 
-in a given file that contain a given substring.
+**Suggested comment:** "The requirement uses `valid` without defining the accepted forms or boundary cases. Could the domain term be specified before we rely on this implementation?"
 
-Choose one of those sentences at random and find the next word in the substring, or a . if no word follows.
+**Fix:** Define terms, units, normalization rules, boundaries, and exceptional cases in the requirement or contract.
 
-Add the found word to the substring and remove the
+## Specify inputs, actions, and outputs explicitly
 
-first if the substring is longer than three words.
+`id: ai-explicit-input-action-output | category: requirements | severity: high | source: book (Ch.17) + editorial | languages: any | tags: ai, specification, aaa, contract, behavior`
 
-Repeat the entire process until the substring ends in a . or has exceeded 50 words.
+**Look for in a diff:**
+- A prompt or ticket describing a goal without concrete examples
+- Missing behavior for empty, malformed, missing, or repeated inputs
+- Expected output implied by prose rather than stated as an observable result
 
-Accumulate all the words that were found and return them appended to the initial substring.
-```
+**Why it matters:** Input/action/output contracts constrain interpretation and give reviewers something testable to compare with the implementation.
 
-Here’s the code that Grok generated. It works—after a fashion.
+**Suggested comment:** "The desired result is implied but not defined for this input. Could the request specify the input, action, and expected output, including the relevant edge case?"
 
+**Fix:** Express each important behavior as concrete inputs, one action, and an expected observable result.
 
-It is easy to be impressed by this. I certainly am. But it also terrifies me. I am not terrified by the power of the AI to generate code. I am terrified by the structure of that horrible prompt. Look carefully at that prompt. What is the definition of sentence? What is the definition of word? What does the clause the found word mean? Are those dot characters punctuation or nouns? What does it mean to accumulate words? Yes, Grok figured all this out well enough for this little experiment. But the program that resulted was by no means ready for production. It makes lots of dumb little mistakes, most of which have to do with the questions I raised in the previous paragraph. Here, for example, is a sample run: >clj -M -m markov
+## Overload specifications with independent examples and tests
 
-~/Documents/Books/Clean\ Code\ 2ded\ 20250311.txt "The Single"
+`id: ai-overload-specification-with-tests | category: ai-review | severity: high | source: book (Ch.17) + editorial | languages: any | tags: ai, specifications, examples, scenarios, redundancy, tests`
 
-> The Single Responsibility Principle, and the Dependency
+**Look for in a diff:**
+- A single prose prompt used as the only source of truth for complex behavior
+- Examples that do not cover the interpretation-sensitive parts of the requirement
+- Tests that merely repeat the implementation’s assumptions
 
-relationships and wind up back at that first solution, the one wit
+**Why it matters:** A formal definition and independent scenarios act as cross-checks. If one statement is misunderstood, the other can expose the inconsistency.
 
-the project you were working on   it every day   business and persona
+**Suggested comment:** "This behavior depends on several interpretation-sensitive rules but has only prose coverage. Could the specification be paired with representative Given-When-Then cases?"
 
-Notice the double spaces in the third and fourth lines. Why is it doing that? I could fix those mistakes by adding clarification to the prompt. For example, I might add: Make sure all accumulated words are separated by just one space.
+**Fix:** Combine definitions, constraints, examples, invariants, and independent tests that exercise the same contract from different angles.
 
-But there are a number of problems with this approach. First, I haven’t figured out why those double spaces are there, so this change to the prompt is just a patch to fix the
+## Use tests to constrain generated changes
 
-symptom. Second, am I sure that the clause all accumulated words will properly refer to the return value?
+`id: ai-tests-constrain-generation | category: ai-review | severity: high | source: book (Ch.17) + editorial | languages: any | tags: ai, llm, tests, regression, incremental-change`
 
-I could try it to find out; but that causes another problem. With each new change to the prompt, Grok regenerates the program from scratch as opposed to modifying the existing program. With all the ambiguities in the prompt, how can I be sure that the regenerated program doesn’t break something that worked in the previous one? Will it use the same definitions of word and sentence that it did before? Will it interpret the found word the same as it did before? Given the statistical and fuzzy nature of the LLM algorithms, there’s a good chance it won’t! Here is what Grok generated for that modified prompt. Notice that the two programs look like they were written by two different programmers.
+**Look for in a diff:**
+- A prompt regenerated the whole module for a small change
+- Existing behavior is not covered before asking an AI to modify it
+- A revised output fixes one symptom while silently changing unrelated behavior
 
+**Why it matters:** Regeneration can produce a different interpretation of every ambiguous instruction. A passing regression suite makes unintended changes visible and supports incremental edits.
 
-This new program solves the double-space problem but creates a new problem at the end of the sentence. It also doesn’t deal with uppercase and lowercase very well.
+**Suggested comment:** "This change regenerates the implementation for a narrow fix, but existing behavior is not protected by tests. Could the current contract be captured before accepting the new output?"
 
-> clean code is hard Writing a system that handles one user at a time
+**Fix:** Establish regression tests, request narrow changes, inspect the complete diff, and rerun the full relevant suite after each generation.
 
-## Infancy
+## Prefer incremental AI-assisted changes
 
-These are problems related to the infancy of the approach. In order to effectively program large systems by prompt, we are going to need AI tools that allow for incremental
+`id: ai-incremental-changes | category: process | severity: medium | source: book (Ch.17) + editorial | languages: any | tags: ai, incremental, diff-size, reviewability, rollback`
 
-changes. We are also going to need ways to eliminate the ambiguities in our prompts. In short, we are going to need a formalism—a prompt language that is unambiguous and precise and that cannot be misinterpreted by the statistical and fuzzy nature of the LLM algorithm. We’ll need to come up with a way to precisely say what we mean. We’ll also need to come up with a way to mean what we say. Or, in other words, even if we have a perfectly precise language, it is easy to precisely say something that is wrong. To ensure that our precise statements are accurate descriptions of our intent, we should state our intent in at least two different ways (just as I did in this paragraph!). When you say something in two different ways, you are overloading the concept you are trying to communicate. Such overloading is a way to ensure that any error in either of the two statements will be detected by the other. We error-prone humans absolutely require overloading. Overloading is the strategy behind double-entry bookkeeping and the testing disciplines described in earlier chapters. It would be supremely irresponsible to trust a single set of precise statements written by a human if those statements aren’t overloaded. What we are going to need is a way to create precise and overloaded prompts and a way to quickly verify their consistency.
+**Look for in a diff:**
+- Large generated rewrites for a localized requirement
+- Unrelated formatting, renaming, and dependency changes mixed with generated behavior
+- A change too large to review or revert by behavior
 
-## A SWAG
+**Why it matters:** Small increments limit blast radius and make it possible to identify which instruction or generated change introduced a defect.
 
-So let me make a Scientific Wild-Axx Guess. Imagine a prompt language that contains formal definitions and constraints overloaded by a set of BDD-style Given-When-Then scenarios.
+**Suggested comment:** "The generated rewrite includes unrelated changes, making behavioral review difficult. Could the request be narrowed and the diff split into reviewable increments?"
 
-Let’s give that a try with a slightly simpler problem. Notice how much it looks like COBOL. That similarity might give us pause.
+**Fix:** Ask for one bounded change, preserve unrelated code, and separate cleanup or refactoring from generated feature behavior.
 
-### Language: Clojure
+## Verify generated tests independently
 
-### Name: Markov
+`id: ai-independent-test-verification | category: testing | severity: high | source: book (Ch.17) + editorial | languages: any | tags: ai, tests, independence, oracle, verification`
 
-Command-line arguments:
+**Look for in a diff:**
+- Implementation and tests generated from the same ambiguous prompt
+- Tests that duplicate the implementation algorithm instead of checking outcomes
+- A green generated suite with no manually reviewed examples or independent oracle
 
-- `f`: a text file.
-- `s`: a text string.
+**Why it matters:** A model can consistently encode the same misunderstanding in both production and test code. Passing tests do not prove correctness when the tests share the implementation’s assumptions.
 
-Definitions: Word: A string of alphabetic characters.
+**Suggested comment:** "The implementation and tests appear to share the same generated assumptions. Could the expected cases be reviewed or derived independently from the requirement?"
 
-Sentence: One or more words separated by spaces and ending with a period, question mark, or exclamation mark.
+**Fix:** Review test cases against external requirements, use independent expected values, and add boundary cases not suggested by the implementation.
 
-Constraints:
+## Review normalization, punctuation, and case rules explicitly
 
-Ignore case in all comparisons.
+`id: ai-explicit-normalization-rules | category: correctness | severity: high | source: book (Ch.17) + editorial | languages: any | tags: ai, parsing, normalization, unicode, case-sensitivity, whitespace`
 
-Description:
+**Look for in a diff:**
+- Text processing that leaves case, whitespace, punctuation, Unicode, or end-of-input behavior implicit
+- Fixes for one formatting symptom without a defined normalization policy
+- Different operations using different tokenization or comparison rules
 
-Find all sentences in f that contain s.
+**Why it matters:** Text edge cases are easy for generated code to mishandle and difficult to notice in a happy-path example. Explicit normalization rules make behavior stable and testable.
 
-Choose a sentence c at random with equal probability.
+**Suggested comment:** "The parser’s treatment of case and repeated whitespace is implicit. Could the normalization policy be defined and covered by examples before relying on this code?"
 
-Return the word in c that immediately follows s;
+**Fix:** Define tokenization and normalization once, implement it consistently, and test punctuation, spacing, case, Unicode, and terminal inputs.
 
-    if none return a period.
+## Do not patch symptoms without finding the contract violation
 
-Scenarios to be tested with speclj:
+`id: ai-fix-root-cause | category: correctness | severity: medium | source: book (Ch.17) + editorial | languages: any | tags: ai, debugging, root-cause, prompt, regression`
 
-Given f contains the following lines:
+**Look for in a diff:**
+- A prompt or code change that adds a special case only for a reported output
+- A formatting fix with no explanation of why the original behavior was wrong
+- Repeated prompt patches accumulating contradictory instructions
 
-Oh, Hello there Bob, how are you today? I'm fine.
+**Why it matters:** Symptom patches can hide an unclear definition and create new regressions. The correct fix should address the violated contract, not only the observed example.
 
-Hello there Bill, I trust you are well.      How's the wife?
+**Suggested comment:** "This handles the reported example but does not explain the general rule. Could the underlying contract be clarified and tested so the fix covers the class of failures?"
 
-Ah yes     hello there John   great day!   Kowabunga!
+**Fix:** Reproduce the defect, identify the violated invariant, update the specification and regression cases, then implement the smallest general correction.
 
-Ah yes, hello there John, great day!     Kowabunga!
+## Treat prompts as versioned engineering artifacts
 
-When s is "not in any sentence"
+`id: ai-version-prompt-contracts | category: maintainability | severity: medium | source: book (Ch.17) + editorial | languages: any | tags: ai, prompts, reproducibility, versioning, provenance`
 
-Then return "."
+**Look for in a diff:**
+- Critical generated code with no record of the prompt, model assumptions, or source requirements
+- A prompt changed without rerunning representative evaluations
+- Generated output that cannot be reproduced or explained by the team
 
-When s is "hello"
+**Why it matters:** Prompt changes can alter output broadly. Traceability helps reviewers understand provenance and detect regressions when models, context, or instructions change.
 
-Then return "there"
+**Suggested comment:** "This behavior depends on generated output, but the prompt and evaluation cases are not traceable. Could the generation inputs and verification suite be kept with the change?"
 
-When s is "are well"
+**Fix:** Version important prompts or specifications, record relevant model/context changes, and rerun deterministic evaluations before accepting new output.
 
-Then return "."
+## Keep human reasoning responsible for requirements and contracts
 
-When s is "hello there"
+`id: ai-human-contract-ownership | category: ai-review | severity: high | source: book (Ch.17) + editorial | languages: any | tags: ai, human-review, requirements, contracts, accountability`
 
-Then return "Bob", "Bill", or "John". Assert a uniform distribution after 100 iterations.
+**Look for in a diff:**
+- Business or safety decisions delegated to an AI without an accountable owner
+- A generated implementation treated as the requirement rather than as a proposal
+- No human review of security, privacy, failure, or dependency implications
 
-Grok was quite happy to generate an implementation and corresponding tests from the scenarios.
+**Why it matters:** Models can generate code but do not own the correctness of the requirement. Humans must reason about intent, tradeoffs, constraints, and consequences.
 
+**Suggested comment:** "The generated behavior makes a requirement-level decision without an explicit owner or rationale. Could the contract and its risks be reviewed by the responsible engineer or domain owner?"
 
-Despite a valiant effort by Grok, the generated tests do not pass. That should drive home just how important it is to overload a prompt with testing scenarios!
+**Fix:** Keep humans responsible for requirements, contracts, architecture, security, and final acceptance; use AI to accelerate bounded implementation work.
 
-Failures:
+## Use AI output as a proposal for architecture, not architectural evidence
 
- 1) Markov returns 'there' when searching for 'hello'
+`id: ai-architecture-needs-independent-review | category: architecture | severity: high | source: book (Ch.17) + editorial | languages: any | tags: ai, architecture, boundaries, dependencies, design-review`
 
-    Expected: "there"
+**Look for in a diff:**
+- Generated abstractions accepted without checking dependency direction or ownership
+- Frameworks, layers, or interfaces introduced because the model suggested them
+- Local tests passing while module boundaries or operational constraints remain unexamined
 
-            got: "." (using =)
+**Why it matters:** AI can produce locally coherent structure that is globally wrong, overcomplicated, or inconsistent with the system’s change boundaries.
 
- 2) Markov returns period when searching for 'are well'
+**Suggested comment:** "The generated abstraction may be locally reasonable, but its dependency direction and ownership need architectural evidence. Could the boundary be reviewed independently of the generated code?"
 
-    Expected: "."
+**Fix:** Evaluate architecture against actual change pressure, operational constraints, dependency rules, and independent design criteria.
 
-            got: "i" (using =)
+## Evaluate AI behavior with representative and adversarial cases
 
- 3) Markov returns Bob, Bill, or John for
-    'hello there' with uniform distribution
+`id: ai-evaluate-representative-adversarial-cases | category: testing | severity: high | source: book (Ch.17) + editorial | languages: any | tags: ai, evaluation, edge-cases, adversarial, regression, llm`
 
-    Expected: 3
+**Look for in a diff:**
+- Only one or two successful examples used to validate generated behavior
+- Missing malformed, ambiguous, adversarial, long, empty, or distribution-sensitive inputs
+- Probabilistic output accepted without thresholds, invariants, or repeatability checks
 
-         got: 1 (using =)
+**Why it matters:** Generated and AI-driven behavior often fails outside the examples that inspired it. Representative and adversarial evaluation reveals ambiguity, instability, and unsafe assumptions.
 
-Debugging the code is relatively simple; but can you debug the prompt? And even if you can “fix” the prompt, are you sure it will generate code and tests that pass if you apply the prompt more than once? The fact that Grok wrote the tests and yet could not use them to infer the desired behavior exposes the limitation of the LLM approach. LLMs are statistical in nature; they create their responses through probability and not inference. It is true that many inferences are trained into the statistical model; but the evaluation of the prompt does not infer in real time. Inference is the primary operation of reason. If LLMs do not actively infer, then LLMs do not reason! If you debug the code that Grok produced, you will find that Grok apparently ignored the provided definition of “word” and did not properly interpret the case insensitivity constraint. The fact that Grok got confused by a formal prompt overloaded with test scenarios is not encouraging. It seems obvious, at least to me, that without overloaded formality, the prospect of using AIs to write our systems is doomed to spectacular failure. After all, programming is formal, and humans require overloading.
+**Suggested comment:** "The evaluation covers the happy example but not malformed or ambiguous inputs. Could representative edge cases and the acceptable output criteria be added?"
 
-## Conclusion
+**Fix:** Build a versioned evaluation set with boundary, failure, adversarial, and representative cases; define thresholds and investigate regressions.
 
-In the end, I expect that the LLMs and AIs will improve to the point that long, formal specifications will be within their grasp. I also expect that we programmers will design formal and overloaded specification languages that the AIs can consume to produce complex systems.
+## Keep generated code understandable and maintainable
 
-And who will learn and apply these formalisms? Who will provide the ability to reason that the AIs lack? Programmers, of course. We programmers will become the lawyers of AI, responsible (as we always have been) to reason through and draw up the precise and accurate formal requirements and contracts for the applications our clients need.
+`id: ai-generated-code-must-be-maintainable | category: maintainability | severity: medium | source: book (Ch.17) + editorial | languages: any | tags: ai, readability, duplication, complexity, ownership`
 
-In this part of the book, we’re going to raise our perspective slightly above coding issues and look at the principles of clean design. You’ll still see plenty of code—but the level will continuously rise as each chapter goes by. We’ll cover the basics of lower-level boundaries and systems, Kent Beck’s rules of simple design, the SOLID principles, and the principles of component design. Portions of the following chapters are edited and abridged excerpts from my books Clean Craftsmanship and Clean Architecture.
+**Look for in a diff:**
+- Repeated generated logic, unnecessary abstractions, unexplained branches, or opaque names
+- Code no team member can confidently modify without regenerating it
+- Generated comments that describe intent but do not match behavior
+
+**Why it matters:** AI assistance does not remove future maintenance. Unclear generated code increases the cost of review, debugging, and the next change.
+
+**Suggested comment:** "This generated implementation is difficult to understand and modify locally. Could it be simplified or refactored into the project’s established patterns before merging?"
+
+**Fix:** Apply normal readability, cohesion, duplication, security, and ownership standards; regenerate only when that remains the clearest maintainable option.

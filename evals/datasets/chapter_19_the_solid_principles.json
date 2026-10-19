@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch19-001",
+    "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Use SOLID as changeability guidance, not a checklist\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "solid-changeability-heuristics",
+        "heading": "Use SOLID as changeability guidance, not a checklist",
+        "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 19: The SOLID Principles, PR review rules",
+          "Use SOLID as changeability guidance, not a checklist"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use SOLID as changeability guidance, not a checklist",
+      "A principle applied mechanically without a concrete change or coupling risk",
+      "solid",
+      "design",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch19-002",
+    "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Separate modules that serve different actors\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "solid-srp-one-actor",
+        "heading": "Separate modules that serve different actors",
+        "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 19: The SOLID Principles, PR review rules",
+          "Separate modules that serve different actors"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Separate modules that serve different actors",
+      "One module containing payroll, reporting, persistence, or policy code owned by different stakeholders",
+      "srp",
+      "actors",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch19-003",
+    "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Do not confuse SRP with one function per class\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "solid-srp-is-not-one-function",
+        "heading": "Do not confuse SRP with one function per class",
+        "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 19: The SOLID Principles, PR review rules",
+          "Do not confuse SRP with one function per class"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Do not confuse SRP with one function per class",
+      "Classes split into one-method wrappers without independent change pressure",
+      "srp",
+      "cohesion",
+      "review-guidance"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch19-004",
+    "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Avoid shared helpers that couple different actors\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "solid-avoid-cross-actor-helper",
+        "heading": "Avoid shared helpers that couple different actors",
+        "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 19: The SOLID Principles, PR review rules",
+          "Avoid shared helpers that couple different actors"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Avoid shared helpers that couple different actors",
+      "A helper reused by unrelated policies because its algorithm currently looks similar",
+      "srp",
+      "duplication",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch19-005",
+    "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Add extension points for real recurring variation\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "solid-ocp-real-extension",
+        "heading": "Add extension points for real recurring variation",
+        "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 19: The SOLID Principles, PR review rules",
+          "Add extension points for real recurring variation"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Add extension points for real recurring variation",
+      "A stable module edited for every new variant or policy",
+      "ocp",
+      "extension",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch19-006",
+    "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Protect high-level policy from peripheral changes\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "solid-ocp-protect-policy",
+        "heading": "Protect high-level policy from peripheral changes",
+        "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 19: The SOLID Principles, PR review rules",
+          "Protect high-level policy from peripheral changes"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Protect high-level policy from peripheral changes",
+      "Database, UI, controller, or presentation changes forcing edits to core business rules",
+      "ocp",
+      "architecture",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch19-007",
+    "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Hide transitive implementation details\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "solid-hide-transitive-details",
+        "heading": "Hide transitive implementation details",
+        "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 19: The SOLID Principles, PR review rules",
+          "Hide transitive implementation details"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Hide transitive implementation details",
+      "Callers reaching through a service to its entities, repositories, or framework objects",
+      "information-hiding",
+      "transitive-dependency",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch19-008",
+    "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Preserve substitutability contracts\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "solid-lsp-preserve-contract",
+        "heading": "Preserve substitutability contracts",
+        "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 19: The SOLID Principles, PR review rules",
+          "Preserve substitutability contracts"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Preserve substitutability contracts",
+      "A subtype rejecting inputs accepted by the base contract",
+      "lsp",
+      "substitution",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch19-009",
+    "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Treat APIs and services as substitution contracts too\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "solid-lsp-beyond-inheritance",
+        "heading": "Treat APIs and services as substitution contracts too",
+        "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 19: The SOLID Principles, PR review rules",
+          "Treat APIs and services as substitution contracts too"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Treat APIs and services as substitution contracts too",
+      "A REST/provider implementation using different field names, units, status semantics, or response shapes",
+      "lsp",
+      "api",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch19-010",
+    "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Split interfaces by client needs\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "solid-isp-client-specific-interfaces",
+        "heading": "Split interfaces by client needs",
+        "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 19: The SOLID Principles, PR review rules",
+          "Split interfaces by client needs"
+        ],
+        "chunk_index": 9,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Split interfaces by client needs",
+      "A client depending on a large interface while using only one or two operations",
+      "isp",
+      "interfaces",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch19-011",
+    "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Do not depend on unused dependency baggage\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "solid-isp-avoid-unused-baggage",
+        "heading": "Do not depend on unused dependency baggage",
+        "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 19: The SOLID Principles, PR review rules",
+          "Do not depend on unused dependency baggage"
+        ],
+        "chunk_index": 10,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Do not depend on unused dependency baggage",
+      "A module forced to depend on a framework or database feature it does not use",
+      "isp",
+      "dependencies",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch19-012",
+    "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Invert dependencies at volatile boundaries\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "solid-dip-invert-volatile-dependencies",
+        "heading": "Invert dependencies at volatile boundaries",
+        "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 19: The SOLID Principles, PR review rules",
+          "Invert dependencies at volatile boundaries"
+        ],
+        "chunk_index": 11,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Invert dependencies at volatile boundaries",
+      "High-level policy importing a frequently changing database, UI, vendor, or transport implementation",
+      "dip",
+      "dependency-inversion",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch19-013",
+    "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Depend on stable abstractions, not every concrete type\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "solid-dip-stable-abstractions",
+        "heading": "Depend on stable abstractions, not every concrete type",
+        "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 19: The SOLID Principles, PR review rules",
+          "Depend on stable abstractions, not every concrete type"
+        ],
+        "chunk_index": 12,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Depend on stable abstractions, not every concrete type",
+      "New imports, inheritance, or overrides of volatile concrete classes",
+      "dip",
+      "abstractions",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch19-014",
+    "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep object creation at composition boundaries\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "solid-dip-composition-boundary",
+        "heading": "Keep object creation at composition boundaries",
+        "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 19: The SOLID Principles, PR review rules",
+          "Keep object creation at composition boundaries"
+        ],
+        "chunk_index": 13,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep object creation at composition boundaries",
+      "Core policy constructing vendor clients, databases, queues, or UI implementations directly",
+      "dip",
+      "factories",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch19-015",
+    "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Gather unavoidable concrete dependencies in a small boundary\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "solid-isolate-concrete-components",
+        "heading": "Gather unavoidable concrete dependencies in a small boundary",
+        "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 19: The SOLID Principles, PR review rules",
+          "Gather unavoidable concrete dependencies in a small boundary"
+        ],
+        "chunk_index": 14,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Gather unavoidable concrete dependencies in a small boundary",
+      "Concrete dependency violations spread across many modules",
+      "dip",
+      "concrete-components",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch19-016",
+    "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+    "question": "Why does the rule \"Use SOLID as changeability guidance, not a checklist\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "solid-changeability-heuristics",
+        "heading": "Use SOLID as changeability guidance, not a checklist",
+        "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 19: The SOLID Principles, PR review rules",
+          "Use SOLID as changeability guidance, not a checklist"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use SOLID as changeability guidance, not a checklist",
+      "SOLID is intended to produce understandable structures that tolerate change. The principles are signals for design tradeoffs, not automatic defects or a requirement for abstraction everywhere.",
+      "solid",
+      "design",
+      "design"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch19-017",
+    "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+    "question": "What fix does the guidance recommend for \"Separate modules that serve different actors\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "solid-srp-one-actor",
+        "heading": "Separate modules that serve different actors",
+        "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 19: The SOLID Principles, PR review rules",
+          "Separate modules that serve different actors"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Separate modules that serve different actors",
+      "Split code by change reason, then use a small facade or coordinator when callers need a convenient entry point.",
+      "srp",
+      "actors",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch19-018",
+    "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+    "question": "How can a reviewer spot a problem related to \"Do not confuse SRP with one function per class\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "solid-srp-is-not-one-function",
+        "heading": "Do not confuse SRP with one function per class",
+        "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 19: The SOLID Principles, PR review rules",
+          "Do not confuse SRP with one function per class"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Do not confuse SRP with one function per class",
+      "Classes split into one-method wrappers without independent change pressure",
+      "srp",
+      "cohesion",
+      "review-guidance"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch19-019",
+    "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+    "question": "What review guidance applies to \"Avoid shared helpers that couple different actors\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "solid-avoid-cross-actor-helper",
+        "heading": "Avoid shared helpers that couple different actors",
+        "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 19: The SOLID Principles, PR review rules",
+          "Avoid shared helpers that couple different actors"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Avoid shared helpers that couple different actors",
+      "Shared code between different actors creates accidental coupling. A harmless change for one policy can corrupt another policy’s output.",
+      "srp",
+      "duplication",
+      "design"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch19-020",
+    "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+    "question": "Why does the rule \"Add extension points for real recurring variation\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "solid-ocp-real-extension",
+        "heading": "Add extension points for real recurring variation",
+        "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 19: The SOLID Principles, PR review rules",
+          "Add extension points for real recurring variation"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Add extension points for real recurring variation",
+      "The Open-Closed Principle reduces the blast radius of recurring extensions by isolating the axis of variation. It should be driven by actual change pressure.",
+      "ocp",
+      "extension",
+      "design"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch19-021",
+    "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+    "question": "What fix does the guidance recommend for \"Protect high-level policy from peripheral changes\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "solid-ocp-protect-policy",
+        "heading": "Protect high-level policy from peripheral changes",
+        "source_path": "docs/Part_II_Design/chapter_19_the_solid_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 19: The SOLID Principles, PR review rules",
+          "Protect high-level policy from peripheral changes"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Protect high-level policy from peripheral changes",
+      "Place interfaces at the protected policy boundary and make peripheral components implement or adapt to them.",
+      "ocp",
+      "architecture",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  }
+]

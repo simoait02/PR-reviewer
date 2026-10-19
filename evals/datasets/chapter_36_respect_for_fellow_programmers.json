@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch36-001",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+    "question": "What should a code reviewer look for in a diff related to \"Evaluate code and decisions by relevant professional criteria\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rf-professional-criteria",
+        "heading": "Evaluate code and decisions by relevant professional criteria",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+        "heading_path": [
+          "Clean Code, Chapter 36: Respect for Fellow Programmers, PR review rules",
+          "Evaluate code and decisions by relevant professional criteria"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Evaluate code and decisions by relevant professional criteria",
+      "Review judgments based on identity, background, personality, or status rather than code and relevant evidence",
+      "respect",
+      "code-review",
+      "collaboration"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch36-002",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep review feedback specific and actionable\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rf-specific-actionable-feedback",
+        "heading": "Keep review feedback specific and actionable",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+        "heading_path": [
+          "Clean Code, Chapter 36: Respect for Fellow Programmers, PR review rules",
+          "Keep review feedback specific and actionable"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep review feedback specific and actionable",
+      "Sarcasm, insults, vague disapproval, or comments about intelligence/competence",
+      "code-review",
+      "feedback",
+      "code-review"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch36-003",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+    "question": "What should a code reviewer look for in a diff related to \"Apply standards consistently across contributors\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rf-consistent-standards",
+        "heading": "Apply standards consistently across contributors",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+        "heading_path": [
+          "Clean Code, Chapter 36: Respect for Fellow Programmers, PR review rules",
+          "Apply standards consistently across contributors"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Apply standards consistently across contributors",
+      "The same code quality issue accepted from one contributor and rejected from another",
+      "fairness",
+      "code-review",
+      "collaboration"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch36-004",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+    "question": "What should a code reviewer look for in a diff related to \"Make disagreement safe and evidence-based\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rf-safe-technical-disagreement",
+        "heading": "Make disagreement safe and evidence-based",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+        "heading_path": [
+          "Clean Code, Chapter 36: Respect for Fellow Programmers, PR review rules",
+          "Make disagreement safe and evidence-based"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make disagreement safe and evidence-based",
+      "Contributors avoiding concerns because disagreement is punished or mocked",
+      "disagreement",
+      "psychological-safety",
+      "collaboration"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch36-005",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+    "question": "What should a code reviewer look for in a diff related to \"Protect an inclusive environment\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rf-inclusive-professional-environment",
+        "heading": "Protect an inclusive environment",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+        "heading_path": [
+          "Clean Code, Chapter 36: Respect for Fellow Programmers, PR review rules",
+          "Protect an inclusive environment"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Protect an inclusive environment",
+      "Discriminatory, harassing, exclusionary, or demeaning language in code, reviews, issues, or documentation",
+      "inclusion",
+      "harassment",
+      "collaboration"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch36-006",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+    "question": "What should a code reviewer look for in a diff related to \"Respect skill, ethics, and discipline regardless of seniority\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rf-respect-professional-contribution",
+        "heading": "Respect skill, ethics, and discipline regardless of seniority",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+        "heading_path": [
+          "Clean Code, Chapter 36: Respect for Fellow Programmers, PR review rules",
+          "Respect skill, ethics, and discipline regardless of seniority"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Respect skill, ethics, and discipline regardless of seniority",
+      "Seniority used to silence a technically valid concern",
+      "mentorship",
+      "seniority",
+      "collaboration"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch36-007",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+    "question": "Why does the rule \"Evaluate code and decisions by relevant professional criteria\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rf-professional-criteria",
+        "heading": "Evaluate code and decisions by relevant professional criteria",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+        "heading_path": [
+          "Clean Code, Chapter 36: Respect for Fellow Programmers, PR review rules",
+          "Evaluate code and decisions by relevant professional criteria"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Evaluate code and decisions by relevant professional criteria",
+      "Good engineering depends on standards, reasoning, ethics, and evidence. Personal bias reduces review quality and prevents the team from learning from its members.",
+      "respect",
+      "code-review",
+      "collaboration"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch36-008",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+    "question": "What fix does the guidance recommend for \"Keep review feedback specific and actionable\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rf-specific-actionable-feedback",
+        "heading": "Keep review feedback specific and actionable",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+        "heading_path": [
+          "Clean Code, Chapter 36: Respect for Fellow Programmers, PR review rules",
+          "Keep review feedback specific and actionable"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep review feedback specific and actionable",
+      "Describe the observed issue, why it matters, and the smallest useful change; ask questions where context may be missing.",
+      "code-review",
+      "feedback",
+      "code-review"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch36-009",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+    "question": "How can a reviewer spot a problem related to \"Apply standards consistently across contributors\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rf-consistent-standards",
+        "heading": "Apply standards consistently across contributors",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+        "heading_path": [
+          "Clean Code, Chapter 36: Respect for Fellow Programmers, PR review rules",
+          "Apply standards consistently across contributors"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Apply standards consistently across contributors",
+      "The same code quality issue accepted from one contributor and rejected from another",
+      "fairness",
+      "code-review",
+      "collaboration"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch36-010",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+    "question": "What review guidance applies to \"Make disagreement safe and evidence-based\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rf-safe-technical-disagreement",
+        "heading": "Make disagreement safe and evidence-based",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+        "heading_path": [
+          "Clean Code, Chapter 36: Respect for Fellow Programmers, PR review rules",
+          "Make disagreement safe and evidence-based"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make disagreement safe and evidence-based",
+      "Technical disagreement is a way to discover defects and improve design. Teams need a safe process for raising concerns and resolving them with evidence.",
+      "disagreement",
+      "psychological-safety",
+      "collaboration"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch36-011",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+    "question": "Why does the rule \"Protect an inclusive environment\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rf-inclusive-professional-environment",
+        "heading": "Protect an inclusive environment",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+        "heading_path": [
+          "Clean Code, Chapter 36: Respect for Fellow Programmers, PR review rules",
+          "Protect an inclusive environment"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Protect an inclusive environment",
+      "A professional team must be safe for people with different identities and backgrounds. Exclusion harms individuals, reduces information flow, and damages engineering quality.",
+      "inclusion",
+      "harassment",
+      "collaboration"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch36-012",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+    "question": "What fix does the guidance recommend for \"Respect skill, ethics, and discipline regardless of seniority\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rf-respect-professional-contribution",
+        "heading": "Respect skill, ethics, and discipline regardless of seniority",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+        "heading_path": [
+          "Clean Code, Chapter 36: Respect for Fellow Programmers, PR review rules",
+          "Respect skill, ethics, and discipline regardless of seniority"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Respect skill, ethics, and discipline regardless of seniority",
+      "Review evidence and outcomes consistently, mentor where needed, and make accountability apply to every role.",
+      "mentorship",
+      "seniority",
+      "collaboration"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch36-013",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+    "question": "How can a reviewer spot a problem related to \"Evaluate code and decisions by relevant professional criteria\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rf-professional-criteria",
+        "heading": "Evaluate code and decisions by relevant professional criteria",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+        "heading_path": [
+          "Clean Code, Chapter 36: Respect for Fellow Programmers, PR review rules",
+          "Evaluate code and decisions by relevant professional criteria"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Evaluate code and decisions by relevant professional criteria",
+      "Review judgments based on identity, background, personality, or status rather than code and relevant evidence",
+      "respect",
+      "code-review",
+      "collaboration"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch36-014",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+    "question": "What review guidance applies to \"Keep review feedback specific and actionable\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rf-specific-actionable-feedback",
+        "heading": "Keep review feedback specific and actionable",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+        "heading_path": [
+          "Clean Code, Chapter 36: Respect for Fellow Programmers, PR review rules",
+          "Keep review feedback specific and actionable"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep review feedback specific and actionable",
+      "Specific technical feedback improves code while preserving a collaborative relationship. Personal or vague criticism creates defensiveness and does not help the author act.",
+      "code-review",
+      "feedback",
+      "code-review"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch36-015",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+    "question": "Why does the rule \"Apply standards consistently across contributors\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rf-consistent-standards",
+        "heading": "Apply standards consistently across contributors",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+        "heading_path": [
+          "Clean Code, Chapter 36: Respect for Fellow Programmers, PR review rules",
+          "Apply standards consistently across contributors"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Apply standards consistently across contributors",
+      "Consistent standards make review predictable and fair. Inconsistent enforcement hides defects and signals that belonging depends on identity rather than professional practice.",
+      "fairness",
+      "code-review",
+      "collaboration"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch36-016",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+    "question": "What fix does the guidance recommend for \"Make disagreement safe and evidence-based\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rf-safe-technical-disagreement",
+        "heading": "Make disagreement safe and evidence-based",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+        "heading_path": [
+          "Clean Code, Chapter 36: Respect for Fellow Programmers, PR review rules",
+          "Make disagreement safe and evidence-based"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make disagreement safe and evidence-based",
+      "Separate people from ideas, request evidence, time-box debate, decide transparently, and preserve dissenting risk when it remains unresolved.",
+      "disagreement",
+      "psychological-safety",
+      "collaboration"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch36-017",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+    "question": "How can a reviewer spot a problem related to \"Protect an inclusive environment\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rf-inclusive-professional-environment",
+        "heading": "Protect an inclusive environment",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+        "heading_path": [
+          "Clean Code, Chapter 36: Respect for Fellow Programmers, PR review rules",
+          "Protect an inclusive environment"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Protect an inclusive environment",
+      "Discriminatory, harassing, exclusionary, or demeaning language in code, reviews, issues, or documentation",
+      "inclusion",
+      "harassment",
+      "collaboration"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch36-018",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+    "question": "What review guidance applies to \"Respect skill, ethics, and discipline regardless of seniority\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rf-respect-professional-contribution",
+        "heading": "Respect skill, ethics, and discipline regardless of seniority",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+        "heading_path": [
+          "Clean Code, Chapter 36: Respect for Fellow Programmers, PR review rules",
+          "Respect skill, ethics, and discipline regardless of seniority"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Respect skill, ethics, and discipline regardless of seniority",
+      "Professional respect is earned and demonstrated through skill, standards, discipline, and ethics—not title or social identity. Teams are stronger when everyone can contribute and challenge risk.",
+      "mentorship",
+      "seniority",
+      "collaboration"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch36-019",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+    "question": "Why does the rule \"Evaluate code and decisions by relevant professional criteria\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rf-professional-criteria",
+        "heading": "Evaluate code and decisions by relevant professional criteria",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+        "heading_path": [
+          "Clean Code, Chapter 36: Respect for Fellow Programmers, PR review rules",
+          "Evaluate code and decisions by relevant professional criteria"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Evaluate code and decisions by relevant professional criteria",
+      "Good engineering depends on standards, reasoning, ethics, and evidence. Personal bias reduces review quality and prevents the team from learning from its members.",
+      "respect",
+      "code-review",
+      "collaboration"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch36-020",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+    "question": "What fix does the guidance recommend for \"Keep review feedback specific and actionable\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rf-specific-actionable-feedback",
+        "heading": "Keep review feedback specific and actionable",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+        "heading_path": [
+          "Clean Code, Chapter 36: Respect for Fellow Programmers, PR review rules",
+          "Keep review feedback specific and actionable"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep review feedback specific and actionable",
+      "Describe the observed issue, why it matters, and the smallest useful change; ask questions where context may be missing.",
+      "code-review",
+      "feedback",
+      "code-review"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch36-021",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+    "question": "How can a reviewer spot a problem related to \"Apply standards consistently across contributors\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "rf-consistent-standards",
+        "heading": "Apply standards consistently across contributors",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_36_respect_for_fellow_programmers.md",
+        "heading_path": [
+          "Clean Code, Chapter 36: Respect for Fellow Programmers, PR review rules",
+          "Apply standards consistently across contributors"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Apply standards consistently across contributors",
+      "The same code quality issue accepted from one contributor and rejected from another",
+      "fairness",
+      "code-review",
+      "collaboration"
+    ],
+    "difficulty": "paraphrase"
+  }
+]

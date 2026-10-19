@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch24-001",
+    "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+    "question": "What should a code reviewer look for in a diff related to \"Make use cases visible in the architecture\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-use-cases-visible",
+        "heading": "Make use cases visible in the architecture",
+        "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+        "heading_path": [
+          "Clean Code, Chapter 24: Independence, PR review rules",
+          "Make use cases visible in the architecture"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make use cases visible in the architecture",
+      "A feature’s behavior scattered across framework, controller, persistence, and utility layers",
+      "use-cases",
+      "intent",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch24-002",
+    "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep architecture independent of delivery mechanism\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-delivery-mechanism-independent",
+        "heading": "Keep architecture independent of delivery mechanism",
+        "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+        "heading_path": [
+          "Clean Code, Chapter 24: Independence, PR review rules",
+          "Keep architecture independent of delivery mechanism"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep architecture independent of delivery mechanism",
+      "Core use cases assuming HTTP, a specific UI framework, service boundaries, or a monolithic process",
+      "web",
+      "services",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch24-003",
+    "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+    "question": "What should a code reviewer look for in a diff related to \"Let operational requirements shape boundaries without dictating policy\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-operational-boundaries",
+        "heading": "Let operational requirements shape boundaries without dictating policy",
+        "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+        "heading_path": [
+          "Clean Code, Chapter 24: Independence, PR review rules",
+          "Let operational requirements shape boundaries without dictating policy"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Let operational requirements shape boundaries without dictating policy",
+      "A throughput/latency requirement impossible to satisfy with the current component boundaries",
+      "throughput",
+      "latency",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch24-004",
+    "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+    "question": "What should a code reviewer look for in a diff related to \"Partition components for independent team development\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-independent-team-development",
+        "heading": "Partition components for independent team development",
+        "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+        "heading_path": [
+          "Clean Code, Chapter 24: Independence, PR review rules",
+          "Partition components for independent team development"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Partition components for independent team development",
+      "Multiple teams editing the same module for unrelated concerns",
+      "teams",
+      "conways-law",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch24-005",
+    "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep components independently testable and developable\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-independent-component-work",
+        "heading": "Keep components independently testable and developable",
+        "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+        "heading_path": [
+          "Clean Code, Chapter 24: Independence, PR review rules",
+          "Keep components independently testable and developable"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep components independently testable and developable",
+      "A component requiring the whole system or unavailable infrastructure to build and test",
+      "components",
+      "testing",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch24-006",
+    "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+    "question": "What should a code reviewer look for in a diff related to \"Make every build deployable with minimal manual work\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-deployable-after-build",
+        "heading": "Make every build deployable with minimal manual work",
+        "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+        "heading_path": [
+          "Clean Code, Chapter 24: Independence, PR review rules",
+          "Make every build deployable with minimal manual work"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make every build deployable with minimal manual work",
+      "Manual directory creation, property editing, startup ordering, or environment repair required after a build",
+      "deployment",
+      "automation",
+      "delivery"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch24-007",
+    "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+    "question": "What should a code reviewer look for in a diff related to \"Isolate master/composition components from policy\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-composition-root-isolated",
+        "heading": "Isolate master/composition components from policy",
+        "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+        "heading_path": [
+          "Clean Code, Chapter 24: Independence, PR review rules",
+          "Isolate master/composition components from policy"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Isolate master/composition components from policy",
+      "Application wiring and process supervision leaking into use-case modules",
+      "composition-root",
+      "startup",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch24-008",
+    "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+    "question": "What should a code reviewer look for in a diff related to \"Leave architectural options open deliberately\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-architecture-leaves-options-open",
+        "heading": "Leave architectural options open deliberately",
+        "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+        "heading_path": [
+          "Clean Code, Chapter 24: Independence, PR review rules",
+          "Leave architectural options open deliberately"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Leave architectural options open deliberately",
+      "An early commitment to a framework, database, process model, or service topology without a current requirement",
+      "options",
+      "changeability",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch24-009",
+    "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+    "question": "Why does the rule \"Make use cases visible in the architecture\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-use-cases-visible",
+        "heading": "Make use cases visible in the architecture",
+        "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+        "heading_path": [
+          "Clean Code, Chapter 24: Independence, PR review rules",
+          "Make use cases visible in the architecture"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make use cases visible in the architecture",
+      "Architecture should expose system intent. When use cases are first-class, developers can find behavior quickly and change it without understanding every delivery detail.",
+      "use-cases",
+      "intent",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch24-010",
+    "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+    "question": "What fix does the guidance recommend for \"Keep architecture independent of delivery mechanism\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-delivery-mechanism-independent",
+        "heading": "Keep architecture independent of delivery mechanism",
+        "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+        "heading_path": [
+          "Clean Code, Chapter 24: Independence, PR review rules",
+          "Keep architecture independent of delivery mechanism"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep architecture independent of delivery mechanism",
+      "Define stable use-case contracts and adapt HTTP, messaging, UI, process, or service mechanisms outside the policy.",
+      "web",
+      "services",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch24-011",
+    "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+    "question": "How can a reviewer spot a problem related to \"Let operational requirements shape boundaries without dictating policy\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-operational-boundaries",
+        "heading": "Let operational requirements shape boundaries without dictating policy",
+        "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+        "heading_path": [
+          "Clean Code, Chapter 24: Independence, PR review rules",
+          "Let operational requirements shape boundaries without dictating policy"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Let operational requirements shape boundaries without dictating policy",
+      "A throughput/latency requirement impossible to satisfy with the current component boundaries",
+      "throughput",
+      "latency",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch24-012",
+    "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+    "question": "What review guidance applies to \"Partition components for independent team development\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-independent-team-development",
+        "heading": "Partition components for independent team development",
+        "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+        "heading_path": [
+          "Clean Code, Chapter 24: Independence, PR review rules",
+          "Partition components for independent team development"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Partition components for independent team development",
+      "Architecture affects development throughput. Well-isolated components let teams work independently and reduce interference between different concerns and change schedules.",
+      "teams",
+      "conways-law",
+      "architecture"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch24-013",
+    "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+    "question": "Why does the rule \"Keep components independently testable and developable\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-independent-component-work",
+        "heading": "Keep components independently testable and developable",
+        "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+        "heading_path": [
+          "Clean Code, Chapter 24: Independence, PR review rules",
+          "Keep components independently testable and developable"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep components independently testable and developable",
+      "Independent development requires more than separate directories. Components need contracts, controlled dependencies, and a way to run meaningful tests without the entire system.",
+      "components",
+      "testing",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch24-014",
+    "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+    "question": "What fix does the guidance recommend for \"Make every build deployable with minimal manual work\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-deployable-after-build",
+        "heading": "Make every build deployable with minimal manual work",
+        "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+        "heading_path": [
+          "Clean Code, Chapter 24: Independence, PR review rules",
+          "Make every build deployable with minimal manual work"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make every build deployable with minimal manual work",
+      "Encode configuration, integration, startup, supervision, and health checks in versioned build/deployment automation.",
+      "deployment",
+      "automation",
+      "delivery"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch24-015",
+    "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+    "question": "How can a reviewer spot a problem related to \"Isolate master/composition components from policy\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-composition-root-isolated",
+        "heading": "Isolate master/composition components from policy",
+        "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+        "heading_path": [
+          "Clean Code, Chapter 24: Independence, PR review rules",
+          "Isolate master/composition components from policy"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Isolate master/composition components from policy",
+      "Application wiring and process supervision leaking into use-case modules",
+      "composition-root",
+      "startup",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch24-016",
+    "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+    "question": "What review guidance applies to \"Leave architectural options open deliberately\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-architecture-leaves-options-open",
+        "heading": "Leave architectural options open deliberately",
+        "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+        "heading_path": [
+          "Clean Code, Chapter 24: Independence, PR review rules",
+          "Leave architectural options open deliberately"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Leave architectural options open deliberately",
+      "Requirements, operations, team structure, and deployment constraints change. A good architecture delays irrelevant decisions while keeping current behavior understandable.",
+      "options",
+      "changeability",
+      "architecture"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch24-017",
+    "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+    "question": "Why does the rule \"Make use cases visible in the architecture\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-use-cases-visible",
+        "heading": "Make use cases visible in the architecture",
+        "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+        "heading_path": [
+          "Clean Code, Chapter 24: Independence, PR review rules",
+          "Make use cases visible in the architecture"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make use cases visible in the architecture",
+      "Architecture should expose system intent. When use cases are first-class, developers can find behavior quickly and change it without understanding every delivery detail.",
+      "use-cases",
+      "intent",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch24-018",
+    "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+    "question": "What fix does the guidance recommend for \"Keep architecture independent of delivery mechanism\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-delivery-mechanism-independent",
+        "heading": "Keep architecture independent of delivery mechanism",
+        "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+        "heading_path": [
+          "Clean Code, Chapter 24: Independence, PR review rules",
+          "Keep architecture independent of delivery mechanism"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep architecture independent of delivery mechanism",
+      "Define stable use-case contracts and adapt HTTP, messaging, UI, process, or service mechanisms outside the policy.",
+      "web",
+      "services",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch24-019",
+    "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+    "question": "How can a reviewer spot a problem related to \"Let operational requirements shape boundaries without dictating policy\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-operational-boundaries",
+        "heading": "Let operational requirements shape boundaries without dictating policy",
+        "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+        "heading_path": [
+          "Clean Code, Chapter 24: Independence, PR review rules",
+          "Let operational requirements shape boundaries without dictating policy"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Let operational requirements shape boundaries without dictating policy",
+      "A throughput/latency requirement impossible to satisfy with the current component boundaries",
+      "throughput",
+      "latency",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch24-020",
+    "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+    "question": "What review guidance applies to \"Partition components for independent team development\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-independent-team-development",
+        "heading": "Partition components for independent team development",
+        "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+        "heading_path": [
+          "Clean Code, Chapter 24: Independence, PR review rules",
+          "Partition components for independent team development"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Partition components for independent team development",
+      "Architecture affects development throughput. Well-isolated components let teams work independently and reduce interference between different concerns and change schedules.",
+      "teams",
+      "conways-law",
+      "architecture"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch24-021",
+    "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+    "question": "Why does the rule \"Keep components independently testable and developable\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-independent-component-work",
+        "heading": "Keep components independently testable and developable",
+        "source_path": "docs/Part_III_Architecture/chapter_24_independence.md",
+        "heading_path": [
+          "Clean Code, Chapter 24: Independence, PR review rules",
+          "Keep components independently testable and developable"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep components independently testable and developable",
+      "Independent development requires more than separate directories. Components need contracts, controlled dependencies, and a way to run meaningful tests without the entire system.",
+      "components",
+      "testing",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  }
+]

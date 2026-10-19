@@ -1,272 +1,257 @@
-# Chapter 9: The Clean Method
+# Clean Code, Chapter 9: The Clean Method, PR review rules
 
-How do we write software? Nowadays, of course, most of us sit at our laptop and type into an IDE. We operate in a loop:
+## Refactor in small steps, with tests run after each one
 
-1. We write a small bit of code, with the possible help of an AI.
-2. We compile and test it.
-3. We go back to step 1.
+`id: mt-refactor-loop | category: process | severity: high | source: book (Ch.9) + editorial | languages: any | tags: refactoring, small-steps, behavior-preserving, revert, tight-loop, mixed-refactor-and-feature, safe-refactor`
 
-That loop might take anywhere from five seconds to an hour depending upon the discipline you follow.
+**Look for in a diff:**
+- A refactoring PR that also changes behavior
+- A large cleanup done in one step, with no sign that tests were run between steps
+- A "refactor" that changes observable behavior or updates tests to match
+- Tests left failing "to fix later" after restructuring
 
-Of course, that’s not how it used to be. In the earliest days of programming, the loop was more like this:
+**Why it matters:** Refactoring is a tight loop: clean one little thing, run the tests, revert if they fail, repeat. A step usually takes between five seconds and two minutes. Martin Fowler's definition is a change to the internal structure of software that makes it easier to understand and cheaper to modify without changing its observable behavior. When a step breaks the tests, revert instead of debugging forward.
 
-1. We wrote a large bit of code by hand.
-2. We desk-checked it by hand.
-3. We submitted it to be encoded—by hand—into a machine-readable form.
-4. We submitted it for compilation and test.
-That loop often took between one and three days. The
-difference is stark. In the past, the investment per line of
-code was enormous. Nowadays, that cost is trivial.
-When costs are high, we spend a lot of time planning up
-front in order to avoid waste. When costs are low, it makes
-more sense to explore by failing. In both cases, the idea of
-cleaning the code is generally ignored.
+**Suggested comment:** "This PR changes structure and behavior together. Could we separate the pure refactoring, where tests stay unchanged, from the behavior change?"
 
-## Make It Right
+**Fix:** Make one small cleanup at a time, run the tests after each, revert on failure, and keep refactoring and behavior changes in separate commits.
 
-In the early days, cleaning code was inconvenient because the code was written by hand on sheets of paper. Erasing, cutting, and pasting sheets of paper is very inefficient, and just not fun—especially when small changes can spread through the body of the code in very inconvenient ways. Nowadays, cleaning the code has been made much more convenient by our IDEs and refactoring tools. But we often bypass cleaning the code because that tight loop allows us to make progress so quickly that pausing to clean the code seems like a misuse of time. We drive hard to make the code work—and then we check the code in and move on to the next problem.
+## Clean in small increments as you go, don't let the mess grow
 
-Over two decades ago, Kent Beck stated the simple rule that guides this book. First, make it work.
+`id: mt-clean-as-you-go | category: process | severity: medium | source: book (Ch.9) + editorial | languages: any | tags: make-it-work-then-right, outer-loop, incremental-cleanup, technical-debt, check-in-and-move-on, mess-too-big, continuous-cleaning`
 
-Then, make it right.
+**Look for in a diff:**
+- Working code committed the moment it passes, with obvious mess left behind
+- A series of increments, each one messier than the last
+- Notes promising to clean up later
+- A cleanup backlog that has grown too large to do in one PR
 
-There’s more to this rule that we’ll talk about later. For now, just look at those two lines. Most of us do the first part because we consider it to be the reason we were hired. We were hired to make code work. But many of us bypass the second part because it seems like a waste of time. After all, if we are good programmers, we should be writing right code all the time. We shouldn’t need to have to stop and make it right. Perhaps you are that good. Perhaps the code that comes out of your fingers is right the first time and every time. If so, you can put this book down. However, most of us are not particularly adept at keeping two goals in our head at the same time. The primary goal of making the code work pushes aside the secondary goal of making the code right. Most of us find that the mental effort required to get the code to work is so great that we have no mental effort left to simultaneously make the code right. Thus, by the time we get the code to work, the code is also a mess. And that’s when the second line of Beck’s rule comes into play. Once we have the code working, then we will have the mental capacity to clean it—to make it right. Of course, we’d better have a way to ensure that in making the code right we don’t break the fact that it works. It is not our goal to create clean code that doesn’t work. How are we to get that assurance? How will we make sure that the act of cleaning does not break the code?
+**Why it matters:** Most people cannot hold "make it work" and "make it right" in mind at once, so by the time the code works it is also a mess. The answer is an outer loop: get something small working with tests, clean it in small steps, then repeat. Never allow the mess to get too big to clean, like a sushi chef who keeps cleaning the tools while making sushi.
 
-We will talk about testing disciplines in a later chapter. Suffice it to say that if we don’t have a test suite that we can run quickly and that we implicitly trust to show that the code works, then we are not going to do a lot of cleaning. Clean code depends on fast, convenient, and comprehensive tests.
+**Suggested comment:** "This works, but the structure got harder with each addition. Could we spend a few minutes tidying before adding the next piece?"
 
-So how do we make the code right? What’s the process? It’s another tight loop similar to writing the code:
+**Fix:** After each small working increment, clean it up before moving on, rather than saving cleanup for later.
 
-1. We clean one little thing.
-2. We run the tests.
-3. If the tests fail, we revert.
-4. Go back to step 1.
-The timing of this loop is typically between five seconds and
-two minutes. The name of this loop is refactoring, and each
-cleaning step is a refactoring.
-To quote Martin Fowler, refactoring is “a change made to the internal structure of software to make it easier to understand and cheaper to modify without changing its observable behavior.”
+## Refactoring needs fast, trusted tests
 
-How often should we transition between the writing loop
-and the refactoring loop? As often as possible. This implies
-an outer loop that includes both the loop to make it work
-and the loop to make it right.
-     1. Get something small to work.
-        a. We write a small bit of code along with tests.
-        b. We compile and test it.
-        c. If it’s not too messy, we go back to step 1a.
-            Otherwise. . .
+`id: mt-fast-trusted-tests | category: testing | severity: high | source: book (Ch.9) + editorial | languages: any | tags: tests, test-coverage, refactoring-safety, slow-tests, flaky-tests, confidence, comprehensive-tests, regression`
 
-   2. Clean it up.
-      a. We clean one little thing.
-      b. We run the tests.
-      c. If the tests fail, we revert and go to step 2a.
-      d. If there is more to clean, we go back to step 2a.
-          Otherwise. . .
-   3. Go back to step 1.
-The timing of this loop depends on your testing discipline
-and is on the order of a few minutes to an hour or so.
-The bottom line is that, unless you are a multitalented mega
-being, writing clean code means that you are going to have
-to sit in that outer loop, patiently cleaning up after yourself,
-and never allowing the mess to get too big to clean.
-Be like the sushi chef who never stops making sushi and
-who never stops cleaning the implements and the
-environment.
+**Look for in a diff:**
+- Restructuring of code that has no tests
+- Tests that don't cover the behavior being reorganized
+- Reduced test coverage in the area being cleaned
+- A slow or flaky test suite that people avoid running
 
-## Example
+**Why it matters:** Clean code depends on fast, convenient, and comprehensive tests. Without a suite that runs quickly and that you implicitly trust to show the code works, you won't do much cleaning. The point of cleaning is never to produce clean code that doesn't work.
 
-Perhaps the best way to understand how to write clean code
-is to watch someone do it. So, in this chapter, we will walk
-through the procedure for writing a clean module. The
-technique will involve
-   -  The testing discipline of TDD
-   -  Refactoring
-   -  Design principles
-   -  Design patterns
+**Reviewer note:** For any refactoring PR, ask what shows that behavior is preserved.
 
-We will begin with an imaginary Python application: the Tax Calculator for the mythical state of Bobolia. It’s been a long time since I’ve written any Python, so bear with me. Here’s the first test.
+**Suggested comment:** "I don't see tests covering this logic. Could we add tests that pin down current behavior before restructuring it?"
 
+**Fix:** Add tests first, keep the suite fast, and run it after each cleanup step.
 
+## See a new test fail before making it pass
+
+`id: mt-see-test-fail-first | category: testing | severity: medium | source: book (Ch.9) + editorial | languages: any | tags: tdd, test-first, red-green, failing-test, bug-reproduction, test-validity, assertion, regression-test`
+
+**Look for in a diff:**
+- A new test that has never been seen failing, and so might pass for the wrong reason
+- A test with no meaningful assertion
+- A bug fix without a test that reproduces the bug
+- Tests written afterward that simply mirror the implementation
+
+**Why it matters:** In TDD you first watch the test fail and then make it pass. This simple practice saves a lot of debugging time. TDD is not a magic bullet, and bugs still happen (a cap that produced a negative tax was one), but other tests are likely to uncover them.
+
+**Suggested comment:** "Does this test fail without the fix? A quick revert would confirm it actually tests the bug."
+
+**Fix:** Run the test before the production change and confirm it fails for the right reason, then make it pass.
+
+## Keep tests from depending on production data details
+
+`id: mt-tests-resilient-to-change | category: testing | severity: medium | source: book (Ch.9) + editorial | languages: any | tags: test-design, test-data-builder, fixture, helper, brittle-tests, setup-duplication, factory, defaults`
+
+**Look for in a diff:**
+- Every test building the complete input structure by hand
+- One new field in the production data forcing edits across many tests
+- Tests that know the internal shape of the data
+- Copy-pasted test setup
+
+**Why it matters:** Having to go back and change a bunch of tests for one new field means there is a flaw in the design of the tests. A helper that fills omitted fields with reasonable defaults decouples tests from the expectations of production code, so new fields rarely require test changes.
+
+**Suggested comment:** "Adding a field would mean editing all of these tests. Could a `make_return()` helper with defaults build the input so each test sets only what matters?"
+
+**Fix:** Use a builder or factory helper with defaults, and have each test override only the fields relevant to its case.
+
+**Example:**
 ```python
-import unittest
-import bobolia_taxes
-
-class BoboliaTaxTests(unittest.TestCase):
-    def test_simplest_case(self):
-        tax_return = {"income": {"salary": 50000}}
-        tax_calculator = bobolia_taxes.tax_calculator(tax_return)
-        self.assertEqual(7500, tax_calculator.get_tax())
-
-if __name__ == "__main__":
-    unittest.main()
+def make_return(**overrides):
+    base = {"income": {"salary": 50000}, "badbobs": {"class1": ()}}
+    return {**base, **overrides}
 ```
 
-In the Great State of Bobolia, the base tax rate is 15%. So someone earning 50,000 bobbles must pay 7,500 bobbles in tax. Note that the tax return is a simple map with an income key that contains yet another map with a salary key. We can get this to pass with a simple degenerate module.
+## Make production code more general as tests get more specific
 
+`id: mt-generalize-production-code | category: testing | severity: medium | source: book (Ch.9) + editorial | languages: any | tags: tdd, hardcoded-test-values, special-casing, fake-implementation, generalization, branch-per-test, overfitting`
 
+**Look for in a diff:**
+- Production code special-cased to values used in tests (`if income == 50000`)
+- An if/elif branch added for each new test case
+- A placeholder implementation (returning a constant) left in place after tests were added
+- Production code getting more specific with each test
+
+**Why it matters:** A TDD flow starts with a degenerate implementation and then generalizes it. As the tests grow more specific, the production code should become more generic. Keeping the code general and the tests simple keeps tests from knowing too much about the code, so production changes need fewer test changes.
+
+**Suggested comment:** "This branch only handles the value used in the test. Can we generalize it so the next input doesn't need another branch?"
+
+**Fix:** Replace per-case branches with a general rule or data table.
+
+## Calculate expected values independently of the production code
+
+`id: mt-independent-test-expectations | category: testing | severity: medium | source: book (Ch.9) + editorial | languages: any | tags: test-expectations, expected-values, test-constants, parametrized-tests, composed-assertions, duplicated-literals, second-statement-of-intent`
+
+**Look for in a diff:**
+- Expected values computed with the production code, its tables, or its constants
+- A test importing the same rate or bracket table that the code uses
+- The same magic number repeated across many tests
+- Repetitive assertion boilerplate or many near-identical test cases
+
+**Do not flag when:** a shared fixture value is a named constant entered by hand (such as the tax on 50,000), used to keep a rule change in one place.
+
+**Why it matters:** Tests are a second statement of intent, and it makes little sense to use the production code to test the production code. Calculate expected values manually and write them into the tests. Named constants for repeated expectations reduce churn, composed assertions reduce noise, and a pile of similar cases can become a table-driven test.
+
+**Suggested comment:** "The expected value here comes from the same function under test, so the test can't catch a mistake in it. Could we hard-code the hand-calculated result?"
+
+**Fix:** Enter hand-calculated expectations, and use named constants, helper assertions, or parametrized tests to reduce repetition.
+
+## Put changeable rules in tables, not if-ladders
+
+`id: mt-table-driven-rules | category: design | severity: medium | source: book (Ch.9) + editorial | languages: any | tags: table-driven, data-driven, tax-brackets, thresholds, if-elif-ladder, magic-numbers, rate-table, configuration`
+
+**Look for in a diff:**
+- A ladder of `if/elif` branches holding thresholds and rates
+- Hard-coded rates or limits embedded in logic
+- Business tables likely to change (brackets, tiers, fee schedules)
+- A new tier added by editing the control flow
+
+**Why it matters:** The numbers will change, and so will the number of rows. Maintaining hard-coded ladders is labor intensive and error prone. A table with a loop turns adding a row into a data change.
+
+**Suggested comment:** "These thresholds will change. Could they live in a table so adding a bracket is a data edit?"
+
+**Fix:** Move thresholds and rates into a data structure and loop over it.
+
+**Example:**
 ```python
-class tax_calculator:
+BRACKETS = [(30000, 0.0), (60000, 0.15), (float("inf"), 0.25)]
 
-   def __init__(self, tax_return):
-       self.tax_return = tax_return
 
-   def get_tax(self):
-       return 7500
-
+def rate_for(income):
+    return next(rate for limit, rate in BRACKETS if income <= limit)
 ```
 
-Actually, I made it fail first by returning 0, and then I made it pass by returning 7500. This is the TDD way. First we see the test fail, and then we make it pass. If that sounds like a waste of time, let me just say that this simple practice has saved me a lot of debugging time. But let’s move on to the next tax law. Citizens of Bobolia who make no more than 30,000 bobbles per year do not have to pay any tax at all.
+## Express bounds with min and max, and test the boundaries
 
+`id: mt-clamp-and-test-boundaries | category: functions | severity: low | source: book (Ch.9) + editorial | languages: any | tags: clamp, min-max, guard-clauses, negative-value, boundary-tests, caps, floors, off-by-one`
 
-Here you can see I’ve already begun to make some design changes. Rather than construct the TaxCalculator with the tax_return, I decided to pass the tax_return into the get_tax function. I also changed the names of the classes to comport with the PEP 8 standard. Making these tests pass was pretty simple.
+**Look for in a diff:**
+- Stacked `if` guards that clamp a value into a range
+- Subtraction or adjustment results that can go negative
+- Caps and floors with no tests at the boundaries
 
+**Why it matters:** A cap added to limit an adjustment produced a negative tax. It was fixed with guards, which were then simplified with `max`. Boundary conditions are where this kind of bug hides, and other tests may be the only thing that catches it.
 
+**Suggested comment:** "Two guards clamp the value here. `max(0, min(tax, limit))` says it in one line. Do we have tests at the boundaries too?"
+
+**Fix:** Use `min` and `max` for clamping, and add tests for values at, just below, and just above each limit.
+
+**Example:**
 ```python
+# before
+if tax > income - FLOOR:
+    tax = income - FLOOR
+if tax < 0:
+    tax = 0
 
-class TaxCalculator:
-
-def __init__(self):
-
-       pass
-
-def get_tax(self, tax_return):
-
-       total_income = tax_return["income"]["salary"]
-
-       if total_income > 30000:
-           return total_income * 0.15
-
-       return 0
+# after
+tax = max(0, min(tax, income - FLOOR))
 ```
 
-Now, clearly this isn’t fair. You can’t have a citizen who earns 30,001 bobbles pay 4,500 in tax. Therefore, no citizen’s after-tax income should be less than 30,000.
+## Hide raw nested data structures behind a class
 
+`id: mt-hide-raw-data-structures | category: design | severity: medium | source: book (Ch.9) + editorial | languages: any | tags: encapsulation, nested-dict, raw-data, wrapper-class, data-shape, json, primitive-obsession, ripple-effect`
 
-No surprise here. I improved the names of the tests. Name improvement is something that often takes place once you know more about the application you are writing. Getting these tests to pass was pretty easy, though it forced me to move most of the older code around a bit.
+**Look for in a diff:**
+- Several modules indexing the same nested dict, JSON, or tuple structure (`data["income"]["salary"]`)
+- Knowledge of the raw layout duplicated across callers
+- A change to the data's shape that would require edits in many files
 
+**Why it matters:** A class like `TaxReturn` hides the internal data structure from the rest of the application. When that structure changes, other modules don't need to.
 
-Now then, let’s talk about the social demerit system. Bobolia is a free state. We believe that what our neighbors do is none of our darn business. However, there are behaviors that are detrimental to the state of Bobolia, and we believe citizens who engage in these behavior should compensate society for the damage they’ve done. So all citizens earn badbob points through the course of a year, and they must report these badbobs on their tax returns. (Don’t cheat! We have ways. . .) Badbob points are used in calculating taxes. So we need to add a badbobs key to the tax return. Oh, but that means we
+**Suggested comment:** "`data['income']['salary']` appears in four modules. A small `TaxReturn` class with a `salary` property would keep the layout in one place."
 
-have to go back and change all the tests. Anytime you have to go back and change a bunch of tests, it means there’s a flaw in the design of your tests. Let’s fix that flaw before we proceed.
+**Fix:** Wrap the raw structure in a class with intention-revealing accessors, and let only that class know the layout.
 
-
-This simple change has decoupled the tests from the expectations of the production code. The make_return function will ensure that any omitted fields are given a reasonable default value. Thus, when new fields are added to the tax return, the existing tests are not likely to require changes. Now, on with the badbob processing. The purchase of alcoholic beverages is detrimental to society. So, if you spend 100 bobbles on whiskey, you should earn 100 badbobs. Alcohol badbobs are of class 1 and will be added to your tax at a rate of 50%. So that 100-bobble bottle of whiskey will cost you another 50 bobbles at tax time.
-
-
-While writing this test, I realized that the structure of the badbobs that I had placed in make_return was insufficient. So I changed that to add the class1 key and the empty tuple. The test shows the extra 50 bobbles in tax for the 100 class 1 badbobs. Making this pass was easy, but a little unsettling.
-
-
-This function is getting messy. We could at least break it up into a couple of nicer functions.
-
-
-That’s a bit better. I’m not sure why I put these functions into a class. The class is just forcing me to add self everywhere. Maybe I should get rid of that class—but I’ve got a nagging feeling that the class is going to be important, even if for nothing more than the name space. Perhaps that class will come in handy for allowing the methods to communicate through instance variables rather than arguments. Let’s try that.
-
-
-I think that’s a little better. I’m going to keep the class.
-
-## Class 2 Badbobs
-
-The Great State of Bobolia considers the purchase of gasoline-powered vehicles to be very detrimental to society. Such purchases earn class 2 badbobs at a rate of one badbob per bobble. Class 2 badbobs increase taxes according to the following table:
-
-
-
-These tests show the four table entries pretty clearly. I made these tests pass one at a time and ended up with the following production code.
-
-
-
-This is pretty awful. I expect all those numbers to change over time. I even expect the number of rows in the table to change. Maintaining this is going to be labor intensive and error prone. We can probably do better.
-
-
-
-So I created the table and the loop to extract the rate. Then, I thought that the whole badbob idea should be moved into its own class, just to have a namespace for it. Notice what’s happening here. The production code is evolving and morphing to become more generic. Parts of it are being peeled off into their own classes and separated from each other. Meanwhile, the tests are simply growing in a linear fashion. With each new test case the test class becomes more specific. As the tests get more specific, the code gets more generic. This strategy keeps the tests from knowing too much about the production code. When changes to the production code are made, fewer changes need to be made to the tests.
-
-But now we have a problem. If a citizen saves up to buy an expensive car, they might end up with a tax rate that reduces their after-tax income to significantly less than 30,000 bobbles. In one sense, this is fair. Citizens who harm society ought to compensate for that harm. On the other hand, forcing a citizen to live on less than, say, 20,000 bobbles a year would be cruel. So let’s limit the effect of the badbobs so that no badbob adjustment will reduce after-tax income to below 20,000 bobbles.
-
-
-This failed in an unexpected way. It returned a tax of −9,000 bobbles. Negative tax! I bet the citizens would love that. On the other hand, the BRS (Bobolia Revenue Service) would not be pleased. This was a bug. I fixed it by putting in a guard.
-
-
-Yes, TDD is not a magic bullet. You will still write some bugs.
-Fortunately, as shown in this case, other tests are likely to
-uncover those bugs. With that fixed, I could get the test to
-pass pretty easily.
-
-
-Those two guards that I just added are a bit ugly. I think I can just use the max function instead.
-
-
-That’s better. Now then. . . A year has gone by, and everyone is paying their taxes. But after some riots and really mean tweets, we have decided that here in the Great State of Bobolia income inequality is a social harm. Low earners were paying too much, and high earners were paying too little. Those who earn too many bobbles should simply pay a higher tax rate than those who earn less. Not just more taxes, but a higher rate. We’ve determined that the following table would represent “their fair share”:
-
-Of course, this changes the way taxes are calculated, so many of our previous tests are going to need deleting or changing. Since most of our tests use the salary of 50,000, let’s create a constant for the tax on 50,000, named tax_50K, and then we’ll use that in all the tests. That way, if the tax calculation changes again, we only have to change the constant instead of all the tests.
-
-
-
-I made quite a few changes to the tests to try to keep the noise down. I moved the make_return method into the test class, and I added make_simple_return and get_tax. I also made the tax_return into an instance variable of the test class so that I didn’t have to keep assigning and passing it. The production code is a relatively simple change to the determine_base_tax method.
-
-
-Those tests are pretty ugly. Let’s clean them up by using composed assertions.
-
-
-
-That’s much better. Those tests are now in a position to become parametric (table driven) should the need arise—but I don’t think we’re there yet. On the other hand, the production code is crying out for a table-driven approach. You don’t think we’ve seen the last of the tax brackets, do you? So let’s take care of that.
-
-
-OK, that’s better. Any new bracket can be added easily. At this point, you might ask whether the tests ought to use the same tax_brackets table. I’m usually not in favor of allowing the tests to know the details of the production code. The whole point of tests is that they are a second statement of intent. It makes little sense to use the production code to test the production code. So I prefer to do the calculations manually and enter them into the tests.
-
-## Considering the Design and Architecture
-
-Now let’s take a step back. So far you have watched me write a small module using a process that keeps it “clean” and test as it grows and is changed. I hope the process has been illuminating. The module has grown into two classes that have the following relationships.
-
-First of all, I don’t like that reciprocal relationship. It only exists because the BadBobAdjuster uses the tax_return field of the TaxCalculator. Second, I think this is a bit asymmetric. Why does the BadBobAdjuster deserve its own special class whereas the tax bracket calculations are buried in the TaxCalculator? Let’s clean that up a bit. I’d like it to look like this.
-
-This change requires only minor changes to the tests, so our test design is holding up.
-
-
-
-
-At this point, you might be accusing this design of classitis—the tendency to create too many classes and thereby complicate the design. I disagree. The three new classes do not add any complexity that wasn’t already there. They just move that complexity into nicely named places.
-
-A place for everything, and everything in its place!
-
-One major advantage of the TaxReturn class is that it hides the internal data structure of the tax_return_data from the rest of the application. When there are changes to that data structure, the other modules in the application will not need to be changed. In any case, the advantage of those classes should become evident soon; because it’s time for us to take yet another step back and think about the overall architecture of this system. It seems to me that this system has two axes of change so far. There’s the computation of the base tax, which is done by the TaxBracketter; and then there’s the computation of the social demerit score, accomplished by the BadBobAdjuster. If we expect this system to grow (and what tax system doesn’t grow?), then we may want to establish these axes of change within the architecture of our system. Or, to say that differently, we may wish to draw architectural boundaries that isolate and protect them. We’ll use the Single Responsibility Principle (SRP) to do that,
-
-and we’ll use the Dependency Inversion Principle (DIP) to create a structure like this.
-
-Note the architectural boundary drawn around the four central classes. Notice also that every arrow that crosses that boundary points inward, following the Dependency Rule of architecture. Inside that boundary is the high-level policy of this system. Outside are lower-level details. The main component is the lowest level in the system. It creates the
-
-implementations of the TaxBracketter and BadBobAdjuster and hands them to the TaxCalculator prior to any taxes being calculated.
-
-The TaxCalculator uses the Strategy pattern to delegate the bracket and demerit calculations to the appropriate objects. The canonical form of Strategy calls for the strategy implementations to derive from interfaces. However, in Python, interfaces do not need to exist as independent source code entities. Python is dynamically typed, and so polymorphic dispatch is through duck types. So the “interfaces” shown above are just the method signatures that the TaxCalculator expects to invoke.
-
-The role of the main component will be played by our tests.
-
-### `bobolia_taxes_test.py`
-
+**Example:**
 ```python
-def setUp(self):
+class TaxReturn:
+    def __init__(self, data):
+        self._data = data
 
-    self.tax_bracketter = tax_bracketter.TaxBracketter()
-
-    self.badbob_adjuster = badbob_adjuster.BadBobAdjuster()
-
-    self.tax_calculator = tax_calculator.TaxCalculator(
-        self.tax_bracketter, self.badbob_adjuster)
-
-    self.tax_return = None
+    @property
+    def salary(self):
+        return self._data["income"]["salary"]
 ```
 
-The TaxCalculator and TaxReturn exist in their own module.
+## Break reciprocal dependencies and extract sibling concerns consistently
 
+`id: mt-reciprocal-dependencies | category: design | severity: medium | source: book (Ch.9) + editorial | languages: any | tags: circular-dependency, reciprocal, bidirectional, reaching-into-fields, asymmetry, extract-class, shared-data-class, coupling`
 
+**Look for in a diff:**
+- Two classes that depend on each other (A holds B and B reads A's fields)
+- A collaborator that reads a field of its owner
+- One concern extracted into its own class while an equivalent sibling concern stays buried in the parent
 
-Then come the TaxBracketter and BadBobAdjuster modules.
+**Why it matters:** A reciprocal relationship usually exists because one class uses another's data. Asymmetry is also a hint: if one concern deserves its own class, the similar one probably does too. Extracting a shared class that both depend on (such as a tax return class) removes the loop.
 
+**Suggested comment:** "The adjuster reads `calculator.tax_return`, and the calculator holds the adjuster. Could the data be passed in or extracted into a shared class?"
 
+**Fix:** Pass the needed data as an argument or extract a shared class, and extract similar concerns in the same way.
 
+## Judge extra classes by whether they add complexity, not by count
 
-## Conclusion
+`id: mt-extraction-not-classitis | category: review-guidance | severity: low | source: book (Ch.9) + editorial | languages: any | tags: classitis, too-many-classes, extract-class, organization, complexity, place-for-everything, over-engineering`
 
-Is this clean? I’m pretty happy with it, though I’m not a Python programmer, so I’ve likely violated a lot of conventions and probably have not used the most efficient techniques. Still, I think some major goals have been accomplished. We’ve separated the system into at least four
+**Look for in a diff:**
+- A review objection that new classes are "too many" when they only give names to logic that already existed
+- A class extracted from a long class, with its responsibilities named clearly
+- Conversely, a new class that holds no real logic
 
-major components: main, TaxCalculator, TaxBracketter, and BadBobAdjuster. And we placed those components behind appropriate architectural boundaries. Our tests have survived a significant amount of change and have showed themselves to be resilient. The same is true of our basic algorithms. Changes to one are very unlikely to affect the others. We’ve also built in some flexibility by using tables to drive the algorithms. As the tests grew in specificity, the production code grew in generality. Some folks might complain about the names. I dunno, I kinda like TaxBracketter and BadBobAdjuster. But if you play with this code, you might find some better names.
+**Do not flag when:** the new classes simply move existing complexity into well-named places.
 
-I have to say that I was pleased with IntelliJ’s Python plug-in and Copilot’s ability to help someone who hadn’t written Python in over 20 years. I also have to say that I was impressed with the responsiveness of the tests. I’m used to JVM startup times, and it’s a joy to have the test results pop up on the screen before my fingers have left the test button.
+**Why it matters:** Classitis is the tendency to create so many classes that the design gets complicated. But classes that move existing complexity into nicely named places don't add complexity. The aim is a place for everything and everything in its place.
+
+**Suggested comment:** "The extra classes just name logic that was already here, so I'm fine with them. One note: `Helper` doesn't say what it owns."
+
+**Fix:** Keep extractions that give clearer names and homes, and challenge classes that add indirection without a real responsibility.
+
+## Isolate axes of change behind injected strategies, wired in one place
+
+`id: mt-axes-of-change-injection | category: design | severity: medium | source: book (Ch.9) + editorial | languages: any | tags: axes-of-change, strategy-pattern, dependency-injection, composition-root, main, duck-typing, srp, dip, dependency-rule`
+
+**Look for in a diff:**
+- A high-level class that constructs its concrete collaborators internally
+- One class mixing two independent reasons to change (base calculation and adjustments)
+- No single place where concrete implementations are wired together
+- Tests that need heavy patching because collaborators are created inside the class
+
+**Do not flag when:** the system is small and unlikely to grow.
+
+**Why it matters:** Identify the axes of change, such as the base calculation versus the adjustments, and isolate them behind boundaries with SRP and DIP. The high-level class delegates to strategies it receives, and dependencies cross the boundary inward. A main component (in tests, the test setup) creates the implementations and hands them in. In dynamic languages the interface is just the method signatures the high-level code calls.
+
+**Suggested comment:** "`TaxCalculator` creates its own bracket logic, so tests can't swap it. Could it receive the strategy in its constructor and have `main` wire them?"
+
+**Fix:** Pass collaborators in through the constructor, keep the concrete choices in one composition point, and let the high-level class depend only on the methods it calls.
+
+**Example:**
+```python
+calculator = TaxCalculator(TaxBracketter(), BadBobAdjuster())
+```

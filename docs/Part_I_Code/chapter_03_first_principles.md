@@ -1,289 +1,286 @@
-# Chapter 3: First Principles
+# Clean Code, Chapter 3: First Principles, PR review rules
 
-If you read this chapter and grasp all the principles within, then you’ll be 90% of the way toward cleaning code. The ideas presented here are old and well established. They have stood the test of time and should be part of every programmer’s regimen of discipline. Keep in mind that these are not strict laws. They are not rules that must be followed. They are (at the risk of using a trite expression) “more what you’d call guidelines.” Each should be applied in the context of the problem at hand, and every programmer should feel free to take whatever license is necessary to solve that problem.
+## Keep everything small, well named, organized, and ordered
 
-But, when all else is equal, and all the variables are averaged out, these are the principles that I believe emanate from well-cleaned code. If, as you read what follows, you encounter concepts that are foreign or novel, be assured that all will be explained in subsequent chapters. Indeed, when you have finished reading this book, you may wish to complete the circle by rereading this chapter.
+`id: fp-small-named-organized-ordered | category: readability | severity: medium | source: book (Ch.3) + editorial | languages: any | tags: small-functions, naming, organization, ordering, structure, module-layout, grab-bag`
 
-## Everything Small, Well Named, Organized, and Ordered
+**Look for in a diff:**
+- Large functions, classes, or files that bundle unrelated things
+- Vague names that don't tell a reader what an element is for
+- A module with no clear grouping, where related code is scattered
+- Concepts presented in an arbitrary order, so the reader has to jump around
 
-If you stop now and read nothing more than that heading, you’ll have much of the essence of what it takes to clean code. Keep everything small. Choose names for those small elements that communicate to other programmers. Define and maintain a structure and organization that present the software in such a way that others can easily consume it. Keep the elements within that organization well-ordered so that one concept follows another in a rational and sensible way.
+**Do not flag when:** the file is generated code or a flat list of simple declarations.
 
-Remember that your own understanding of the code will likely bias your attempts at providing good names and structures; so work hard to put yourself in the headspace of those who do not understand the code.
+**Why it matters:** Most of what it takes to clean code is in four habits: keep elements small, give them names that communicate, organize the software so others can consume it easily, and order elements so one concept follows another sensibly.
 
-## Functions
+**Suggested comment:** "This module mixes several concerns in no particular order. Could we group related functions and order them so each idea leads into the next?"
 
-Functions should be small. Most should be just a handful of lines. This allows them to have nice, descriptive names and promotes the separation of concerns. It ensures that each function does one, and only one, thing. Let’s start with the name. If you see a snippet of lines that does something that can be reasonably named, then that snippet should be moved into a function named for what that snippet does. The name should be a verb that says what the function does and that allows the calling sequence to read “like well-written prose.”
+**Fix:** Split large elements, rename for purpose, group related code, and order it so a reader moves through concepts naturally.
 
-As an example, consider this function, adapted from the JCommon library. It finds the date of a specified weekday before a given date. The weekday codes are integers 1 (Sunday) through 7 (Saturday).
+## Write names and structure for readers who don't know the code
+
+`id: fp-reader-headspace | category: naming | severity: medium | source: book (Ch.3) + editorial | languages: any | tags: naming, author-bias, readability, jargon, abbreviations, unclear-intent, onboarding`
+
+**Look for in a diff:**
+- Names that only make sense if you already know the author's context
+- Unexplained domain jargon, abbreviations, or internal shorthand
+- Comments that exist mainly to decode an unclear name
+- A reviewer having to ask "what is this?" about a name or a structure
+
+**Why it matters:** The author's own understanding biases their names and structure toward what feels obvious to them. Good naming requires working to take the headspace of someone who does not understand the code.
+
+**Suggested comment:** "As someone new to this code, I couldn't tell what `proc` refers to. Could a name from the domain (`pending_invoice`) make it self-explanatory?"
+
+**Fix:** Rename using domain language, expand abbreviations, and treat any reviewer confusion as a naming or structure signal.
+
+## Functions should be small, and extract any snippet that can be named
+
+`id: fp-small-functions | category: functions | severity: medium | source: book (Ch.3) + editorial | languages: any | tags: small-functions, extract-method, function-length, separation-of-concerns, long-function, nameable-snippet`
+
+**Look for in a diff:**
+- A function that is more than a handful of lines
+- A block inside a function that does something you could reasonably name
+- Several steps in one body (guard, compute, build result) that read as separate ideas
+- A function whose steps are hard to follow without scrolling
+
+**Do not flag when:** the function is a flat sequence, mapping, or configuration with no branching.
+
+**Why it matters:** Small functions can have descriptive names and promote separation of concerns, so each function does one thing. If a snippet can be reasonably named, it belongs in a function named for what it does.
+
+**Suggested comment:** "The validation block and the date calculation here could each be named functions. That would shorten this and let the main flow read top to bottom."
+
+**Fix:** Extract each nameable snippet into its own function and gather related things together.
+
+**Example:**
+```python
+# before
+def previous_weekday(weekday, from_date):
+    if not 1 <= weekday <= 7:
+        raise ValueError("Invalid day-of-the-week code.")
+    diff = from_date.weekday_code - weekday
+    return from_date + timedelta(days=-(diff + (0 if diff > 0 else 7)))
 
 
-There are at least two snippets of code that we could extract into smaller and better-named functions. And that extraction will lead to some simplifications.
-
-```java
-public static Date getPreviousDayOfWeek(int weekday, Date from) {
-
-    checkWeekdayArgument(weekday);
-    return addDays(-daysBefore(weekday, from), from);
-
-}
-
-private static void checkWeekdayArgument(int weekday) {
-
-    if (!isValidWeekdayCode(weekday))
-
-        throw new IllegalArgumentException("Invalid day-of-the-week code.");
-
-}
-
-private static int daysBefore(int targetWeekday, Date from) {
-
-    int fromWeekday = from.getDayOfWeek();
-
-    int diff = fromWeekday - targetWeekday;
-
-    return diff + (diff > 0 ? 0 : 7);
-}
+# after
+def previous_weekday(weekday, from_date):
+    check_weekday(weekday)
+    return subtract_days(from_date, days_before(weekday, from_date))
 ```
 
-Notice how the simplified `getPreviousDayOfWeek` function reads. It’s short, and it’s obvious. If you need to know more, all you have to do is look down to see the extracted functions. However, most often you would not need to know more. You’d simply look at that function, agree with it, and move on. It may not read like the prose of a Crichton novel, but it reads pretty well.
+## Name functions with verbs so the calling code reads like prose
 
-> **Future Bob:** I don’t like the leading minus sign. It would have been better to create a `subtractDays` function in order to get rid of it. That’s a small thing, but small things matter.
+`id: fp-verb-names-read-like-prose | category: naming | severity: low | source: book (Ch.3) + editorial | languages: any | tags: function-names, verbs, readability, calling-sequence, negation, small-things`
 
-## A More Significant Example
+**Look for in a diff:**
+- A function name that is a noun or vague label instead of a verb saying what it does
+- A calling sequence that needs comments to be understood
+- Awkward tricks like a leading minus sign or offset where a named operation would be clearer
+- Extracted helpers placed far from the code that uses them
 
-Here I present the Uncle Bob Conference Room system. Scan through it. It’s not very complicated—probably. The first version is shown below.
+**Why it matters:** A good verb name lets the calling sequence read like well-written prose, and a reader can simply agree with the function and move on. Small things, like a leading minus sign that a `subtract_days` function would remove, still matter.
 
+**Suggested comment:** "`add_days(-n, d)` makes the reader work out the sign. A `subtract_days(d, n)` helper would say what it means."
 
-I’m sure you figured it out. Users can rent small rooms, large rooms, coffee, projectors, and cookies. (How do you rent cookies?) Small rooms rent for $100 per day. Large rooms are $150. You get a 10% discount if you rent a room for the whole week. There’s a 5% (rounded up) tax on all nonfood items. Coffee is $10 per day. Cookies are $15 per day. Projectors are $50 per day. And if you rent a large room and coffee for a whole week, you get one day of free cookies.
+**Fix:** Name functions after what they do, express the operation directly, and keep helpers near their callers.
 
-The Statement class represents a sales statement that includes each item rented, the price of the item, the number of days rented, the subtotal, and the tax. The Statement also contains the subtotals of all the items and all the tax. Easy peasy. This is not too hard to understand, but you can tell that it was slapped together. It’s a bit unkempt, but not terrible. We could probably clean it up a bit, but would that be worth the effort?
+## Tidy a function before it grows, not after
 
-But let me ask you. Have you ever seen a system that started out simple and then got much, much more complicated? If you’ve been in this business for more than a year or so, I know you have. Indeed, if you’ve been in the business for five years or more, you’ve likely seen a system that began a bit unkempt but grew into a horrible mess, becoming a living hell for the developers and the organization.
+`id: fp-tidy-before-growth | category: process | severity: medium | source: book (Ch.3) + editorial | languages: any | tags: refactoring, growth, extract-method, rotting-code, feature-creep, accumulating-conditionals, tidy-first`
 
-So let’s make this example a bit more real. You don’t suppose that this program started out in its current form, do you? No, at first it just rented one small room. Then, many small rooms. Then, large rooms with a different unit price. Then, coffee, with no sales tax. Then, the discount for a full week was added. And then cookies, and the bonus for renting a large room for a week. In other words, this program grew.
+**Look for in a diff:**
+- Yet another branch, rule, or special case added to an already large function
+- A function in an area the business is actively expanding (pricing, tax, discounts, promotions)
+- Conditionals piling up in one place with no structure for the next rule
 
-Let’s suppose that we’ve just gotten back from an all-hands meeting at which the CEO gave us a glowing report about how the company is expanding. There are new markets, new states, new laws to contend with. There will be new discounts and new promotions, and new tax regulations. It’s going to be great for the business; but you look at this little rent function and you think . . . it’s going to continue to grow, isn’t it? And as it grows, it will become ever more tangled and confusing. It will degrade, like a piece of rotting meat. So let’s stop that from happening. Let’s figure out a way to get ahead of the coming business growth and let this function grow without rotting from the inside out. Let’s tidy it up first.
+**Do not flag when:** the area is stable and the change is a one-off.
 
-Look back at the rent function and ask yourself what you don’t like about it. Personally, I think it’s a bit large and disorganized. It does several things that I can pull apart into functions that do one thing. So first, let’s just use the extract method refactoring to create functions that do one thing, and gather together the things that are related and separate the things that are different.
+**Why it matters:** Code that is already a little unkempt tends to grow into a mess as features are added. Tidying it first, with extract-method refactoring, gives each new rule an obvious home so the function doesn't rot from the inside.
 
+**Suggested comment:** "This function has absorbed several pricing rules already. Before adding another, could we extract price, tax, and discount steps so the new rule has a clear place?"
 
-> **Future Bob:** Having used Grok3 on the fromRoman module in the last chapter, I thought I’d do the same here. So I told Grok3 to improve my initial implementation. It was not particularly surprising that its solution was nearly identical to mine. Perhaps you look at this and think that it’s more code. But it’s not more executable code; it’s just more names and more structure. That extra structure makes room for growth. For example, if the tax rules become more complicated, it is not the rent function that will grow; instead, in all likelihood, it will be the `getTax` function that grows.
+**Fix:** Extract functions first, in a separate commit if possible, then add the feature.
 
-This is an example of the Single Responsibility Principle (SRP) in action. The stakeholders of our system who are most concerned about taxation will most probably be the only ones asking for changes to the `getTax` function, whereas the stakeholders who are interested in discounts will most likely be the only ones affecting the `calculatePrice` and `isEligibleForDiscount` functions.
+## Separate responsibilities by who asks for the change (SRP)
 
-This is helpful to us because, after this change, we are not very likely to break the discounts when the taxes change, or break the taxes when the price calculation changes. The farther we can keep these different stakeholders’ responsibilities apart and isolated, the safer our code will be when changes are made. If we ignore the SRP, then we risk the symptom of fragility. A fragile system breaks in unexpected ways; for example, when a stakeholder asks us to modify taxes and we inadvertently break discounts. Such occurrences are terrifying to our stakeholders, managers, and users because it gives them a glimpse of what’s under the hood; and they don’t like what they see. Our stakeholders have the right to expect that a change to taxes will not break discounts. When we violate that expectation, the only conclusion they can draw is that we’ve lost control of the system and don’t really know what the hell we are doing. Now look at that new code. What don’t you like about it? One thing we might focus on are those switch statements. Switch statements aren’t intrinsically bad. However, if the number of cases is likely to grow, then they violate the Open–Closed Principle (OCP).
+`id: fp-srp-stakeholders | category: design | severity: medium | source: book (Ch.3) | languages: any | tags: single-responsibility, srp, fragility, stakeholders, mixed-concerns, tax, discount, unrelated-changes`
 
-The OCP suggests that when we add a new feature, we should add that new feature in one place, not in many places. Right now, if we were to add a new CatalogItem, like NotePads, we’d have to add those changes to as many as five different places in the code. We can reduce this down to two by turning the CatalogItems into data structures and replacing the switch statements with accesses of those data structures.
+**Look for in a diff:**
+- One function or class that mixes logic owned by different stakeholders (tax, discounts, formatting, notifications)
+- A change to one rule that requires editing code that also holds another rule
+- A bug fix for one concern that could plausibly break another in the same body
 
+**Why it matters:** Stakeholders concerned with taxes should only need to change the tax function, and those concerned with discounts only the discount functions. Keeping them apart means a tax change won't break discounts. Ignoring this causes fragility: the system breaks in unexpected ways and stakeholders lose confidence.
 
-This is better—I have to say that I like that Java’s enums are actually classes, and that each enumerator is an instance. Now when we add NotePads, we’ll only have to change the enum, and, perhaps, the `getItems` function. However, the OCP tells us to keep new changes out of old modules. So it would be better, from an OCP point of view, to get that enum out of the Statement module altogether so that when we add NotePads, we can leave the Statement module untouched.
+**Suggested comment:** "Pricing and tax are computed in the same function here, so a tax rule change could affect pricing. Could we separate them so each can change independently?"
 
-```java
-// CatalogItem.java
-package ubConferenceCenter;
+**Fix:** Split by reason to change, one function or class per stakeholder concern.
 
-public enum CatalogItem {
-
-    SMALL_ROOM(100, .05),
-    LARGE_ROOM(150, .05),
-
-    PROJECTOR(50, .05),
-    COFFEE(10, 0),
-
-    COOKIES(15, 0);
-
-    public double taxRate;
-
-    public int unitPrice;
-
-    CatalogItem(int unitPrice, double taxRate) {
-     this.unitPrice = unitPrice;
-
-        this.taxRate = taxRate;
-    }
-
-}
+**Example:**
+```python
+price = calculate_price(item, days)  # changes with pricing and discount rules
+tax = get_tax(item, price)  # changes only with tax rules
 ```
 
-We’re doing pretty well here. We’ve isolated the CatalogItem enums, and we’ve gotten rid of the switch statements. The SRP and the OCP are pretty happy. But there’s another principle that is sounding an alarm. What modules ought to be recompiled if we add NotePads to CatalogItem? Answer: CatalogItem.java (of course) and probably Statement.java because it depends upon CatalogItem.java. Now ask yourself whether Statement.java should have to be recompiled.
+## Add new features in one place, not many (OCP)
 
-I contend that at least the rent function of Statement.java should not have to be recompiled when we add NotePads, because nothing within that function needs to know anything about NotePads.
+`id: fp-ocp-switch-growth | category: design | severity: medium | source: book (Ch.3) | languages: any | tags: open-closed, ocp, switch-statement, if-elif-chain, type-check, extensibility, enum, polymorphism`
 
-This is a violation of the Dependency Inversion Principle (DIP). This principle is violated when high-level policies directly depend on low-level details. The addition of NotePads is a low-level detail that the rent function should not depend upon. You may not think this is a big issue. Recompiling a module is quick and easy, and why should you care if you compile more modules than is required? For small projects, you could be right to make that decision. But for larger projects, the recompile and redeployment burden can get pretty large. This is especially true for JavaScript applications where redeployments are downloaded into browsers.
+**Look for in a diff:**
+- A `switch` or `if/elif` chain on a type or kind that likely needs a new case over time
+- The same type check repeated in several places
+- Adding one new variant would require edits in multiple existing modules
 
-There’s also the cognitive burden of trying to remember which modules depend on which others. So let’s assume that this project is becoming large enough for those issues to be a concern. How can we invert the dependencies to reduce the recompilation, redeployment, and cognitive burdens? The SRP will help us here. The Statement.java module is doing two major things. The rent method adds CatalogItems, and the getItems method totals them and computes the cookie bonus. Hmmm, getItems isn’t the best name, is it? We’ll take care of that momentarily. First, we should separate those two major behaviors. The first step is to pull out the RentalItem record into its own module.
+**Do not flag when:** the switch is over a small, fixed set that is not expected to grow. Switch statements are not intrinsically bad.
 
-```java
-// RentalItem.java
+**Why it matters:** The Open-Closed Principle says a new feature should be added in one place, and new changes should stay out of old modules. Turning variants into data or polymorphic types removes the scattered type checks.
 
-package ubConferenceCenter;
+**Suggested comment:** "Every new item type means editing this chain and the two others like it. Could we move the per-type values into a table or class so a new type is added in one place?"
 
-public record RentalItem(CatalogItem type,
-                         int days,
+**Fix:** Replace repeated type checks with a data structure (enum or table) or polymorphic classes, and keep it outside the modules that use it.
 
-                         int unitPrice,
+**Example:**
+```python
+# before
+if kind == "small_room":
+    price = 100
+elif kind == "large_room":
+    price = 150
 
-                         int price,
-
-                         int tax) {
-
+# after
+CATALOG = {
+    "small_room": Item(price=100, tax=0.05),
+    "large_room": Item(price=150, tax=0.05),
 }
+price = CATALOG[kind].price
 ```
 
-Next, we’ll create a new module for the ItemList.
+## High-level policy must not depend on low-level details (DIP)
+
+`id: fp-dip-policy-vs-detail | category: design | severity: medium | source: book (Ch.3) + editorial | languages: any | tags: dependency-inversion, dip, high-level-policy, low-level-details, interface, plugin, coupling, abstraction`
+
+**Look for in a diff:**
+- Business logic importing concrete low-level classes, enums, or specific variants
+- Adding a new low-level variant (item type, provider, tax rule) forces changes or rebuilds in the high-level code
+- A high-level function that knows about particular concrete cases
+- Low-level values (prices, rates) changing require touching policy code
+
+**Do not flag when:** the project is small and the added abstraction costs more than it saves.
+
+**Why it matters:** Depending on low-level details makes policy code change, recompile, and redeploy whenever those details change. With dependencies inverted, details become plug-ins to the policy through an interface. The trade-off is some lost static type safety and added structure.
+
+**Reviewer note:** AI-assisted refactors tend to improve local structure but often do not invert dependencies or separate policy from detail. Check this explicitly.
+
+**Suggested comment:** "`calculate_total` imports each concrete item class. Could it depend on a small `CatalogItem` interface so new items don't touch this module?"
+
+**Fix:** Define an interface owned by the high-level side, have low-level classes implement it, and create concrete instances at the edges (wiring or tests).
+
+**Example:**
+```python
+class CatalogItem(Protocol):  # high-level side
+    def unit_price(self) -> int: ...
+    def tax_rate(self) -> float: ...
 
 
-We’ll have to come back to this module because that `getItems` method gives me the willies. It smells of an SRP violation. But for now, all that remains is to make a few adjustments to the Statement.java module.
+class Coffee:  # low-level detail
+    def unit_price(self):
+        return 10
 
-```java
-...
-
-public class Statement {
-
-    ...
-
-    private ItemList items = new ItemList();
-
-    ...
-
-    public RentalItem[] getItems() {
-
-        return items.getItems();
-    }
-    ...
-
-}
+    def tax_rate(self):
+        return 0.0
 ```
 
-Again, you may be concerned that we’re chopping this up into too many pieces, and that all those pieces will make the code harder to understand. But our assumption has been that this code is going to grow, and that we’re trying to make room for that growth. In any case, if you look at the directory structure, you’ll see that there’s a nice road map that will help anyone understand the organization.
+## Dependencies should cross architectural boundaries in one direction
 
-Looking at this, you can see that the names may not be perfect, but we’ll come back to that when we understand more about where this reorganization is going. In the meantime, we still have to reduce the recompile and redeployment burden.
+`id: fp-architectural-boundary | category: architecture | severity: medium | source: book (Ch.3) + editorial | languages: any | tags: architecture, boundary, components, circular-dependency, independent-deployability, coupling, shared-data-structure`
 
-To do this, we’ll change the CatalogItem from an enum to an interface, with each enumeration becoming a derived class. This creates several new classes and makes the directory look like this.
+**Look for in a diff:**
+- A high-level component importing from a low-level one
+- Circular dependencies between modules
+- A concrete data structure that nearly everything depends on and is likely to change
+- A component split that still forces both sides to rebuild together
 
-```java
-// CatalogItem.java
-package ubConferenceCenter;
+**Why it matters:** Dependencies should cross a boundary only toward the higher-level side. Done well, the two components deploy independently, so only the one that changed needs to be rebuilt or reloaded, which helps most with slow networks and cached front-end code. A widely shared concrete data structure remains a weak point, because changing it forces everything to rebuild.
 
-public interface CatalogItem {
+**Suggested comment:** "The low-level module now imports from the policy layer and the policy layer imports from it. Could we break the cycle by moving the shared interface to the high-level side?"
 
-    boolean isEligibleForDiscount(int days);
+**Fix:** Point dependencies toward the higher-level component, put shared interfaces on the high-level side, and keep shared concrete data types small and stable.
 
-    int getUnitPrice();
+## Rename things when their role changes
 
-    double getTaxRate();
-    String getName();
+`id: fp-rename-as-design-evolves | category: naming | severity: medium | source: book (Ch.3) + editorial | languages: any | tags: renaming, stale-name, vague-name, responsibility-change, consistency, concepts, get-items`
 
-}
-```
+**Look for in a diff:**
+- A class or function whose responsibility changed in this PR but whose name did not
+- Vague names like `get_items` that actually total, filter, or apply bonuses
+- Inconsistent names for the same concept across modules
+- A container name (`ItemList`) for something that now finalizes an order
 
-This represents a significant change in the way the application works. Now instead of using switch and if statements to check for enumerators, we defer to the polymorphic methods of the CatalogItem interface. The `getTaxRate` and `getUnitPrice` methods are familiar, but the other two are new. You can see how they are used in the Statement.java and ItemList.java modules.
+**Why it matters:** When a problem is small, vague names are survivable. As it grows, names are how readers keep concepts straight. Reorganizing code often reveals what a thing really is, and its name should follow.
 
+**Suggested comment:** "`ItemList` now applies bonuses and finalizes the order. A name like `RentalReceipt` would describe its role."
 
+**Fix:** After moving responsibilities, rename the affected classes and functions to match their final role.
 
-Notice that the type field of the RentalItem record has been changed from the enum to a String. This was necessary because, when we abandoned the enum, we needed some kind of token to represent the CatalogItem type; and a String seemed the most obvious choice. However, using that string means that we’ve had to sacrifice a bit of static type safety. The compiler cannot check that those names are correct. This minor loss of static type safety always accompanies the effort to reduce the recompile and redeployment burden, and the isolation of low-level details from high-level policy.
+## Refactor under passing tests and keep tests decoupled from internals
 
-```java
-// RentalItem.java
-package ubConferenceCenter;
+`id: fp-refactor-under-tests | category: testing | severity: high | source: book (Ch.3) + editorial | languages: any | tags: refactoring, tests, test-coupling, regression, behavior-preserving, characterization-tests, safe-refactor`
 
-public record RentalItem(String type,
-                        int days,
+**Look for in a diff:**
+- A refactoring PR with no tests, or with tests deleted
+- Tests rewritten heavily to fit the new structure
+- Tests that depend on private details or specific concrete classes
+- Behavior changes mixed into a structural cleanup
 
-                        int unitPrice,
+**Why it matters:** The refactoring in this chapter stayed safe because tests existed before it started and passed at every step. Tests changed minimally because they were kept decoupled from production details.
 
-                        int price,
+**Suggested comment:** "This restructures pricing but I don't see tests covering the current behavior. Could we add them first so we can confirm the refactor preserves it?"
 
-                        int tax) {
+**Fix:** Add tests for current behavior first, refactor in small steps, keep tests passing, and test through stable interfaces.
 
-}
-```
+## Add structure only when expected growth justifies its cost
 
-With the exception of the `getItems` method of the ItemList class, the last few listings above represent the high-level policy of the application. We’re going to have to do something about that `getItems` method. For now, let’s look at how the low-level details have been isolated in the derivatives of CatalogItem.
+`id: fp-yagni-cost-of-structure | category: review-guidance | severity: low | source: book (Ch.3) + editorial | languages: any | tags: yagni, over-engineering, premature-abstraction, indirection, interface, speculative-generality, complexity-cost`
 
+**Look for in a diff:**
+- An interface, factory, or plug-in layer with a single implementation and no growth in sight
+- Abstraction justified only by "we might need it"
+- Indirection that makes simple code harder to follow with no concrete driver
 
-One of the people who commented on the first edition of this book looked at code like this and called it “just dreadful.” You might be feeling that now too. But remember, we are expecting business growth, and we have decided that it is necessary to make room in this code for that growth. Some folks might charge us with violating YAGNI. They think it stands for You Aren’t Going to Need It. But the original intent of YAGNI was to ask yourself: “What if you aren’t going to need it?” It was a way of asking us to count the cost before we invested in making room in our code for things we might not need. But given the enthusiasm of the CEO and the kinds of markets he is courting, we have decided we need to make this room. So, in our case, we’ve decided to answer YAGNI’s question with: “Yes, we are going to need it.” Why is this code better? Let’s look at the dependency diagram generated by my IDE.
+**Do not flag when:** the growth is real and expected, such as new markets, new tax rules, or planned promotions.
 
-The four classes that represent our high-level policy— RentalItem, ItemList, Statement, and CatalogItem—are tied together with a rat’s nest of dependencies. We’ll deal with that later. But look at how well isolated the low-level details are. The previous dependencies have been inverted. Nothing within the high-level policy depends upon the low-level details. The low-level details depend only on the CatalogItem. Just say this to yourself, over and over: High-level policy should not depend on low-level details. This means that if any of the low-level details are changed, nothing in the high-level policy ought necessarily to be recompiled or redeployed. Nor will changes to the high-level
+**Why it matters:** More modules and indirection add cognitive load, and that cost is not free. YAGNI's original intent is to count the cost before making room for growth. Structure is worth it when growth is likely, and not otherwise.
 
-policy force recompilation and redeployment of the low-level details. Let me say that differently. If the unit price of Cookies changes, or if the tax rate of Coffee changes, or if the discount for SmallRoom changes, none of the classes in the high-level policy will need to be recompiled or redeployed. Changes to those low-level details are completely isolated from the high-level policy. Indeed, the low-level details have become a plug-in to the high-level policy. Or, at least they are in a position to become such a plug-in. But now we need to do something about the rat’s nest that’s caused by the ItemList. We called this class ItemList because initially it contained our list of items, and we needed a place to put that bonus code. Now I want to take that bonus code out of there and do to it what we did to the CatalogItems. So I’ll create a Bonus interface and have the CookieBonus implement it. The ItemList can contain a list of Bonus instances and simply iterate through all of them to add all the bonuses. That means that the ItemList finalizes all the bonuses. And that suggests that the ItemList should be renamed something like RentalReceipt, since it represents the final state of the order. That name change suggests that Statement should be renamed something like RentalOrder. These name changes are important. As we pick apart the design and start making room for growth, we gain insights into what’s really going on. When the problem is small, names can afford to be inconsistent or vague because there aren’t that many concepts to keep track of. But as the problem grows, names become much more important because they help us keep the concepts straight in our heads.
+**Suggested comment:** "What change is this abstraction making room for? If a second implementation is coming soon, it's fine. Otherwise, a plain function may be enough for now."
 
-So with those changes in place, here’s the directory structure:
+**Fix:** Ask for the growth rationale. If there isn't one, keep the simple version and introduce the abstraction when the second case appears.
 
-The diagram looks like this. The RentalOrder depends on the RentalReceipt, but not vice versa. Both depend upon the Bonus, but the CookieBonus is an independent low-level detail. The lowest-level detail is the RentalItem record. That’s a bit of a concern because it is so concrete. If it gets changed in any way, then pretty much everything has to recompile and redeploy. There are ways to resolve that—but I think that’s a battle for another day.
+## Don't reject extra structure over tiny performance costs
 
-Notice the curvy border line. That line divides the project into two components. One contains the high-level policy, and the other contains the low-level details. All dependencies cross that line in one direction, toward the higher-level component. That line is an architectural boundary that separates those two components—and the rule for architectural boundaries is that dependencies cross only toward the higher-level side.
+`id: fp-indirection-performance | category: review-guidance | severity: low | source: book (Ch.3) + editorial | languages: any | tags: performance, polymorphism, switch-vs-polymorphism, premature-optimization, indirection, dispatch, profiling`
 
-First, let’s look at the code within the high-level component.
+**Look for in a diff:**
+- A switch statement kept or reintroduced "for speed" in place of polymorphism
+- Readable small functions inlined to avoid call overhead
+- A review comment objecting to extra references or indirection with no measurement
 
+**Why it matters:** Extra references and polymorphic dispatch are probably slightly slower than a switch, but the difference is usually too small to measure and doesn't matter for most applications.
 
-Notice that virtually all of the business rules have fled this module. The only ones that remain are the tax and total calculations. But the discount and bonus calculations have been moved into the appropriate derivatives of CatalogItem and Bonus.
+**Suggested comment:** "Unless profiling shows this is a hot path, I'd favor the clearer structure over saving a function call."
 
+**Fix:** Prefer readable structure, and optimize only where measurements show a real problem.
 
-The RentalReceipt class walks through and applies the bonuses; but it does not know any of the details about those bonuses. It creates a finalized receipt with the bonuses added to all the items. Next come the two interfaces that inverted the dependencies between the high-level policy and the low-level detail.
+## Treat the first principles as guidelines, not laws
 
-```java
-// CatalogItem.java
+`id: fp-guidelines-not-laws | category: review-guidance | severity: low | source: book (Ch.3) + editorial | languages: any | tags: pragmatism, guidelines, srp, ocp, dip, context, nitpick, dogmatic-review`
 
-package ubConferenceCenter;
+**Look for in a diff:**
+- A review comment that cites SRP, OCP, or DIP as an absolute rule
+- A demand for a full architectural split on a small, stable change
+- Applying a principle without weighing how often the code actually changes
 
-public interface CatalogItem {
+**Why it matters:** These principles are well-established guidelines, not strict laws. Each should be applied in the context of the problem at hand, and a programmer may take whatever license is needed to solve it.
 
-    int getDiscountedPrice(int days);
-    int getUnitPrice();
-    double getTaxRate();
+**Suggested comment:** "Principle X would suggest splitting this. Given how rarely this code changes, is it worth it here? Non-blocking either way."
 
-    String getName();
-
-}
-
-// Bonus.java
-package ubConferenceCenter;
-
-import java.util.List;
-
-public interface Bonus {
-
-    void checkAndAdd(List<RentalItem> items, List<RentalItem> bonusItems);
-}
-
-```
-
-The last module in the high-level component is the RentalItem. This is a simple concrete data structure.
-
-```java
-// RentalItem.java
-
-package ubConferenceCenter;
-
-public record RentalItem(String type,
-
-                           int days,
-
-                           int unitPrice,
-
-                           int price,
-
-                               int tax) {
-}
-```
-
-As previously stated, this module is somewhat problematic. Any changes made to this data structure will force recompilation and redeployment of both components. And changes to this data structure are not at all unlikely. There are ways of dealing with this. For example, we could turn the RentalItem into a hash map. But that’s probably going well beyond our current goal of making room for growth. We’ll keep that idea in our back pocket for now. Now let’s look at the low-level component.
-
-
-As you can see, all the business rules have been tucked away into their corresponding derivatives. If a new discount is needed for coffee, we can place it in the Coffee class. If a new bonus is needed for small rooms, we can create a Bonus derivative for that. If we want to add NotePads or Projectors, we can do that by adding those classes to the low-level component. None of those changes will cause the high-level component to be recompiled or redeployed. We have achieved that isolation by conforming to the DIP. You might be concerned about one thing, though. Perhaps you are wondering where all those derivatives are getting instantiated. I never showed you my tests, did I. That’s where all that work was done. Here they are.
-
-
-These tests were written before any of the refactoring in this chapter had begun. At each step of that refactoring, I kept these tests passing. Some of the changes made to the production code caused changes to the tests, but I was able to minimize them by keeping the tests and production code decoupled and by isolating the details of the production code from the details of the tests. For example, the final fields named for the CatalogItems replaced the old enumerations without too much fuss.
-
-## Independent Deployability
-
-Our design now has a strong architectural boundary that separates it into two components. Those two components can be independently deployed. They can be compiled into two separate jar files. When one component changes, only that jar changes, and the other does not need to be redeployed. Imagine that this code was written in JavaScript as opposed to Java. Imagine that it will be sent to a browser to run there. The fact that we have divided it into two components has a very specific advantage. If one of those two components changes, and if the browser maintains a cache of those components, then only the component that changed needs to be reloaded into the browser. On slow network connections, that could be a big advantage.
-
-## A Final Thought
-
-This major cleaning will greatly facilitate the growth of the project. The time it took will be paid back many times over simply because there’s a clear and obvious place to put the needed changes; and those changes aren’t likely to interfere with each other or with the overall flow of the system. However, the new structure is not cost free. Those who complain that it is harder to read because of all the different modules and all the indirection are not without a point. Yes, adding structure adds complexity—and that complexity is not free. There’s a cognitive price to pay. But we knew that the cognitive load was going to grow, and so our goal was to minimize that growth by creating an organization that would accept it gracefully. What about performance? Is the new structure slower than the old one? Probably so. There are a few more references that need to be followed, and switch statements are easier for compilers to optimize than polymorphic dispatch. But the difference in performance is probably so tiny that you could not easily measure it. For most applications, that tiny decrease in performance would be of no concern at all.
-
-> **Future Bob:** Grok3, good as it is, did not drive the design of the original code to the level of depth we just saw. Grok3 did not invert the dependencies, nor did it attempt to separate high-level policy from low-level detail. Large language models (LLMs)/AIs have their uses; but they are not human and are not adept at understanding higher architectural goals.
-
-This chapter, and the chapter before, were a whirlwind tour through the low-hanging fruit of clean code. But now that tour is over, and it’s time to get down to the basics. And, of course, we begin with names.
+**Fix:** State the concrete benefit of the change, mark principle-based suggestions as optional unless they cause real maintenance pain.

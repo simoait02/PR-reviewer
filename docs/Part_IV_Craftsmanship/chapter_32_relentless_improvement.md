@@ -1,38 +1,123 @@
-# Chapter 32: Relentless Improvement
+# Clean Code, Chapter 32: Relentless Improvement, PR review rules
 
-## Relentless Improvement
+## Leave touched code better without expanding scope recklessly
 
-5. I will fearlessly and relentlessly improve my creations at every opportunity. I
-will never degrade them.
+`id: ri-boy-scout-improvement | category: maintainability | severity: medium | source: book (Ch.32) + editorial | languages: any | tags: boy-scout-rule, cleanup, refactoring, scope, maintainability`
 
-Robert Baden Powell, the father of the Boy Scouts of America, left a posthumous message exhorting the scouts to leave the world a better place than they found it. It was from this statement that the “Boy Scout Rule” was derived. Check the code in cleaner than you checked it out.
+**Look for in a diff:**
+- Code left slightly worse after a feature change when a small safe cleanup was available
+- Cleanup mixed into a large unrelated rewrite that is difficult to review
+- “Improve everything” changes that expand risk beyond the touched behavior
 
-How? By performing random acts of kindness upon the code every time you check it in. One of those random acts of kindness is to increase test coverage.
+**Why it matters:** Small improvements prevent structural decay and make future changes easier. The cleanup must remain reviewable and protected by tests.
 
-## Test Coverage
+**Suggested comment:** "This touched area still has a small naming/duplication issue that makes the new behavior harder to read. Could we improve it locally without broadening the change?"
 
-Do you measure how much of your code is covered by your tests? Do you know what percentage of lines are covered? Do you know what percentage of branches are covered? If not, why not? There are plenty of tools that can measure coverage for you. For most of us, those tools come as part of our IDE and are trivial to run. So there’s usually no excuse for not knowing what your coverage numbers are.
+**Fix:** Make focused improvements around the changed code, keep them behavior-preserving, and separate larger refactors into their own tested changes.
 
-What should you do with those numbers? First, let me tell you what not to do. Don’t turn them into management metrics. Don’t fail the build if your test coverage is too low. Test coverage is a complicated concept that should not be used so naively. Such naive usage sets up perverse incentives to cheat. And it is very easy to cheat test coverage. Remember that coverage tools only measure the amount of code that was executed, not the code that was actually tested. This means that you can drive the coverage number very high by pulling the assertions out of your failing tests. And, of course, that makes the metric useless. The best policy is to use the coverage numbers as a developer tool to help you improve the code. You should work to meaningfully drive the coverage toward 100% by writing actual tests. One hundred percent test coverage is always the goal, but it is also an asymptotic goal. Most systems never reach 100%, but that should not deter you from constantly trying to attain it. That’s what you use the coverage numbers for. You use them as a measurement to help you improve, not as a bludgeon with which to punish the team and fail the build.
+## Use coverage as a diagnostic, not a punishment
 
-## Mutation Testing
+`id: ri-coverage-as-developer-tool | category: testing | severity: medium | source: book (Ch.32) + editorial | languages: any | tags: coverage, metrics, assertions, incentives, testing`
 
-One hundred percent test coverage implies that any semantic change to the code should cause a test to fail. TDD, TCR, and to a lesser extent, Small Bundles, are good disciplines to approximate that goal because, if you follow those disciplines ruthlessly, every line of code, every condition, and every branch is tested.
+**Look for in a diff:**
+- Coverage thresholds met with trivial/no assertions
+- Coverage used as the sole quality gate or team performance target
+- A percentage increase presented as proof that behavior is tested
 
-Such ruthlessness, however, is often impractical. Programmers are human, and disciplines are always subject to pragmatics. So the reality is that even the most assiduous test-driven developer will leave gaps in the test coverage. Mutation testing is a way to find those gaps; and there are mutation testing tools that can help. A mutation tester runs your test suite and measures the coverage. Then, it goes into a loop, mutating your code in some semantic way and then running the test suite with coverage again. The semantic changes are things like changing > to <, == to !=, or x = <something> to x = null. Each such semantic change is called a mutation. The tool expects each mutation to fail the tests. Mutations that do not fail the tests are called surviving mutations. Clearly, the goal is to ensure that there are no surviving mutations. Running a mutation test can be a big investment of time. Even relatively small systems can require hours of runtime. So these kinds of tests are best run over weekends, or at month’s end. I have frequently been impressed by the kinds of subtle problems these tools have uncovered. So it is definitely worth the occasional effort.
+**Why it matters:** Coverage measures execution, not whether tests verify semantics. Punitive targets encourage gaming and can reduce trust in the metric.
 
-## Semantic Stability
+**Suggested comment:** "Coverage increased, but the new test does not assert the behavior meaningfully. Could we use the metric to find an unverified path rather than optimize the percentage alone?"
 
-The goal of test coverage and mutation testing is to create a test suite that ensures semantic stability. The semantics of a system are the required behaviors of that system. A test suite that ensures semantic stability is one that fails whenever a required behavior is broken. We use such test suites to eliminate the fear of refactoring and cleaning the
+**Fix:** Use line/branch coverage to identify gaps, add meaningful assertions, and interpret the result with risk and behavior evidence.
 
-code. Without a semantically stable test suite, the fear of change is often too great. Following one of the testing disciplines gives us a good start on a semantically stable test suite; but none of those disciplines is sufficient for full semantic stability. Coverage, mutation testing, and acceptance testing should be used to improve the semantic stability toward completeness.
+## Improve coverage toward the meaningful behavior surface
 
-## Cleaning
+`id: ri-meaningful-coverage | category: testing | severity: high | source: book (Ch.32) + editorial | languages: any | tags: coverage, branches, behavior, tests, risk`
 
-Perhaps the most effective of the random acts of kindness that will improve the code is simple cleaning—refactoring with the goal of improvement. What kinds of improvements can be made? There is, of course, the obvious elimination of code smells. But I will often clean code even when it isn’t smelly. I make tiny little improvements in the names, in the structure, in the organization. These changes might not be noticed by anyone else. Some folks might even think they make the code less clean. But my goal is not simply the state of the code. By doing minor little cleanings, I learn about the code. I become more familiar and more comfortable with it. Perhaps my cleaning did not actually improve the code in any objective sense; but it improved my understanding of and facility with that code. The cleaning improved me as a developer of that code. The cleaning also did something else that should not be understated. By cleaning the code, even in minor ways, I am flexing that code. And one of the best ways to ensure that code stays flexible is to regularly flex it. Every little bit of cleaning I do is actually a test of the code’s flexibility. If I find a small cleanup to be a bit difficult, I have detected an area of inflexibility that I can now correct.
+**Look for in a diff:**
+- New branches, error paths, or policy variants with no focused tests
+- High-risk code excluded from coverage without compensating checks
+- Coverage declining in the exact area changed by the PR
 
-Remember, software is supposed to be soft. How do you know that it is soft? By testing that softness on a regular basis. By doing little cleanups and little improvements and feeling how easy or difficult those changes are to make.
+**Do not flag when:** generated/unreachable/boundary code is intentionally excluded and its behavior is covered by an appropriate integration or contract test.
 
-## Creations
+**Why it matters:** The useful goal is increasing confidence in required behavior, approaching complete meaningful coverage over time rather than chasing an arbitrary number.
 
-The word used in the promise above is creations. In this chapter I have focused mostly on code; but code is not the only thing that programmers create. We create designs, and documents, and schedules, and plans. All these artifacts are creations that should be continuously improved. We are human beings. Human beings make things better with time. We constantly improve everything we work on.
+**Suggested comment:** "The changed branch is unverified despite the overall percentage. Could we add a behavior test or explain the boundary and its compensating check?"
+
+**Fix:** Cover meaningful lines and decisions, prioritize consequential paths, and document deliberate exclusions.
+
+## Use mutation testing to find weak assertions
+
+`id: ri-mutation-testing | category: testing | severity: medium | source: book (Ch.32) + editorial | languages: any | tags: mutation-testing, assertions, semantic-coverage, surviving-mutants, quality`
+
+**Look for in a diff:**
+- High line/branch coverage but tests that would pass if comparisons, constants, or assignments changed
+- Critical policies with no assessment of assertion strength
+- Mutation results ignored or surviving mutations repeatedly accepted without rationale
+
+**Why it matters:** Mutation testing asks whether tests detect semantic changes, not merely whether code executed. Surviving mutations reveal gaps in the test oracle.
+
+**Suggested comment:** "Coverage shows execution but not semantic protection for this decision. Could mutation testing or stronger assertions check whether incorrect comparisons would fail?"
+
+**Fix:** Run mutation analysis on critical modules when practical, investigate surviving mutations, and strengthen tests rather than only increasing execution coverage.
+
+## Preserve semantic stability during refactoring
+
+`id: ri-semantic-stability | category: refactoring | severity: critical | source: book (Ch.32) + editorial | languages: any | tags: semantic-stability, refactoring, regression, acceptance-tests, behavior`
+
+**Look for in a diff:**
+- Structural changes that alter required behavior without updated acceptance criteria
+- Tests that pass despite removed/changed user-visible semantics
+- Refactors relying only on implementation snapshots
+
+**Why it matters:** Semantic stability means required behavior remains protected while structure changes. It is what makes cleanup and refactoring safe.
+
+**Suggested comment:** "This refactor changes a behavior boundary, but the suite does not prove the required semantics remain unchanged. Could acceptance/regression tests cover the contract?"
+
+**Fix:** Combine unit, acceptance, contract, and integration tests appropriate to the behavior before and after structural changes.
+
+## Use small cleanups to test flexibility
+
+`id: ri-cleanups-test-flexibility | category: design | severity: medium | source: book (Ch.32) + editorial | languages: any | tags: refactoring, flexibility, design-smell, cohesion, coupling`
+
+**Look for in a diff:**
+- A trivial rename or extraction unexpectedly requiring broad changes
+- Cleanup blocked by hidden dependencies, globals, or tangled responsibilities
+- Developers avoiding harmless edits because the code is too risky to touch
+
+**Why it matters:** The cost of a small behavior-preserving change is evidence about structural flexibility. Difficult cleanup exposes an area where dependencies or boundaries need improvement.
+
+**Suggested comment:** "This small cleanup requires changes across unrelated modules, which suggests hidden coupling. Could we isolate the dependency before proceeding?"
+
+**Fix:** Use safe small refactors to discover inflexibility, then reduce coupling and add tests before larger changes.
+
+## Improve names and organization when they reduce reader effort
+
+`id: ri-editorial-cleanup | category: readability | severity: low | source: book (Ch.32) + editorial | languages: any | tags: naming, organization, clarity, refactoring, code-review`
+
+**Look for in a diff:**
+- Names that no longer match behavior or domain terminology
+- Misplaced functions/modules that force readers to search for related code
+- Comments compensating for unclear structure or stale terminology
+
+**Why it matters:** Small editorial improvements strengthen the code as a communication artifact and make later behavior changes easier to locate and understand.
+
+**Suggested comment:** "This name no longer describes the behavior after the change. Could we update the name/placement so the code remains self-explanatory?"
+
+**Fix:** Rename precisely, move behavior toward its cohesive owner, and remove comments that become unnecessary after the structure is clear.
+
+## Never degrade existing structure without an explicit tradeoff
+
+`id: ri-no-structural-regression | category: maintainability | severity: high | source: book (Ch.32) + editorial | languages: any | tags: structural-regression, technical-debt, refactoring, quality`
+
+**Look for in a diff:**
+- Duplication, hidden state, complexity, or coupling added to deliver a small feature
+- Existing tests weakened or boundaries bypassed for convenience
+- A short-term compromise with no owner, risk, or recovery plan
+
+**Why it matters:** Every structural regression raises the cost of future behavior and makes the system less soft. Accumulated degradation eventually blocks safe change.
+
+**Suggested comment:** "This shortcut adds structural coupling beyond the feature’s behavior. Could we preserve the existing boundary or document a bounded temporary tradeoff?"
+
+**Fix:** Keep the structure at least as healthy as before, or explicitly contain, test, own, and schedule the compromise.

@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch09-001",
+    "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+    "question": "What should a code reviewer look for in a diff related to \"Refactor in small steps, with tests run after each one\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mt-refactor-loop",
+        "heading": "Refactor in small steps, with tests run after each one",
+        "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+        "heading_path": [
+          "Clean Code, Chapter 9: The Clean Method, PR review rules",
+          "Refactor in small steps, with tests run after each one"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Refactor in small steps, with tests run after each one",
+      "A refactoring PR that also changes behavior",
+      "refactoring",
+      "small-steps",
+      "process"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch09-002",
+    "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+    "question": "What should a code reviewer look for in a diff related to \"Clean in small increments as you go, don't let the mess grow\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mt-clean-as-you-go",
+        "heading": "Clean in small increments as you go, don't let the mess grow",
+        "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+        "heading_path": [
+          "Clean Code, Chapter 9: The Clean Method, PR review rules",
+          "Clean in small increments as you go, don't let the mess grow"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Clean in small increments as you go, don't let the mess grow",
+      "Working code committed the moment it passes, with obvious mess left behind",
+      "make-it-work-then-right",
+      "outer-loop",
+      "process"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch09-003",
+    "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+    "question": "What should a code reviewer look for in a diff related to \"Refactoring needs fast, trusted tests\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mt-fast-trusted-tests",
+        "heading": "Refactoring needs fast, trusted tests",
+        "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+        "heading_path": [
+          "Clean Code, Chapter 9: The Clean Method, PR review rules",
+          "Refactoring needs fast, trusted tests"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Refactoring needs fast, trusted tests",
+      "Restructuring of code that has no tests",
+      "tests",
+      "test-coverage",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch09-004",
+    "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+    "question": "What should a code reviewer look for in a diff related to \"See a new test fail before making it pass\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mt-see-test-fail-first",
+        "heading": "See a new test fail before making it pass",
+        "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+        "heading_path": [
+          "Clean Code, Chapter 9: The Clean Method, PR review rules",
+          "See a new test fail before making it pass"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "See a new test fail before making it pass",
+      "A new test that has never been seen failing, and so might pass for the wrong reason",
+      "tdd",
+      "test-first",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch09-005",
+    "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep tests from depending on production data details\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mt-tests-resilient-to-change",
+        "heading": "Keep tests from depending on production data details",
+        "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+        "heading_path": [
+          "Clean Code, Chapter 9: The Clean Method, PR review rules",
+          "Keep tests from depending on production data details"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep tests from depending on production data details",
+      "Every test building the complete input structure by hand",
+      "test-design",
+      "test-data-builder",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch09-006",
+    "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+    "question": "What should a code reviewer look for in a diff related to \"Make production code more general as tests get more specific\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mt-generalize-production-code",
+        "heading": "Make production code more general as tests get more specific",
+        "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+        "heading_path": [
+          "Clean Code, Chapter 9: The Clean Method, PR review rules",
+          "Make production code more general as tests get more specific"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make production code more general as tests get more specific",
+      "Production code special-cased to values used in tests (`if income == 50000`)",
+      "tdd",
+      "hardcoded-test-values",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch09-007",
+    "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+    "question": "What should a code reviewer look for in a diff related to \"Calculate expected values independently of the production code\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mt-independent-test-expectations",
+        "heading": "Calculate expected values independently of the production code",
+        "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+        "heading_path": [
+          "Clean Code, Chapter 9: The Clean Method, PR review rules",
+          "Calculate expected values independently of the production code"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Calculate expected values independently of the production code",
+      "Expected values computed with the production code, its tables, or its constants",
+      "test-expectations",
+      "expected-values",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch09-008",
+    "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+    "question": "What should a code reviewer look for in a diff related to \"Put changeable rules in tables, not if-ladders\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mt-table-driven-rules",
+        "heading": "Put changeable rules in tables, not if-ladders",
+        "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+        "heading_path": [
+          "Clean Code, Chapter 9: The Clean Method, PR review rules",
+          "Put changeable rules in tables, not if-ladders"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Put changeable rules in tables, not if-ladders",
+      "A ladder of `if/elif` branches holding thresholds and rates",
+      "table-driven",
+      "data-driven",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch09-009",
+    "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+    "question": "What should a code reviewer look for in a diff related to \"Express bounds with min and max, and test the boundaries\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mt-clamp-and-test-boundaries",
+        "heading": "Express bounds with min and max, and test the boundaries",
+        "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+        "heading_path": [
+          "Clean Code, Chapter 9: The Clean Method, PR review rules",
+          "Express bounds with min and max, and test the boundaries"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Express bounds with min and max, and test the boundaries",
+      "Stacked `if` guards that clamp a value into a range",
+      "clamp",
+      "min-max",
+      "functions"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch09-010",
+    "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+    "question": "What should a code reviewer look for in a diff related to \"Hide raw nested data structures behind a class\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mt-hide-raw-data-structures",
+        "heading": "Hide raw nested data structures behind a class",
+        "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+        "heading_path": [
+          "Clean Code, Chapter 9: The Clean Method, PR review rules",
+          "Hide raw nested data structures behind a class"
+        ],
+        "chunk_index": 9,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Hide raw nested data structures behind a class",
+      "Several modules indexing the same nested dict, JSON, or tuple structure (`data[\"income\"][\"salary\"]`)",
+      "encapsulation",
+      "nested-dict",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch09-011",
+    "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+    "question": "What should a code reviewer look for in a diff related to \"Break reciprocal dependencies and extract sibling concerns consistently\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mt-reciprocal-dependencies",
+        "heading": "Break reciprocal dependencies and extract sibling concerns consistently",
+        "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+        "heading_path": [
+          "Clean Code, Chapter 9: The Clean Method, PR review rules",
+          "Break reciprocal dependencies and extract sibling concerns consistently"
+        ],
+        "chunk_index": 10,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Break reciprocal dependencies and extract sibling concerns consistently",
+      "Two classes that depend on each other (A holds B and B reads A's fields)",
+      "circular-dependency",
+      "reciprocal",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch09-012",
+    "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+    "question": "What should a code reviewer look for in a diff related to \"Judge extra classes by whether they add complexity, not by count\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mt-extraction-not-classitis",
+        "heading": "Judge extra classes by whether they add complexity, not by count",
+        "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+        "heading_path": [
+          "Clean Code, Chapter 9: The Clean Method, PR review rules",
+          "Judge extra classes by whether they add complexity, not by count"
+        ],
+        "chunk_index": 11,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Judge extra classes by whether they add complexity, not by count",
+      "A review objection that new classes are \"too many\" when they only give names to logic that already existed",
+      "classitis",
+      "too-many-classes",
+      "review-guidance"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch09-013",
+    "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+    "question": "What should a code reviewer look for in a diff related to \"Isolate axes of change behind injected strategies, wired in one place\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mt-axes-of-change-injection",
+        "heading": "Isolate axes of change behind injected strategies, wired in one place",
+        "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+        "heading_path": [
+          "Clean Code, Chapter 9: The Clean Method, PR review rules",
+          "Isolate axes of change behind injected strategies, wired in one place"
+        ],
+        "chunk_index": 12,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Isolate axes of change behind injected strategies, wired in one place",
+      "A high-level class that constructs its concrete collaborators internally",
+      "axes-of-change",
+      "strategy-pattern",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch09-014",
+    "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+    "question": "Why does the rule \"Refactor in small steps, with tests run after each one\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mt-refactor-loop",
+        "heading": "Refactor in small steps, with tests run after each one",
+        "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+        "heading_path": [
+          "Clean Code, Chapter 9: The Clean Method, PR review rules",
+          "Refactor in small steps, with tests run after each one"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Refactor in small steps, with tests run after each one",
+      "Refactoring is a tight loop: clean one little thing, run the tests, revert if they fail, repeat. A step usually takes between five seconds and two minutes. Martin Fowler's definition is a change to the internal structure of software that makes it easier to understand and cheaper to modify without changing its observable behavior. When a step breaks the tests, revert instead of debugging forward.",
+      "refactoring",
+      "small-steps",
+      "process"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch09-015",
+    "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+    "question": "What fix does the guidance recommend for \"Clean in small increments as you go, don't let the mess grow\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mt-clean-as-you-go",
+        "heading": "Clean in small increments as you go, don't let the mess grow",
+        "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+        "heading_path": [
+          "Clean Code, Chapter 9: The Clean Method, PR review rules",
+          "Clean in small increments as you go, don't let the mess grow"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Clean in small increments as you go, don't let the mess grow",
+      "After each small working increment, clean it up before moving on, rather than saving cleanup for later.",
+      "make-it-work-then-right",
+      "outer-loop",
+      "process"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch09-016",
+    "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+    "question": "How can a reviewer spot a problem related to \"Refactoring needs fast, trusted tests\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mt-fast-trusted-tests",
+        "heading": "Refactoring needs fast, trusted tests",
+        "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+        "heading_path": [
+          "Clean Code, Chapter 9: The Clean Method, PR review rules",
+          "Refactoring needs fast, trusted tests"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Refactoring needs fast, trusted tests",
+      "Restructuring of code that has no tests",
+      "tests",
+      "test-coverage",
+      "testing"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch09-017",
+    "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+    "question": "What review guidance applies to \"See a new test fail before making it pass\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mt-see-test-fail-first",
+        "heading": "See a new test fail before making it pass",
+        "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+        "heading_path": [
+          "Clean Code, Chapter 9: The Clean Method, PR review rules",
+          "See a new test fail before making it pass"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "See a new test fail before making it pass",
+      "In TDD you first watch the test fail and then make it pass. This simple practice saves a lot of debugging time. TDD is not a magic bullet, and bugs still happen (a cap that produced a negative tax was one), but other tests are likely to uncover them.",
+      "tdd",
+      "test-first",
+      "testing"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch09-018",
+    "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+    "question": "Why does the rule \"Keep tests from depending on production data details\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mt-tests-resilient-to-change",
+        "heading": "Keep tests from depending on production data details",
+        "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+        "heading_path": [
+          "Clean Code, Chapter 9: The Clean Method, PR review rules",
+          "Keep tests from depending on production data details"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep tests from depending on production data details",
+      "Having to go back and change a bunch of tests for one new field means there is a flaw in the design of the tests. A helper that fills omitted fields with reasonable defaults decouples tests from the expectations of production code, so new fields rarely require test changes.",
+      "test-design",
+      "test-data-builder",
+      "testing"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch09-019",
+    "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+    "question": "What fix does the guidance recommend for \"Make production code more general as tests get more specific\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mt-generalize-production-code",
+        "heading": "Make production code more general as tests get more specific",
+        "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+        "heading_path": [
+          "Clean Code, Chapter 9: The Clean Method, PR review rules",
+          "Make production code more general as tests get more specific"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make production code more general as tests get more specific",
+      "Replace per-case branches with a general rule or data table.",
+      "tdd",
+      "hardcoded-test-values",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch09-020",
+    "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+    "question": "How can a reviewer spot a problem related to \"Calculate expected values independently of the production code\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mt-independent-test-expectations",
+        "heading": "Calculate expected values independently of the production code",
+        "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+        "heading_path": [
+          "Clean Code, Chapter 9: The Clean Method, PR review rules",
+          "Calculate expected values independently of the production code"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Calculate expected values independently of the production code",
+      "Expected values computed with the production code, its tables, or its constants",
+      "test-expectations",
+      "expected-values",
+      "testing"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch09-021",
+    "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+    "question": "What review guidance applies to \"Put changeable rules in tables, not if-ladders\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "mt-table-driven-rules",
+        "heading": "Put changeable rules in tables, not if-ladders",
+        "source_path": "docs/Part_I_Code/chapter_09_the_clean_method.md",
+        "heading_path": [
+          "Clean Code, Chapter 9: The Clean Method, PR review rules",
+          "Put changeable rules in tables, not if-ladders"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Put changeable rules in tables, not if-ladders",
+      "The numbers will change, and so will the number of rows. Maintaining hard-coded ladders is labor intensive and error prone. A table with a loop turns adding a row into a data change.",
+      "table-driven",
+      "data-driven",
+      "design"
+    ],
+    "difficulty": "synthesis"
+  }
+]

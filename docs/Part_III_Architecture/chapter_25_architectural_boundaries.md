@@ -1,51 +1,136 @@
-# Chapter 25: Architectural Boundaries
+# Clean Code, Chapter 25: Architectural Boundaries, PR review rules
 
-## Boundaries
+## Draw boundaries around policy and details
 
-Software architecture is the art of drawing lines, or boundaries. These boundaries separate software elements and restrict elements on one side from knowing about those on the other.
+`id: ab-boundary-policy-from-details | category: architecture | severity: critical | source: book (Ch.25) + editorial | languages: any | tags: boundaries, policy, details, coupling, architecture`
 
-Some boundaries are drawn early in a project, even before code is written. Others are drawn later. Early boundaries defer decisions and prevent those decisions from polluting the core business logic.
+**Look for in a diff:**
+- Business rules and framework, UI, database, or transport code in the same module
+- A detail decision becoming visible in core types or control flow
+- A change to an ancillary tool requiring edits to essential policy
 
-The goal of architecture is to minimize the manpower required to build and maintain the system. Coupling—especially coupling to premature decisions—saps manpower. Premature decisions include choices about frameworks, databases, Web servers, utility libraries, and dependency-injection mechanisms. A good architecture makes these decisions ancillary and deferrable.
+**Why it matters:** Architectural boundaries control knowledge and coupling. Separating what matters from what is replaceable reduces the manpower required to build and maintain the system.
 
-## What Lines Do You Draw, and When?
+**Suggested comment:** "The core policy now knows about this framework/database detail. Could a boundary keep the detail from crossing into the business rules?"
 
-Draw lines to separate things that matter from things that do not. The GUI does not matter to business rules, so there should be a boundary between them. The database does not matter to the GUI or to the business rules, so there should be boundaries between those elements as well.
+**Fix:** Partition policy and details into components with a stable policy-facing contract.
 
-The database is a tool that business rules can use indirectly. Business rules do not need to know the schema, query language, or other database details. They only need a set of functions that can fetch or save data. This allows the database to sit behind an interface.
+## Make dependency arrows point toward the core
 
-The business rules use a `DatabaseInterface` to load and save data. `DatabaseAccess` implements that interface and directs operations to the actual database. In a real application there may be many business-rule classes, database interfaces, and database-access implementations, but they follow the same pattern.
+`id: ab-dependency-rule-toward-core | category: architecture | severity: critical | source: book (Ch.25) + editorial | languages: any | tags: dependency-rule, dip, core, interfaces, components`
 
-The boundary is drawn across the inheritance or implementation relationship, just below `DatabaseInterface`. The arrows leaving `DatabaseAccess` point away from it, meaning that the business-rule classes do not know that `DatabaseAccess` exists.
+**Look for in a diff:**
+- Core code importing concrete database, UI, server, or framework implementations
+- An adapter interface defined in the detail component and pulled inward by policy
+- Dependency direction crossing a boundary toward a lower-level detail
 
-At the component level, the database component depends on the business-rules component, while the business rules do not depend on the database. The database component contains translation code that turns calls made by the business rules into database queries. The business rules can therefore use Oracle, MySQL, a document database, or flat files without caring which one is selected.
+**Why it matters:** The protected policy should own the abstraction it needs. Details can depend on that abstraction, allowing them to change or be replaced without rewriting the core.
 
-This boundary allows the database decision to be deferred. The business rules can be written and tested before the database is selected.
+**Suggested comment:** "The dependency crosses the boundary toward the database/UI detail. Could the core define the interface and have the adapter implement it?"
 
-## Plug-in Architecture
+**Fix:** Place policy-level interfaces on the core side and make outer components implement/adapt them.
 
-The boundaries in a plug-in architecture separate the database and GUI from the business rules. The dependency arrows point from the lower-level components toward the higher-level business-rules component.
+## Keep databases behind policy-facing ports
 
-The GUI and database are plug-ins to the business rules. This pattern can be repeated for many kinds of components. The core business rules remain independent of components that are optional or can be implemented in many forms.
+`id: ab-database-behind-port | category: architecture | severity: high | source: book (Ch.25) + editorial | languages: any | tags: database, persistence, port, adapter, schema`
 
-Because the user interface is a plug-in, the system can support Web, client/server, service-oriented, console, or other UI technologies. The database can be replaced with a SQL database, a NoSQL database, a file system, or another technology. Such replacements may not be trivial, but a plug-in structure makes them practical.
+**Look for in a diff:**
+- Use cases issuing SQL or receiving ORM/schema types directly
+- Database technology determining business method names and data shapes
+- Persistence replacement requiring changes to business logic
 
-## Case Study: FitNesse
+**Why it matters:** The core needs operations and data relevant to policy, not schema/query details. A port lets the system defer or change the storage technology.
 
-The FitNesse project was a simple wiki that wrapped a tool for writing acceptance tests. It was written in Java, and the initial goal was that users should not need to download more than one JAR file. This constraint drove many design decisions.
+**Suggested comment:** "The business rule now depends on query/schema details. Could a persistence port expose only the operations this use case needs?"
 
-One decision was to write a small Web server specific to FitNesse. This allowed the project to postpone a Web-framework decision. A small Web server was simple enough to write, and it avoided tying the application to a framework prematurely.
+**Fix:** Define a core-owned repository/port, translate between policy models and storage records in the adapter, and test both sides at their contracts.
 
-Another decision was to avoid committing to a database. The data-access methods were placed behind an interface named `WikiPage`. At first, the methods were stubbed while the team worked on features that did not require persistence. For several months, the team focused on translating wiki text into HTML without any data store.
+## Keep user interfaces as plug-ins to the core
 
-When real data access became necessary, the team created `InMemoryPage`, which stored wiki pages in a hash table in memory. This allowed feature development to continue for about a year. Later, a `FileSystemWikiPage` implementation wrote the hash tables to flat files. The team eventually decided that the flat-file solution was sufficient and abandoned the database decision.
+`id: ab-ui-as-plugin | category: architecture | severity: high | source: book (Ch.25) + editorial | languages: any | tags: ui, gui, web, plugin, use-cases, boundaries`
 
-A customer later needed MySQL. Because the database boundary already existed, the customer wrote a MySQL implementation of `WikiPage` without changing the business rules. The boundary allowed the team to defer the database decision, experiment with alternatives, and change direction without impeding the original design.
+**Look for in a diff:**
+- Core policy returning UI widgets, HTML, framework events, or view-model details
+- UI technology determining business behavior or validation rules
+- Supporting a second interface requiring changes to the core use cases
 
-Not having a database for the first 18 months also avoided schema, query, server, password, and connection-time issues. Tests ran quickly because there was no database to slow them down. Drawing boundaries that delayed and deferred decisions saved substantial effort.
+**Why it matters:** Web, console, client/server, and service interfaces are delivery details. Treating them as plug-ins keeps the business rules reusable and replaceable.
 
-## Conclusion
+**Suggested comment:** "The use case now returns UI-specific data, so another delivery mechanism will require policy changes. Could the UI adapter translate a core response instead?"
 
-Draw architectural boundaries by partitioning the system into components. Some components contain core business rules. Others are plug-ins that provide necessary functions outside the core business. Arrange the code so that dependency arrows point in one direction—toward the core business.
+**Fix:** Keep use cases interface-agnostic and place presentation/input mapping in outer controllers, presenters, or adapters.
 
-This is an application of the Dependency Inversion Principle and the Stable Abstractions Principle. Dependencies that cross architectural boundaries must point toward the higher-level side. This is the Dependency Rule of Architecture.
+## Use plug-in boundaries to defer technology choices
+
+`id: ab-plugin-defer-technology | category: architecture | severity: medium | source: book (Ch.25) + editorial | languages: any | tags: plugins, options, framework, database, experiments`
+
+**Look for in a diff:**
+- A framework or database chosen before the business behavior requires it
+- Core development blocked by an infrastructure dependency that could be stubbed
+- No way to test policy without starting the selected technology
+
+**Why it matters:** Plug-in boundaries let teams develop and test policy while details remain undecided. They also make experiments and later replacement practical.
+
+**Suggested comment:** "The feature does not yet require this technology, but the core is already coupled to it. Could a plug-in/port let development continue with a simple test implementation?"
+
+**Fix:** Introduce a minimal boundary, use an in-memory/fake implementation during policy development, and select the technology at composition time.
+
+## Keep adapters responsible for translation
+
+`id: ab-adapter-translates-contracts | category: architecture | severity: high | source: book (Ch.25) + editorial | languages: any | tags: adapters, translation, mapping, boundaries, encapsulation`
+
+**Look for in a diff:**
+- Database/UI/framework types leaking across a boundary
+- Mapping logic duplicated in policy and adapter layers
+- A core use case interpreting transport status codes, schema fields, or framework events
+
+**Why it matters:** Translation belongs at the boundary. Keeping it there prevents external representations from becoming part of the policy model and localizes integration changes.
+
+**Suggested comment:** "The use case interprets transport/database representation directly. Could the adapter translate it into the core contract once at the boundary?"
+
+**Fix:** Map external inputs to policy requests and policy results to external outputs in dedicated adapters.
+
+## Test the core without infrastructure
+
+`id: ab-core-testable-without-details | category: testing | severity: high | source: book (Ch.25) + editorial | languages: any | tags: testing, boundaries, unit-tests, infrastructure, feedback`
+
+**Look for in a diff:**
+- Core tests requiring a real database, web server, framework container, or filesystem
+- Slow or flaky infrastructure setup for behavior that should be deterministic
+- No fake or in-memory implementation for a boundary contract
+
+**Why it matters:** The point of the boundary is to protect policy from details. Fast core tests provide feedback while infrastructure tests verify adapters separately.
+
+**Suggested comment:** "This policy test requires the real database/server, so boundary isolation is not providing fast feedback. Could a contract fake test the core and leave integration to adapter tests?"
+
+**Fix:** Test core behavior with controlled ports, test adapters against their external contract, and reserve end-to-end tests for critical integration paths.
+
+## Keep boundaries narrow and purpose-specific
+
+`id: ab-narrow-boundary-contracts | category: architecture | severity: medium | source: book (Ch.25) + editorial | languages: any | tags: boundaries, interfaces, cohesion, api, coupling`
+
+**Look for in a diff:**
+- A boundary interface exposing an entire framework, database client, or domain object graph
+- Ports containing operations needed by only one unrelated adapter/client
+- A “generic” boundary that increases knowledge instead of reducing it
+
+**Why it matters:** Broad boundaries leak details and make both sides change together. A narrow contract expresses what the policy needs and keeps the boundary stable.
+
+**Suggested comment:** "This port exposes the full vendor/database API, so policy still depends on details. Could it contain only the operations and data this use case requires?"
+
+**Fix:** Define role-specific ports, keep data contracts minimal, and split boundaries when clients have different change reasons.
+
+## Review boundaries as change-protection decisions
+
+`id: ab-boundary-protects-change | category: architecture | severity: medium | source: book (Ch.25) + editorial | languages: any | tags: boundaries, changeability, volatility, architecture, review`
+
+**Look for in a diff:**
+- A new boundary with no clear volatile detail or protected policy
+- A supposedly protected component still requiring edits when the detail changes
+- Boundary placement justified by folder structure rather than dependency direction and change impact
+
+**Why it matters:** A boundary is valuable only if it protects one side from changes on the other. Review it by asking what decision it defers and which changes it prevents from propagating.
+
+**Suggested comment:** "This interface adds a layer but the concrete detail still leaks through the types. What change is the boundary meant to protect, and can that protection be demonstrated?"
+
+**Fix:** Name the protected policy and deferred detail, verify dependency direction, and remove boundaries that provide no real change isolation.

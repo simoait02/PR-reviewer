@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch07-001",
+    "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep functions very small\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fn-small-functions",
+        "heading": "Keep functions very small",
+        "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+        "heading_path": [
+          "Clean Code, Chapter 7: Clean Functions, PR review rules",
+          "Keep functions very small"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep functions very small",
+      "A function longer than about a dozen lines",
+      "function-size",
+      "small-functions",
+      "functions"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch07-002",
+    "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep nesting shallow and make blocks one or two lines\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fn-shallow-nesting",
+        "heading": "Keep nesting shallow and make blocks one or two lines",
+        "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+        "heading_path": [
+          "Clean Code, Chapter 7: Clean Functions, PR review rules",
+          "Keep nesting shallow and make blocks one or two lines"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep nesting shallow and make blocks one or two lines",
+      "Indentation more than one or two levels deep inside a function",
+      "nesting",
+      "indentation-depth",
+      "functions"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch07-003",
+    "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep each function at one level of abstraction\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fn-one-level-of-abstraction",
+        "heading": "Keep each function at one level of abstraction",
+        "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+        "heading_path": [
+          "Clean Code, Chapter 7: Clean Functions, PR review rules",
+          "Keep each function at one level of abstraction"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep each function at one level of abstraction",
+      "High-level steps (looping over customers, choosing a type) mixed with low-level details (counters, price arithmetic, formatting)",
+      "abstraction-level",
+      "homogenous",
+      "functions"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch07-004",
+    "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+    "question": "What should a code reviewer look for in a diff related to \"Order functions so the code reads top-down (stepdown rule)\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fn-stepdown-rule",
+        "heading": "Order functions so the code reads top-down (stepdown rule)",
+        "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+        "heading_path": [
+          "Clean Code, Chapter 7: Clean Functions, PR review rules",
+          "Order functions so the code reads top-down (stepdown rule)"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Order functions so the code reads top-down (stepdown rule)",
+      "A function followed by helpers at unrelated or higher abstraction levels",
+      "stepdown-rule",
+      "top-down",
+      "functions"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch07-005",
+    "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+    "question": "What should a code reviewer look for in a diff related to \"Don't split a function into entangled pieces\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fn-entanglement",
+        "heading": "Don't split a function into entangled pieces",
+        "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+        "heading_path": [
+          "Clean Code, Chapter 7: Clean Functions, PR review rules",
+          "Don't split a function into entangled pieces"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Don't split a function into entangled pieces",
+      "Small helpers that can't be understood without reading each other",
+      "entanglement",
+      "over-decomposition",
+      "functions"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch07-006",
+    "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+    "question": "What should a code reviewer look for in a diff related to \"Hide switch statements behind polymorphism\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fn-switch-statements",
+        "heading": "Hide switch statements behind polymorphism",
+        "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+        "heading_path": [
+          "Clean Code, Chapter 7: Clean Functions, PR review rules",
+          "Hide switch statements behind polymorphism"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Hide switch statements behind polymorphism",
+      "A `switch`, `match`, or `if/elif` chain over a type code",
+      "switch",
+      "if-elif-chain",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch07-007",
+    "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+    "question": "What should a code reviewer look for in a diff related to \"Place functions in the right context and keep internals private\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fn-contextual-placement",
+        "heading": "Place functions in the right context and keep internals private",
+        "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+        "heading_path": [
+          "Clean Code, Chapter 7: Clean Functions, PR review rules",
+          "Place functions in the right context and keep internals private"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Place functions in the right context and keep internals private",
+      "A public function that is only used inside its own module or class",
+      "context",
+      "public-interface",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch07-008",
+    "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+    "question": "What should a code reviewer look for in a diff related to \"Name functions for what they do, not how they do it\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fn-descriptive-names",
+        "heading": "Name functions for what they do, not how they do it",
+        "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+        "heading_path": [
+          "Clean Code, Chapter 7: Clean Functions, PR review rules",
+          "Name functions for what they do, not how they do it"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Name functions for what they do, not how they do it",
+      "A name that exposes the implementation (`add_a_to_b_and_divide_by_2`)",
+      "function-names",
+      "descriptive",
+      "naming"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch07-009",
+    "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+    "question": "What should a code reviewer look for in a diff related to \"Limit function arguments to about three\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fn-limit-arguments",
+        "heading": "Limit function arguments to about three",
+        "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+        "heading_path": [
+          "Clean Code, Chapter 7: Clean Functions, PR review rules",
+          "Limit function arguments to about three"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Limit function arguments to about three",
+      "A function with more than three parameters",
+      "parameters",
+      "argument-count",
+      "functions"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch07-010",
+    "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+    "question": "What should a code reviewer look for in a diff related to \"Callers should depend on a narrow interface and nothing else\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fn-narrow-interface-insulation",
+        "heading": "Callers should depend on a narrow interface and nothing else",
+        "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+        "heading_path": [
+          "Clean Code, Chapter 7: Clean Functions, PR review rules",
+          "Callers should depend on a narrow interface and nothing else"
+        ],
+        "chunk_index": 9,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Callers should depend on a narrow interface and nothing else",
+      "Callers that know a component's internal states, transitions, or logic",
+      "insulation",
+      "narrow-interface",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch07-011",
+    "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+    "question": "What should a code reviewer look for in a diff related to \"Prefer pure functions\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fn-pure-functions",
+        "heading": "Prefer pure functions",
+        "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+        "heading_path": [
+          "Clean Code, Chapter 7: Clean Functions, PR review rules",
+          "Prefer pure functions"
+        ],
+        "chunk_index": 10,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Prefer pure functions",
+      "A function that reads or writes global or shared state, or mutates its arguments",
+      "pure-function",
+      "side-effects",
+      "functions"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch07-012",
+    "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+    "question": "What should a code reviewer look for in a diff related to \"Wrap side effects so callers can't leave the system altered\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fn-hide-impurity-wrappers",
+        "heading": "Wrap side effects so callers can't leave the system altered",
+        "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+        "heading_path": [
+          "Clean Code, Chapter 7: Clean Functions, PR review rules",
+          "Wrap side effects so callers can't leave the system altered"
+        ],
+        "chunk_index": 11,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Wrap side effects so callers can't leave the system altered",
+      "A resource opened in one function and closed in another",
+      "partial-purity",
+      "side-effects",
+      "functions"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch07-013",
+    "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+    "question": "Why does the rule \"Keep functions very small\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fn-small-functions",
+        "heading": "Keep functions very small",
+        "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+        "heading_path": [
+          "Clean Code, Chapter 7: Clean Functions, PR review rules",
+          "Keep functions very small"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep functions very small",
+      "Experience moved from 3,000-line functions to 100-300 lines, then 20-30, and finally a dozen lines or less. In a codebase of very small functions, each is two to four lines with a descriptive name, is obviously correct, tells a story, and leads to the next. This is a guideline, not a hard rule.",
+      "function-size",
+      "small-functions",
+      "functions"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch07-014",
+    "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+    "question": "What fix does the guidance recommend for \"Keep nesting shallow and make blocks one or two lines\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fn-shallow-nesting",
+        "heading": "Keep nesting shallow and make blocks one or two lines",
+        "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+        "heading_path": [
+          "Clean Code, Chapter 7: Clean Functions, PR review rules",
+          "Keep nesting shallow and make blocks one or two lines"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep nesting shallow and make blocks one or two lines",
+      "Extract block bodies into functions named for what they do, and flatten with early returns.",
+      "nesting",
+      "indentation-depth",
+      "functions"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch07-015",
+    "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+    "question": "How can a reviewer spot a problem related to \"Keep each function at one level of abstraction\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fn-one-level-of-abstraction",
+        "heading": "Keep each function at one level of abstraction",
+        "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+        "heading_path": [
+          "Clean Code, Chapter 7: Clean Functions, PR review rules",
+          "Keep each function at one level of abstraction"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep each function at one level of abstraction",
+      "High-level steps (looping over customers, choosing a type) mixed with low-level details (counters, price arithmetic, formatting)",
+      "abstraction-level",
+      "homogenous",
+      "functions"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch07-016",
+    "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+    "question": "What review guidance applies to \"Order functions so the code reads top-down (stepdown rule)\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fn-stepdown-rule",
+        "heading": "Order functions so the code reads top-down (stepdown rule)",
+        "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+        "heading_path": [
+          "Clean Code, Chapter 7: Clean Functions, PR review rules",
+          "Order functions so the code reads top-down (stepdown rule)"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Order functions so the code reads top-down (stepdown rule)",
+      "The code should read like a top-down narrative: each function is followed by those at the next level down, so a reader descends one level of abstraction at a time. This is classic functional decomposition. When first writing a function, you tend to search depth-first through all the levels, so the first draft mixes them. Once it works, refactor by extracting each level into a named function: first make it work, then make it right.",
+      "stepdown-rule",
+      "top-down",
+      "functions"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch07-017",
+    "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+    "question": "Why does the rule \"Don't split a function into entangled pieces\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fn-entanglement",
+        "heading": "Don't split a function into entangled pieces",
+        "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+        "heading_path": [
+          "Clean Code, Chapter 7: Clean Functions, PR review rules",
+          "Don't split a function into entangled pieces"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Don't split a function into entangled pieces",
+      "Two functions are entangled when you must understand one to understand the other, and decomposing large functions can create them. The author tolerates some entanglement as long as functions step down one level and lower-level functions come after higher-level ones. John Ousterhout would rather merge entangled functions, so this is a trade-off worth judging case by case.",
+      "entanglement",
+      "over-decomposition",
+      "functions"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch07-018",
+    "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+    "question": "What fix does the guidance recommend for \"Hide switch statements behind polymorphism\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fn-switch-statements",
+        "heading": "Hide switch statements behind polymorphism",
+        "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+        "heading_path": [
+          "Clean Code, Chapter 7: Clean Functions, PR review rules",
+          "Hide switch statements behind polymorphism"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Hide switch statements behind polymorphism",
+      "Use polymorphism, and keep the one switch in a factory that creates the right object.",
+      "switch",
+      "if-elif-chain",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch07-019",
+    "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+    "question": "How can a reviewer spot a problem related to \"Place functions in the right context and keep internals private\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fn-contextual-placement",
+        "heading": "Place functions in the right context and keep internals private",
+        "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+        "heading_path": [
+          "Clean Code, Chapter 7: Clean Functions, PR review rules",
+          "Place functions in the right context and keep internals private"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Place functions in the right context and keep internals private",
+      "A public function that is only used inside its own module or class",
+      "context",
+      "public-interface",
+      "design"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch07-020",
+    "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+    "question": "What review guidance applies to \"Name functions for what they do, not how they do it\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fn-descriptive-names",
+        "heading": "Name functions for what they do, not how they do it",
+        "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+        "heading_path": [
+          "Clean Code, Chapter 7: Clean Functions, PR review rules",
+          "Name functions for what they do, not how they do it"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Name functions for what they do, not how they do it",
+      "A function name describes behavior at slightly higher abstraction than its code, so the implementation can change without renaming (`average` stays right when it takes many arguments). More detailed contexts need longer names. A long descriptive name beats a short enigmatic one and often beats a long comment. Frequently called, general functions can have short names for convenience. Trying several names often leads to a better structure.",
+      "function-names",
+      "descriptive",
+      "naming"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch07-021",
+    "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+    "question": "Why does the rule \"Limit function arguments to about three\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fn-limit-arguments",
+        "heading": "Limit function arguments to about three",
+        "source_path": "docs/Part_I_Code/chapter_07_clean_functions.md",
+        "heading_path": [
+          "Clean Code, Chapter 7: Clean Functions, PR review rules",
+          "Limit function arguments to about three"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Limit function arguments to about three",
+      "Each input and output is a coupling, another strand woven through the function. More arguments couple the function more tightly to its callers. A limit of three is preferred where feasible. Beyond that, ask why you aren't passing an object, or whether the data and behavior belong in separate contexts.",
+      "parameters",
+      "argument-count",
+      "functions"
+    ],
+    "difficulty": "paraphrase"
+  }
+]

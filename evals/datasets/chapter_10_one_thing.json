@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch10-001",
+    "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+    "question": "What should a code reviewer look for in a diff related to \"A function does one thing if you can't meaningfully extract another from it\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ot-extract-till-you-drop",
+        "heading": "A function does one thing if you can't meaningfully extract another from it",
+        "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+        "heading_path": [
+          "Clean Code, Chapter 10: One Thing, PR review rules",
+          "A function does one thing if you can't meaningfully extract another from it"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "A function does one thing if you can't meaningfully extract another from it",
+      "A function from which another function could meaningfully be extracted",
+      "one-thing",
+      "extract-method",
+      "functions"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch10-002",
+    "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+    "question": "What should a code reviewer look for in a diff related to \"Don't extract when the new function adds no meaning\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ot-dont-extract-meaninglessly",
+        "heading": "Don't extract when the new function adds no meaning",
+        "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+        "heading_path": [
+          "Clean Code, Chapter 10: One Thing, PR review rules",
+          "Don't extract when the new function adds no meaning"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Don't extract when the new function adds no meaning",
+      "A function whose entire body was moved to a new function, leaving a pure delegator (`add_rental` calling `do_the_add`)",
+      "over-extraction",
+      "pure-delegator",
+      "review-guidance"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch10-003",
+    "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+    "question": "What should a code reviewer look for in a diff related to \"Many small, well-named functions reveal intent, they don't hide it\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ot-small-functions-dont-obscure-intent",
+        "heading": "Many small, well-named functions reveal intent, they don't hide it",
+        "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+        "heading_path": [
+          "Clean Code, Chapter 10: One Thing, PR review rules",
+          "Many small, well-named functions reveal intent, they don't hide it"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Many small, well-named functions reveal intent, they don't hide it",
+      "A review objection that too many small functions make code harder to follow",
+      "small-functions",
+      "objection",
+      "review-guidance"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch10-004",
+    "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+    "question": "What should a code reviewer look for in a diff related to \"Every large function hides a class\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ot-large-function-hides-class",
+        "heading": "Every large function hides a class",
+        "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+        "heading_path": [
+          "Clean Code, Chapter 10: One Thing, PR review rules",
+          "Every large function hides a class"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Every large function hides a class",
+      "A long function whose local variables are used by many indented regions",
+      "large-function",
+      "extract-class",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch10-005",
+    "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+    "question": "What should a code reviewer look for in a diff related to \"Move methods to the class whose data they use\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ot-misplaced-method",
+        "heading": "Move methods to the class whose data they use",
+        "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+        "heading_path": [
+          "Clean Code, Chapter 10: One Thing, PR review rules",
+          "Move methods to the class whose data they use"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Move methods to the class whose data they use",
+      "A method that barely uses its own object's fields but works on another object it receives",
+      "misplaced-method",
+      "feature-envy",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch10-006",
+    "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+    "question": "What should a code reviewer look for in a diff related to \"Put an attribute on the class where it actually varies\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ot-data-belongs-where-it-varies",
+        "heading": "Put an attribute on the class where it actually varies",
+        "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+        "heading_path": [
+          "Clean Code, Chapter 10: One Thing, PR review rules",
+          "Put an attribute on the class where it actually varies"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Put an attribute on the class where it actually varies",
+      "A type or category attribute stored on a class even though it varies by how the object is used",
+      "type-code",
+      "wrong-owner",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch10-007",
+    "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+    "question": "What should a code reviewer look for in a diff related to \"Separate business calculation from presentation\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ot-separate-calculation-from-presentation",
+        "heading": "Separate business calculation from presentation",
+        "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+        "heading_path": [
+          "Clean Code, Chapter 10: One Thing, PR review rules",
+          "Separate business calculation from presentation"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Separate business calculation from presentation",
+      "A class or function that computes business results and formats output together",
+      "presentation",
+      "formatting",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch10-008",
+    "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+    "question": "What should a code reviewer look for in a diff related to \"Don't build most tests on volatile UI strings\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ot-tests-through-ui-strings",
+        "heading": "Don't build most tests on volatile UI strings",
+        "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+        "heading_path": [
+          "Clean Code, Chapter 10: One Thing, PR review rules",
+          "Don't build most tests on volatile UI strings"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Don't build most tests on volatile UI strings",
+      "Many tests that assert a full formatted output string",
+      "fragile-tests",
+      "ui-strings",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch10-009",
+    "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+    "question": "What should a code reviewer look for in a diff related to \"Give test data names that explain the test's intent\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ot-test-data-explains-intent",
+        "heading": "Give test data names that explain the test's intent",
+        "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+        "heading_path": [
+          "Clean Code, Chapter 10: One Thing, PR review rules",
+          "Give test data names that explain the test's intent"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Give test data names that explain the test's intent",
+      "Arbitrary or production-like names in tests (\"Fred\", \"The Cell\") that say nothing about what is being tested",
+      "test-data",
+      "fixtures",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch10-010",
+    "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+    "question": "What should a code reviewer look for in a diff related to \"Extraction shows what code is misplaced, so don't skip it out of habit\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ot-extraction-reveals-structure",
+        "heading": "Extraction shows what code is misplaced, so don't skip it out of habit",
+        "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+        "heading_path": [
+          "Clean Code, Chapter 10: One Thing, PR review rules",
+          "Extraction shows what code is misplaced, so don't skip it out of habit"
+        ],
+        "chunk_index": 9,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Extraction shows what code is misplaced, so don't skip it out of habit",
+      "Larger functions kept because extraction seems like overkill",
+      "function-size-preference",
+      "inlining",
+      "review-guidance"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch10-011",
+    "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+    "question": "Why does the rule \"A function does one thing if you can't meaningfully extract another from it\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ot-extract-till-you-drop",
+        "heading": "A function does one thing if you can't meaningfully extract another from it",
+        "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+        "heading_path": [
+          "Clean Code, Chapter 10: One Thing, PR review rules",
+          "A function does one thing if you can't meaningfully extract another from it"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "A function does one thing if you can't meaningfully extract another from it",
+      "The test for \"one thing\" is practical: if you can split a function into two meaningful pieces, it did two things. So extract until you can't meaningfully extract any more, or at least consider every extraction. Most functions end up a few lines long, and typical extractions are the bodies of `if/else` and loops and their predicates, so statements read like prose.",
+      "one-thing",
+      "extract-method",
+      "functions"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch10-012",
+    "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+    "question": "What fix does the guidance recommend for \"Don't extract when the new function adds no meaning\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ot-dont-extract-meaninglessly",
+        "heading": "Don't extract when the new function adds no meaning",
+        "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+        "heading_path": [
+          "Clean Code, Chapter 10: One Thing, PR review rules",
+          "Don't extract when the new function adds no meaning"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Don't extract when the new function adds no meaning",
+      "Inline the trivial wrapper, or merge related pieces into one function whose name describes the purpose.",
+      "over-extraction",
+      "pure-delegator",
+      "review-guidance"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch10-013",
+    "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+    "question": "How can a reviewer spot a problem related to \"Many small, well-named functions reveal intent, they don't hide it\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ot-small-functions-dont-obscure-intent",
+        "heading": "Many small, well-named functions reveal intent, they don't hide it",
+        "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+        "heading_path": [
+          "Clean Code, Chapter 10: One Thing, PR review rules",
+          "Many small, well-named functions reveal intent, they don't hide it"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Many small, well-named functions reveal intent, they don't hide it",
+      "A review objection that too many small functions make code harder to follow",
+      "small-functions",
+      "objection",
+      "review-guidance"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch10-014",
+    "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+    "question": "What review guidance applies to \"Every large function hides a class\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ot-large-function-hides-class",
+        "heading": "Every large function hides a class",
+        "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+        "heading_path": [
+          "Clean Code, Chapter 10: One Thing, PR review rules",
+          "Every large function hides a class"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Every large function hides a class",
+      "A group of methods that manipulate a set of variables is a class. Every large function is hiding one (or more): its locals should be fields, and its indented regions should be methods. Temporarily promoting locals to fields breaks encapsulation but lets you extract, and letting helpers share fields is sometimes cleaner than passing arguments.",
+      "large-function",
+      "extract-class",
+      "design"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch10-015",
+    "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+    "question": "Why does the rule \"Move methods to the class whose data they use\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ot-misplaced-method",
+        "heading": "Move methods to the class whose data they use",
+        "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+        "heading_path": [
+          "Clean Code, Chapter 10: One Thing, PR review rules",
+          "Move methods to the class whose data they use"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Move methods to the class whose data they use",
+      "After extraction it becomes clear which code doesn't belong in its class. In the video store example, the amount and points calculations mainly used the rental, so they moved to `Rental`, and the tests passed unchanged because their design tolerated the change. Moving logic to the class that owns the data takes business rules out of a class that was merely holding them.",
+      "misplaced-method",
+      "feature-envy",
+      "design"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch10-016",
+    "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+    "question": "What fix does the guidance recommend for \"Put an attribute on the class where it actually varies\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ot-data-belongs-where-it-varies",
+        "heading": "Put an attribute on the class where it actually varies",
+        "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+        "heading_path": [
+          "Clean Code, Chapter 10: One Thing, PR review rules",
+          "Put an attribute on the class where it actually varies"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Put an attribute on the class where it actually varies",
+      "Move the attribute to the class where it varies, and replace switches on it with polymorphic types.",
+      "type-code",
+      "wrong-owner",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch10-017",
+    "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+    "question": "How can a reviewer spot a problem related to \"Separate business calculation from presentation\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ot-separate-calculation-from-presentation",
+        "heading": "Separate business calculation from presentation",
+        "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+        "heading_path": [
+          "Clean Code, Chapter 10: One Thing, PR review rules",
+          "Separate business calculation from presentation"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Separate business calculation from presentation",
+      "A class or function that computes business results and formats output together",
+      "presentation",
+      "formatting",
+      "design"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch10-018",
+    "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+    "question": "What review guidance applies to \"Don't build most tests on volatile UI strings\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ot-tests-through-ui-strings",
+        "heading": "Don't build most tests on volatile UI strings",
+        "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+        "heading_path": [
+          "Clean Code, Chapter 10: One Thing, PR review rules",
+          "Don't build most tests on volatile UI strings"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Don't build most tests on volatile UI strings",
+      "UI strings are volatile, because someone can change a heading's wording on a whim, and then every test built on them breaks. Test the format once, and have the other tests check the values being computed.",
+      "fragile-tests",
+      "ui-strings",
+      "testing"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch10-019",
+    "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+    "question": "Why does the rule \"Give test data names that explain the test's intent\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ot-test-data-explains-intent",
+        "heading": "Give test data names that explain the test's intent",
+        "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+        "heading_path": [
+          "Clean Code, Chapter 10: One Thing, PR review rules",
+          "Give test data names that explain the test's intent"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Give test data names that explain the test's intent",
+      "Tests should contain data that explains their intent, not production data. Named variables for repeated objects and a composed assertion keep tests short and let readers see what each one is about.",
+      "test-data",
+      "fixtures",
+      "testing"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch10-020",
+    "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+    "question": "What fix does the guidance recommend for \"Extraction shows what code is misplaced, so don't skip it out of habit\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ot-extraction-reveals-structure",
+        "heading": "Extraction shows what code is misplaced, so don't skip it out of habit",
+        "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+        "heading_path": [
+          "Clean Code, Chapter 10: One Thing, PR review rules",
+          "Extraction shows what code is misplaced, so don't skip it out of habit"
+        ],
+        "chunk_index": 9,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Extraction shows what code is misplaced, so don't skip it out of habit",
+      "Extract first to see the structure, and inline only where measurements justify it.",
+      "function-size-preference",
+      "inlining",
+      "review-guidance"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch10-021",
+    "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+    "question": "How can a reviewer spot a problem related to \"A function does one thing if you can't meaningfully extract another from it\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ot-extract-till-you-drop",
+        "heading": "A function does one thing if you can't meaningfully extract another from it",
+        "source_path": "docs/Part_I_Code/chapter_10_one_thing.md",
+        "heading_path": [
+          "Clean Code, Chapter 10: One Thing, PR review rules",
+          "A function does one thing if you can't meaningfully extract another from it"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "A function does one thing if you can't meaningfully extract another from it",
+      "A function from which another function could meaningfully be extracted",
+      "one-thing",
+      "extract-method",
+      "functions"
+    ],
+    "difficulty": "paraphrase"
+  }
+]

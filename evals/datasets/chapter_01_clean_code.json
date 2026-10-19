@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch01-001",
+    "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+    "question": "What should a code reviewer look for in a diff related to \"A function should do one thing\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-one-thing",
+        "heading": "A function should do one thing",
+        "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+        "heading_path": [
+          "Clean Code, Chapter 1: PR review rules",
+          "A function should do one thing"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "A function should do one thing",
+      "A function that validates, transforms, persists, and notifies in one body",
+      "single-responsibility",
+      "function-size",
+      "functions"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch01-002",
+    "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+    "question": "What should a code reviewer look for in a diff related to \"Names should communicate purpose\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-names-purpose",
+        "heading": "Names should communicate purpose",
+        "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+        "heading_path": [
+          "Clean Code, Chapter 1: PR review rules",
+          "Names should communicate purpose"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Names should communicate purpose",
+      "Generic names: `data`, `data2`, `tmp`, `result`, `obj`, `flag`, `x`",
+      "naming",
+      "variable-names",
+      "naming"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch01-003",
+    "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+    "question": "What should a code reviewer look for in a diff related to \"Names and signatures must not mislead\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-misleading-names",
+        "heading": "Names and signatures must not mislead",
+        "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+        "heading_path": [
+          "Clean Code, Chapter 1: PR review rules",
+          "Names and signatures must not mislead"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Names and signatures must not mislead",
+      "A `get_*` / `is_*` / `check_*` function that mutates state, writes, or calls the network",
+      "misleading-name",
+      "name-mismatch",
+      "naming"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch01-004",
+    "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+    "question": "What should a code reviewer look for in a diff related to \"Avoid hidden side effects and unrelated work\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-hidden-side-effects",
+        "heading": "Avoid hidden side effects and unrelated work",
+        "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+        "heading_path": [
+          "Clean Code, Chapter 1: PR review rules",
+          "Avoid hidden side effects and unrelated work"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Avoid hidden side effects and unrelated work",
+      "A function that modifies its arguments, globals, or shared state without saying so",
+      "side-effects",
+      "hidden-work",
+      "functions"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch01-005",
+    "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+    "question": "What should a code reviewer look for in a diff related to \"Routines should do what a reader expects\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-predictable-routines",
+        "heading": "Routines should do what a reader expects",
+        "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+        "heading_path": [
+          "Clean Code, Chapter 1: PR review rules",
+          "Routines should do what a reader expects"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Routines should do what a reader expects",
+      "Name, inputs, and output that don't agree with the behavior",
+      "predictable",
+      "surprising-code",
+      "readability"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch01-006",
+    "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep functions small enough to fit in your head\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-fits-in-head",
+        "heading": "Keep functions small enough to fit in your head",
+        "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+        "heading_path": [
+          "Clean Code, Chapter 1: PR review rules",
+          "Keep functions small enough to fit in your head"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep functions small enough to fit in your head",
+      "A function that no longer fits on one screen",
+      "function-length",
+      "complexity",
+      "functions"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch01-007",
+    "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+    "question": "What should a code reviewer look for in a diff related to \"Code should compose without hidden coupling and be easy to delete\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-deletable-low-coupling",
+        "heading": "Code should compose without hidden coupling and be easy to delete",
+        "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+        "heading_path": [
+          "Clean Code, Chapter 1: PR review rules",
+          "Code should compose without hidden coupling and be easy to delete"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Code should compose without hidden coupling and be easy to delete",
+      "A change that forces edits in many unrelated modules",
+      "coupling",
+      "hidden-dependency",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch01-008",
+    "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+    "question": "What should a code reviewer look for in a diff related to \"Remove duplication\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-duplication",
+        "heading": "Remove duplication",
+        "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+        "heading_path": [
+          "Clean Code, Chapter 1: PR review rules",
+          "Remove duplication"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Remove duplication",
+      "The same block copy-pasted in multiple handlers or tests",
+      "duplication",
+      "copy-paste",
+      "duplication"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch01-009",
+    "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+    "question": "What should a code reviewer look for in a diff related to \"Prefer straightforward code over clever shortcuts\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-clever-vs-clear",
+        "heading": "Prefer straightforward code over clever shortcuts",
+        "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+        "heading_path": [
+          "Clean Code, Chapter 1: PR review rules",
+          "Prefer straightforward code over clever shortcuts"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Prefer straightforward code over clever shortcuts",
+      "Dense one-liners, chained ternaries, or nested comprehensions",
+      "clever-code",
+      "readability",
+      "readability"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch01-010",
+    "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+    "question": "What should a code reviewer look for in a diff related to \"Leave the code cleaner than you found it\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-boy-scout",
+        "heading": "Leave the code cleaner than you found it",
+        "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+        "heading_path": [
+          "Clean Code, Chapter 1: PR review rules",
+          "Leave the code cleaner than you found it"
+        ],
+        "chunk_index": 9,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Leave the code cleaner than you found it",
+      "A PR that edits a function or file but leaves an obvious small mess next to the change",
+      "boy-scout-rule",
+      "small-cleanup",
+      "process"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch01-011",
+    "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+    "question": "What should a code reviewer look for in a diff related to \"Do not defer cleanup with \"we will fix it later\"\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-later-equals-never",
+        "heading": "Do not defer cleanup with \"we will fix it later\"",
+        "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+        "heading_path": [
+          "Clean Code, Chapter 1: PR review rules",
+          "Do not defer cleanup with \"we will fix it later\""
+        ],
+        "chunk_index": 10,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Do not defer cleanup with \"we will fix it later\"",
+      "New `TODO`, `FIXME`, or `HACK` comments with no ticket or owner",
+      "todo",
+      "technical-debt",
+      "process"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch01-012",
+    "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+    "question": "What should a code reviewer look for in a diff related to \"Make it work, then make it right before merging\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-make-it-right",
+        "heading": "Make it work, then make it right before merging",
+        "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+        "heading_path": [
+          "Clean Code, Chapter 1: PR review rules",
+          "Make it work, then make it right before merging"
+        ],
+        "chunk_index": 11,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make it work, then make it right before merging",
+      "First-draft structure that works but was never tidied",
+      "first-draft",
+      "refactor",
+      "process"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch01-013",
+    "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep comments accurate; delete obsolete ones\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-comments",
+        "heading": "Keep comments accurate; delete obsolete ones",
+        "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+        "heading_path": [
+          "Clean Code, Chapter 1: PR review rules",
+          "Keep comments accurate; delete obsolete ones"
+        ],
+        "chunk_index": 12,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep comments accurate; delete obsolete ones",
+      "A comment that no longer matches the changed code",
+      "comments",
+      "stale-comment",
+      "comments"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch01-014",
+    "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+    "question": "What should a code reviewer look for in a diff related to \"Optimize code for the reader, not the writer\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-optimize-for-reading",
+        "heading": "Optimize code for the reader, not the writer",
+        "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+        "heading_path": [
+          "Clean Code, Chapter 1: PR review rules",
+          "Optimize code for the reader, not the writer"
+        ],
+        "chunk_index": 13,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Optimize code for the reader, not the writer",
+      "Code that is quick to write but hard to follow",
+      "readability",
+      "maintainability",
+      "readability"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch01-015",
+    "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+    "question": "What should a code reviewer look for in a diff related to \"Prefer incremental cleanup over a full rewrite\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-no-big-bang-rewrite",
+        "heading": "Prefer incremental cleanup over a full rewrite",
+        "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+        "heading_path": [
+          "Clean Code, Chapter 1: PR review rules",
+          "Prefer incremental cleanup over a full rewrite"
+        ],
+        "chunk_index": 14,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Prefer incremental cleanup over a full rewrite",
+      "A PR that replaces a whole module or system rather than improving it in steps",
+      "rewrite",
+      "rewrite-from-scratch",
+      "process"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch01-016",
+    "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+    "question": "What should a code reviewer look for in a diff related to \"Clean means livable, not perfect: avoid nitpicking\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-good-enough-not-perfect",
+        "heading": "Clean means livable, not perfect: avoid nitpicking",
+        "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+        "heading_path": [
+          "Clean Code, Chapter 1: PR review rules",
+          "Clean means livable, not perfect: avoid nitpicking"
+        ],
+        "chunk_index": 15,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Clean means livable, not perfect: avoid nitpicking",
+      "Cosmetic issues that do not affect how easily the code can be changed",
+      "nitpick",
+      "perfectionism",
+      "review-guidance"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch01-017",
+    "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+    "question": "Why does the rule \"A function should do one thing\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-one-thing",
+        "heading": "A function should do one thing",
+        "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+        "heading_path": [
+          "Clean Code, Chapter 1: PR review rules",
+          "A function should do one thing"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "A function should do one thing",
+      "\"One thing\" is subjective, so test it: if the function has more than one reason to change, it does more than one thing. Mixed responsibilities are harder to name, test, and change safely.",
+      "single-responsibility",
+      "function-size",
+      "functions"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch01-018",
+    "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+    "question": "What fix does the guidance recommend for \"Names should communicate purpose\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-names-purpose",
+        "heading": "Names should communicate purpose",
+        "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+        "heading_path": [
+          "Clean Code, Chapter 1: PR review rules",
+          "Names should communicate purpose"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Names should communicate purpose",
+      "Rename to the domain concept. Name booleans as questions (`is_expired`, `has_access`).",
+      "naming",
+      "variable-names",
+      "naming"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch01-019",
+    "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+    "question": "How can a reviewer spot a problem related to \"Names and signatures must not mislead\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-misleading-names",
+        "heading": "Names and signatures must not mislead",
+        "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+        "heading_path": [
+          "Clean Code, Chapter 1: PR review rules",
+          "Names and signatures must not mislead"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Names and signatures must not mislead",
+      "A `get_*` / `is_*` / `check_*` function that mutates state, writes, or calls the network",
+      "misleading-name",
+      "name-mismatch",
+      "naming"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch01-020",
+    "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+    "question": "What review guidance applies to \"Avoid hidden side effects and unrelated work\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-hidden-side-effects",
+        "heading": "Avoid hidden side effects and unrelated work",
+        "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+        "heading_path": [
+          "Clean Code, Chapter 1: PR review rules",
+          "Avoid hidden side effects and unrelated work"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Avoid hidden side effects and unrelated work",
+      "Reading should be predictable: the control flow follows the apparent purpose, and the routine does not hide unrelated work. Hidden effects cause surprises that are hard to debug.",
+      "side-effects",
+      "hidden-work",
+      "functions"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch01-021",
+    "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+    "question": "Why does the rule \"Routines should do what a reader expects\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cc-predictable-routines",
+        "heading": "Routines should do what a reader expects",
+        "source_path": "docs/Part_I_Code/chapter_01_clean_code.md",
+        "heading_path": [
+          "Clean Code, Chapter 1: PR review rules",
+          "Routines should do what a reader expects"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Routines should do what a reader expects",
+      "Clean code is code you read and simply agree with from top to bottom. Predictability means the code communicates its decisions clearly, even when the logic isn't trivial.",
+      "predictable",
+      "surprising-code",
+      "readability"
+    ],
+    "difficulty": "paraphrase"
+  }
+]

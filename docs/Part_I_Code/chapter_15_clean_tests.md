@@ -1,127 +1,232 @@
-# Chapter 15: Clean Tests
+# Clean Code, Chapter 15: Clean Tests, PR review rules
 
-Clean tests are readable, fast, isolated, repeatable, self-verifying, timely, and designed. Readability is perhaps even more important in unit tests than it is in production code.
+## Make each test readable at the behavior level
 
-What makes tests readable? The same things that make all code readable: clarity, simplicity, and density of expression. In a test, you want to say a lot with as few expressions as reasonable. Consider this code from FitNesse. These three tests are difficult to understand and can certainly be improved. First, there is a terrible amount of duplicate code in the repeated calls to addPage and assertSubString. More importantly, this code is just loaded with details that interfere with the expressiveness of the test.
+`id: ct-readable-behavior | category: testing | severity: medium | source: book (Ch.15) + editorial | languages: any | tags: readability, tests, intent, noise, clarity`
 
+**Look for in a diff:**
+- Test bodies dominated by framework setup, casts, transport details, or object construction noise
+- A reader needing to understand implementation plumbing before finding the behavior under test
+- Test names that do not describe the scenario and expected outcome
 
+**Why it matters:** Tests are executable documentation. If their intent is obscured, reviewers miss coverage gaps and future changes are more likely to break or bypass the wrong contract.
 
+**Suggested comment:** "The test’s setup hides the behavior being checked. Could the irrelevant construction details move behind a focused helper so the scenario is obvious?"
 
-For example, look at the PathParser calls. They transform strings into PagePath instances used by the crawlers. This transformation is completely irrelevant to the test at hand and serves only to obfuscate the intent. The details surrounding the creation of the responder and the gathering and casting of the response are also just noise. Then there’s the ham-handed way that the request URL is built from a resource and an argument. (I helped write this code 20 years ago, so I feel free to roundly criticize it.) In the end, this code was not designed to be read. The poor reader is inundated with a swarm of details that must be understood before the tests make any real sense.
+**Fix:** Keep test names and bodies centered on the scenario, action, and observable result; hide only irrelevant mechanics.
 
-Now consider the improved tests below. These tests do the
-exact same thing, but they have been refactored into a
-much cleaner and more explanatory form.
+## Structure tests as Arrange, Act, Assert
 
-The Arrange/Act/Assert (AAA) pattern is made obvious by the structure of these tests. Each of the tests is clearly split into three parts. The first part (Arrange) builds up the test data, the second part (Act) operates on that test data, and the third part (Assert) checks that the operation yielded the expected results.
+`id: ct-arrange-act-assert | category: testing | severity: low | source: book (Ch.15) + editorial | languages: any | tags: aaa, arrange, act, assert, test-structure`
 
-Notice that the vast majority of annoying detail has been eliminated. The tests get right to the point and use only the data types and functions that they truly need. Anyone who reads these tests should be able to work out what they do very quickly, without being misled or overwhelmed by details.
+**Look for in a diff:**
+- Setup, actions, and assertions interleaved without a clear boundary
+- A test with multiple actions or assertions whose relationship is difficult to follow
+- Assertions mixed into fixture construction or helper side effects
 
-## Domain-Specific Testing Language
+**Why it matters:** AAA gives readers a predictable path through the test: establish the scenario, perform one operation, then verify its result.
 
-The tests above demonstrate the technique of building a domain-specific language for your tests. Rather than using the APIs that programmers use to manipulate the system, we build up a set of functions and utilities that make use of those APIs and that make the tests more convenient to write and easier to read. These functions and utilities become a specialized API used by the tests. They are a testing language that programmers use to help them write their tests and to help those who must read those tests later on.
+**Suggested comment:** "Could this test separate setup, the operation under test, and verification? The current interleaving makes the actual behavior hard to identify."
 
-## Composed Assertions
+**Fix:** Organize the test into Arrange, Act, and Assert sections, using small helpers only when they preserve that structure.
 
-The functions assertResponseIsXML and assertResponseContains are part of that domain-specific testing language. These kinds of assertion functions are called composed assertions. Testing APIs like these are not designed up front; rather, they evolve from the continued refactoring of test code that has gotten too tainted by obfuscating detail. Just as you saw me refactor the original tests, so too will disciplined developers refactor their test code into more succinct and expressive forms.
+## Build a small domain-specific test language
 
-## Composed Test Results
+`id: ct-test-domain-language | category: testing | severity: medium | source: book (Ch.15) + editorial | languages: any | tags: test-api, helpers, abstraction, readability, domain-language`
 
-Another technique for creating a domain-specific testing API is to create composed test results. These are used when the test results are needlessly complex and can be compressed down into a smaller form that is easy to understand. Consider the tests I wrote as part of an environment control system I was prototyping. Without going into the details, you can tell that this test checks that the low-temperature alarm, the heater, and the blower are all turned on when the temperature is “way too cold.”
+**Look for in a diff:**
+- Repeated low-level setup or protocol calls across many tests
+- Test helpers named after implementation mechanics rather than domain behavior
+- New tests duplicating transformations that are irrelevant to the assertion
 
-```java
-@Test
+**Why it matters:** A focused test API lets tests express domain intent and reduces the number of details every reader must learn. Repeated test code is evidence that a useful testing vocabulary may be missing.
 
-public void turnOnLoTempAlarmAtThreshold() throws Exception {
-     hw.setTemp(WAY_TOO_COLD);
+**Suggested comment:** "These tests repeat the same request/response plumbing. Could a behavior-oriented helper express the scenario and keep protocol details in one place?"
 
-     controller.tic();
-     assertTrue(hw.heaterState());
+**Fix:** Extract cohesive builders, actions, and assertions with domain names; keep helpers deterministic and transparent about important behavior.
 
-     assertTrue(hw.blowerState());
-     assertFalse(hw.coolerState());
+## Use composed assertions for one logical fact
 
-     assertFalse(hw.hiTempAlarm());
-    assertTrue(hw.loTempAlarm());
-}
-```
+`id: ct-composed-assertions | category: testing | severity: medium | source: book (Ch.15) + editorial | languages: any | tags: assertions, readability, abstraction, diagnostics, logical-fact`
 
-There are, of course, lots of details here. For example, what is that tic function all about? In fact, I’d rather you not worry about that while reading this test. I’d rather you just worry about whether you agree that the end state of the system is consistent with the temperature being “way too cold.” Notice, as you read the test, that your eye needs to bounce back and forth between the name of the state being checked and the sense of the state being checked. You see heaterState, and then your eyes glissade left to assertTrue. You see coolerState, and your eyes must track left to assertFalse. This is tedious and unreliable. It makes the test hard to read. To make matters worse, this is one of 14 very similar tests. Imagine how your eyes will cross as you try to read all that. I improved the reading of these tests greatly by transforming them as follows.
+**Look for in a diff:**
+- Several low-level assertions repeated to verify one meaningful state or contract
+- Assertions that force readers to decode flags, ordering, or protocol representation
+- A helper that hides unrelated assertions or produces poor failure diagnostics
 
-```java
-@Test
+**Do not flag when:** separate assertions represent genuinely independent contracts or splitting them would make failures clearer.
 
-public void turnOnLoTempAlarmAtThreshold() throws Exception {
+**Why it matters:** A composed assertion can state the business-level fact directly and keep the test readable. It must still report enough detail to identify which part failed.
 
-     wayTooCold();
-     assertEquals("HBchL", hw.getState());
+**Suggested comment:** "These assertions jointly describe one controller state. Could a named assertion express that state while retaining a useful failure message?"
 
-}
-```
+**Fix:** Create a focused assertion for one logical fact, with diagnostics that identify the mismatched component.
 
-Of course, I hid the detail of the tic function by creating a wayTooCold function. But the thing to note is the strange string in the assertEquals. Uppercase means “on,” lowercase means “off,” and the letters are always in the following order: {heater, blower, cooler, hi-temp-alarm, lo-temp-alarm}. Once you know the meaning, your eyes glide across that string and you can quickly interpret the results. Reading the test becomes almost a pleasure. Just take a look at a few of these tests and see how easy they are to comprehend. @Test
+## Compose complex results into an explicit test representation
 
+`id: ct-composed-test-results | category: testing | severity: low | source: book (Ch.15) + editorial | languages: any | tags: test-results, state, representation, readability, helpers`
 
-The getState function that creates the composed test result is shown below.
+**Look for in a diff:**
+- Long lists of repetitive state assertions that obscure the expected outcome
+- A test comparing raw internal objects when a compact domain state would be clearer
+- A custom representation whose encoding is undocumented or ambiguous
 
-```java
-public String getState() {
-     String state = "";
-     state += heater ? "H" : "h";
+**Why it matters:** A deliberate test representation can make repeated state expectations easy to scan and compare. The representation is safe only when its ordering and symbols are obvious to test readers.
 
-     state += blower ? "B" : "b";
-     state += cooler ? "C" : "c";
-     state += hiTempAlarm ? "H" : "h";
+**Suggested comment:** "The expected state is spread across many repetitive assertions. Could a named state representation make the contract clearer and document its encoding?"
 
-     state += loTempAlarm ? "L" : "l";
-     return state;
-}
-```
+**Fix:** Introduce a stable composed result or value object with a clear name, ordering, and failure output.
 
-## Dual Standard
+## Keep production efficiency separate from test readability
 
-You might complain that composing the test result in this fashion is wasteful of computing resources. After all, I didn’t even use a StringBuffer or StringBuilder to do the concatenation. This application is clearly an embedded real-time system, and it is likely that computer and memory resources are very constrained. However, the test environment runs in my laptop and is not constrained at all. That is the nature of the dual standard between test and production. There are things that you might never do in a production environment that are perfectly fine in a test environment. Usually they involve issues of memory or CPU efficiency. But they never involve issues of cleanliness.
+`id: ct-test-production-tradeoff | category: testing | severity: low | source: book (Ch.15) + editorial | languages: any | tags: test-code, performance, dual-standard, readability, pragmatism`
 
-## The Single Assert Rule
+**Look for in a diff:**
+- Production-oriented micro-optimizations making tests cryptic
+- Test helpers optimized for memory or CPU at the cost of intent
+- A test abstraction criticized solely because it would be unsuitable in production
 
-This rule states that a good test asserts one and only one thing. This is often misunderstood to mean that a test should have only a single assertion statement. In reality, a test can have many assertion statements and still assert one logical fact. For example, consider the first set of environment controller tests above. They may be hard to read with all those assertions, but they are asserting a single logical fact. Indeed, that is why we could refactor them with composed test results. Or, consider the refactored assertions in in the pageHierarchy example above. They are asserting the single logical fact that the response is an XML document that has certain contents. You might find this confusing, or at least subjective. After all, the contents of the document and the type of the document are different facts, aren’t they? The confusion arises because the Single Assert Rule is poorly named.
+**Do not flag when:** the test suite’s scale creates a demonstrated performance problem or the helper changes timing/concurrency behavior being tested.
 
-## The Single Act Rule
+**Why it matters:** Test code has different resource constraints. Readability and diagnostic value should normally take priority, while production performance remains a separate concern.
 
-The rule should really be called the Single Act Rule. The Arrange-Act-Assert pattern says that every test should be composed of three elements: the arrangement, the action, and the assertion. The first arranges the data to be tested. The second is the action upon that data that we wish to test. The third is the assertion that the data has been properly transformed by the action. The goal of the Single Assert Rule is to make sure that each test is testing one and only one action. We want to avoid tests that arrange, act, assert, act, assert. We also want to avoid tests that arrange, act, act, assert, assert. We want every action tested individually because we don’t want
+**Suggested comment:** "This optimization makes the test harder to understand without addressing a measured test bottleneck. Could the simpler expressive form be used here?"
 
-downstream assertions to be corrupted by upstream actions. We want every test to stand alone.
+**Fix:** Optimize tests only for a measured suite problem; otherwise choose the clearest representation that preserves the behavior under test.
 
-F.I.R.S.T. Here is a simple memory aid for the desired characteristics of tests.
+## Test one action per test
 
-## Fast
+`id: ct-single-act | category: testing | severity: high | source: book (Ch.15) + editorial | languages: any | tags: single-act, isolation, diagnostics, aaa, assertions`
 
-Tests should be fast. They should run quickly. When tests run slow, you won’t want to run them frequently. If you don’t run them frequently, you won’t find problems early enough to fix them easily. You won’t feel as free to clean up the code. Eventually the code will begin to rot. So consider the speed of the tests to be a design imperative. Design your tests to be fast. Very fast.
+**Look for in a diff:**
+- Arrange, act, assert, act, assert sequences in one test
+- Multiple production operations whose later assertions depend on earlier side effects
+- A test that can pass even when one intermediate action is broken
 
-## Isolated
+**Why it matters:** One action per test prevents upstream failures from corrupting downstream assertions and makes each test’s reason for failure clear.
 
-This is a restatement of the Single Act Rule. Tests should not depend on each other. One test should not set up the conditions for the next test. You should be able to run each test independently and run the tests in any order you like. When tests depend on each other, the first one to fail causes a cascade of downstream failures, making diagnosis difficult and hiding downstream defects.
+**Do not flag when:** several assertions verify one atomic operation or one logical state transition.
 
-## Repeatable
+**Suggested comment:** "This test performs two independent actions, so the second assertion may depend on state created by the first. Could the actions be tested separately?"
 
-Tests should be repeatable in any environment. You should be able to run the tests in the production environment, in the QA environment, and on your laptop while riding home on the train without a network. If your tests aren’t repeatable in any environment, then you’ll always have an
+**Fix:** Arrange one scenario, perform one meaningful action, and assert its result in an independent test.
 
-excuse for why they fail. You’ll also find yourself unable to run the tests when the environment isn’t available.
+## Keep tests fast
 
-## Self-Validating
+`id: ct-fast-tests | category: testing | severity: high | source: testing | languages: any | tags: first, fast, feedback, unit-tests, performance`
 
-The tests should have a boolean output. Either they pass or they fail. You should not have to read through a log file to tell whether the tests pass. You should not have to manually compare two different text files to see whether the tests pass. If the tests aren’t self-validating, then failure can become subjective and running the tests can require a long manual evaluation.
+**Look for in a diff:**
+- Unit tests starting processes, making network calls, waiting on real time, or using large unnecessary fixtures
+- A helper that turns many focused tests into slow integration tests
+- Tests slow enough that developers avoid running them during refactoring
 
-## Timely
+**Why it matters:** Slow tests delay feedback and reduce the frequency with which the suite is run. Fast tests support frequent cleanup and make failures cheaper to investigate.
 
-The tests need to be written in a timely fashion. Unit tests should be written along with the production code that makes them pass. If you write tests long after the production code, then you may find the production code to be too hard to test. Timely tests cause the design of the production code to be testable.
+**Suggested comment:** "This unit test performs real external work and will slow the feedback loop. Could that dependency be replaced with a controlled fake, leaving one integration test for the boundary?"
 
-## Test Design
+**Fix:** Keep unit tests local and deterministic, and move required external verification to a small separately identified integration layer.
 
-As we saw in Chapter 9, “The Clean Method,” tests need to be designed to reduce their coupling to the production code. This makes sure that changes to the requirements affect as few tests as possible. Suppose you are working on a large system composed of hundreds of modules. Suppose a single change to that system forces you to make changes to a majority of those modules. That system is poorly designed—by definition. The principles and rules of software design, when carefully followed, prevent—or at least mitigate—that nightmare
+## Isolate tests from one another
 
-scenario. Now imagine you have a well-designed system with hundreds of modules and a test suite with thousands of unit tests. Suppose a single change to that system breaks hundreds of those tests. That is a very poorly designed suite of tests. The principles and rules of software design apply to the tests as much as they apply to the production code. Coupling must be minimized. One change to the signature of a function in the production code must not cause hundreds of tests to be altered, just as it must not cause hundreds of other modules to be altered.
+`id: ct-isolated-tests | category: testing | severity: high | source: testing | languages: any | tags: first, isolated, shared-state, order-dependence, diagnostics`
 
-## Conclusion
+**Look for in a diff:**
+- Tests sharing mutable fixtures, database rows, filesystem paths, or global configuration
+- A test that relies on another test having run first
+- Cleanup performed only by a later test or suite-level teardown
 
-We have barely scratched the surface of this topic. My book Clean Craftsmanship goes very deep into the topic of clean and well-designed tests. Tests are as important to the health of a project as the production code is. Perhaps they are even more important, because tests preserve and enhance the flexibility, maintainability, and reusability of the production code. So keep your tests constantly clean and well designed. Work to make them expressive and succinct. Invent testing APIs that act as domain-specific languages that help you write the tests. If you let the tests rot, then your code will rot too. Maintain your disciplines and keep your tests clean.
+**Why it matters:** Isolated tests can run in any order and fail at the actual defect. Shared state creates cascades of misleading failures and hides independent defects.
+
+**Suggested comment:** "This test depends on state created by another test. Could it create and clean up its own fixture so it remains independently runnable?"
+
+**Fix:** Create test state locally, reset global resources, and make each test safe to run alone and in a randomized order.
+
+## Make tests repeatable in constrained environments
+
+`id: ct-repeatable-tests | category: testing | severity: high | source: testing | languages: any | tags: first, repeatable, environment, network, time, randomness`
+
+**Look for in a diff:**
+- Dependence on a developer machine, current time zone, locale, network, filesystem layout, or random seed
+- Tests that pass locally but require an unavailable service in CI
+- Uncontrolled nondeterminism masked by retries
+
+**Why it matters:** A test that cannot run reliably in different environments becomes an excuse rather than evidence. Repeatability is required for trustworthy regression detection.
+
+**Suggested comment:** "This test depends on local environment state. Could the clock, locale, seed, or external dependency be controlled so it produces the same result in CI and locally?"
+
+**Fix:** Inject environment-sensitive dependencies, control seeds and clocks, and make required external resources explicit and reproducible.
+
+## Make tests self-validating
+
+`id: ct-self-validating-tests | category: testing | severity: high | source: testing | languages: any | tags: first, self-validating, assertions, automation, ci`
+
+**Look for in a diff:**
+- Tests that require reading logs or manually comparing output files to decide pass/fail
+- Assertions replaced with print statements or snapshots with no failure criteria
+- A human reviewer required to interpret every test result
+
+**Why it matters:** Automated tests must produce an unambiguous pass/fail result. Subjective or manual evaluation cannot reliably gate changes or provide repeatable regression evidence.
+
+**Suggested comment:** "This test produces output but does not fail when the behavior is wrong. Could it assert the relevant invariant or use an explicit approval/evaluation check?"
+
+**Fix:** Encode acceptance criteria as assertions, structured comparisons, tolerances, or a documented evaluator that returns a clear result.
+
+## Write tests in a timely fashion
+
+`id: ct-timely-tests | category: testing | severity: medium | source: testing | languages: any | tags: first, timely, testability, design, regression`
+
+**Look for in a diff:**
+- Production code merged with no test and a promise to test later
+- Tests added long after implementation that omit difficult paths
+- A design made hard to exercise because dependencies were fixed internally
+
+**Why it matters:** Writing tests with production code exposes testability problems while the design is still cheap to change. Delayed tests often cement a coupled design and leave behavior unprotected.
+
+**Suggested comment:** "The new code is difficult to exercise because its dependencies are constructed internally. Could the test be added now and the dependency boundary made explicit?"
+
+**Fix:** Add tests with the feature and introduce seams or dependency injection when the test reveals excessive coupling.
+
+## Keep test helpers less coupled than production details
+
+`id: ct-minimize-test-coupling | category: testing | severity: high | source: book (Ch.15) + editorial | languages: any | tags: test-design, coupling, refactoring, maintainability, fixtures`
+
+**Look for in a diff:**
+- One production signature change requiring edits to many unrelated tests
+- Fixtures that construct the entire object graph for every assertion
+- Helpers exposing internal data structures or leaking framework details into every test
+
+**Why it matters:** Test suites should change with requirements, not with every implementation detail. Excessive coupling makes valid refactoring expensive and causes tests to be weakened or deleted.
+
+**Suggested comment:** "This internal signature change requires broad test rewrites. Could a focused fixture or public behavior helper reduce coupling while preserving the contract being tested?"
+
+**Fix:** Centralize stable setup, test through public behavior, and keep helpers narrow so implementation changes affect only relevant tests.
+
+## Preserve diagnostic quality when abstracting tests
+
+`id: ct-preserve-test-diagnostics | category: testing | severity: medium | source: book (Ch.15) + editorial | languages: any | tags: assertions, helpers, diagnostics, failures, readability`
+
+**Look for in a diff:**
+- Generic helpers whose failure message omits the expected scenario or mismatched value
+- Deep helper stacks that make it hard to locate the failing assertion
+- A composed assertion that hides multiple unrelated contracts
+
+**Why it matters:** Readable tests are useful only when failures explain what broke. Abstraction that removes diagnostics increases repair time and encourages rerunning or debugging blindly.
+
+**Suggested comment:** "This helper improves reuse but its failure output loses the scenario and actual value. Could it include actionable diagnostics or remain closer to the test?"
+
+**Fix:** Include scenario, expected, and actual values in failures; keep abstractions aligned with one logical behavior.
+
+## Keep the test suite clean as behavior evolves
+
+`id: ct-maintain-test-cleanliness | category: maintainability | severity: high | source: book (Ch.15) + editorial | languages: any | tags: clean-tests, refactoring, maintainability, readability, design`
+
+**Look for in a diff:**
+- New duplication, unclear names, oversized fixtures, or dead tests
+- Tests disabled instead of updated after a production refactor
+- A suite whose structure makes adding the next case harder than changing production code
+
+**Why it matters:** Tests preserve flexibility only while they remain understandable and changeable. A suite that rots becomes a liability and eventually stops protecting production code.
+
+**Suggested comment:** "This change leaves the test suite harder to read and extend. Could the new cases be refactored now so the tests remain a useful safety net?"
+
+**Fix:** Refactor tests continuously, remove obsolete cases, improve names and helpers, and preserve clear behavior coverage.

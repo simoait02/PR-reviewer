@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch03-001",
+    "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep everything small, well named, organized, and ordered\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fp-small-named-organized-ordered",
+        "heading": "Keep everything small, well named, organized, and ordered",
+        "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 3: First Principles, PR review rules",
+          "Keep everything small, well named, organized, and ordered"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep everything small, well named, organized, and ordered",
+      "Large functions, classes, or files that bundle unrelated things",
+      "small-functions",
+      "naming",
+      "readability"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch03-002",
+    "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Write names and structure for readers who don't know the code\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fp-reader-headspace",
+        "heading": "Write names and structure for readers who don't know the code",
+        "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 3: First Principles, PR review rules",
+          "Write names and structure for readers who don't know the code"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Write names and structure for readers who don't know the code",
+      "Names that only make sense if you already know the author's context",
+      "naming",
+      "author-bias",
+      "naming"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch03-003",
+    "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Functions should be small, and extract any snippet that can be named\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fp-small-functions",
+        "heading": "Functions should be small, and extract any snippet that can be named",
+        "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 3: First Principles, PR review rules",
+          "Functions should be small, and extract any snippet that can be named"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Functions should be small, and extract any snippet that can be named",
+      "A function that is more than a handful of lines",
+      "small-functions",
+      "extract-method",
+      "functions"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch03-004",
+    "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Name functions with verbs so the calling code reads like prose\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fp-verb-names-read-like-prose",
+        "heading": "Name functions with verbs so the calling code reads like prose",
+        "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 3: First Principles, PR review rules",
+          "Name functions with verbs so the calling code reads like prose"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Name functions with verbs so the calling code reads like prose",
+      "A function name that is a noun or vague label instead of a verb saying what it does",
+      "function-names",
+      "verbs",
+      "naming"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch03-005",
+    "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Tidy a function before it grows, not after\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fp-tidy-before-growth",
+        "heading": "Tidy a function before it grows, not after",
+        "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 3: First Principles, PR review rules",
+          "Tidy a function before it grows, not after"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Tidy a function before it grows, not after",
+      "Yet another branch, rule, or special case added to an already large function",
+      "refactoring",
+      "growth",
+      "process"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch03-006",
+    "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Separate responsibilities by who asks for the change (SRP)\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fp-srp-stakeholders",
+        "heading": "Separate responsibilities by who asks for the change (SRP)",
+        "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 3: First Principles, PR review rules",
+          "Separate responsibilities by who asks for the change (SRP)"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Separate responsibilities by who asks for the change (SRP)",
+      "One function or class that mixes logic owned by different stakeholders (tax, discounts, formatting, notifications)",
+      "single-responsibility",
+      "srp",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch03-007",
+    "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Add new features in one place, not many (OCP)\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fp-ocp-switch-growth",
+        "heading": "Add new features in one place, not many (OCP)",
+        "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 3: First Principles, PR review rules",
+          "Add new features in one place, not many (OCP)"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Add new features in one place, not many (OCP)",
+      "A `switch` or `if/elif` chain on a type or kind that likely needs a new case over time",
+      "open-closed",
+      "ocp",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch03-008",
+    "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"High-level policy must not depend on low-level details (DIP)\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fp-dip-policy-vs-detail",
+        "heading": "High-level policy must not depend on low-level details (DIP)",
+        "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 3: First Principles, PR review rules",
+          "High-level policy must not depend on low-level details (DIP)"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "High-level policy must not depend on low-level details (DIP)",
+      "Business logic importing concrete low-level classes, enums, or specific variants",
+      "dependency-inversion",
+      "dip",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch03-009",
+    "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Dependencies should cross architectural boundaries in one direction\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fp-architectural-boundary",
+        "heading": "Dependencies should cross architectural boundaries in one direction",
+        "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 3: First Principles, PR review rules",
+          "Dependencies should cross architectural boundaries in one direction"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Dependencies should cross architectural boundaries in one direction",
+      "A high-level component importing from a low-level one",
+      "architecture",
+      "boundary",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch03-010",
+    "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Rename things when their role changes\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fp-rename-as-design-evolves",
+        "heading": "Rename things when their role changes",
+        "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 3: First Principles, PR review rules",
+          "Rename things when their role changes"
+        ],
+        "chunk_index": 9,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Rename things when their role changes",
+      "A class or function whose responsibility changed in this PR but whose name did not",
+      "renaming",
+      "stale-name",
+      "naming"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch03-011",
+    "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Refactor under passing tests and keep tests decoupled from internals\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fp-refactor-under-tests",
+        "heading": "Refactor under passing tests and keep tests decoupled from internals",
+        "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 3: First Principles, PR review rules",
+          "Refactor under passing tests and keep tests decoupled from internals"
+        ],
+        "chunk_index": 10,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Refactor under passing tests and keep tests decoupled from internals",
+      "A refactoring PR with no tests, or with tests deleted",
+      "refactoring",
+      "tests",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch03-012",
+    "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Add structure only when expected growth justifies its cost\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fp-yagni-cost-of-structure",
+        "heading": "Add structure only when expected growth justifies its cost",
+        "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 3: First Principles, PR review rules",
+          "Add structure only when expected growth justifies its cost"
+        ],
+        "chunk_index": 11,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Add structure only when expected growth justifies its cost",
+      "An interface, factory, or plug-in layer with a single implementation and no growth in sight",
+      "yagni",
+      "over-engineering",
+      "review-guidance"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch03-013",
+    "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Don't reject extra structure over tiny performance costs\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fp-indirection-performance",
+        "heading": "Don't reject extra structure over tiny performance costs",
+        "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 3: First Principles, PR review rules",
+          "Don't reject extra structure over tiny performance costs"
+        ],
+        "chunk_index": 12,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Don't reject extra structure over tiny performance costs",
+      "A switch statement kept or reintroduced \"for speed\" in place of polymorphism",
+      "performance",
+      "polymorphism",
+      "review-guidance"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch03-014",
+    "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Treat the first principles as guidelines, not laws\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fp-guidelines-not-laws",
+        "heading": "Treat the first principles as guidelines, not laws",
+        "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 3: First Principles, PR review rules",
+          "Treat the first principles as guidelines, not laws"
+        ],
+        "chunk_index": 13,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Treat the first principles as guidelines, not laws",
+      "A review comment that cites SRP, OCP, or DIP as an absolute rule",
+      "pragmatism",
+      "guidelines",
+      "review-guidance"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch03-015",
+    "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+    "question": "Why does the rule \"Keep everything small, well named, organized, and ordered\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fp-small-named-organized-ordered",
+        "heading": "Keep everything small, well named, organized, and ordered",
+        "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 3: First Principles, PR review rules",
+          "Keep everything small, well named, organized, and ordered"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep everything small, well named, organized, and ordered",
+      "Most of what it takes to clean code is in four habits: keep elements small, give them names that communicate, organize the software so others can consume it easily, and order elements so one concept follows another sensibly.",
+      "small-functions",
+      "naming",
+      "readability"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch03-016",
+    "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+    "question": "What fix does the guidance recommend for \"Write names and structure for readers who don't know the code\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fp-reader-headspace",
+        "heading": "Write names and structure for readers who don't know the code",
+        "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 3: First Principles, PR review rules",
+          "Write names and structure for readers who don't know the code"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Write names and structure for readers who don't know the code",
+      "Rename using domain language, expand abbreviations, and treat any reviewer confusion as a naming or structure signal.",
+      "naming",
+      "author-bias",
+      "naming"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch03-017",
+    "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+    "question": "How can a reviewer spot a problem related to \"Functions should be small, and extract any snippet that can be named\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fp-small-functions",
+        "heading": "Functions should be small, and extract any snippet that can be named",
+        "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 3: First Principles, PR review rules",
+          "Functions should be small, and extract any snippet that can be named"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Functions should be small, and extract any snippet that can be named",
+      "A function that is more than a handful of lines",
+      "small-functions",
+      "extract-method",
+      "functions"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch03-018",
+    "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+    "question": "What review guidance applies to \"Name functions with verbs so the calling code reads like prose\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fp-verb-names-read-like-prose",
+        "heading": "Name functions with verbs so the calling code reads like prose",
+        "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 3: First Principles, PR review rules",
+          "Name functions with verbs so the calling code reads like prose"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Name functions with verbs so the calling code reads like prose",
+      "A good verb name lets the calling sequence read like well-written prose, and a reader can simply agree with the function and move on. Small things, like a leading minus sign that a `subtract_days` function would remove, still matter.",
+      "function-names",
+      "verbs",
+      "naming"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch03-019",
+    "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+    "question": "Why does the rule \"Tidy a function before it grows, not after\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fp-tidy-before-growth",
+        "heading": "Tidy a function before it grows, not after",
+        "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 3: First Principles, PR review rules",
+          "Tidy a function before it grows, not after"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Tidy a function before it grows, not after",
+      "Code that is already a little unkempt tends to grow into a mess as features are added. Tidying it first, with extract-method refactoring, gives each new rule an obvious home so the function doesn't rot from the inside.",
+      "refactoring",
+      "growth",
+      "process"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch03-020",
+    "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+    "question": "What fix does the guidance recommend for \"Separate responsibilities by who asks for the change (SRP)\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fp-srp-stakeholders",
+        "heading": "Separate responsibilities by who asks for the change (SRP)",
+        "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 3: First Principles, PR review rules",
+          "Separate responsibilities by who asks for the change (SRP)"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Separate responsibilities by who asks for the change (SRP)",
+      "Split by reason to change, one function or class per stakeholder concern.",
+      "single-responsibility",
+      "srp",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch03-021",
+    "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+    "question": "How can a reviewer spot a problem related to \"Add new features in one place, not many (OCP)\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "fp-ocp-switch-growth",
+        "heading": "Add new features in one place, not many (OCP)",
+        "source_path": "docs/Part_I_Code/chapter_03_first_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 3: First Principles, PR review rules",
+          "Add new features in one place, not many (OCP)"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Add new features in one place, not many (OCP)",
+      "A `switch` or `if/elif` chain on a type or kind that likely needs a new case over time",
+      "open-closed",
+      "ocp",
+      "design"
+    ],
+    "difficulty": "paraphrase"
+  }
+]

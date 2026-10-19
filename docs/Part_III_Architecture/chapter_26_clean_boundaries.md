@@ -1,216 +1,181 @@
-# Chapter 26: Clean Boundaries
+# Clean Code, Chapter 26: Clean Boundaries, PR review rules
 
-## Boundaries
+## Encapsulate third-party dependencies behind adapters
 
-We seldom control all the software in our systems. Sometimes we buy third-party packages or use open source. Other times we depend on teams in our own company to produce components or subsystems. Somehow we must integrate this foreign code cleanly. This chapter looks at practices and techniques for keeping software boundaries clean.
+`id: cb-wrap-third-party-dependencies | category: architecture | severity: critical | source: book (Ch.26) + editorial | languages: any | tags: third-party, adapters, vendor, boundary, coupling`
 
-## Third-Party IoT Framework: Lots of Boundaries
+**Look for in a diff:**
+- Vendor/framework types imported throughout application and policy code
+- Many direct references to a third-party API with no controlled integration layer
+- Business logic shaped around the vendor’s broad interface
 
-The example system automates testing of a high-capacity water pump. A technician traditionally measures water pressure at several nozzles and records the readings manually. Given the geometry of the nozzles, pressure is converted into flow rate. A test can take 20 to 30 minutes and wastes a lot of water.
+**Why it matters:** Third-party APIs change outside the team’s control. A small adapter limits the blast radius, gives the application a consistent contract, and keeps replacement practical.
 
-The first design used Bluetooth to communicate from an electronic pressure sensor to a tablet or smartphone. It worked in the lab, but brick walls blocked the signal in the field. An Internet-of-Things infrastructure could carry the measurements through those walls.
+**Suggested comment:** "The vendor API is now referenced from multiple application modules. Could a focused adapter expose only the operations the application needs?"
 
-We selected an IoT vendor whose infrastructure allowed us to build the application in Python. We expected that we might need a different vendor when the product went to market because cost, vendor viability, or the rapidly changing IoT market could change. We wanted to preserve our investment in business logic, so the prototype needed clean code, separation of concerns, and limited dependence on the vendor infrastructure.
+**Fix:** Wrap the dependency, translate at the boundary, and keep internal code dependent on an application-owned interface.
 
-The vendor provided a simple “hello world” application. We turned that example into a layer containing the vendor dependencies. We used only the small portion of the vendor’s broad interface needed for message passing. The project was code-named Hydra.
+## Depend on the smallest vendor surface required
 
-The `HydraNetwork` class encapsulates the hub’s dependencies on the IoT vendor. Its functions are low-complexity delegates to the communications infrastructure. During initialization, the hub announces itself to listening radios and polls the framework for replies.
+`id: cb-minimal-third-party-surface | category: architecture | severity: medium | source: book (Ch.26) + editorial | languages: any | tags: third-party, interface, api, coupling, change-surface`
 
-```python
-class HydraNetwork:
-    def announce_hub(self):
-        self.broadcast('announceHub', '')
-        self.poll_a_second()
+**Look for in a diff:**
+- A wrapper exposing the vendor’s entire API instead of a few required operations
+- Application code depending on vendor features it does not need
+- Vendor-specific configuration and lifecycle concepts leaking through the wrapper
 
-    def process_ack(self, command, payload):
-        sensor_id = self.source_addr()
-        self.ack_handler.handle_reply(sensor_id, command, payload)
-```
+**Why it matters:** Broad dependencies increase upgrade, failure, and migration cost. A minimal application-centered surface is easier to test and replace.
 
-The radio remembers the hub address and sends an acknowledgment:
+**Suggested comment:** "This boundary mirrors the entire vendor API, so internal code remains coupled to details. Could the adapter expose only the application’s required operations?"
 
-```python
-def announce_hub():
-    global hub_addr
-    hub_addr = rpc_source_addr()
-    info = node_identity()
-    send_ack(hub_addr, 'announceHub', info)
-```
+**Fix:** Define a narrow port around application needs and keep unused vendor capabilities out of the core contract.
 
-The acknowledgment handler is an injected dependency, an instance of `HydraDataSource`. It passes received bookkeeping and payloads to other parts of the Hydra system. There is no application work to do for an `announceHub` acknowledgment.
+## Keep vendor adapters low-complexity
 
-`HydraDataSource` initiates a network read once per second during a flow test. Each update has a synchronization token so asynchronous measurement replies can be grouped by second. When a new second starts, a report is saved for the previous second.
+`id: cb-low-complexity-adapter | category: architecture | severity: high | source: book (Ch.26) + editorial | languages: any | tags: adapter, vendor, translation, complexity, policy`
 
-```python
-class HydraDataSource:
-    def flow_update(self):
-        self.sync_token.next()
-        self.network.broadcast(
-            'initiateRead',
-            self.sync_token.value()
-        )
-        self.report = self.reply_dispatcher.report()
-```
+**Look for in a diff:**
+- Business rules, validation, or reporting logic inside a vendor adapter
+- An adapter becoming a second application service with unrelated responsibilities
+- A vendor callback handling domain decisions instead of forwarding normalized data
 
-When `initiateRead` is broadcast, each radio replies asynchronously. The radio sends an acknowledgment and asks a separate microcontroller for the latest analog-to-digital-converter measurement.
+**Why it matters:** Boundary code should translate and coordinate, not become the owner of policy. Keeping it simple makes vendor replacement and integration testing safer.
 
-```python
-def initiate_read(sync_token):
-    global hub_addr
-    hub_addr = rpc_source_addr()
-    send_ack(hub_addr, 'initiateRead', sync_token)
-    report_measurement(sync_token)
+**Suggested comment:** "This adapter now applies domain policy in addition to translating vendor messages. Could the policy move inward and leave the adapter responsible for integration mechanics?"
 
+**Fix:** Keep adapters thin, normalize external data at the edge, and delegate business decisions to testable core components.
 
-def report_measurement(sync_token):
-    print('RA ' + sync_token)
+## Inject external boundary dependencies
 
+`id: cb-injected-boundary-dependencies | category: design | severity: high | source: book (Ch.26) + editorial | languages: any | tags: dependency-injection, boundaries, testability, fakes, composition`
 
-def measurement_done(reply):
-    if not valid_serial_reply(reply):
-        reply = 'Error: invalid serial reply'
-    send_ack(hub_addr, 'SensorReply', reply[:MAX_SIZE])
-```
+**Look for in a diff:**
+- Core code constructing vendor clients, queues, processes, or network connections internally
+- Tests requiring real infrastructure because the boundary cannot be replaced
+- Global singletons hiding external dependencies
 
-When the measurement is ready, the ADC microcontroller sends a CSV string over the serial connection. The radio sends it as a `SensorReply` acknowledgment. The hub dispatches that message to the application. The reply dispatcher knows the CSV format and where to send the parsed data. It and its collaborators are test-driven and free from IoT dependencies.
+**Why it matters:** Injection makes ownership explicit and creates a seam for deterministic tests, alternate vendors, and controlled failure scenarios.
 
-```python
-class HydraDataSource:
-    def handle_reply(self, sensor_id, command, payload):
-        sync_token = self.sync_token.value
+**Suggested comment:** "The application constructs the external client internally, preventing a fake from being used in tests. Could it receive the boundary dependency from the composition root?"
 
-        if command == 'SensorReply':
-            self.reply_dispatcher.sensor_update(
-                sensor_id,
-                sync_token,
-                payload
-            )
-```
+**Fix:** Define an application-owned contract, inject its implementation, and construct concrete dependencies only at the outer composition boundary.
 
-Because `HydraNetwork` encapsulates the IoT framework dependencies, a different vendor’s infrastructure can be substituted without changing the Hydra core application.
+## Isolate asynchronous and process communication
 
-## UI/Application Boundary
+`id: cb-isolate-process-communication | category: concurrency | severity: high | source: book (Ch.26) + editorial | languages: any | tags: queues, processes, async, communication, boundaries`
 
-The user interface is a Web browser on a tablet or smartphone. The application uses a Web-server framework, but the business logic is separated from it. The application runs as two processes on a small Linux computer:
+**Look for in a diff:**
+- UI/business code directly managing process/thread synchronization
+- Queue semantics scattered across producers and consumers
+- Commands, replies, timeouts, and shutdown signals with no single ownership boundary
 
-- The Collector process gathers measurements from `HydraNetwork`.
-- The WebServer process runs the Web server in its main thread.
+**Why it matters:** Queues can cleanly separate execution contexts, but only when message contracts and lifecycle semantics are explicit. Isolating them keeps concurrency from infecting policy code.
 
-The user’s start and stop commands reach the Collector through a `CommandQueue`. Measurement updates are sent to a `ReplyQueue` after a synchronized group of measurements is collected.
+**Suggested comment:** "Queue and process coordination is spread across the UI and policy layers. Could a focused boundary own message contracts, timeouts, and shutdown behavior?"
 
-The Collector waits on the command queue with a one-second timeout. Each timeout initiates a refresh and flow update.
+**Fix:** Define typed command/reply contracts, isolate queue mechanics, and keep business logic unaware of process/thread implementation.
 
-```python
-def measurement_loop(command_q, reply_q, command_runner, update_interval):
-    command = None
+## Bind concrete objects in one composition root
 
-    while command != HYDRA_EXIT:
-        command = get_message(command_q, update_interval)
+`id: cb-composition-root | category: architecture | severity: high | source: book (Ch.26) + editorial | languages: any | tags: composition-root, object-creation, startup, wiring, dependency-injection`
 
-        if command is None:
-            command = HYDRA_REFRESH
+**Look for in a diff:**
+- Concrete object creation scattered through core modules
+- Startup code that wires components in multiple places with inconsistent configuration
+- Policy code responsible for process startup, server creation, or vendor selection
 
-        reply = command_runner.run(command)
-        put_message(reply_q, reply)
-```
+**Why it matters:** A composition root makes object creation and dependency direction visible. It keeps use and construction separate and makes deployment configuration auditable.
 
-The entry point receives its data source as an injected dependency. Production uses `HydraDataSource`; development and testing can use a simulated data source that does not need a network.
+**Suggested comment:** "Concrete adapters are created in several application modules, making wiring and replacement difficult to audit. Could startup bind all dependencies in one composition root?"
 
-```python
-def hydra_run(port, data_source, polling_rate, logger):
-    logger.info('Hydra start')
+**Fix:** Centralize construction and binding, pass interfaces inward, and keep runtime configuration at the edge.
 
-    command_runner = CommandRunner(data_source, logger)
-    collector = Process(
-        target=measurement_loop,
-        args=(command_q, reply_q, command_runner, polling_rate)
-    )
-    collector.start()
+## Use learning tests for unfamiliar APIs
 
-    sleep(1)
-    logger.info('Hydra collector started')
-    run_hydra_web_server(port, command_q, reply_q)
-    logger.info('Hydra web server exited')
+`id: cb-learning-tests | category: testing | severity: medium | source: book (Ch.26) + editorial | languages: any | tags: learning-tests, third-party, api, experiments, documentation`
 
-    command_q.put(HYDRA_EXIT)
-    collector.join()
-    logger.info('Hydra shut down')
-```
+**Look for in a diff:**
+- A new framework/queue/vendor integrated from examples with no verified assumptions
+- Team code relying on undocumented timeout, ordering, capacity, or error behavior
+- An upgrade made without tests that describe the dependency behavior the application requires
 
-All dependencies come together at this entry point. The code is not complex and is unlikely to change often.
+**Why it matters:** Learning tests turn uncertainty about an external API into executable knowledge. They expose incompatible upgrades early and document the assumptions behind the adapter.
 
-Important boundary attributes include:
+**Suggested comment:** "This integration relies on the dependency’s timeout/ordering behavior, but that assumption is unverified. Could a focused learning test pin down the API behavior we require?"
 
-- Business logic is free from knowledge of the radio system.
-- IoT-dependent functions are low-complexity and unlikely to change often.
-- Business logic is separate from the UI.
-- Communication between the application and Web server uses simple queues.
-- Business logic is not concerned with concurrency.
-- Concurrency mechanisms are isolated in low-complexity functions.
-- Object creation is separate from object use.
-- During initialization, concrete objects are created and bound to processes and to each other.
-- Binding is based on a need-to-know basis.
+**Fix:** Write small experiments for relevant success, failure, capacity, timing, and lifecycle behavior; keep them runnable during dependency upgrades.
 
-## SOLID and Hexagonal Architecture
+## Keep learning tests separate from application contracts
 
-Following the SOLID principles and isolating dependencies on the outside world naturally leads to hexagonal architecture, also called Ports and Adapters.
+`id: cb-separate-learning-and-contract-tests | category: testing | severity: medium | source: book (Ch.26) + editorial | languages: any | tags: learning-tests, contract-tests, third-party, adapter, tests`
 
-Inside the hexagon is the product’s logic and behavior. Responsibilities are allocated to separate classes, functions, and domain objects rather than one large ball of mud. Outside the hexagon is the execution environment. The application depends on service-abstraction layers at the edge of the hexagon.
+**Look for in a diff:**
+- A test proving only that the vendor behaves as documented, not that the adapter fulfills application needs
+- Application tests coupled directly to vendor implementation details
+- Learning experiments treated as the sole regression suite for business behavior
 
-The UI drives the system through the `CommandQueue`. A start command travels to the sensors, which begin collecting measurements. `CommandRunner` waits for UI commands, and each one-second timeout initiates another sensor update. The previous second’s readings are bundled into a report and sent to the `ReplyQueue`.
+**Why it matters:** Learning tests protect knowledge of the dependency; adapter contract tests protect the application’s boundary. They answer different questions and should not be conflated.
 
-`HydraNetwork` encapsulates the IoT vendor framework. Its `broadcast` operation tells sensors to report their measurements, and its `handle_reply` operation feeds sensor messages into the Hydra application. Hydra knows nothing about the vendor. The interfaces are shaped around what the Hydra application needs, not around everything the vendor offers.
+**Suggested comment:** "This test confirms the vendor call but not the application-facing contract. Could the adapter’s normalized behavior be tested separately from the dependency learning test?"
 
-If a new vendor does not provide broadcast, its `HydraNetwork` adapter can address each sensor individually. The adapter may become more complex, but the vendor can be changed without touching the Hydra core.
+**Fix:** Maintain vendor learning tests, adapter contract tests, and core behavior tests as distinct layers.
 
-## Exploring and Learning Boundaries
+## Design an application-owned interface for code not yet available
 
-Third-party code helps us deliver functionality quickly, but learning and integrating it at the same time is difficult. Instead of experimenting directly in production code, write tests that explore the third-party API. These are learning tests: controlled experiments that check our understanding of the API.
+`id: cb-interface-for-unknown-system | category: architecture | severity: high | source: book (Ch.26) + editorial | languages: any | tags: unknown-dependency, interface, adapter, future-system, testability`
 
-For example, before using Python queues in production, we can test the behavior of the message functions:
+**Look for in a diff:**
+- Work blocked on an undefined hardware, service, or subsystem API
+- Client code shaped around guesses about the future dependency
+- A placeholder with no application-level contract or replacement seam
 
-```python
-class QueueLearningTest(unittest.TestCase):
-    def test_get_message_returns_message(self):
-        queue = Queue(maxsize=1)
-        self.assertTrue(put_message(queue, 'hey'))
-        self.assertEqual('hey', get_message(queue, 1.0))
+**Why it matters:** The application can continue against an interface defined by its own needs. Once the real API exists, one adapter can absorb the mismatch and future changes.
 
-    def test_get_message_returns_none_after_timeout(self):
-        queue = Queue(maxsize=1)
-        self.assertIsNone(get_message(queue, 0.01))
+**Suggested comment:** "The unknown subsystem is forcing client code to wait for or guess its API. Could we define the application-owned capability we need and add an adapter later?"
 
-    def test_put_message_returns_false_when_full(self):
-        queue = Queue(maxsize=1)
-        self.assertTrue(put_message(queue, 'hey1'))
-        self.assertFalse(put_message(queue, 'hey2'))
-```
+**Fix:** Define a minimal port from the client’s perspective, use a fake/stub during development, and implement one adapter when the external API is known.
 
-We can also learn how queues behave across processes:
+## Keep fake boundary implementations behaviorally useful
 
+`id: cb-useful-boundary-fakes | category: testing | severity: medium | source: book (Ch.26) + editorial | languages: any | tags: fakes, test-doubles, boundaries, simulation, contract`
 
-Learning tests are precise experiments that improve understanding. When a third-party package is updated, they can reveal behavioral differences immediately. Once integrated, third-party code is not guaranteed to remain compatible with our needs. Boundary tests reduce the risk of migration and make it easier to move away from old versions.
+**Look for in a diff:**
+- A fake that always succeeds and cannot simulate timeout, invalid data, capacity, or ordering behavior
+- Tests passing only because the fake is unrealistically simpler than production
+- Fake behavior diverging from the application-owned contract
 
-## Using Code That Does Not Yet Exist
+**Why it matters:** Fakes enable fast core tests only when they model the boundary behaviors that matter. Unrealistic doubles hide integration and error-handling defects.
 
-Another kind of boundary separates the known from the unknown. Sometimes the other side is unknowable for now, or we choose not to look beyond it.
+**Suggested comment:** "This fake cannot represent the timeout/invalid reply that production must handle. Could it model the contract’s relevant failure modes without reproducing the entire vendor?"
 
-Suppose a radio-communications system has a `Transmitter` subsystem whose hardware and API have not yet been defined. We can define the interface we wish we had instead of blocking work on the unknown subsystem:
+**Fix:** Keep fakes small but contract-faithful, and cover their assumptions with adapter/contract tests.
 
-```python
-class Transmitter:
-    def transmit(self, frequency, data_stream):
-        raise NotImplementedError
-```
+## Limit references to outside-controlled code
 
-The application-specific interface remains under our control. Client code stays readable and focused on its purpose instead of being burdened by implementation details. Once the real transmitter API is defined, a `TransmitterAdapter` can bridge the gap. The adapter provides a single place to change as the API evolves.
+`id: cb-limit-external-references | category: maintainability | severity: high | source: book (Ch.26) + editorial | languages: any | tags: third-party, references, coupling, migration, maintenance`
 
-This design also creates a convenient seam for testing. A `FakeTransmitter` can be used to test communication controllers, while boundary tests can verify that the adapter uses the real transmitter API correctly.
+**Look for in a diff:**
+- Vendor classes, constants, exceptions, and data structures appearing throughout the codebase
+- Multiple modules implementing slightly different translations of one vendor concept
+- A migration requiring a repository-wide search and rewrite of external API usage
 
-## Clean Boundaries
+**Why it matters:** Each direct reference is a maintenance point and a path for external changes to leak inward. Centralizing usage makes upgrades and replacement manageable.
 
-Interesting things happen at boundaries, including change. Good software designs accommodate change without huge investments and rework. When we use code outside our control, we must protect our investment and prevent future changes from becoming costly.
+**Suggested comment:** "The vendor type is spreading beyond the adapter, so migration will touch many modules. Could the external reference be translated once at the boundary?"
 
-Code at a boundary needs clear separation and tests that define expectations. Avoid allowing much of the application to know about third-party particulars. It is better to depend on something you control than on something you do not control.
+**Fix:** Restrict external references to adapters/composition code and expose stable internal types to the rest of the application.
 
-Manage third-party boundaries by keeping the number of references to the dependency small. Wrap the dependency in an adapter that converts between the application-centered interface and the provided interface. This keeps usage internally consistent, provides a small number of maintenance points, and makes third-party changes less disruptive.
+## Test boundary expectations and failure behavior
+
+`id: cb-boundary-contract-and-failure-tests | category: testing | severity: high | source: book (Ch.26) + editorial | languages: any | tags: boundaries, contract-tests, failures, integration, compatibility`
+
+**Look for in a diff:**
+- A new adapter with only a happy-path integration test
+- Missing behavior for malformed replies, timeouts, disconnects, retries, or version mismatches
+- Boundary changes merged without compatibility evidence
+
+**Why it matters:** Most integration risk lives at the boundary, where external assumptions and failure modes meet. Explicit contract tests protect both application behavior and migration safety.
+
+**Suggested comment:** "The adapter handles success but not timeout/version-invalid responses. Could boundary tests define the expected failure and recovery behavior?"
+
+**Fix:** Test normalized success, malformed input, unavailable dependencies, timeouts, retries, cancellation, and compatibility requirements.

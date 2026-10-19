@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch25-001",
+    "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+    "question": "What should a code reviewer look for in a diff related to \"Draw boundaries around policy and details\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ab-boundary-policy-from-details",
+        "heading": "Draw boundaries around policy and details",
+        "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 25: Architectural Boundaries, PR review rules",
+          "Draw boundaries around policy and details"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Draw boundaries around policy and details",
+      "Business rules and framework, UI, database, or transport code in the same module",
+      "boundaries",
+      "policy",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch25-002",
+    "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+    "question": "What should a code reviewer look for in a diff related to \"Make dependency arrows point toward the core\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ab-dependency-rule-toward-core",
+        "heading": "Make dependency arrows point toward the core",
+        "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 25: Architectural Boundaries, PR review rules",
+          "Make dependency arrows point toward the core"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make dependency arrows point toward the core",
+      "Core code importing concrete database, UI, server, or framework implementations",
+      "dependency-rule",
+      "dip",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch25-003",
+    "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep databases behind policy-facing ports\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ab-database-behind-port",
+        "heading": "Keep databases behind policy-facing ports",
+        "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 25: Architectural Boundaries, PR review rules",
+          "Keep databases behind policy-facing ports"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep databases behind policy-facing ports",
+      "Use cases issuing SQL or receiving ORM/schema types directly",
+      "database",
+      "persistence",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch25-004",
+    "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep user interfaces as plug-ins to the core\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ab-ui-as-plugin",
+        "heading": "Keep user interfaces as plug-ins to the core",
+        "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 25: Architectural Boundaries, PR review rules",
+          "Keep user interfaces as plug-ins to the core"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep user interfaces as plug-ins to the core",
+      "Core policy returning UI widgets, HTML, framework events, or view-model details",
+      "ui",
+      "gui",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch25-005",
+    "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+    "question": "What should a code reviewer look for in a diff related to \"Use plug-in boundaries to defer technology choices\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ab-plugin-defer-technology",
+        "heading": "Use plug-in boundaries to defer technology choices",
+        "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 25: Architectural Boundaries, PR review rules",
+          "Use plug-in boundaries to defer technology choices"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use plug-in boundaries to defer technology choices",
+      "A framework or database chosen before the business behavior requires it",
+      "plugins",
+      "options",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch25-006",
+    "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep adapters responsible for translation\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ab-adapter-translates-contracts",
+        "heading": "Keep adapters responsible for translation",
+        "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 25: Architectural Boundaries, PR review rules",
+          "Keep adapters responsible for translation"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep adapters responsible for translation",
+      "Database/UI/framework types leaking across a boundary",
+      "adapters",
+      "translation",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch25-007",
+    "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+    "question": "What should a code reviewer look for in a diff related to \"Test the core without infrastructure\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ab-core-testable-without-details",
+        "heading": "Test the core without infrastructure",
+        "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 25: Architectural Boundaries, PR review rules",
+          "Test the core without infrastructure"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Test the core without infrastructure",
+      "Core tests requiring a real database, web server, framework container, or filesystem",
+      "testing",
+      "boundaries",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch25-008",
+    "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep boundaries narrow and purpose-specific\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ab-narrow-boundary-contracts",
+        "heading": "Keep boundaries narrow and purpose-specific",
+        "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 25: Architectural Boundaries, PR review rules",
+          "Keep boundaries narrow and purpose-specific"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep boundaries narrow and purpose-specific",
+      "A boundary interface exposing an entire framework, database client, or domain object graph",
+      "boundaries",
+      "interfaces",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch25-009",
+    "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+    "question": "What should a code reviewer look for in a diff related to \"Review boundaries as change-protection decisions\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ab-boundary-protects-change",
+        "heading": "Review boundaries as change-protection decisions",
+        "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 25: Architectural Boundaries, PR review rules",
+          "Review boundaries as change-protection decisions"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Review boundaries as change-protection decisions",
+      "A new boundary with no clear volatile detail or protected policy",
+      "boundaries",
+      "changeability",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch25-010",
+    "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+    "question": "Why does the rule \"Draw boundaries around policy and details\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ab-boundary-policy-from-details",
+        "heading": "Draw boundaries around policy and details",
+        "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 25: Architectural Boundaries, PR review rules",
+          "Draw boundaries around policy and details"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Draw boundaries around policy and details",
+      "Architectural boundaries control knowledge and coupling. Separating what matters from what is replaceable reduces the manpower required to build and maintain the system.",
+      "boundaries",
+      "policy",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch25-011",
+    "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+    "question": "What fix does the guidance recommend for \"Make dependency arrows point toward the core\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ab-dependency-rule-toward-core",
+        "heading": "Make dependency arrows point toward the core",
+        "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 25: Architectural Boundaries, PR review rules",
+          "Make dependency arrows point toward the core"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make dependency arrows point toward the core",
+      "Place policy-level interfaces on the core side and make outer components implement/adapt them.",
+      "dependency-rule",
+      "dip",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch25-012",
+    "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+    "question": "How can a reviewer spot a problem related to \"Keep databases behind policy-facing ports\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ab-database-behind-port",
+        "heading": "Keep databases behind policy-facing ports",
+        "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 25: Architectural Boundaries, PR review rules",
+          "Keep databases behind policy-facing ports"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep databases behind policy-facing ports",
+      "Use cases issuing SQL or receiving ORM/schema types directly",
+      "database",
+      "persistence",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch25-013",
+    "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+    "question": "What review guidance applies to \"Keep user interfaces as plug-ins to the core\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ab-ui-as-plugin",
+        "heading": "Keep user interfaces as plug-ins to the core",
+        "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 25: Architectural Boundaries, PR review rules",
+          "Keep user interfaces as plug-ins to the core"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep user interfaces as plug-ins to the core",
+      "Web, console, client/server, and service interfaces are delivery details. Treating them as plug-ins keeps the business rules reusable and replaceable.",
+      "ui",
+      "gui",
+      "architecture"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch25-014",
+    "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+    "question": "Why does the rule \"Use plug-in boundaries to defer technology choices\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ab-plugin-defer-technology",
+        "heading": "Use plug-in boundaries to defer technology choices",
+        "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 25: Architectural Boundaries, PR review rules",
+          "Use plug-in boundaries to defer technology choices"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use plug-in boundaries to defer technology choices",
+      "Plug-in boundaries let teams develop and test policy while details remain undecided. They also make experiments and later replacement practical.",
+      "plugins",
+      "options",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch25-015",
+    "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+    "question": "What fix does the guidance recommend for \"Keep adapters responsible for translation\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ab-adapter-translates-contracts",
+        "heading": "Keep adapters responsible for translation",
+        "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 25: Architectural Boundaries, PR review rules",
+          "Keep adapters responsible for translation"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep adapters responsible for translation",
+      "Map external inputs to policy requests and policy results to external outputs in dedicated adapters.",
+      "adapters",
+      "translation",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch25-016",
+    "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+    "question": "How can a reviewer spot a problem related to \"Test the core without infrastructure\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ab-core-testable-without-details",
+        "heading": "Test the core without infrastructure",
+        "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 25: Architectural Boundaries, PR review rules",
+          "Test the core without infrastructure"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Test the core without infrastructure",
+      "Core tests requiring a real database, web server, framework container, or filesystem",
+      "testing",
+      "boundaries",
+      "testing"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch25-017",
+    "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+    "question": "What review guidance applies to \"Keep boundaries narrow and purpose-specific\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ab-narrow-boundary-contracts",
+        "heading": "Keep boundaries narrow and purpose-specific",
+        "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 25: Architectural Boundaries, PR review rules",
+          "Keep boundaries narrow and purpose-specific"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep boundaries narrow and purpose-specific",
+      "Broad boundaries leak details and make both sides change together. A narrow contract expresses what the policy needs and keeps the boundary stable.",
+      "boundaries",
+      "interfaces",
+      "architecture"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch25-018",
+    "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+    "question": "Why does the rule \"Review boundaries as change-protection decisions\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ab-boundary-protects-change",
+        "heading": "Review boundaries as change-protection decisions",
+        "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 25: Architectural Boundaries, PR review rules",
+          "Review boundaries as change-protection decisions"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Review boundaries as change-protection decisions",
+      "A boundary is valuable only if it protects one side from changes on the other. Review it by asking what decision it defers and which changes it prevents from propagating.",
+      "boundaries",
+      "changeability",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch25-019",
+    "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+    "question": "What fix does the guidance recommend for \"Draw boundaries around policy and details\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ab-boundary-policy-from-details",
+        "heading": "Draw boundaries around policy and details",
+        "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 25: Architectural Boundaries, PR review rules",
+          "Draw boundaries around policy and details"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Draw boundaries around policy and details",
+      "Partition policy and details into components with a stable policy-facing contract.",
+      "boundaries",
+      "policy",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch25-020",
+    "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+    "question": "How can a reviewer spot a problem related to \"Make dependency arrows point toward the core\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ab-dependency-rule-toward-core",
+        "heading": "Make dependency arrows point toward the core",
+        "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 25: Architectural Boundaries, PR review rules",
+          "Make dependency arrows point toward the core"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make dependency arrows point toward the core",
+      "Core code importing concrete database, UI, server, or framework implementations",
+      "dependency-rule",
+      "dip",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch25-021",
+    "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+    "question": "What review guidance applies to \"Keep databases behind policy-facing ports\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ab-database-behind-port",
+        "heading": "Keep databases behind policy-facing ports",
+        "source_path": "docs/Part_III_Architecture/chapter_25_architectural_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 25: Architectural Boundaries, PR review rules",
+          "Keep databases behind policy-facing ports"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep databases behind policy-facing ports",
+      "The core needs operations and data relevant to policy, not schema/query details. A port lets the system defer or change the storage technology.",
+      "database",
+      "persistence",
+      "architecture"
+    ],
+    "difficulty": "synthesis"
+  }
+]

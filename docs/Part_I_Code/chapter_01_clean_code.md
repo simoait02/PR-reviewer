@@ -1,146 +1,311 @@
-# Chapter 1: Clean Code
+# Clean Code, Chapter 1: PR review rules
 
-> "'Clean' isn't a ding at anyone. Our notion of 'unclean' is a way of characterizing code that demands more effort from the average developer to understand or maintain." (Jeff Langr)
+## A function should do one thing
 
-## There Will Be Code
+`id: cc-one-thing | category: functions | severity: medium | source: book (Stroustrup) + editorial | languages: any | tags: single-responsibility, function-size, mixed-concerns, validate-and-save, long-function`
 
-Some argue that a book about code is behind the times: that code is no longer the issue, and that we should be concerned about AI, large language models (LLMs), and requirements instead. Some have suggested that we are close to the end of code, that soon all code will be generated instead of written, and that programmers won't be needed because businesspeople will generate programs from specifications or prompts.
+**Look for in a diff:**
+- A function that validates, transforms, persists, and notifies in one body
+- A name containing "and" or "also" (`save_and_send`, `parse_and_store`)
+- Several unrelated blocks separated by comments
+- A function whose purpose cannot be stated in one sentence without "and"
 
-This is wrong. We will never be rid of code, because code represents the details of the requirements. At some level, those details cannot be ignored or abstracted; they have to be specified. Specifying requirements in such detail that a machine can execute them is programming, and such a specification is code. The level of abstraction of our languages will continue to increase, and the number of domain-specific languages and powerful AIs will continue to grow. This will be a good thing, but it will not eliminate code. All the specifications written in higher-level and domain-specific languages, and all the prompts written to guide a really good AI, will be code. They will still need to be rigorous, accurate, and so formal and detailed that a machine can understand and execute them.
+**Do not flag when:** the function is a short orchestrator that only calls other named functions in sequence.
 
-The people who think code will one day disappear are like "mathematicians" who hope to discover a mathematics that does not have to be formal. They hope to create machines that do what they want rather than what they say. Such machines would have to understand us so well that they could translate vaguely specified needs into perfectly executing programs that precisely meet those needs.
+**Why it matters:** "One thing" is subjective, so test it: if the function has more than one reason to change, it does more than one thing. Mixed responsibilities are harder to name, test, and change safely.
 
-This will never happen. Not even humans, with all their intuition and creativity, have been able to create successful systems from the vague feelings of their customers. The discipline of requirements specification has taught us that well-specified requirements are as formal as code and can act as executable tests of that code. Code is the language in which we ultimately express the requirements. We may create languages that are closer to the requirements, and tools that help us parse and assemble those requirements into formal structures, but we will never eliminate the necessary precision and formality. There will always be code.
+**Suggested comment:** "This function handles X and Y. Consider splitting so each has one reason to change."
 
-## Bad Code
+**Fix:** Extract each responsibility into a named function. Keep the caller as a short sequence of steps.
 
-Kent Beck wrote in the preface of *Implementation Patterns* that his book "is based on a rather fragile premise: that good code matters." The author disagrees: that premise is one of the most robust, well-supported premises in the craft. We know good code matters because we have had to deal for so long with its lack.
+**Example:**
+```python
+# before
+def process_order(o):
+    if not o.items:
+        raise ValueError("empty")
+    db.save(o)
+    mailer.send(o.user.email, "Thanks!")
 
-**Anecdote: the company killed by bad code.** In the late 1980s a company wrote a killer app. It was very popular, and lots of professionals bought and used it. Then the release cycles began to stretch. Bugs were not repaired from one release to the next. Load times grew and crashes increased. The author shut the product down in frustration and never used it again. The company went out of business a short time later. Two decades later, the author met one of the company's early employees and asked what had happened. They had rushed the product to market and made a huge mess in the code. As they added more and more features, the code got worse and worse until they could not manage it any longer. It was the bad code that brought the company down.
 
-Programmers of any experience have been significantly impeded by bad code. It is called wading and slogging: we wade through bad code, slog through a morass of tangled brambles and hidden pitfalls, and struggle to find some hint of what is going on while seeing only more senseless code.
+# after
+def process_order(o):
+    validated = validate_order(o)
+    saved = order_repo.save(validated)
+    notifier.order_confirmed(saved)
+```
 
-So why do we write bad code? Were we trying to go fast, or in a rush? Perhaps we felt we didn't have time to do a good job, or that our boss would be angry if we took time to clean up. Perhaps we were tired of working on the program and wanted it to be over, or we looked at the backlog of other work we had promised and needed to slam this module together to move on. We have all looked at the mess we made and chosen to leave it for another day. We have all felt the relief of seeing a messy program work and decided that a working mess is better than nothing. We have all said we'd go back and clean it up later. But later equals never.
+## Names should communicate purpose
 
-## Attitude
+`id: cc-names-purpose | category: naming | severity: medium | source: book (Booch) + editorial | languages: any | tags: naming, variable-names, unclear-name, abbreviations, data, tmp, flag`
 
-Have you ever waded through a mess so grave that it took weeks to do what should have taken hours? Have you seen what should have been a one-line change made instead in hundreds of different modules? These symptoms are common. Why does good code rot so quickly into bad code?
+**Look for in a diff:**
+- Generic names: `data`, `data2`, `tmp`, `result`, `obj`, `flag`, `x`
+- Single-letter or cryptic abbreviations outside tiny loops
+- Function names that describe how, not what (`loop_and_filter`)
+- Boolean names that don't read as a question (`status`, `check`)
 
-We have many explanations. We complain that the requirements changed in ways that thwarted the original design. We bemoan schedules that were too tight to do things right. We blame stupid managers, intolerant customers, and useless marketing people. But the fault, dear Dilbert, is not in our stars, but in ourselves. We are unprofessional.
+**Do not flag when:** the name is a conventional short name in a tiny scope (`i`, `k`, `v` in a 3-line comprehension).
 
-Managers and marketers look to us for the information they need to make promises and commitments, and even when they don't, we should not be shy about telling them what we think. Users look to us to validate how the requirements will fit into the system. Project managers look to us to help work out the schedule. We are deeply complicit in the planning of the project and share a great deal of the responsibility for failures, especially failures caused by bad code.
+**Why it matters:** Readers should follow intent without reconstructing the design from scattered details. A precise name removes the need to read the implementation.
 
-"But if I don't do what my manager says, I'll be fired." Probably not. Most managers want the truth, even when they don't act like it. Most managers want good code, even when they are obsessing about the schedule. They may defend the schedule and requirements with passion, but that's their job. It's the programmer's job to defend the code with equal passion.
+**Suggested comment:** "`data2` doesn't say what it holds. A name like `active_subscriptions` would make this readable without tracing the code."
 
-**Analogy: the doctor and handwashing.** Suppose you were a doctor and a patient demanded that you stop all the silly handwashing in preparation for surgery because it was taking too much time. The patient is the boss, and yet the doctor should absolutely refuse to comply, because the doctor knows more than the patient about the risks of disease and infection. It would be unprofessional (never mind criminal) for the doctor to comply. In the same way, it is unprofessional for programmers to bend to the will of managers who don't understand the risks of making messes.
+**Fix:** Rename to the domain concept. Name booleans as questions (`is_expired`, `has_access`).
 
-## The Primal Conundrum
+**Example:**
+```python
+# before
+d = [u for u in users if u.s == 1]
+# after
+active_users = [u for u in users if u.status == Status.ACTIVE]
+```
 
-Programmers face a conundrum of basic values. All developers with more than a few years of experience know that messes slow them down. And yet all developers feel pressure to make messes in order to meet deadlines. In short, they don't take the time to go fast.
+## Names and signatures must not mislead
 
-True professionals know that the second part of the conundrum is wrong. You will not make the deadline by making the mess. The mess will slow you down, and it will slow down everyone else who must deal with it. That slowness builds and compounds and forces you to miss deadline after deadline. The only way to make the deadlines, the only way to go fast, is to keep the code clean at all times. The only way to go fast is to go well.
+`id: cc-misleading-names | category: naming | severity: high | source: book (Feathers, Cunningham) + editorial | languages: any | tags: misleading-name, name-mismatch, get-with-side-effects, surprising-behavior, wrong-name`
 
-## The Art of Clean Code
+**Look for in a diff:**
+- A `get_*` / `is_*` / `check_*` function that mutates state, writes, or calls the network
+- A name that no longer matches behavior after this change
+- A return value that contradicts the name (`validate()` returns the parsed object, `find()` raises instead of returning None)
+- A parameter that is accepted but ignored
 
-If you believe that messy code is a significant impediment, and that the only way to go fast is to keep your code clean, then you must ask: how do I write clean code? It's no good trying to write clean code if you don't know what it means for code to be clean.
+**Why it matters:** Code that misleads or befuddles transfers its cost to every future maintainer. A routine should turn out to be pretty much what its name says.
 
-Writing clean code requires the disciplined use of myriad little techniques applied through a painstakingly acquired sense of cleanliness. It is always a transformation: nobody writes clean code. We all write messy code. Only those who take the extra step to clean it produce clean code. This follows Kent Beck's law: **First, make it work. Then, make it right.**
+**Suggested comment:** "`get_user` also creates the user if missing. Either rename (`get_or_create_user`) or split the creation out so the name stays truthful."
 
-## What Is Clean Code?
+**Fix:** Rename to match behavior, or change the behavior to match the name. Prefer splitting when one name hides two actions.
 
-There are probably as many definitions as there are programmers. The author asked several well-known, deeply experienced programmers for theirs.
+**Example:**
+```python
+# misleading
+def is_valid(token):
+    token.last_used = now()  # hidden write
+    return token.exp > now()
+```
 
-### Bjarne Stroustrup: "Clean code does one thing well."
+## Avoid hidden side effects and unrelated work
 
-Bjarne Stroustrup is the inventor of C++ and author of *The C++ Programming Language*. This is an old and well-worn maxim. In the 1970s, people said that a module should do one thing, do it well, and do it only. But what does "one thing" mean? In the late 1980s the author wrote a 3,000-line C function named `gi`, which stood for graphic interpreter. If someone had warned him that his long function did more than one thing, he would have replied, "No, it interprets graphics." The problem with the "one thing" rule is that "one thing" is entirely subjective.
+`id: cc-hidden-side-effects | category: functions | severity: high | source: book (Cunningham) + editorial | languages: any | tags: side-effects, hidden-work, global-state, mutation, surprising, unexpected`
 
-### Grady Booch: "Clean code reads like well-written prose."
+**Look for in a diff:**
+- A function that modifies its arguments, globals, or shared state without saying so
+- Logging, caching, metrics, or DB writes buried inside a function that sounds pure
+- Initialization or I/O triggered on import or inside a getter
+- A small helper that now does unrelated work "while it's here"
 
-Grady Booch is the author of many software engineering books. When is the last time you encountered code that read like well-written prose? Code will not read like a Hemingway novel, but it is entirely possible to construct code that reads so nicely that even nonprogrammers can make some sense of it.
+**Why it matters:** Reading should be predictable: the control flow follows the apparent purpose, and the routine does not hide unrelated work. Hidden effects cause surprises that are hard to debug.
 
-### Michael Feathers: "Clean code always looks like it was written by someone who cares."
+**Suggested comment:** "This helper now also updates the cache, which callers won't expect from the name. Can the cache update move to the caller, or be made explicit in the name?"
 
-Michael Feathers is the author of *Working Effectively with Legacy Code*. The words he left out of that quotation were "about you." A programmer goes to the effort of cleaning code because they care about the next person to come along. They care that their code will not mislead, misdirect, or befuddle those who must maintain it. The word that best defines cleanliness is care. The implication is that code that has not been cleaned was written and released carelessly.
+**Fix:** Make the effect explicit (name, parameter, or return value), or move it to the caller.
 
-### Ward Cunningham: "You know you are working on clean code when each routine you read turns out to be pretty much what you expected."
+## Routines should do what a reader expects
 
-Ward Cunningham is the inventor of Wiki and Fit, a co-inventor of Extreme Programming, and a motive force behind Design Patterns. Imagine reading code and simply agreeing with it. As you scroll down, you nod in acceptance and affirmation. Reading the code is as fluid as the laminar flow of air over an airplane wing: no turbulence, no clever tricks, no jarring non sequiturs. You simply read and agree, from top to bottom. This may seem like an impossible utopian dream, but it is a dream to strive for.
+`id: cc-predictable-routines | category: readability | severity: medium | source: book (Cunningham) | languages: any | tags: predictable, surprising-code, inputs-outputs, consistency, expected-behavior`
 
-### Mark Seeman: "Clean code fits in your head."
+**Look for in a diff:**
+- Name, inputs, and output that don't agree with the behavior
+- Control flow that doesn't follow the apparent purpose (early returns that skip required steps, flags that reverse meaning)
+- Logic that needs a comment to explain why it doesn't do the obvious thing
+- Inconsistent handling compared to similar functions nearby
 
-Mark Seeman is the author of *Code That Fits in Your Head*. His full definition: "Clean code fits in your head. A function fits on a single screen, involves no more than a handful of moving parts, and has good names. It's understandable by peers years after it was written. It minimizes surprises, composes well, and is easy to delete." In some ways, that definition is a summary of the whole book.
+**Why it matters:** Clean code is code you read and simply agree with from top to bottom. Predictability means the code communicates its decisions clearly, even when the logic isn't trivial.
 
-### Putting all this together
+**Suggested comment:** "Reading this, I expected X from the name, but it does Y. Can we align the name or the behavior so the next reader isn't surprised?"
 
-Clean code reads like well-written prose because it has been carefully partitioned into functions and modules the way prose is partitioned into sentences and paragraphs, each dealing with one thing, one topic, one irreducible concept that flows from one to the next to create the expected whole.
+**Fix:** Align naming, signature, and flow with the established pattern in the module.
 
-## Why Should We Be Clean?
+## Keep functions small enough to fit in your head
 
-### Because civilization depends on software
+`id: cc-fits-in-head | category: functions | severity: medium | source: book (Seeman) + editorial | languages: any | tags: function-length, complexity, nesting, too-many-parameters, long-function, moving-parts`
 
-Nearly everything we do in the modern world is mediated by software: smart phones, watches, cars, appliances, thermostats, security systems. You can't cook a hot dog, watch TV, make a phone call, drive to the store, buy or sell anything, pass or enforce a law, or file an insurance claim without software being in the middle of it. Very little happens in our society without the involvement of software. Programmers write the actual rules that run in the machines that govern everything. Without programmers, civilization would grind to a halt overnight.
+**Look for in a diff:**
+- A function that no longer fits on one screen
+- Deep nesting (3+ levels of `if`/`for`/`try`)
+- Many parameters or many local variables to track at once
+- Long boolean conditions with mixed `and`/`or`
 
-Are we moral, professional, and responsible enough to bear that responsibility? We have seen hints of catastrophe:
+**Do not flag when:** the function is a flat table, a mapping, or a straightforward sequence with no branching.
 
-- Software drove two jet airliners into the ground at the speed of sound, killing 346 people.
-- Software errors killed dozens and injured hundreds when cars' computers accelerated out of control.
-- Knight Capital lost $450M in 45 minutes due to a software error.
-- Healthcare.gov stumbled and nearly fell over when it was first launched.
+**Why it matters:** Good code involves no more than a handful of moving parts, precise names, and size that a reader can hold in mind. It stays understandable to peers years later.
 
-One day, possibly soon, a software error may kill tens of thousands of people in a single incident. When that happens, programmers will be blamed, because it will have been their fingers on the keyboards. Imagine the testimony of expert consultants complaining about thousands of global variables, poorly named arguments, mismanaged and missing semaphores, memory leaks, improperly allocated stacks, heap fragmentation, overdependence on performance over quality, 3,000-line functions, and modules with duplicated code of which some, but not all, had been repaired.
+**Suggested comment:** "This function has four levels of nesting and seven locals. Extracting the inner loop into a named helper would make it easier to follow."
 
-Politicians would pass new laws dictating which languages, platforms, frameworks, processes, signatures, documents, review procedures, courses, and books programmers must use. Those laws would be inconvenient and would do little to improve the situation. So the first reason to clean our code is that our civilization needs us to behave as professionals, and if we fail, our governments will force inconvenient and ineffective rules upon us.
+**Fix:** Extract named helpers, use guard clauses to flatten nesting, and name complex conditions.
 
-## Productivity
+**Example:**
+```python
+# before
+if u and u.active and (u.role == "admin" or u.role == "owner") and not u.locked:
+    ...
+# after
+if can_manage_billing(u):
+    ...
+```
 
-The second reason to clean our code is productivity. Why do we write code that we know will significantly impede us? The answer is always: to go fast. The excuse is "they never give us time," but this is false. The only way to go fast is to go well. The best way to meet the schedule is to do a good job. If you want to go as fast as you can, don't do the things that slow you down. Clean your code.
+## Code should compose without hidden coupling and be easy to delete
 
-### The vicious cycle
+`id: cc-deletable-low-coupling | category: design | severity: medium | source: book (Seeman) + editorial | languages: any | tags: coupling, hidden-dependency, cohesion, deletable, shotgun-surgery, tight-coupling`
 
-A messy module slows down everyone who has to deal with it, every time they deal with it. The cost of the mess repeats over and over, whereas the cost of cleaning is a one-time cost. A team that allows messes to persist will gradually slow to a tiny fraction of its potential productivity. The author has seen teams expand their estimates to weeks and months for jobs that ought to take a day or two. The slower the team goes, the more the pressure builds. The more the pressure builds, the more messes are left uncleaned. Each mess impedes the team even more, and the team goes slower still.
+**Look for in a diff:**
+- A change that forces edits in many unrelated modules
+- Reaching into another module's internals or private state
+- Implicit ordering requirements between calls ("must call `init()` first")
+- A new dependency from a low-level module up to a high-level one
 
-### Hiring more people makes it worse
+**Why it matters:** Good code composes with other code without hidden coupling, and can be removed without unnecessary changes elsewhere.
 
-Managers, desperate to increase productivity, hire new people. This has the opposite of the desired effect. The new people, thrown into the mass of messy code, see how things are done and emulate it. Now there are even more people making messes, which drives the cycle faster and drags productivity lower. Managers, astounded that adding people did not increase productivity, may add even more, trying the same thing over and over and expecting different results. In the end, the managers have no choice but to consult the developers to find out why everything is going so slowly.
+**Suggested comment:** "This reaches into `Cart._items` directly, so changing the cart's storage will break this too. Could we go through a public method?"
 
-### The redesign from scratch and the Tiger Team
+**Fix:** Depend on small explicit interfaces, pass dependencies in, and keep related logic together.
 
-The developers have known the answer for months, if not years: redesign the whole system from scratch. The managers are shocked and horrified, because the developers have just told them that all their previous work is worthless and must be scrapped, and that the new design won't suffer the same fate. The managers don't believe it and fight the idea, but they have no real choice, and eventually they agree. The developers cheer: no more mess, life will be good.
+## Remove duplication
 
-But that is not what actually happens. The ten best developers, the Tiger Team, are chosen to redesign the system. These are the people who made the mess in the first place. They go into a room to take the project in a "new and beautiful" direction. Meanwhile, the rest of the team is stuck maintaining the old system, because it is part of the business. Bugs have to be fixed and new features added.
+`id: cc-duplication | category: duplication | severity: medium | source: book (Boy Scout Rule, Feathers) + editorial | languages: any | tags: duplication, copy-paste, dry, repeated-code, duplicated-logic`
 
-Where does the Tiger Team get its requirements? Is there a requirements document anyone seriously trusts? After so many late-night scrambles and midnight modifications, the old requirements are a mess. The requirements are reliably recorded in one place only: the old code. So the Tiger Team pores over the old code trying to figure out what the system actually does, while the maintenance team keeps changing that code by fixing bugs and adding features.
+**Look for in a diff:**
+- The same block copy-pasted in multiple handlers or tests
+- Two functions that differ by one literal or one condition
+- A bug fix applied in one copy but not its twins
+- Repeated validation or formatting logic
 
-This sets up a race, like Zeno's paradox of Achilles and the tortoise. Every time the Tiger Team reaches where the maintenance team was, the maintenance team has moved ahead. Zeno used that argument to prove that motion was impossible; calculus shows that Achilles does pass the tortoise, but that math doesn't always work for software projects.
+**Do not flag when:** two snippets look alike but change for different reasons. Forced sharing can couple unrelated code.
 
-The author once worked on a project that was being redesigned from scratch. Ten years later, the "New System" had still not been deployed. Customers had been told years before to expect a glorious new system, but every time the company tried to replace the old systems, customers complained that the new one did not do everything the old one did. The maintenance team was revenue-bearing, so it got all the resources it needed, while the Tiger Team was always limited. The original Tiger Team members were eventually replaced or promoted to other projects, until none of the originals were left. In the end, the company, in utter desperation, told customers they had no choice but to accept the "new" system. The company could not afford to keep funding two development efforts. When the Tiger Team heard the new system was going to be deployed, they stood up in horror: "You can't ship this, it's crap! It's got to be redesigned!"
+**Why it matters:** Duplication multiplies every future change and lets copies drift apart. Removing even one small duplication is a valid cleanup.
 
-(The author notes that this story is embellished: it is a composite of his own experiences and the stories his clients told him.)
+**Suggested comment:** "This block is the same as the one in `create_user`. Could we extract a helper so a future fix only needs to happen once?"
 
-### Conclusion
+**Fix:** Extract a function, parameterize the differences, or move shared logic to one place.
 
-Cleaning our code is the best way for a team to remain productive. If we allow the mess to build, we lay the groundwork for the disaster described above. If we keep the code clean, productivity stays high, the development team will not demand a redesign, and managers will not desperately try to increase productivity by adding more and more people.
+## Prefer straightforward code over clever shortcuts
 
-## Livability
+`id: cc-clever-vs-clear | category: readability | severity: medium | source: book (Booch) + editorial | languages: any | tags: clever-code, readability, one-liner, nested-comprehension, control-flow, obscure`
 
-Clean code does not mean Golden Perfection. Golden Perfection is paralyzing and affords no room to move. Clean code is code that you can live with. It is not perfect code. It is like a clean house as opposed to a show house. A show house is a house you cannot live in, because the act of living degrades its show-ability. A clean house is one you can live in without degrading its livability.
+**Look for in a diff:**
+- Dense one-liners, chained ternaries, or nested comprehensions
+- Operator tricks and implicit conversions that need a second look
+- Control flow that jumps around (flags, `continue` chains, exceptions as flow control)
+- Related operations scattered instead of kept together
 
-Clean code is code that you can maintain, expand, enhance, and evolve without degrading its livability. It is not sparkling and shiny; it looks lived in but cared for. It may not read like Dickens, but it's readable. It may not have the perfect design and architecture, but it is carefully designed. Concepts may not be perfectly isolated, but they are isolated enough.
+**Why it matters:** Code should read like well-written prose, with each function dealing with one idea that flows into the next.
 
-There might be crumbs on the floor beneath the breakfast counter, a drop of milk on the counter, dog hair on the sofa, pillows in disarray, but none of that degrades the livability of the house, so long as it doesn't get out of hand. Clean code is code that has not gotten out of hand. Those who write and maintain it are not seeking perfection and don't spend endless hours polishing it, but they strive to keep the flotsam and detritus of life from accumulating. They care.
+**Suggested comment:** "This works but takes a few reads to parse. Would splitting into two named steps make the intent clearer?"
 
-## We Read More Than We Write
+**Fix:** Use intermediate named variables, straightforward loops, and keep related operations adjacent.
 
-In the 1980s and 1990s, editors like Emacs kept track of every keystroke, so you could play back an editing session like a high-speed movie. When the author did this, the vast majority of the playback was scrolling and navigating to other modules. A typical session looked like this: enter the module, scroll to the function needing change, pause to consider options, scroll to the top of the module to check how a variable is initialized, scroll back and start typing, erase what was typed, retype it, erase it again, check a function that calls the function being changed to see how it is called, scroll back and type the same code that was just erased, pause, erase it again, and open a subclass to check whether the function is overridden.
+**Example:**
+```python
+# before
+r = [y for x in a if x for y in (x.items if x.ok else []) if y.v > 0]
+# after
+valid = (x for x in a if x and x.ok)
+r = [item for x in valid for item in x.items if item.v > 0]
+```
 
-The ratio of time spent reading versus writing is well over 10:1. We are constantly reading old code as part of the effort to write new code, because new code has to be kept consistent with all the old code. Because we read code so much more than we write it, we want reading to be the more efficient operation. And since there is no way to write code without reading it, making code easy to read actually makes it easier to write.
+## Leave the code cleaner than you found it
 
-You cannot write code if you cannot read the surrounding code. The code you write today will only be easy to write if the surrounding code is easy to read. So if you want to go fast, if you want to get done quickly, if you want your code to be easy to write, make it easy to read.
+`id: cc-boy-scout | category: process | severity: low | source: book | languages: any | tags: boy-scout-rule, small-cleanup, refactoring, continuous-improvement, touch-and-improve`
 
-## The Boy Scout Rule
+**Look for in a diff:**
+- A PR that edits a function or file but leaves an obvious small mess next to the change
+- A misleading name, tangled conditional, or small duplication in the touched lines
+- Large cleanups mixed in with a small feature (suggest splitting)
 
-It's not enough to write the code well. The code has to be kept clean over time. We have all seen code rot and degrade as time passes, so we must take an active role in preventing that degradation.
+**Why it matters:** The improvement can be tiny: rename one variable, split one function, remove one duplication, simplify one conditional. Done consistently, code cannot rot.
 
-The Boy Scouts of America have a simple rule that applies to programming: **Leave the campground cleaner than you found it.** If we all checked in our code a little cleaner than when we checked it out, the code simply could not rot.
+**Suggested comment:** "Since you're already in this function, could you also rename `tmp` to something descriptive? Small cleanups like this keep the file from decaying."
 
-The cleanup doesn't have to be big. Do one small random act of kindness: change one variable name for the better, break up one function that's a little too large, eliminate one small bit of duplication, or clean up one composite if statement. On a project where everyone practiced this rule, the code would simply get better as time passed. Continuous improvement is an intrinsic part of professionalism.
+**Fix:** Make one small improvement in the code you touch. Keep large refactors in a separate commit or PR.
+
+## Do not defer cleanup with "we will fix it later"
+
+`id: cc-later-equals-never | category: process | severity: medium | source: book + editorial | languages: any | tags: todo, technical-debt, later-equals-never, shortcut, deadline, hack, fixme`
+
+**Look for in a diff:**
+- New `TODO`, `FIXME`, or `HACK` comments with no ticket or owner
+- A comment admitting a shortcut ("temporary", "quick fix", "clean up later")
+- A working-but-messy solution justified by deadline pressure
+
+**Why it matters:** Later often becomes never. A shortcut turns a short-term saving into a permanent maintenance cost, and each new feature makes the mess harder to change.
+
+**Suggested comment:** "This TODO has no ticket. Can we either fix it now or link a tracked issue so it doesn't get lost?"
+
+**Fix:** Clean it in this PR if it's small. Otherwise open a tracked issue and reference it in the comment.
+
+## Make it work, then make it right before merging
+
+`id: cc-make-it-right | category: process | severity: medium | source: book (Kent Beck) + editorial | languages: any | tags: first-draft, refactor, cleanup, leftover-code, debug-code, commented-out-code`
+
+**Look for in a diff:**
+- First-draft structure that works but was never tidied
+- Leftover debug prints, commented-out code, or dead branches
+- Confusing or fragile code in the unit this PR just finished
+
+**Why it matters:** Nobody writes clean code on the first pass. Clean code comes from the extra step of cleaning a working draft. Do not move on while leaving the current unit unnecessarily confusing.
+
+**Suggested comment:** "This looks like it works. Before merging, could you remove the commented-out block and the debug print, and tidy the naming?"
+
+**Fix:** After tests pass, refactor for clarity and remove leftovers. Keep behavior unchanged.
+
+## Keep comments accurate; delete obsolete ones
+
+`id: cc-comments | category: comments | severity: low | source: book (Boy Scout Rule) + editorial | languages: any | tags: comments, stale-comment, obsolete-comment, commented-out-code, misleading-comment, documentation`
+
+**Look for in a diff:**
+- A comment that no longer matches the changed code
+- Comments that restate what the code obviously does
+- A comment used to excuse an unclear name or structure
+- Blocks of commented-out code
+
+**Why it matters:** A stale comment misleads the next reader. Clarifying one comment or deleting an obsolete one is a valid small cleanup.
+
+**Suggested comment:** "This comment says the list is sorted, but the sort was removed. Please update or delete it."
+
+**Fix:** Update or delete the comment. If code needs a comment to be understood, consider renaming or extracting first.
+
+## Optimize code for the reader, not the writer
+
+`id: cc-optimize-for-reading | category: readability | severity: medium | source: book + editorial | languages: any | tags: readability, maintainability, reading-vs-writing, future-reader, understandable`
+
+**Look for in a diff:**
+- Code that is quick to write but hard to follow
+- Missing context a new reader would need (unclear boundaries, surprising conventions)
+- A change that breaks the conventions of the surrounding code
+
+**Why it matters:** Developers spend well over ten times more time reading code than writing it. New code must stay consistent with the old, so easy-to-read surroundings make new code easier to write.
+
+**Suggested comment:** "Someone reading this in six months will need to trace three files to understand it. Could a clearer name or a short helper make the intent obvious?"
+
+**Fix:** Match local conventions, choose precise names, and favor clarity over brevity.
+
+## Prefer incremental cleanup over a full rewrite
+
+`id: cc-no-big-bang-rewrite | category: process | severity: medium | source: book + editorial | languages: any | tags: rewrite, rewrite-from-scratch, big-bang, refactoring, incremental, redesign`
+
+**Look for in a diff:**
+- A PR that replaces a whole module or system rather than improving it in steps
+- A parallel "v2" implementation of existing behavior
+- Large changes with no preserved behavior or tests from the old code
+
+**Why it matters:** The old code is the most reliable record of actual behavior, including undocumented requirements and bug fixes. A rewrite chases a moving target while the old system keeps changing, and it can repeat the same structural mistakes.
+
+**Suggested comment:** "This replaces the whole module at once. Could we migrate in smaller steps while keeping behavior covered by tests?"
+
+**Fix:** Refactor in small steps, preserve behavior, and keep the system releasable while it evolves.
+
+## Clean means livable, not perfect: avoid nitpicking
+
+`id: cc-good-enough-not-perfect | category: review-guidance | severity: low | source: book (Livability) + editorial | languages: any | tags: nitpick, perfectionism, over-engineering, review-noise, pragmatism, livable`
+
+**Look for in a diff:**
+- Cosmetic issues that do not affect how easily the code can be changed
+- Pressure to abstract or isolate beyond what the change needs
+- Review comments that ask for polish without a maintenance benefit
+
+**Why it matters:** Clean code is code you can live with, not golden perfection. Ordinary imperfections that do not impede change are acceptable. Flag problems that accumulate into structural damage.
+
+**Suggested comment:** (Usually none. If raising it, label it as optional: "Nit, non-blocking: ...")
+
+**Fix:** Reserve blocking comments for issues that slow understanding or change; mark the rest as optional.

@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch32-001",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+    "question": "What should a code reviewer look for in a diff related to \"Leave touched code better without expanding scope recklessly\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ri-boy-scout-improvement",
+        "heading": "Leave touched code better without expanding scope recklessly",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+        "heading_path": [
+          "Clean Code, Chapter 32: Relentless Improvement, PR review rules",
+          "Leave touched code better without expanding scope recklessly"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Leave touched code better without expanding scope recklessly",
+      "Code left slightly worse after a feature change when a small safe cleanup was available",
+      "boy-scout-rule",
+      "cleanup",
+      "maintainability"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch32-002",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+    "question": "What should a code reviewer look for in a diff related to \"Use coverage as a diagnostic, not a punishment\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ri-coverage-as-developer-tool",
+        "heading": "Use coverage as a diagnostic, not a punishment",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+        "heading_path": [
+          "Clean Code, Chapter 32: Relentless Improvement, PR review rules",
+          "Use coverage as a diagnostic, not a punishment"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use coverage as a diagnostic, not a punishment",
+      "Coverage thresholds met with trivial/no assertions",
+      "coverage",
+      "metrics",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch32-003",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+    "question": "What should a code reviewer look for in a diff related to \"Improve coverage toward the meaningful behavior surface\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ri-meaningful-coverage",
+        "heading": "Improve coverage toward the meaningful behavior surface",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+        "heading_path": [
+          "Clean Code, Chapter 32: Relentless Improvement, PR review rules",
+          "Improve coverage toward the meaningful behavior surface"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Improve coverage toward the meaningful behavior surface",
+      "New branches, error paths, or policy variants with no focused tests",
+      "coverage",
+      "branches",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch32-004",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+    "question": "What should a code reviewer look for in a diff related to \"Use mutation testing to find weak assertions\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ri-mutation-testing",
+        "heading": "Use mutation testing to find weak assertions",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+        "heading_path": [
+          "Clean Code, Chapter 32: Relentless Improvement, PR review rules",
+          "Use mutation testing to find weak assertions"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use mutation testing to find weak assertions",
+      "High line/branch coverage but tests that would pass if comparisons, constants, or assignments changed",
+      "mutation-testing",
+      "assertions",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch32-005",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+    "question": "What should a code reviewer look for in a diff related to \"Preserve semantic stability during refactoring\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ri-semantic-stability",
+        "heading": "Preserve semantic stability during refactoring",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+        "heading_path": [
+          "Clean Code, Chapter 32: Relentless Improvement, PR review rules",
+          "Preserve semantic stability during refactoring"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Preserve semantic stability during refactoring",
+      "Structural changes that alter required behavior without updated acceptance criteria",
+      "semantic-stability",
+      "refactoring",
+      "refactoring"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch32-006",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+    "question": "What should a code reviewer look for in a diff related to \"Use small cleanups to test flexibility\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ri-cleanups-test-flexibility",
+        "heading": "Use small cleanups to test flexibility",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+        "heading_path": [
+          "Clean Code, Chapter 32: Relentless Improvement, PR review rules",
+          "Use small cleanups to test flexibility"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use small cleanups to test flexibility",
+      "A trivial rename or extraction unexpectedly requiring broad changes",
+      "refactoring",
+      "flexibility",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch32-007",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+    "question": "What should a code reviewer look for in a diff related to \"Improve names and organization when they reduce reader effort\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ri-editorial-cleanup",
+        "heading": "Improve names and organization when they reduce reader effort",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+        "heading_path": [
+          "Clean Code, Chapter 32: Relentless Improvement, PR review rules",
+          "Improve names and organization when they reduce reader effort"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Improve names and organization when they reduce reader effort",
+      "Names that no longer match behavior or domain terminology",
+      "naming",
+      "organization",
+      "readability"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch32-008",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+    "question": "What should a code reviewer look for in a diff related to \"Never degrade existing structure without an explicit tradeoff\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ri-no-structural-regression",
+        "heading": "Never degrade existing structure without an explicit tradeoff",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+        "heading_path": [
+          "Clean Code, Chapter 32: Relentless Improvement, PR review rules",
+          "Never degrade existing structure without an explicit tradeoff"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Never degrade existing structure without an explicit tradeoff",
+      "Duplication, hidden state, complexity, or coupling added to deliver a small feature",
+      "structural-regression",
+      "technical-debt",
+      "maintainability"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch32-009",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+    "question": "Why does the rule \"Leave touched code better without expanding scope recklessly\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ri-boy-scout-improvement",
+        "heading": "Leave touched code better without expanding scope recklessly",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+        "heading_path": [
+          "Clean Code, Chapter 32: Relentless Improvement, PR review rules",
+          "Leave touched code better without expanding scope recklessly"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Leave touched code better without expanding scope recklessly",
+      "Small improvements prevent structural decay and make future changes easier. The cleanup must remain reviewable and protected by tests.",
+      "boy-scout-rule",
+      "cleanup",
+      "maintainability"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch32-010",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+    "question": "What fix does the guidance recommend for \"Use coverage as a diagnostic, not a punishment\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ri-coverage-as-developer-tool",
+        "heading": "Use coverage as a diagnostic, not a punishment",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+        "heading_path": [
+          "Clean Code, Chapter 32: Relentless Improvement, PR review rules",
+          "Use coverage as a diagnostic, not a punishment"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use coverage as a diagnostic, not a punishment",
+      "Use line/branch coverage to identify gaps, add meaningful assertions, and interpret the result with risk and behavior evidence.",
+      "coverage",
+      "metrics",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch32-011",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+    "question": "How can a reviewer spot a problem related to \"Improve coverage toward the meaningful behavior surface\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ri-meaningful-coverage",
+        "heading": "Improve coverage toward the meaningful behavior surface",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+        "heading_path": [
+          "Clean Code, Chapter 32: Relentless Improvement, PR review rules",
+          "Improve coverage toward the meaningful behavior surface"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Improve coverage toward the meaningful behavior surface",
+      "New branches, error paths, or policy variants with no focused tests",
+      "coverage",
+      "branches",
+      "testing"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch32-012",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+    "question": "What review guidance applies to \"Use mutation testing to find weak assertions\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ri-mutation-testing",
+        "heading": "Use mutation testing to find weak assertions",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+        "heading_path": [
+          "Clean Code, Chapter 32: Relentless Improvement, PR review rules",
+          "Use mutation testing to find weak assertions"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use mutation testing to find weak assertions",
+      "Mutation testing asks whether tests detect semantic changes, not merely whether code executed. Surviving mutations reveal gaps in the test oracle.",
+      "mutation-testing",
+      "assertions",
+      "testing"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch32-013",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+    "question": "Why does the rule \"Preserve semantic stability during refactoring\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ri-semantic-stability",
+        "heading": "Preserve semantic stability during refactoring",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+        "heading_path": [
+          "Clean Code, Chapter 32: Relentless Improvement, PR review rules",
+          "Preserve semantic stability during refactoring"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Preserve semantic stability during refactoring",
+      "Semantic stability means required behavior remains protected while structure changes. It is what makes cleanup and refactoring safe.",
+      "semantic-stability",
+      "refactoring",
+      "refactoring"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch32-014",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+    "question": "What fix does the guidance recommend for \"Use small cleanups to test flexibility\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ri-cleanups-test-flexibility",
+        "heading": "Use small cleanups to test flexibility",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+        "heading_path": [
+          "Clean Code, Chapter 32: Relentless Improvement, PR review rules",
+          "Use small cleanups to test flexibility"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use small cleanups to test flexibility",
+      "Use safe small refactors to discover inflexibility, then reduce coupling and add tests before larger changes.",
+      "refactoring",
+      "flexibility",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch32-015",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+    "question": "How can a reviewer spot a problem related to \"Improve names and organization when they reduce reader effort\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ri-editorial-cleanup",
+        "heading": "Improve names and organization when they reduce reader effort",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+        "heading_path": [
+          "Clean Code, Chapter 32: Relentless Improvement, PR review rules",
+          "Improve names and organization when they reduce reader effort"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Improve names and organization when they reduce reader effort",
+      "Names that no longer match behavior or domain terminology",
+      "naming",
+      "organization",
+      "readability"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch32-016",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+    "question": "What review guidance applies to \"Never degrade existing structure without an explicit tradeoff\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ri-no-structural-regression",
+        "heading": "Never degrade existing structure without an explicit tradeoff",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+        "heading_path": [
+          "Clean Code, Chapter 32: Relentless Improvement, PR review rules",
+          "Never degrade existing structure without an explicit tradeoff"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Never degrade existing structure without an explicit tradeoff",
+      "Every structural regression raises the cost of future behavior and makes the system less soft. Accumulated degradation eventually blocks safe change.",
+      "structural-regression",
+      "technical-debt",
+      "maintainability"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch32-017",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+    "question": "Why does the rule \"Leave touched code better without expanding scope recklessly\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ri-boy-scout-improvement",
+        "heading": "Leave touched code better without expanding scope recklessly",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+        "heading_path": [
+          "Clean Code, Chapter 32: Relentless Improvement, PR review rules",
+          "Leave touched code better without expanding scope recklessly"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Leave touched code better without expanding scope recklessly",
+      "Small improvements prevent structural decay and make future changes easier. The cleanup must remain reviewable and protected by tests.",
+      "boy-scout-rule",
+      "cleanup",
+      "maintainability"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch32-018",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+    "question": "What fix does the guidance recommend for \"Use coverage as a diagnostic, not a punishment\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ri-coverage-as-developer-tool",
+        "heading": "Use coverage as a diagnostic, not a punishment",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+        "heading_path": [
+          "Clean Code, Chapter 32: Relentless Improvement, PR review rules",
+          "Use coverage as a diagnostic, not a punishment"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use coverage as a diagnostic, not a punishment",
+      "Use line/branch coverage to identify gaps, add meaningful assertions, and interpret the result with risk and behavior evidence.",
+      "coverage",
+      "metrics",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch32-019",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+    "question": "How can a reviewer spot a problem related to \"Improve coverage toward the meaningful behavior surface\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ri-meaningful-coverage",
+        "heading": "Improve coverage toward the meaningful behavior surface",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+        "heading_path": [
+          "Clean Code, Chapter 32: Relentless Improvement, PR review rules",
+          "Improve coverage toward the meaningful behavior surface"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Improve coverage toward the meaningful behavior surface",
+      "New branches, error paths, or policy variants with no focused tests",
+      "coverage",
+      "branches",
+      "testing"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch32-020",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+    "question": "What review guidance applies to \"Use mutation testing to find weak assertions\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ri-mutation-testing",
+        "heading": "Use mutation testing to find weak assertions",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+        "heading_path": [
+          "Clean Code, Chapter 32: Relentless Improvement, PR review rules",
+          "Use mutation testing to find weak assertions"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use mutation testing to find weak assertions",
+      "Mutation testing asks whether tests detect semantic changes, not merely whether code executed. Surviving mutations reveal gaps in the test oracle.",
+      "mutation-testing",
+      "assertions",
+      "testing"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch32-021",
+    "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+    "question": "Why does the rule \"Preserve semantic stability during refactoring\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ri-semantic-stability",
+        "heading": "Preserve semantic stability during refactoring",
+        "source_path": "docs/Part_IV_Craftsmanship/chapter_32_relentless_improvement.md",
+        "heading_path": [
+          "Clean Code, Chapter 32: Relentless Improvement, PR review rules",
+          "Preserve semantic stability during refactoring"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Preserve semantic stability during refactoring",
+      "Semantic stability means required behavior remains protected while structure changes. It is what makes cleanup and refactoring safe.",
+      "semantic-stability",
+      "refactoring",
+      "refactoring"
+    ],
+    "difficulty": "paraphrase"
+  }
+]

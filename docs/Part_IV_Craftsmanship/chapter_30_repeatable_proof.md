@@ -1,101 +1,153 @@
-# Chapter 30: Repeatable Proof
+# Clean Code, Chapter 30: Repeatable Proof, PR review rules
 
-## Proof
+## Provide a quick, reliable, repeatable demonstration
 
-3. I will produce, with each release, a quick, sure, and repeatable
-demonstration that every element of the code works as it should.
+`id: rp-quick-sure-repeatable-proof | category: testing | severity: critical | source: book (Ch.30) + editorial | languages: any | tags: proof, tests, release, repeatability, confidence`
 
-Does that sound unreasonable to you? Does it sound unreasonable to be expected to prove that the code you’ve written actually works? Allow me to introduce you to Edsger Wybe Dijkstra.
+**Look for in a diff:**
+- A release with no automated evidence that changed behavior works
+- Verification that depends on one person’s manual steps or local environment
+- Tests that produce ambiguous results or cannot be repeated by CI and teammates
 
-## Dijkstra
+**Why it matters:** A professional release needs fast evidence that the implemented behavior matches what was paid for and expected. Repeatable proof reduces uncertainty and supports safe change.
 
-Edsger Wybe Dijkstra was born in Rotterdam in 1930. He survived the bombing of Rotterdam and the German occupation of the Netherlands, and in 1948, he graduated high school with the highest possible marks in math, physics, chemistry, and biology. In March of 1952, at the age of 21, and just nine months before I would be born, he took a job with the Mathematical Center of Amsterdam as the Netherlands’ very first programmer. In 1957, he married Maria Debets. In the Netherlands at the time, you had to state your profession as part of the marriage rites. The authorities were unwilling to accept “programmer” as his profession. They’d never heard of such a profession. So he settled for “theoretical physicist.”
+**Suggested comment:** "This release path has no quick repeatable demonstration for the changed behavior. Could the acceptance/regression evidence be automated and runnable by anyone?"
 
-In 1955, having been a programmer for three years, and while still a student, he concluded that the intellectual challenge of programming was greater than the intellectual challenge of theoretical physics, and as a result chose programming as his long-term career. In making this decision, he conferred with his boss, Adriaan van Wijngaarden. Dijkstra was concerned that no one had identified a discipline or science of programming, and that he would therefore not be taken seriously. His boss replied that Dijkstra might very well be one of the people who would make it a science. In pursuit of that goal, Dijkstra was compelled by the idea that software was a formal system, a kind of mathematics. He reasoned that software could become a mathematical structure rather like Euclid’s Elements—a system of postulates, proofs, theorems, and lemmas. And so he set about to create the language and discipline of software proofs.
+**Fix:** Add automated tests and checks that run quickly, fail clearly, and can be repeated in a clean environment.
 
-## Proving Correctness
+## Use structured control flow that can be reasoned about
 
-Dijkstra realized that there were only three techniques we could use to prove the correctness of an algorithm: enumeration, induction, and abstraction. Enumeration is used to prove that two statements in sequence, or two statements selected by a boolean expression, are correct. Induction is used to prove that a loop is correct. Abstraction is used to break groups of statements into smaller provable chunks. If this sounds hard, it is. As an example of just how hard this is, I have included a simple Java program for calculating the remainder of an integer, and my handwritten proof of that algorithm below it.
+`id: rp-structured-control-flow | category: design | severity: high | source: book (Ch.30) + editorial | languages: any | tags: structured-programming, control-flow, reasoning, goto, loops`
 
-Don’t worry. I don’t expect you to read my proof. I just want you to get a feel for what such a proof entails.
+**Look for in a diff:**
+- Unconstrained jumps, hidden re-entry, or control flow that bypasses invariants and cleanup
+- Loops with unclear entry/exit conditions or multiple hidden termination paths
+- A function whose behavior cannot be decomposed into sequence, selection, and iteration
 
-I think you can see the problem with this approach. Indeed, this is something that Dijkstra complained bitterly about:
+**Why it matters:** Structured control flow makes inputs, outputs, and loop invariants easier to reason about and test. Complex jumps make correctness arguments and failure analysis harder.
 
-“Of course I would not dare to suggest (at least at present!) that it is the programmer’s duty to supply such a proof whenever he writes a simple loop in his program. If so, he could never write a program of any size at all.”
+**Do not flag when:** a language/runtime construct is necessary and the control flow is isolated, documented, and covered by focused tests.
 
-Dijkstra’s hope was that such proofs would become more practical through the creation of a library of theorems, again similar to Euclid’s Elements. But Dijkstra did not understand just how prevalent and pervasive software would become. He did not foresee in those early days that computers would outnumber people and that vast quantities of software would be running in the walls of our homes, in our pockets, and on our wrists. Had he known, he would have realized that the library of theorems he envisioned would be far too vast for any mere human to grasp. And so Dijkstra’s dream of explicit mathematical proofs for programs has faded into near oblivion. Oh, there are some holdouts who hope against hope for a resurgence of formal proofs, but their vision has not penetrated very far into the software industry at large. But while the dream may have passed, it drew something deeply profound in its wake. Something that we use today, almost without thinking about it.
+**Suggested comment:** "This control flow can enter/exit the operation through several paths, making cleanup and invariants hard to reason about. Could it be expressed with structured branches/loops?"
 
-## Structured Programming
+**Fix:** Use explicit sequence, selection, and iteration; isolate unavoidable control transfers behind a small tested abstraction.
 
-In the early days of programming, the 1950s and 1960s, we used languages like Fortran. Have you ever seen Fortran? Here, let me show you what it was like.
+## Decompose behavior into small testable units
 
-```fortran
-       WRITE(4,99)
+`id: rp-functional-decomposition | category: design | severity: high | source: book (Ch.30) + editorial | languages: any | tags: decomposition, functions, abstraction, testing, cohesion`
 
-99     FORMAT(" NUMERATOR:")
+**Look for in a diff:**
+- A large function containing multiple independent decisions and side effects
+- Tests that require many unrelated fixtures to exercise one branch
+- A control-flow change impossible to verify without running the entire system
 
-       READ(4,100)NN
-       WRITE(4,98)
-98     FORMAT(" DENOMINATOR:")
+**Why it matters:** Functional decomposition creates small units whose inputs, outputs, and invariants can be checked independently. It makes both review and debugging more precise.
 
-       READ(4,100)ND
-100    FORMAT(I6)
+**Suggested comment:** "This function combines several behaviors, so its correctness cannot be checked locally. Could the policy be decomposed into cohesive testable units?"
 
-       NR=NN
-       NDD=ND
+**Fix:** Extract cohesive operations with explicit inputs/outputs and preserve a clear top-level orchestration flow.
 
-1      IF(NDD-NR)2,2,3
+## Test each required behavior, not just execution paths
 
-2      NDD=NDD*2
+`id: rp-tests-cover-required-behavior | category: testing | severity: critical | source: book (Ch.30) + editorial | languages: any | tags: tests, behavior, coverage, requirements, assertions`
 
-       GOTO 1
+**Look for in a diff:**
+- Code executed by tests but with no meaningful assertion about the requirement
+- Line/branch coverage used as proof while important outcomes remain unspecified
+- New behavior inferred from implementation rather than stated in tests
 
-3      IF(NDD-ND)4,10,4
+**Why it matters:** Tests are empirical evidence, not a formal proof. They provide confidence only when they assert the behaviors and invariants the system must preserve.
 
-4      NDD=NDD/2
+**Suggested comment:** "This path is executed, but the test does not assert the required outcome. Could the behavior contract be made explicit?"
 
-       IF(NDD-NR)5,5,6
-5      NR=NR-NDD
+**Fix:** Map requirements to focused tests with meaningful expected outcomes, including failure and boundary cases.
 
-6      GOTO 3
+## Keep the proof suite fast enough to run frequently
 
-10     WRITE(4,20)NR
+`id: rp-fast-feedback-suite | category: testing | severity: high | source: book (Ch.30) + editorial | languages: any | tags: tests, speed, feedback, ci, refactoring`
 
-20     FORMAT(" REMAINDER:",I6)
+**Look for in a diff:**
+- A unit/regression suite slowed by unnecessary integration setup or sleeps
+- Developers avoiding the suite during changes because it takes too long
+- Critical checks available only in a long nightly job with no fast local subset
 
-       END
-```
+**Why it matters:** “Quick” proof supports frequent feedback and refactoring. Delayed feedback increases the cost of locating and correcting defects.
 
-This little Fortran program implements the same remainder algorithm as the earlier Java program. Now, I’d like to draw your attention to those GOTO statements. You probably haven’t seen statements like that very often. The reason you haven’t seen statements like that very often is that nowadays we look upon them with disfavor. In fact, most modern languages don’t even have GOTO statements like that anymore.
+**Suggested comment:** "This adds external setup to a fast feedback suite. Could the core behavior use a fake, with the integration check kept in a separate layer?"
 
-Why don’t we favor GOTO statements? Why don’t our languages support them anymore? Because in 1968, Edsger Dijkstra wrote an article for the Communications of the ACM. The editor, Niklaus Wirth, thought it was so profound that he bypassed the normal review process and published it as a letter to the editor in the March issue. He gave it the title “Go To Statement Considered Harmful.”
+**Fix:** Keep a fast deterministic suite for local/PR feedback and isolate slower system/load checks with clear ownership and reporting.
 
-Why did Dijkstra consider the GOTO statement to be harmful? It all comes back to the three strategies for proving a function correct: enumeration, induction, and abstraction. Enumeration depends upon the fact that each statement in sequence can be analyzed independently, and that the result of one statement feeds into the next. It should be clear to you that in order for enumeration to be an effective technique for proving the correctness of a function, every statement that is enumerated must have a single entry point and a single exit point. Otherwise, we could not be sure of either the inputs or the outputs of a statement. What’s more, induction is simply a special form of enumeration, where we assume the enumerated statement is true for some x, and then prove by enumeration that it is true for x + 1. Thus, the body of a loop must be enumerable. It must have a single entry and a single exit. GOTO is considered harmful because a GOTO statement can jump into or out of the middle of an enumerated sequence. GOTOs make enumeration intractable, making it impractical to prove an algorithm correct by enumeration or induction. So, in order to keep code provable, Dijkstra recommended that it be constructed out of three standard building blocks.
+## Make failures unambiguous and actionable
 
-- **Sequence:** Two or more statements ordered in time. This represents nonbranching lines of code.
-- **Selection:** Two or more statements selected by a predicate. This represents `if`/`else` and `switch`/`case` statements.
-- **Iteration:** A statement repeated under the control of a predicate. This represents a `while` or `for` loop.
+`id: rp-clear-pass-fail-results | category: testing | severity: high | source: book (Ch.30) + editorial | languages: any | tags: tests, diagnostics, pass-fail, assertions, ci`
 
-Dijkstra knew that any program, no matter how complicated, can be composed of nothing more than these three structures, and that programs structured in that manner are provable.
+**Look for in a diff:**
+- Tests requiring log inspection or manual output comparison to decide correctness
+- Generic failures that omit expected/actual state and scenario context
+- Warnings or skipped tests presented as a successful verification result
 
-He called the technique structured programming. Why is this important if we aren’t going to write those proofs? If something is provable, it means you can reason about it. If something is unprovable, it means you cannot reason about it. And if you can’t reason about it, you can’t properly test it.
+**Why it matters:** Proof is useful only when the team can tell whether it passed and what to fix when it fails. Ambiguous signals undermine release decisions.
 
-## Functional Decomposition
+**Suggested comment:** "The check can be skipped/needs manual interpretation, so the result is not a reliable gate. Could it produce an explicit pass/fail with actionable diagnostics?"
 
-In 1968, Dijkstra’s ideas were not immediately popular. Most of us were using languages that depended upon GOTO. So the idea of abandoning GOTO or imposing discipline on GOTO was abhorrent. The debate over Dijkstra’s ideas raged for several years. We didn’t have an internet in those days, so we didn’t use
+**Fix:** Encode acceptance criteria, fail on unavailable required checks, and report scenario, expected, actual, and environment details.
 
-Facebook memes or flame wars. But we did write letters to the editors of the major software journals of the day. And those letters raged. Some claimed Dijkstra to be a god. Others claimed him to be a fool. Just like social media today; except slower. But in time, the debate slowed, and Dijkstra’s position gained more and more support. Until nowadays, most of the languages we use simply don’t have a GOTO. Nowadays, we are all structured programmers, because our languages don’t give us a choice. We all build our programs out of sequence, selection, and iteration. And very few of us make regular use of unconstrained GOTO statements. An unintended side effect of composing programs from those three structures was a technique called functional decomposition. Functional decomposition is the process whereby you start at the top level of your program and recursively break it down into smaller and smaller provable units. Indeed, this is the reasoning process behind structured programming. Structured programmers reason from the top down through this recursive decomposition into smaller and smaller provable functions. This connection between structured programming and functional decomposition was the basis for the structured revolution that took place in the ’70s and ’80s.
+## Make verification repeatable for any contributor and environment
 
-People like Ed Yourdon, Larry Constantine, Tom DeMarco, and Meilir Page-Jones popularized the techniques of structured analysis and structured design during those decades.
+`id: rp-repeatable-environment | category: testing | severity: high | source: book (Ch.30) + editorial | languages: any | tags: repeatability, environment, ci, reproducibility, test-data`
 
-## Test-Driven Development
+**Look for in a diff:**
+- Tests depending on machine-specific paths, state, locale, time, network, or undocumented setup
+- Test data created manually or reused across runs
+- A release check that only works on the author’s workstation
 
-Test-driven development (TDD), the red → green → refactor cycle, is functional decomposition. After all, you have to write tests against small bits of the problem. That means that you must functionally decompose the problem into testable elements. That means that every system built with TDD is built from functionally decomposed elements that conform to structured programming. And that means that the system they compose is provable. And the tests are the proof. Or, rather, the tests are the theory. The tests created by TDD are not a formal mathematical proof, like Dijkstra wanted. In fact, Dijkstra is famous for saying that tests can only prove a program wrong; they can never prove a program right. This is where Dijkstra missed it, in my opinion. Dijkstra thought of software as a kind of mathematics. He wanted us to build up a superstructure of postulates, theorems, corollaries, and lemmas. Instead, what we have realized is that software is a kind of science. We validate that science with experiments. We build up a superstructure of theories based upon passing tests. Just like all other sciences do. Have we proven the theory of evolution, or the theory of relativity, or the Big Bang theory, or any of the major theories of science? No. We can’t prove them in any mathematical sense. But we believe them, within limits, nonetheless. Indeed, every time you get into a car or an airplane, you are betting
+**Why it matters:** Repeatability is what turns one successful demonstration into dependable evidence. Everyone should be able to rerun the proof and obtain the same result.
 
-your life that Newton’s laws of motion are correct. Every time you use a GPS you are betting that Einstein’s theory of relativity is correct. The fact that we have not mathematically proven these theories correct does not mean that we don’t have sufficient proof to depend upon them, even with our lives. That’s the kind of proof that TDD gives us. Not formal mathematical proof; but experimental empirical proof. The kind of proof we depend upon every day. And that brings us back to the third promise in the Oath: I will produce, with each release, a quick, sure, and repeatable demonstration that every element of the code works as it should.
+**Suggested comment:** "This verification depends on local state/setup that CI and other developers do not have. Could the environment and test data be made reproducible?"
 
-Quick, sure, and repeatable. Quick means that the test suite should run in a very short amount of time. Minutes instead of hours.
+**Fix:** Automate setup/teardown, control time/randomness/locale, isolate data, and run the same commands in CI and locally.
 
-Sure means that when the test suite passes, you know you can ship. Repeatable means that those tests can be run by anybody at any time to ensure that the system is working properly. Indeed, we want the tests run many times per day. Some may think that it is too much to ask that programmers supply this level of proof. Some may think that programmers should not be held to this high a standard. I, on the other hand, can imagine no other standard that makes any sense. When a customer pays us to develop software for them, aren’t we honor bound to prove, to the best of our ability, that the software we’ve created does what that customer has paid us for? Of course we are.
+## Use tests as empirical proof, not absolute certainty
 
-We owe this promise to our customers, our employers, and our teammates. We owe it to our business analysts, our testers, and our project managers. But mostly we owe this promise to ourselves. For how can we consider ourselves professionals if we cannot prove that the work we have done is the work we have been paid to do? What you owe, when you make that promise, is not the formal mathematical proof that Dijkstra dreamed of; rather, it is the scientific suite of tests that covers all the required behavior, runs in seconds or minutes, and produces the same clear pass/fail result every time it is run.
+`id: rp-tests-are-evidence | category: review-guidance | severity: medium | source: book (Ch.30) + editorial | languages: any | tags: tests, evidence, confidence, limitations, risk`
+
+**Look for in a diff:**
+- A claim that passing tests proves all possible behavior correct
+- High-risk paths relying on a narrow test sample
+- Test limitations ignored because the suite is green
+
+**Why it matters:** Tests can reveal defects and build strong confidence, but they do not cover every possible execution. Risk, coverage, invariants, and independent review still matter.
+
+**Suggested comment:** "The suite provides useful evidence, but this high-risk path has untested input/schedule combinations. Could the remaining uncertainty and compensating checks be documented?"
+
+**Fix:** Treat passing tests as evidence proportional to their coverage and quality; supplement them with reviews, contracts, static checks, and operational safeguards.
+
+## Keep proof aligned with the release contract
+
+`id: rp-release-proof-matches-contract | category: delivery | severity: critical | source: book (Ch.30) + editorial | languages: any | tags: release, acceptance, requirements, regression, contract`
+
+**Look for in a diff:**
+- CI checks that remain green while the user-visible requirement changed
+- Tests updated to match implementation without confirming the requirement
+- Release evidence covering internals but not the promised behavior
+
+**Why it matters:** The proof suite should demonstrate that the delivered system does what users and stakeholders paid for, not merely that code executes.
+
+**Suggested comment:** "The tests were updated to the new implementation, but the release contract is not asserted. Could the expected user-visible behavior be preserved explicitly?"
+
+**Fix:** Trace release tests to acceptance criteria, review expected outcomes independently, and retain regression coverage for unchanged contracts.
+
+## Run proof continuously, not only at release time
+
+`id: rp-continuous-proof | category: delivery | severity: high | source: book (Ch.30) + editorial | languages: any | tags: ci, continuous, tests, regression, feedback`
+
+**Look for in a diff:**
+- Tests that run only before deployment or after a large batch of changes
+- A broken build tolerated until release preparation
+- No visible status for the current test/release proof
+
+**Why it matters:** Frequent verification localizes defects and prevents uncertainty from accumulating. A release-only test suite gives feedback too late to be cheap.
+
+**Suggested comment:** "This important regression check runs only at release time, so failures will be expensive to diagnose. Could it run in the continuous build?"
+
+**Fix:** Run fast proof on every change, publish visible results, and reserve slower full-system validation for appropriate stages.

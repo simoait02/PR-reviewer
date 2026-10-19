@@ -53,13 +53,6 @@ class Chunk(Base):
         nullable=False,
     )
 
-    parent_id: Mapped[uuid.UUID | None] = mapped_column(
-        UUID(as_uuid=True),
-        ForeignKey("chunks.id", ondelete="CASCADE"),
-        nullable=True,
-        index=True,
-    )
-
     content: Mapped[str] = mapped_column(Text, nullable=False)
     metadata_: Mapped[dict[str, object]] = mapped_column(
         "metadata",
@@ -69,19 +62,6 @@ class Chunk(Base):
 
     document: Mapped[Document] = relationship(
         back_populates="chunks",
-    )
-
-    parent: Mapped["Chunk | None"] = relationship(
-        "Chunk",
-        back_populates="children",
-        remote_side=[id],
-        foreign_keys=[parent_id],
-    )
-
-    children: Mapped[list["Chunk"]] = relationship(
-        "Chunk",
-        back_populates="parent",
-        foreign_keys=[parent_id],
     )
 
     embedding: Mapped["Embedding | None"] = relationship(

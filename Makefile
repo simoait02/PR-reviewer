@@ -1,8 +1,10 @@
 SHELL := /bin/bash
 CODE_REVIEW_GRAPH_VERSION ?= 2.3.9
 DOCKER_COMPOSE ?= sudo docker compose
+RAG_EVAL_MAX_CONCURRENT ?= 20
+RAG_EVAL_TIMEOUT_SECONDS ?= 1800
 
-.PHONY: help mcp api phoenix dev test migrate ingest start sandbox
+.PHONY: help mcp api phoenix dev test migrate ingest rag-eval start sandbox
 
 help:
 	@printf '%s\n' \
@@ -14,6 +16,7 @@ help:
 		'make sandbox - Build the isolated sandbox image' \
 		'make dev  - Start the MCP server and REST API together' \
 		'make ingest - Ingest RAG documents into the database' \
+		'make rag-eval [RAG_EVAL_MAX_CONCURRENT=20] [RAG_EVAL_TIMEOUT_SECONDS=1800] - Run the DeepEval RAG retrieval evaluation' \
 		'make test - Run unit tests with coverage (minimum 90%)'
 
 test:
@@ -26,13 +29,21 @@ migrate:
 	@set -a; \
 	if [ -f .env ]; then . ./.env; fi; \
 	set +a; \
-	alembic upgrade head
+	uv run alembic upgrade head
 
 ingest:
 	@set -a; \
 	if [ -f .env ]; then . ./.env; fi; \
 	set +a; \
 	python -m scripts.ingest_rag
+
+rag-eval:
+	@set -a; \
+	if [ -f .env ]; then . ./.env; fi; \
+	set +a; \
+	RAG_EVAL_MAX_CONCURRENT=$(RAG_EVAL_MAX_CONCURRENT) \
+	DEEPEVAL_PER_TASK_TIMEOUT_SECONDS_OVERRIDE=$(RAG_EVAL_TIMEOUT_SECONDS) \
+	uv run python evals/retreival/test.py
 
 start:
 	@set -eu; \

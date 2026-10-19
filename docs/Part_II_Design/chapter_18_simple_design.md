@@ -1,140 +1,189 @@
-# Chapter 18: Simple Design
+# Clean Code, Chapter 18: Simple Design, PR review rules
 
-This chapter is an abridged and edited excerpt from the
-book Clean Craftsmanship.
+## Keep high-level policy independent of low-level details
 
-It should be obvious, on the face of it, that the best design for a system is the simplest design that supports all the required features of that system while simultaneously affording the greatest flexibility for change. However, that leaves us to ponder the meaning of simplicity. Simple does not mean easy. Simple means untangled; and untangling things is hard.
+`id: sd-policy-independent-of-details | category: architecture | severity: high | source: book (Ch.18) + editorial | languages: any | tags: policy, details, abstraction, dependency-inversion, boundaries`
 
-What things get tangled in software systems? The most expensive and significant entanglements are those that convolve high-level policies with low-level details. You create terrible complexities when you conjoin SQL with HTML, or frameworks with core values, or the format of a report with the business rules that calculate the reported values. These entanglements are easy to write, but they make it hard to add new features, hard to fix bugs, and hard to improve and clean the design. A simple design is a design in which high-level policies are ignorant of low-level details. Those high-level policies are sequestered and isolated from low-level details such that changes to the low-level details have no impact upon the high-level policies.
+**Look for in a diff:**
+- Business rules directly constructing SQL, HTTP, UI, filesystem, or framework objects
+- Report formatting mixed with the policy that calculates report values
+- A change to a low-level detail requiring edits to high-level rules
 
-The primary means for creating this separation and isolation is abstraction. Abstraction is the amplification of the essential and the elimination of the irrelevant. High-level policies are essential, so they are amplified. Low-level details are irrelevant at that level, and so they are isolated and sequestered. One of the physical means we employ for this abstraction is polymorphism. We arrange high-level policies to use
+**Why it matters:** Entangling policy with details makes ordinary changes expensive and spreads infrastructure assumptions through the core. Simple design isolates what changes for different reasons.
 
-polymorphic interfaces to manage the low-level details. Then, we arrange the low-level details as implementations of those polymorphic interfaces. This keeps all source code dependencies pointing from low-level details to high-level policies and keeps high-level policies ignorant of the implementations of the low-level details. Low-level details can be changed without affecting the high-level policies.
+**Suggested comment:** "The business rule now depends directly on the transport/database detail. Could the policy depend on an abstraction and keep this detail at the boundary?"
 
-## This Is the Essence of the Dependency Inversion Principle (DIP)
+**Fix:** Separate policy from implementation details behind narrow interfaces and point dependencies toward the stable policy.
 
-Pursuant to the goal of creating good software designs, we
-will first discuss YAGNI and then Kent Beck’s four principles
-of simple design:
-   1. Covered by tests
-   2. Reveals intent
-   3. Minimizes duplication
-   4. Minimizes size
+## Use abstractions to preserve essential policy
 
-## YAGNI
+`id: sd-abstraction-preserves-policy | category: design | severity: high | source: book (Ch.18) + editorial | languages: any | tags: abstraction, polymorphism, interfaces, policy, details`
 
-What if you aren’t gonna need it? In 1999, I was teaching an Extreme Programming course with Martin Fowler, Kent Beck, Ron Jeffries, and a host of others. The topic turned to the dangers of overdesign, and premature generalization. Someone wrote YAGNI on the whiteboard and said, “You aren’t gonna need it.” Kent Beck interrupted and said something to the effect of you might, in fact, need it; but you should ask yourself: “What if you aren’t going to need it?” That was the original question that YAGNI posed: Every time you thought to yourself “I’m going to need this hook,” you then asked yourself what would happen if you didn’t put the hook in. If the cost of leaving the hook out was tolerable, then you probably shouldn’t put it in. If the cost of carrying the hook in the design year after year would be high while the odds that you’d eventually need that hook were low, you probably shouldn’t put that hook in. It is always wise to think of the future, and there are times when putting a particular hook in is a good idea. But be sure to count the costs and advantages on both sides of the
+**Look for in a diff:**
+- An interface that exposes framework or storage details to callers
+- A high-level policy branching on every low-level implementation type
+- An abstraction that hides essential behavior instead of isolating irrelevant detail
 
-argument. Make sure you ask yourself the question: What if I’m not gonna need it? This kind of discernment is one of the most important disciplines of good software design. If you have a good suite of tests and you are skilled at the discipline of refactoring, then the cost of adding a new feature and updating the design to support that new feature will very often be smaller than the cost of implementing and maintaining all the hooks you might need one day.
+**Why it matters:** A useful abstraction amplifies the stable concept and sequesters volatile mechanics. Poor abstractions merely move coupling or make the contract harder to understand.
 
-## Covered by Tests
+**Suggested comment:** "This interface exposes the database representation rather than the policy the caller needs. Could it model the stable operation and keep persistence details behind it?"
 
-What is a good test coverage number: 80%? 90%? Many teams treat such numbers as laudable goals. I disagree. The only reasonable coverage goal is 100%. What other number could possibly make sense? If you are happy with 80% coverage, it means you don’t know if 20% of your code works. How could you possibly be happy with that? How could your customers be happy with that?
+**Fix:** Define interfaces at the level of the policy, implement them in detail-oriented adapters, and keep the contract minimal.
 
-## An Asymptotic Goal
+## Apply YAGNI using change cost and evidence
 
-You might complain that 100% is an unreachable goal. I might even agree with you. Achieving 100% line and branch coverage is no mean feat. It may, in fact, be impractical depending on the situation. But that does not mean that the coverage you currently have cannot be improved. Think of 100% as an asymptotic goal. You may never reach it, but that’s no excuse for not trying to get closer and closer with every check-in. I have personally participated in projects that grew to many tens of thousands of lines of code while constantly keeping the code coverage percentage in the very high 90s.
+`id: sd-yagni-evidence | category: design | severity: medium | source: book (Ch.18) + editorial | languages: any | tags: yagni, overengineering, speculative-design, change-cost, hooks`
 
-Design? But what does high code coverage have to do with simple design? Why is coverage the first rule? Testable code is decoupled code.
+**Look for in a diff:**
+- Extension hooks, configuration options, or generic frameworks with no current requirement
+- Abstractions added solely because a future variation is imaginable
+- A speculative feature that adds permanent concepts, tests, and maintenance cost
 
-In order to achieve high line and branch coverage of each individual part of the code, each of those parts must be made accessible to the test code. That means those parts must be so well decoupled from the rest of the code that they can be isolated and invoked from an individual test. Therefore, those tests are not only tests of behavior, they are also tests of decoupling. The act of writing isolated tests is an act of design, because the code being tested must be designed to be tested. Tests don’t just drive you to create decoupled and robust designs. They also allow you to improve those designs with time. As we have discussed many times before in these pages, a trusted suite of tests vastly reduces the fear of change. If you have such a suite, and if that suite executes quickly, then you can improve the design of the code every time you find a better approach. When the requirements change in a way that the current design does not easily afford, the tests will allow you to fearlessly shift the design to better match those new requirements. And this is why this rule is the first and most important rule of simple design. Without a suite of tests that covers the system, the other three rules become impractical, because those rules are best applied after the fact. Those other three rules are rules that involve refactoring. And refactoring is virtually impossible without a good, comprehensive suite of tests.
+**Do not flag when:** the extension point addresses a known requirement, a stable volatility boundary, or a demonstrated integration constraint.
 
-## Maximize Expression
+**Why it matters:** Unused flexibility has a recurring cost in complexity and cognitive load. With good tests and refactoring, many future changes are cheaper to implement when they become real.
 
-In the early decades of programming, the code we wrote could not reveal intent. Indeed, the very name “code” suggests that intent is obscured. Back in the late ’60s, code looked like this:
+**Suggested comment:** "What current requirement justifies this hook? If the future variation is uncertain, could we defer it until its change pressure is demonstrated?"
 
-Notice the ubiquitous comments. These were absolutely necessary because the code itself revealed nothing at all about the intent of the program. However, we do not work in the 1960s anymore. The languages that we use are immensely expressive. With the proper discipline, we can produce code that reads like “wellwritten prose.” As an example of such code, consider this little bit of Java:
+**Fix:** Compare the ongoing cost of the abstraction with the cost of adding it later, and implement only evidence-backed flexibility.
 
+## Make changed behavior testable
 
-If you were not a programmer on this project, you might not understand everything that is going on in this code. However, after even the most cursory glance, the basic intent of the designer is easy to identify. The names of the variables, functions, and types are deeply descriptive. The structure of the algorithm is easy to see. This code is expressive. This code is simple.
+`id: sd-testable-design | category: testing | severity: high | source: book (Ch.18) + editorial | languages: any | tags: tests, coverage, decoupling, design, refactoring`
 
-## The Underlying Abstraction
+**Look for in a diff:**
+- New branches or policies with no focused tests
+- Code that can be exercised only through a large application or external system
+- Hidden dependencies that prevent isolated invocation of the changed behavior
 
-Lest you think that expressivity is solely a matter of nice
-names for functions and variables, I should point out that
-there is another concern: the separation of levels and the
-exposition of the underlying abstraction.
-A software system is expressive if each line of code, each
-function, and each module lives in a well-defined partition
-that clearly depicts the level of the code and its place in the
-overall abstraction.
-You may have found that last sentence difficult to parse, so
-let me be a bit clearer by being much more long-winded.
-Imagine an application that has a complex set of
-requirements. The example I like to use is a payroll system.
-    -  Hourly employees are paid every Friday, based upon
-     the time cards they have submitted. They are paid
-     time-and-a-half for every hour they work after 40 hours
-     in a week.
-    -  Commissioned employees are paid on the first and
-     third Friday of every month. They are paid a base salary
-     plus a commission on the sales receipts they have
-     submitted.
+**Why it matters:** Testability is a practical signal of decoupling. A trusted suite enables later refactoring toward simpler boundaries without relying on fear or manual inspection.
 
-        -  Salaried employees are paid on the last day of the
-         month. They are paid a fixed monthly salary.
-It should not be hard for you to imagine a set of functions
-with a complex switch statement or if/else chain that
-captures these requirements. However, such a set of
-functions is likely to obscure the underlying abstraction.
-What is that underlying abstraction?
+**Suggested comment:** "This new policy is reachable only through the full application, so its behavior cannot be isolated or safely refactored. Could the dependency boundary be made testable?"
 
-```java
-public List<Paycheck> run(Database db) {
-    Calendar now = SystemTime.getCurrentDate();
+**Fix:** Add focused behavior tests and introduce seams, injected dependencies, or smaller units where the design prevents reliable testing.
 
-    List<Paycheck> paychecks = new ArrayList<>();
+## Treat full coverage as a direction, not a substitute for meaningful tests
 
-    for (Employee e : db.getAllEmployees()) {
-        if (e.isPayDay(now))
+`id: sd-coverage-asymptotic-goal | category: testing | severity: high | source: book (Ch.18) + editorial | languages: any | tags: coverage, branches, tests, risk, metrics`
 
-         paychecks.add(e.calculatePay());
-    }
+**Look for in a diff:**
+- New logic merged with no tests because the project already has a high percentage
+- Coverage targets accepted while important branches or failure behavior remain unverified
+- Coverage reduced without discussion of the risk or replacement checks
 
-    return paychecks;
+**Do not flag when:** generated, unreachable, or inherently untestable boundary code is explicitly isolated and covered by an appropriate compensating check.
 
-}
+**Why it matters:** Coverage is evidence that code was exercised, not proof that its assertions are correct. Pursuing complete meaningful coverage exposes coupling and prevents unverified behavior from accumulating.
 
-```
+**Suggested comment:** "The coverage percentage remains high, but this new failure branch has no assertion. Could the branch behavior be tested or the intentional gap documented?"
 
-Notice that there is no mention of any of the hideous details that dominate the requirements. The underlying truth of this application is that we need to pay all employees on their payday. Separating the high-level policy from the low-level detail is the most fundamental part of making a design simple and expressive.
+**Fix:** Improve line and branch coverage toward the whole behavior surface, prioritizing meaningful assertions and risk over a vanity number.
 
-## Tests: The Other Half of the Problem
+## Make code reveal its intent
 
-When Kent Beck originally wrote this rule, he phrased it this way:
+`id: sd-reveal-intent | category: readability | severity: medium | source: book (Ch.18) + editorial | languages: any | tags: intent, naming, structure, expressive-code, readability`
 
-The system (code and tests) must communicate everything you want to communicate.
+**Look for in a diff:**
+- Generic names, unexplained flags, or nested control flow that hides the business rule
+- Code requiring comments to explain what a well-named function or type could state directly
+- Several abstraction levels mixed in one method
 
-There is a reason he phrased it that way: No matter how expressive you make the production code, it cannot communicate the context in which it is used. That’s the job of the tests. Every test you write, especially if those tests are isolated and decoupled, is a demonstration of how the production code is intended to be used. Well-written tests are example use cases for the parts of the code that they test. Thus, taken together, the code and the tests are an expression of what each element of the system does and how each element of the system should be used. What does this have to do with design? Everything, of course. Because the primary goal we wish to achieve with our designs is to make it easy for other programmers to understand, improve, and upgrade our systems. And there is no better way to achieve that goal than to demonstrate the intended usage of the system’s abstractions through a comprehensive suite of executable tests.
+**Why it matters:** Expressive code reduces the amount a reviewer must infer and makes incorrect behavior easier to spot. Structure, names, and boundaries should communicate the underlying policy.
 
-## Minimize Duplication
+**Suggested comment:** "The condition encodes a business rule but its name and structure do not reveal it. Could the policy be expressed through a named function or value?"
 
-As I have told you in several previous chapters, in the earliest days of software, there was no way to call one program from another. If you wanted to do something more than once, you had to duplicate the code. Programmers wrote code snippets into their notebooks so that they could copy them into their programs when needed. They called those snippets subroutines. In the 1950s, it became possible for programs to call subroutines and have those subroutines return to the point of call. In those days, we had no source code editors at all.
+**Fix:** Choose precise names, extract meaningful decisions, separate abstraction levels, and remove incidental detail from policy code.
 
-We wrote our code, using #2 pencils, on preprinted coding forms. We therefore avoided most duplication because it was easier for us to create a single instance of a code snippet and call it. The calls took many CPU cycles, but the lack of duplication saved a lot of memory. It was often a good trade-off. Then came the source code editors. And with those editors came copy/paste operations. Suddenly it became easy to copy a snippet of code from one routine and paste it into a new routine and then fiddle with it until it worked. With memory becoming cheaper and bigger, the cost of duplication became less of a concern. Thus, as the years went by, more and more systems exhibited massive amounts of duplication in the code. Duplication is usually problematic. Two or more similar stretches of code will often need to be modified together. Finding those similar stretches is hard. Properly modifying them is even harder because they exist in different contexts. Thus, duplication leads to fragility. In general, it is best to reduce similar stretches of code into a single instance by abstracting the code into a new function and providing it with appropriate arguments that communicate any differences in context. Sometimes that strategy is not workable. For example, sometimes the duplication is in code that traverses a complex data structure. Many different parts of the system may wish to traverse that structure, and they will use the same looping and traversal code only to then operate on the data structure in the body of that code. As the structure of the data changes over time, programmers will have to find all the duplications of the traversal code and properly update them. The more the traversal code is duplicated, the higher the risk of fragility.
+## Use tests to document how abstractions are used
 
-The duplications of the traversal code can be eliminated by encapsulating it in one place, and using lambdas, Command objects, the Strategy pattern, or even the Template Method pattern to pass the necessary operations into the traversal.
+`id: sd-tests-express-usage | category: documentation | severity: medium | source: book (Ch.18) + editorial | languages: any | tags: tests, documentation, examples, api, abstraction`
 
-## Accidental Duplication
+**Look for in a diff:**
+- A new abstraction with tests that exercise internals but do not show supported usage
+- Public behavior whose valid inputs and outputs are unclear from code and tests
+- Examples that are stale or not executable
 
-Not all duplication should be eliminated. There are situations in which two stretches of code may be very similar, even identical, but will change for very different reasons. I call this accidental duplication. Accidental duplicates should not be eliminated. The duplication should be allowed to persist. As the requirements change, the duplicates will evolve separately and the accidental duplication will dissolve. See “SRP: The Single Responsibility Principle” in Chapter 19, “The SOLID
+**Why it matters:** Production code communicates implementation; focused tests communicate context and intended use. Together they form a precise, executable design document.
 
-Principles.”
+**Suggested comment:** "The new abstraction has implementation tests but no clear example of how callers should use it. Could a focused behavior test document the supported contract?"
 
-It should be clear that managing duplication is nontrivial. Identifying which duplications are real and which are accidental and then encapsulating and isolating the real duplications requires a significant amount of thought and care. Determining the real duplications from the accidental duplications depends strongly on how well the code expresses its intent. Accidental duplications have divergent intent. Real duplications have convergent intent. Encapsulating and isolating the real duplications, using abstraction, lambdas, and design patterns, involves a substantial amount of refactoring. And refactoring requires a good, solid suite of tests.
+**Fix:** Add readable tests at stable boundaries that demonstrate valid scenarios, outcomes, and important failure behavior.
 
-Therefore, eliminating duplication is third in the priority list of the rules of simple design. First come the tests, then the expression, and then the duplication.
+## Eliminate convergent duplication
 
-## Minimize Size
+`id: sd-remove-convergent-duplication | category: design | severity: medium | source: book (Ch.18) + editorial | languages: any | tags: duplication, abstraction, fragility, refactoring, single-source`
 
-A simple design is composed of as few simple elements as possible without compromising test coverage and expression. Simple elements are small. The last rule of simple design suggests that after you’ve gotten all the tests to pass, and after you have made the code as expressive as possible, and after you have minimized duplication, then you should work to decrease the number of modules, classes, functions, and lines.
+**Look for in a diff:**
+- The same business rule, traversal, normalization, or invariant implemented in multiple places
+- A change that updates one copy while leaving equivalent logic stale elsewhere
+- Duplicated code that will need to change together as the data model evolves
 
-## Simple Design
+**Why it matters:** Real duplication creates multiple sources of truth and makes coordinated changes easy to miss. Centralizing the shared concept reduces fragility and review burden.
 
-Many years back, Kent Beck and I were having a discussion on the principles of design. He said something that has always stuck with me. He said that if you followed these four things as diligently as possible, all other design principles would be satisfied—the principles of design can be reduced to coverage, expression, singularization, and reduction. I don’t know if this is true or not. I don’t know if a perfectly covered, expressed, singularized, and reduced program
+**Suggested comment:** "This traversal/rule now has a second implementation, so future changes can diverge. Could the shared behavior be centralized or parameterized?"
 
-necessarily conforms to the Open–Closed Principle (OCP) or
+**Fix:** Extract the convergent behavior into one cohesive function, object, strategy, or iterator and pass the contextual differences explicitly.
 
-the Single Responsibility Principle (SRP). What I am very
+## Preserve divergent duplication when responsibilities differ
 
-sure of, however, is that knowing and studying the principles of good design and good architecture (e.g., the SOLID principles) makes it much easier to create well-partitioned and simple designs.
+`id: sd-preserve-divergent-duplication | category: design | severity: low | source: book (Ch.18) + editorial | languages: any | tags: duplication, srp, cohesion, abstraction, change-reasons`
+
+**Look for in a diff:**
+- A shared helper created only because two snippets look similar today
+- A generic abstraction joining code owned by different stakeholders or change schedules
+- Callers forced to pass flags or callbacks for unrelated future variations
+
+**Do not flag when:** the duplicated behavior has convergent intent and the abstraction keeps both callers clearer and more stable.
+
+**Why it matters:** Not all textual similarity is a shared concept. Prematurely merging divergent behavior couples unrelated changes and can be harder to maintain than explicit duplication.
+
+**Suggested comment:** "These snippets look similar, but they change for different reasons. Could the duplication remain until a stable shared policy emerges?"
+
+**Fix:** Abstract only behavior with shared intent; otherwise keep the code local and let each responsibility evolve independently.
+
+## Refactor duplication only when tests protect behavior
+
+`id: sd-safe-duplication-refactoring | category: process | severity: medium | source: book (Ch.18) + editorial | languages: any | tags: duplication, refactoring, tests, safety, behavior`
+
+**Look for in a diff:**
+- A broad deduplication refactor with weak or missing regression coverage
+- A shared abstraction introduced without tests for each caller’s meaningful behavior
+- Tests changed to match the new helper without proving behavior stayed equivalent
+
+**Why it matters:** Consolidation changes control flow and ownership across callers. Tests make it possible to distinguish a structural improvement from an accidental behavior change.
+
+**Suggested comment:** "This deduplication changes a shared path used by several callers. Could the existing behaviors be captured before the extraction and verified afterward?"
+
+**Fix:** Add regression coverage, extract incrementally, and retain caller-specific tests in addition to shared helper tests.
+
+## Reduce design size after coverage, intent, and duplication are sound
+
+`id: sd-minimize-design-size | category: design | severity: low | source: book (Ch.18) + editorial | languages: any | tags: simplicity, size, classes, modules, functions, indirection`
+
+**Look for in a diff:**
+- Extra modules, wrappers, classes, or configuration layers that add no change boundary
+- Small abstractions that increase navigation cost without improving intent or testability
+- A large design retained after behavior is covered and responsibilities are clear
+
+**Do not flag when:** the additional element isolates real volatility, improves independent testing, or enforces a meaningful architectural boundary.
+
+**Why it matters:** Small elements reduce cognitive and maintenance cost, but reduction is safe only after behavior, expression, and shared concepts are clear.
+
+**Suggested comment:** "This layer adds indirection without isolating a distinct policy or detail. Could the design stay smaller while preserving the tested boundary?"
+
+**Fix:** Remove unnecessary elements after confirming coverage and intent; keep abstractions that pay for themselves through cohesion or change isolation.
+
+## Apply simple-design rules in priority order
+
+`id: sd-priority-order | category: review-guidance | severity: medium | source: book (Ch.18) + editorial | languages: any | tags: tests, intent, duplication, size, refactoring, tradeoffs`
+
+**Look for in a diff:**
+- Size reduction that removes tests or obscures intent
+- Deduplication that introduces a generic abstraction before the contract is clear
+- Readability improvements pursued without preserving behavior coverage
+
+**Why it matters:** The four rules reinforce a sequence: cover behavior, reveal intent, remove real duplication, then reduce unnecessary size. Optimizing a later rule at the expense of an earlier one makes design less safe.
+
+**Suggested comment:** "This simplification reduces lines but also removes the test/intent signal that makes the behavior understandable. Could we preserve coverage and expression before optimizing size?"
+
+**Fix:** Review changes in order: establish tests, clarify intent, singularize convergent concepts, then reduce elements without losing those protections.

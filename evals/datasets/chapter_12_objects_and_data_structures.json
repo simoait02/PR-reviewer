@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch12-001",
+    "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+    "question": "What should a code reviewer look for in a diff related to \"Choose objects or data structures based on what changes\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "od-object-or-data",
+        "heading": "Choose objects or data structures based on what changes",
+        "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+        "heading_path": [
+          "Clean Code, Chapter 12: Objects and Data Structures, PR review rules",
+          "Choose objects or data structures based on what changes"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Choose objects or data structures based on what changes",
+      "A design that exposes mutable data while also pretending to encapsulate it",
+      "objects",
+      "data-structures",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch12-002",
+    "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+    "question": "What should a code reviewer look for in a diff related to \"Hide representation behind behavior, not getters and setters\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "od-abstract-data",
+        "heading": "Hide representation behind behavior, not getters and setters",
+        "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+        "heading_path": [
+          "Clean Code, Chapter 12: Objects and Data Structures, PR review rules",
+          "Hide representation behind behavior, not getters and setters"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Hide representation behind behavior, not getters and setters",
+      "Getters and setters that expose every field without expressing a domain operation",
+      "data-abstraction",
+      "getters",
+      "encapsulation"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch12-003",
+    "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep objects responsible for their behavior\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "od-object-responsibility",
+        "heading": "Keep objects responsible for their behavior",
+        "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+        "heading_path": [
+          "Clean Code, Chapter 12: Objects and Data Structures, PR review rules",
+          "Keep objects responsible for their behavior"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep objects responsible for their behavior",
+      "A caller reading several fields and performing the object's business logic itself",
+      "object-behavior",
+      "message-passing",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch12-004",
+    "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+    "question": "What should a code reviewer look for in a diff related to \"Do not create object/data-structure hybrids\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "od-avoid-hybrids",
+        "heading": "Do not create object/data-structure hybrids",
+        "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+        "heading_path": [
+          "Clean Code, Chapter 12: Objects and Data Structures, PR review rules",
+          "Do not create object/data-structure hybrids"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Do not create object/data-structure hybrids",
+      "A class with substantial behavior plus public fields or representation-level accessors",
+      "hybrid",
+      "object",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch12-005",
+    "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep data transfer objects simple and explicit\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "od-dto-boundary",
+        "heading": "Keep data transfer objects simple and explicit",
+        "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+        "heading_path": [
+          "Clean Code, Chapter 12: Objects and Data Structures, PR review rules",
+          "Keep data transfer objects simple and explicit"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep data transfer objects simple and explicit",
+      "A DTO containing business rules or side effects",
+      "dto",
+      "data-transfer",
+      "data-modeling"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch12-006",
+    "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep callers from navigating object internals\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "od-law-of-demeter",
+        "heading": "Keep callers from navigating object internals",
+        "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+        "heading_path": [
+          "Clean Code, Chapter 12: Objects and Data Structures, PR review rules",
+          "Keep callers from navigating object internals"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep callers from navigating object internals",
+      "A method calling through several returned objects",
+      "law-of-demeter",
+      "object-graph",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch12-007",
+    "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+    "question": "What should a code reviewer look for in a diff related to \"Avoid trainwreck call chains\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "od-trainwrecks",
+        "heading": "Avoid trainwreck call chains",
+        "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+        "heading_path": [
+          "Clean Code, Chapter 12: Objects and Data Structures, PR review rules",
+          "Avoid trainwreck call chains"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Avoid trainwreck call chains",
+      "Chains such as `context.get_options().get_directory().get_path()` in business logic",
+      "trainwreck",
+      "method-chain",
+      "coupling"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch12-008",
+    "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+    "question": "What should a code reviewer look for in a diff related to \"Tell objects what to do instead of asking for internals\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "od-tell-other-guy",
+        "heading": "Tell objects what to do instead of asking for internals",
+        "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+        "heading_path": [
+          "Clean Code, Chapter 12: Objects and Data Structures, PR review rules",
+          "Tell objects what to do instead of asking for internals"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Tell objects what to do instead of asking for internals",
+      "A caller collecting fields only to perform an operation on behalf of another object",
+      "tell-dont-ask",
+      "message-passing",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch12-009",
+    "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+    "question": "What should a code reviewer look for in a diff related to \"Put behavior where adding the next change is cheapest\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "od-procedural-vs-object",
+        "heading": "Put behavior where adding the next change is cheapest",
+        "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+        "heading_path": [
+          "Clean Code, Chapter 12: Objects and Data Structures, PR review rules",
+          "Put behavior where adding the next change is cheapest"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Put behavior where adding the next change is cheapest",
+      "A new type requiring edits to every function that handles existing types",
+      "procedural",
+      "polymorphism",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch12-010",
+    "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep switch statements at the change boundary\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "od-switch-boundary",
+        "heading": "Keep switch statements at the change boundary",
+        "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+        "heading_path": [
+          "Clean Code, Chapter 12: Objects and Data Structures, PR review rules",
+          "Keep switch statements at the change boundary"
+        ],
+        "chunk_index": 9,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep switch statements at the change boundary",
+      "The same switch on a type code repeated across many methods",
+      "switch",
+      "if-else",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch12-011",
+    "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+    "question": "What should a code reviewer look for in a diff related to \"Use polymorphism when new data types are the expected change\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "od-polymorphic-extension",
+        "heading": "Use polymorphism when new data types are the expected change",
+        "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+        "heading_path": [
+          "Clean Code, Chapter 12: Objects and Data Structures, PR review rules",
+          "Use polymorphism when new data types are the expected change"
+        ],
+        "chunk_index": 10,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use polymorphism when new data types are the expected change",
+      "A central manager accumulating type-specific cases",
+      "polymorphism",
+      "ocp",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch12-012",
+    "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+    "question": "What should a code reviewer look for in a diff related to \"Do not force polymorphism when new operations are the volatile axis\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "od-polymorphism-tradeoff",
+        "heading": "Do not force polymorphism when new operations are the volatile axis",
+        "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+        "heading_path": [
+          "Clean Code, Chapter 12: Objects and Data Structures, PR review rules",
+          "Do not force polymorphism when new operations are the volatile axis"
+        ],
+        "chunk_index": 11,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Do not force polymorphism when new operations are the volatile axis",
+      "A large hierarchy created for a small stable set of data types",
+      "tradeoff",
+      "polymorphism",
+      "review-guidance"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch12-013",
+    "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+    "question": "What should a code reviewer look for in a diff related to \"Optimize dispatch only with evidence\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "od-profile-dispatch",
+        "heading": "Optimize dispatch only with evidence",
+        "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+        "heading_path": [
+          "Clean Code, Chapter 12: Objects and Data Structures, PR review rules",
+          "Optimize dispatch only with evidence"
+        ],
+        "chunk_index": 12,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Optimize dispatch only with evidence",
+      "Readable polymorphism removed for an unmeasured performance claim",
+      "performance",
+      "polymorphic-dispatch",
+      "performance"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch12-014",
+    "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+    "question": "Why does the rule \"Choose objects or data structures based on what changes\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "od-object-or-data",
+        "heading": "Choose objects or data structures based on what changes",
+        "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+        "heading_path": [
+          "Clean Code, Chapter 12: Objects and Data Structures, PR review rules",
+          "Choose objects or data structures based on what changes"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Choose objects or data structures based on what changes",
+      "Objects hide data and expose behavior, which makes new data types easier to add. Data structures expose data and use procedures, which makes new behavior easier to add. Choose the boundary that protects the more stable side from the more volatile side.",
+      "objects",
+      "data-structures",
+      "design"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch12-015",
+    "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+    "question": "What fix does the guidance recommend for \"Hide representation behind behavior, not getters and setters\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "od-abstract-data",
+        "heading": "Hide representation behind behavior, not getters and setters",
+        "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+        "heading_path": [
+          "Clean Code, Chapter 12: Objects and Data Structures, PR review rules",
+          "Hide representation behind behavior, not getters and setters"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Hide representation behind behavior, not getters and setters",
+      "Expose operations in domain terms, preserve invariants inside the owner, and keep representation details private.",
+      "data-abstraction",
+      "getters",
+      "encapsulation"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch12-016",
+    "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+    "question": "How can a reviewer spot a problem related to \"Keep objects responsible for their behavior\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "od-object-responsibility",
+        "heading": "Keep objects responsible for their behavior",
+        "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+        "heading_path": [
+          "Clean Code, Chapter 12: Objects and Data Structures, PR review rules",
+          "Keep objects responsible for their behavior"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep objects responsible for their behavior",
+      "A caller reading several fields and performing the object's business logic itself",
+      "object-behavior",
+      "message-passing",
+      "design"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch12-017",
+    "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+    "question": "What review guidance applies to \"Do not create object/data-structure hybrids\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "od-avoid-hybrids",
+        "heading": "Do not create object/data-structure hybrids",
+        "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+        "heading_path": [
+          "Clean Code, Chapter 12: Objects and Data Structures, PR review rules",
+          "Do not create object/data-structure hybrids"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Do not create object/data-structure hybrids",
+      "Hybrids provide neither a clean object boundary nor a simple data structure. They spread responsibility and make future changes difficult in both directions.",
+      "hybrid",
+      "object",
+      "design"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch12-018",
+    "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+    "question": "Why does the rule \"Keep data transfer objects simple and explicit\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "od-dto-boundary",
+        "heading": "Keep data transfer objects simple and explicit",
+        "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+        "heading_path": [
+          "Clean Code, Chapter 12: Objects and Data Structures, PR review rules",
+          "Keep data transfer objects simple and explicit"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep data transfer objects simple and explicit",
+      "DTOs are useful at database, message, and API boundaries because their purpose is to carry data. They should not be mistaken for domain objects or used to hide behavior that belongs elsewhere.",
+      "dto",
+      "data-transfer",
+      "data-modeling"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch12-019",
+    "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+    "question": "What fix does the guidance recommend for \"Keep callers from navigating object internals\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "od-law-of-demeter",
+        "heading": "Keep callers from navigating object internals",
+        "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+        "heading_path": [
+          "Clean Code, Chapter 12: Objects and Data Structures, PR review rules",
+          "Keep callers from navigating object internals"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep callers from navigating object internals",
+      "Tell the relevant object what to do, pass an explicit collaborator, or use a transparent data structure consistently.",
+      "law-of-demeter",
+      "object-graph",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch12-020",
+    "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+    "question": "How can a reviewer spot a problem related to \"Avoid trainwreck call chains\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "od-trainwrecks",
+        "heading": "Avoid trainwreck call chains",
+        "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+        "heading_path": [
+          "Clean Code, Chapter 12: Objects and Data Structures, PR review rules",
+          "Avoid trainwreck call chains"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Avoid trainwreck call chains",
+      "Chains such as `context.get_options().get_directory().get_path()` in business logic",
+      "trainwreck",
+      "method-chain",
+      "coupling"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch12-021",
+    "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+    "question": "What review guidance applies to \"Tell objects what to do instead of asking for internals\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "od-tell-other-guy",
+        "heading": "Tell objects what to do instead of asking for internals",
+        "source_path": "docs/Part_I_Code/chapter_12_objects_and_data_structures.md",
+        "heading_path": [
+          "Clean Code, Chapter 12: Objects and Data Structures, PR review rules",
+          "Tell objects what to do instead of asking for internals"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Tell objects what to do instead of asking for internals",
+      "The operation's owner has the best knowledge of its invariants and implementation. Telling it to perform the operation keeps details behind the boundary and reduces caller knowledge.",
+      "tell-dont-ask",
+      "message-passing",
+      "design"
+    ],
+    "difficulty": "synthesis"
+  }
+]

@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch26-001",
+    "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+    "question": "What should a code reviewer look for in a diff related to \"Encapsulate third-party dependencies behind adapters\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cb-wrap-third-party-dependencies",
+        "heading": "Encapsulate third-party dependencies behind adapters",
+        "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 26: Clean Boundaries, PR review rules",
+          "Encapsulate third-party dependencies behind adapters"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Encapsulate third-party dependencies behind adapters",
+      "Vendor/framework types imported throughout application and policy code",
+      "third-party",
+      "adapters",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch26-002",
+    "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+    "question": "What should a code reviewer look for in a diff related to \"Depend on the smallest vendor surface required\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cb-minimal-third-party-surface",
+        "heading": "Depend on the smallest vendor surface required",
+        "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 26: Clean Boundaries, PR review rules",
+          "Depend on the smallest vendor surface required"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Depend on the smallest vendor surface required",
+      "A wrapper exposing the vendor’s entire API instead of a few required operations",
+      "third-party",
+      "interface",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch26-003",
+    "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep vendor adapters low-complexity\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cb-low-complexity-adapter",
+        "heading": "Keep vendor adapters low-complexity",
+        "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 26: Clean Boundaries, PR review rules",
+          "Keep vendor adapters low-complexity"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep vendor adapters low-complexity",
+      "Business rules, validation, or reporting logic inside a vendor adapter",
+      "adapter",
+      "vendor",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch26-004",
+    "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+    "question": "What should a code reviewer look for in a diff related to \"Inject external boundary dependencies\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cb-injected-boundary-dependencies",
+        "heading": "Inject external boundary dependencies",
+        "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 26: Clean Boundaries, PR review rules",
+          "Inject external boundary dependencies"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Inject external boundary dependencies",
+      "Core code constructing vendor clients, queues, processes, or network connections internally",
+      "dependency-injection",
+      "boundaries",
+      "design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch26-005",
+    "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+    "question": "What should a code reviewer look for in a diff related to \"Isolate asynchronous and process communication\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cb-isolate-process-communication",
+        "heading": "Isolate asynchronous and process communication",
+        "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 26: Clean Boundaries, PR review rules",
+          "Isolate asynchronous and process communication"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Isolate asynchronous and process communication",
+      "UI/business code directly managing process/thread synchronization",
+      "queues",
+      "processes",
+      "concurrency"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch26-006",
+    "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+    "question": "What should a code reviewer look for in a diff related to \"Bind concrete objects in one composition root\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cb-composition-root",
+        "heading": "Bind concrete objects in one composition root",
+        "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 26: Clean Boundaries, PR review rules",
+          "Bind concrete objects in one composition root"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Bind concrete objects in one composition root",
+      "Concrete object creation scattered through core modules",
+      "composition-root",
+      "object-creation",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch26-007",
+    "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+    "question": "What should a code reviewer look for in a diff related to \"Use learning tests for unfamiliar APIs\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cb-learning-tests",
+        "heading": "Use learning tests for unfamiliar APIs",
+        "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 26: Clean Boundaries, PR review rules",
+          "Use learning tests for unfamiliar APIs"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use learning tests for unfamiliar APIs",
+      "A new framework/queue/vendor integrated from examples with no verified assumptions",
+      "learning-tests",
+      "third-party",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch26-008",
+    "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep learning tests separate from application contracts\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cb-separate-learning-and-contract-tests",
+        "heading": "Keep learning tests separate from application contracts",
+        "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 26: Clean Boundaries, PR review rules",
+          "Keep learning tests separate from application contracts"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep learning tests separate from application contracts",
+      "A test proving only that the vendor behaves as documented, not that the adapter fulfills application needs",
+      "learning-tests",
+      "contract-tests",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch26-009",
+    "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+    "question": "What should a code reviewer look for in a diff related to \"Design an application-owned interface for code not yet available\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cb-interface-for-unknown-system",
+        "heading": "Design an application-owned interface for code not yet available",
+        "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 26: Clean Boundaries, PR review rules",
+          "Design an application-owned interface for code not yet available"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Design an application-owned interface for code not yet available",
+      "Work blocked on an undefined hardware, service, or subsystem API",
+      "unknown-dependency",
+      "interface",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch26-010",
+    "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep fake boundary implementations behaviorally useful\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cb-useful-boundary-fakes",
+        "heading": "Keep fake boundary implementations behaviorally useful",
+        "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 26: Clean Boundaries, PR review rules",
+          "Keep fake boundary implementations behaviorally useful"
+        ],
+        "chunk_index": 9,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep fake boundary implementations behaviorally useful",
+      "A fake that always succeeds and cannot simulate timeout, invalid data, capacity, or ordering behavior",
+      "fakes",
+      "test-doubles",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch26-011",
+    "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+    "question": "What should a code reviewer look for in a diff related to \"Limit references to outside-controlled code\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cb-limit-external-references",
+        "heading": "Limit references to outside-controlled code",
+        "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 26: Clean Boundaries, PR review rules",
+          "Limit references to outside-controlled code"
+        ],
+        "chunk_index": 10,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Limit references to outside-controlled code",
+      "Vendor classes, constants, exceptions, and data structures appearing throughout the codebase",
+      "third-party",
+      "references",
+      "maintainability"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch26-012",
+    "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+    "question": "What should a code reviewer look for in a diff related to \"Test boundary expectations and failure behavior\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cb-boundary-contract-and-failure-tests",
+        "heading": "Test boundary expectations and failure behavior",
+        "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 26: Clean Boundaries, PR review rules",
+          "Test boundary expectations and failure behavior"
+        ],
+        "chunk_index": 11,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Test boundary expectations and failure behavior",
+      "A new adapter with only a happy-path integration test",
+      "boundaries",
+      "contract-tests",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch26-013",
+    "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+    "question": "Why does the rule \"Encapsulate third-party dependencies behind adapters\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cb-wrap-third-party-dependencies",
+        "heading": "Encapsulate third-party dependencies behind adapters",
+        "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 26: Clean Boundaries, PR review rules",
+          "Encapsulate third-party dependencies behind adapters"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Encapsulate third-party dependencies behind adapters",
+      "Third-party APIs change outside the team’s control. A small adapter limits the blast radius, gives the application a consistent contract, and keeps replacement practical.",
+      "third-party",
+      "adapters",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch26-014",
+    "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+    "question": "What fix does the guidance recommend for \"Depend on the smallest vendor surface required\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cb-minimal-third-party-surface",
+        "heading": "Depend on the smallest vendor surface required",
+        "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 26: Clean Boundaries, PR review rules",
+          "Depend on the smallest vendor surface required"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Depend on the smallest vendor surface required",
+      "Define a narrow port around application needs and keep unused vendor capabilities out of the core contract.",
+      "third-party",
+      "interface",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch26-015",
+    "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+    "question": "How can a reviewer spot a problem related to \"Keep vendor adapters low-complexity\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cb-low-complexity-adapter",
+        "heading": "Keep vendor adapters low-complexity",
+        "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 26: Clean Boundaries, PR review rules",
+          "Keep vendor adapters low-complexity"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep vendor adapters low-complexity",
+      "Business rules, validation, or reporting logic inside a vendor adapter",
+      "adapter",
+      "vendor",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch26-016",
+    "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+    "question": "What review guidance applies to \"Inject external boundary dependencies\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cb-injected-boundary-dependencies",
+        "heading": "Inject external boundary dependencies",
+        "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 26: Clean Boundaries, PR review rules",
+          "Inject external boundary dependencies"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Inject external boundary dependencies",
+      "Injection makes ownership explicit and creates a seam for deterministic tests, alternate vendors, and controlled failure scenarios.",
+      "dependency-injection",
+      "boundaries",
+      "design"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch26-017",
+    "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+    "question": "Why does the rule \"Isolate asynchronous and process communication\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cb-isolate-process-communication",
+        "heading": "Isolate asynchronous and process communication",
+        "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 26: Clean Boundaries, PR review rules",
+          "Isolate asynchronous and process communication"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Isolate asynchronous and process communication",
+      "Queues can cleanly separate execution contexts, but only when message contracts and lifecycle semantics are explicit. Isolating them keeps concurrency from infecting policy code.",
+      "queues",
+      "processes",
+      "concurrency"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch26-018",
+    "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+    "question": "What fix does the guidance recommend for \"Bind concrete objects in one composition root\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cb-composition-root",
+        "heading": "Bind concrete objects in one composition root",
+        "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 26: Clean Boundaries, PR review rules",
+          "Bind concrete objects in one composition root"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Bind concrete objects in one composition root",
+      "Centralize construction and binding, pass interfaces inward, and keep runtime configuration at the edge.",
+      "composition-root",
+      "object-creation",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch26-019",
+    "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+    "question": "How can a reviewer spot a problem related to \"Use learning tests for unfamiliar APIs\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cb-learning-tests",
+        "heading": "Use learning tests for unfamiliar APIs",
+        "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 26: Clean Boundaries, PR review rules",
+          "Use learning tests for unfamiliar APIs"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use learning tests for unfamiliar APIs",
+      "A new framework/queue/vendor integrated from examples with no verified assumptions",
+      "learning-tests",
+      "third-party",
+      "testing"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch26-020",
+    "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+    "question": "What review guidance applies to \"Keep learning tests separate from application contracts\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cb-separate-learning-and-contract-tests",
+        "heading": "Keep learning tests separate from application contracts",
+        "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 26: Clean Boundaries, PR review rules",
+          "Keep learning tests separate from application contracts"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep learning tests separate from application contracts",
+      "Learning tests protect knowledge of the dependency; adapter contract tests protect the application’s boundary. They answer different questions and should not be conflated.",
+      "learning-tests",
+      "contract-tests",
+      "testing"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch26-021",
+    "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+    "question": "Why does the rule \"Design an application-owned interface for code not yet available\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cb-interface-for-unknown-system",
+        "heading": "Design an application-owned interface for code not yet available",
+        "source_path": "docs/Part_III_Architecture/chapter_26_clean_boundaries.md",
+        "heading_path": [
+          "Clean Code, Chapter 26: Clean Boundaries, PR review rules",
+          "Design an application-owned interface for code not yet available"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Design an application-owned interface for code not yet available",
+      "The application can continue against an interface defined by its own needs. Once the real API exists, one adapter can absorb the mismatch and future changes.",
+      "unknown-dependency",
+      "interface",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  }
+]

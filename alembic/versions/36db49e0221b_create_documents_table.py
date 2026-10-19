@@ -31,8 +31,6 @@ def upgrade() -> None:
             server_default=sa.text("gen_random_uuid()"),
         ),
         sa.Column("title", sa.String, nullable=False),
-        sa.Column("description", sa.String, nullable=False),
-        sa.Column("category", sa.String, nullable=False),
         sa.Column("content_hash", sa.String, nullable=False),
         sa.Column(
             "created_at",

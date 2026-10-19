@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch17-001",
+    "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+    "question": "What should a code reviewer look for in a diff related to \"Treat AI-generated code as unverified implementation\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-generated-code-needs-review",
+        "heading": "Treat AI-generated code as unverified implementation",
+        "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+        "heading_path": [
+          "Clean Code, Chapter 17: AIs, LLMs, and God Knows What, PR review rules",
+          "Treat AI-generated code as unverified implementation"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Treat AI-generated code as unverified implementation",
+      "AI-generated code accepted because it compiles or looks plausible",
+      "ai",
+      "llm",
+      "ai-review"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch17-002",
+    "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+    "question": "What should a code reviewer look for in a diff related to \"Define ambiguous terms before prompting or implementing\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-define-domain-terms",
+        "heading": "Define ambiguous terms before prompting or implementing",
+        "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+        "heading_path": [
+          "Clean Code, Chapter 17: AIs, LLMs, and God Knows What, PR review rules",
+          "Define ambiguous terms before prompting or implementing"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Define ambiguous terms before prompting or implementing",
+      "Requirements using undefined terms such as \"word,\" \"sentence,\" \"active,\" \"valid,\" or \"next\"",
+      "ai",
+      "prompt",
+      "requirements"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch17-003",
+    "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+    "question": "What should a code reviewer look for in a diff related to \"Specify inputs, actions, and outputs explicitly\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-explicit-input-action-output",
+        "heading": "Specify inputs, actions, and outputs explicitly",
+        "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+        "heading_path": [
+          "Clean Code, Chapter 17: AIs, LLMs, and God Knows What, PR review rules",
+          "Specify inputs, actions, and outputs explicitly"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Specify inputs, actions, and outputs explicitly",
+      "A prompt or ticket describing a goal without concrete examples",
+      "ai",
+      "specification",
+      "requirements"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch17-004",
+    "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+    "question": "What should a code reviewer look for in a diff related to \"Overload specifications with independent examples and tests\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-overload-specification-with-tests",
+        "heading": "Overload specifications with independent examples and tests",
+        "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+        "heading_path": [
+          "Clean Code, Chapter 17: AIs, LLMs, and God Knows What, PR review rules",
+          "Overload specifications with independent examples and tests"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Overload specifications with independent examples and tests",
+      "A single prose prompt used as the only source of truth for complex behavior",
+      "ai",
+      "specifications",
+      "ai-review"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch17-005",
+    "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+    "question": "What should a code reviewer look for in a diff related to \"Use tests to constrain generated changes\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-tests-constrain-generation",
+        "heading": "Use tests to constrain generated changes",
+        "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+        "heading_path": [
+          "Clean Code, Chapter 17: AIs, LLMs, and God Knows What, PR review rules",
+          "Use tests to constrain generated changes"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use tests to constrain generated changes",
+      "A prompt regenerated the whole module for a small change",
+      "ai",
+      "llm",
+      "ai-review"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch17-006",
+    "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+    "question": "What should a code reviewer look for in a diff related to \"Prefer incremental AI-assisted changes\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-incremental-changes",
+        "heading": "Prefer incremental AI-assisted changes",
+        "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+        "heading_path": [
+          "Clean Code, Chapter 17: AIs, LLMs, and God Knows What, PR review rules",
+          "Prefer incremental AI-assisted changes"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Prefer incremental AI-assisted changes",
+      "Large generated rewrites for a localized requirement",
+      "ai",
+      "incremental",
+      "process"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch17-007",
+    "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+    "question": "What should a code reviewer look for in a diff related to \"Verify generated tests independently\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-independent-test-verification",
+        "heading": "Verify generated tests independently",
+        "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+        "heading_path": [
+          "Clean Code, Chapter 17: AIs, LLMs, and God Knows What, PR review rules",
+          "Verify generated tests independently"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Verify generated tests independently",
+      "Implementation and tests generated from the same ambiguous prompt",
+      "ai",
+      "tests",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch17-008",
+    "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+    "question": "What should a code reviewer look for in a diff related to \"Review normalization, punctuation, and case rules explicitly\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-explicit-normalization-rules",
+        "heading": "Review normalization, punctuation, and case rules explicitly",
+        "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+        "heading_path": [
+          "Clean Code, Chapter 17: AIs, LLMs, and God Knows What, PR review rules",
+          "Review normalization, punctuation, and case rules explicitly"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Review normalization, punctuation, and case rules explicitly",
+      "Text processing that leaves case, whitespace, punctuation, Unicode, or end-of-input behavior implicit",
+      "ai",
+      "parsing",
+      "correctness"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch17-009",
+    "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+    "question": "What should a code reviewer look for in a diff related to \"Do not patch symptoms without finding the contract violation\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-fix-root-cause",
+        "heading": "Do not patch symptoms without finding the contract violation",
+        "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+        "heading_path": [
+          "Clean Code, Chapter 17: AIs, LLMs, and God Knows What, PR review rules",
+          "Do not patch symptoms without finding the contract violation"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Do not patch symptoms without finding the contract violation",
+      "A prompt or code change that adds a special case only for a reported output",
+      "ai",
+      "debugging",
+      "correctness"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch17-010",
+    "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+    "question": "What should a code reviewer look for in a diff related to \"Treat prompts as versioned engineering artifacts\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-version-prompt-contracts",
+        "heading": "Treat prompts as versioned engineering artifacts",
+        "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+        "heading_path": [
+          "Clean Code, Chapter 17: AIs, LLMs, and God Knows What, PR review rules",
+          "Treat prompts as versioned engineering artifacts"
+        ],
+        "chunk_index": 9,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Treat prompts as versioned engineering artifacts",
+      "Critical generated code with no record of the prompt, model assumptions, or source requirements",
+      "ai",
+      "prompts",
+      "maintainability"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch17-011",
+    "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep human reasoning responsible for requirements and contracts\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-human-contract-ownership",
+        "heading": "Keep human reasoning responsible for requirements and contracts",
+        "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+        "heading_path": [
+          "Clean Code, Chapter 17: AIs, LLMs, and God Knows What, PR review rules",
+          "Keep human reasoning responsible for requirements and contracts"
+        ],
+        "chunk_index": 10,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep human reasoning responsible for requirements and contracts",
+      "Business or safety decisions delegated to an AI without an accountable owner",
+      "ai",
+      "human-review",
+      "ai-review"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch17-012",
+    "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+    "question": "What should a code reviewer look for in a diff related to \"Use AI output as a proposal for architecture, not architectural evidence\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-architecture-needs-independent-review",
+        "heading": "Use AI output as a proposal for architecture, not architectural evidence",
+        "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+        "heading_path": [
+          "Clean Code, Chapter 17: AIs, LLMs, and God Knows What, PR review rules",
+          "Use AI output as a proposal for architecture, not architectural evidence"
+        ],
+        "chunk_index": 11,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use AI output as a proposal for architecture, not architectural evidence",
+      "Generated abstractions accepted without checking dependency direction or ownership",
+      "ai",
+      "architecture",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch17-013",
+    "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+    "question": "What should a code reviewer look for in a diff related to \"Evaluate AI behavior with representative and adversarial cases\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-evaluate-representative-adversarial-cases",
+        "heading": "Evaluate AI behavior with representative and adversarial cases",
+        "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+        "heading_path": [
+          "Clean Code, Chapter 17: AIs, LLMs, and God Knows What, PR review rules",
+          "Evaluate AI behavior with representative and adversarial cases"
+        ],
+        "chunk_index": 12,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Evaluate AI behavior with representative and adversarial cases",
+      "Only one or two successful examples used to validate generated behavior",
+      "ai",
+      "evaluation",
+      "testing"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch17-014",
+    "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep generated code understandable and maintainable\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-generated-code-must-be-maintainable",
+        "heading": "Keep generated code understandable and maintainable",
+        "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+        "heading_path": [
+          "Clean Code, Chapter 17: AIs, LLMs, and God Knows What, PR review rules",
+          "Keep generated code understandable and maintainable"
+        ],
+        "chunk_index": 13,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep generated code understandable and maintainable",
+      "Repeated generated logic, unnecessary abstractions, unexplained branches, or opaque names",
+      "ai",
+      "readability",
+      "maintainability"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch17-015",
+    "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+    "question": "Why does the rule \"Treat AI-generated code as unverified implementation\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-generated-code-needs-review",
+        "heading": "Treat AI-generated code as unverified implementation",
+        "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+        "heading_path": [
+          "Clean Code, Chapter 17: AIs, LLMs, and God Knows What, PR review rules",
+          "Treat AI-generated code as unverified implementation"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Treat AI-generated code as unverified implementation",
+      "LLM output is probabilistic and can contain subtle semantic, security, or integration defects while appearing polished. Compilation is not evidence that the behavior is correct.",
+      "ai",
+      "llm",
+      "ai-review"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch17-016",
+    "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+    "question": "What fix does the guidance recommend for \"Define ambiguous terms before prompting or implementing\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-define-domain-terms",
+        "heading": "Define ambiguous terms before prompting or implementing",
+        "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+        "heading_path": [
+          "Clean Code, Chapter 17: AIs, LLMs, and God Knows What, PR review rules",
+          "Define ambiguous terms before prompting or implementing"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Define ambiguous terms before prompting or implementing",
+      "Define terms, units, normalization rules, boundaries, and exceptional cases in the requirement or contract.",
+      "ai",
+      "prompt",
+      "requirements"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch17-017",
+    "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+    "question": "How can a reviewer spot a problem related to \"Specify inputs, actions, and outputs explicitly\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-explicit-input-action-output",
+        "heading": "Specify inputs, actions, and outputs explicitly",
+        "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+        "heading_path": [
+          "Clean Code, Chapter 17: AIs, LLMs, and God Knows What, PR review rules",
+          "Specify inputs, actions, and outputs explicitly"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Specify inputs, actions, and outputs explicitly",
+      "A prompt or ticket describing a goal without concrete examples",
+      "ai",
+      "specification",
+      "requirements"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch17-018",
+    "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+    "question": "What review guidance applies to \"Overload specifications with independent examples and tests\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-overload-specification-with-tests",
+        "heading": "Overload specifications with independent examples and tests",
+        "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+        "heading_path": [
+          "Clean Code, Chapter 17: AIs, LLMs, and God Knows What, PR review rules",
+          "Overload specifications with independent examples and tests"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Overload specifications with independent examples and tests",
+      "A formal definition and independent scenarios act as cross-checks. If one statement is misunderstood, the other can expose the inconsistency.",
+      "ai",
+      "specifications",
+      "ai-review"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch17-019",
+    "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+    "question": "Why does the rule \"Use tests to constrain generated changes\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-tests-constrain-generation",
+        "heading": "Use tests to constrain generated changes",
+        "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+        "heading_path": [
+          "Clean Code, Chapter 17: AIs, LLMs, and God Knows What, PR review rules",
+          "Use tests to constrain generated changes"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use tests to constrain generated changes",
+      "Regeneration can produce a different interpretation of every ambiguous instruction. A passing regression suite makes unintended changes visible and supports incremental edits.",
+      "ai",
+      "llm",
+      "ai-review"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch17-020",
+    "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+    "question": "What fix does the guidance recommend for \"Prefer incremental AI-assisted changes\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-incremental-changes",
+        "heading": "Prefer incremental AI-assisted changes",
+        "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+        "heading_path": [
+          "Clean Code, Chapter 17: AIs, LLMs, and God Knows What, PR review rules",
+          "Prefer incremental AI-assisted changes"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Prefer incremental AI-assisted changes",
+      "Ask for one bounded change, preserve unrelated code, and separate cleanup or refactoring from generated feature behavior.",
+      "ai",
+      "incremental",
+      "process"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch17-021",
+    "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+    "question": "How can a reviewer spot a problem related to \"Verify generated tests independently\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "ai-independent-test-verification",
+        "heading": "Verify generated tests independently",
+        "source_path": "docs/Part_I_Code/chapter_17_ais_llms_and_god_knows_what.md",
+        "heading_path": [
+          "Clean Code, Chapter 17: AIs, LLMs, and God Knows What, PR review rules",
+          "Verify generated tests independently"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Verify generated tests independently",
+      "Implementation and tests generated from the same ambiguous prompt",
+      "ai",
+      "tests",
+      "testing"
+    ],
+    "difficulty": "paraphrase"
+  }
+]

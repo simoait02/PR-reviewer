@@ -4,8 +4,12 @@ from unittest.mock import patch
 
 from github_mcp_tools.rag import database
 from github_mcp_tools.rag import service as rag_service
-from github_mcp_tools.rag.models import Category
-from github_mcp_tools.rag.retriever import BestPracticesRetriever
+from github_mcp_tools.rag.retriever import (
+    BestPracticesRetriever,
+    _heading_match_score,
+)
+
+from scripts.ingest_rag import split_into_rules
 
 
 def run(coroutine):
@@ -53,8 +57,7 @@ def test_retriever_search_clamps_limit_and_maps_rows():
     rows = [
         {
             "title": "Testing",
-            "category": Category.TESTING,
-            "content": "Write tests.",
+            "content": "Testing guidance section.",
             "metadata_": {"section": "unit"},
             "distance": 0.25,
         }
@@ -71,16 +74,74 @@ def test_retriever_search_clamps_limit_and_maps_rows():
     assert session.statement is not None
 
 
-def test_retriever_applies_category_filter_and_minimum_limit():
+def test_ingestion_creates_one_focused_chunk_per_rule():
+    chunks = split_into_rules(
+        """# Chapter
+
+Intro
+
+## First rule
+
+`id: first-rule | category: readability`
+
+Look for this.
+
+## Second rule
+
+`id: second-rule | category: design`
+
+        Fix this.
+""",
+    )
+
+    assert [chunk.metadata["rule_id"] for chunk in chunks] == [
+        "first-rule",
+        "second-rule",
+    ]
+    assert all(chunk.metadata["chunk_type"] == "rule" for chunk in chunks)
+    assert all("parent" not in chunk.metadata for chunk in chunks)
+    assert all(
+        chunk.metadata["heading_path"] == ["Chapter", heading]
+        for chunk, heading in zip(chunks, ("First rule", "Second rule"), strict=True)
+    )
+
+
+def test_retriever_applies_minimum_limit():
     session = FakeSession([])
     retriever = BestPracticesRetriever(lambda: session, FakeEmbeddingClient())
 
-    result = run(
-        retriever.search("query", category=Category.SECURITY_AND_PRIVACY, limit=0)
-    )
+    result = run(retriever.search("query", limit=0))
 
     assert result == []
     assert session.statement is not None
+
+
+def test_retriever_prioritizes_exact_heading_matches():
+    rows = [
+        {
+            "title": "Semantic match",
+            "content": "Semantic result.",
+            "metadata_": {"heading_path": ["Other Topic"]},
+            "distance": 0.05,
+        },
+        {
+            "title": "Heading match",
+            "content": "Heading result.",
+            "metadata_": {"heading_path": ["Exact Topic"]},
+            "distance": 0.50,
+        },
+    ]
+    session = FakeSession(rows)
+    retriever = BestPracticesRetriever(lambda: session, FakeEmbeddingClient())
+
+    result = run(retriever.search("Exact Topic", limit=1))
+
+    assert result[0].title == "Heading match"
+
+
+def test_heading_match_score_handles_invalid_metadata():
+    assert _heading_match_score("Exact Topic", None) == 0
+    assert _heading_match_score("Exact Topic", {"heading_path": "Exact Topic"}) == 0
 
 
 def test_retriever_from_env_constructs_dependencies(monkeypatch):

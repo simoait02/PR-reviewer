@@ -1,0 +1,569 @@
+[
+  {
+    "case_id": "ch20-001",
+    "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Treat components as independently deployable boundaries\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cp-independent-deployment-boundary",
+        "heading": "Treat components as independently deployable boundaries",
+        "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 20: Component Principles, PR review rules",
+          "Treat components as independently deployable boundaries"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Treat components as independently deployable boundaries",
+      "A component that cannot be built, tested, versioned, or deployed without unrelated components",
+      "components",
+      "deployment",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch20-002",
+    "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Group reusable code by a coherent release theme\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cp-reuse-release-equivalence",
+        "heading": "Group reusable code by a coherent release theme",
+        "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 20: Component Principles, PR review rules",
+          "Group reusable code by a coherent release theme"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Group reusable code by a coherent release theme",
+      "Unrelated modules bundled into one reusable package",
+      "rep",
+      "reuse",
+      "component-design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch20-003",
+    "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Collocate code that changes for the same reason\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cp-common-closure",
+        "heading": "Collocate code that changes for the same reason",
+        "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 20: Component Principles, PR review rules",
+          "Collocate code that changes for the same reason"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Collocate code that changes for the same reason",
+      "A requirement change spread across many components that should evolve together",
+      "ccp",
+      "common-closure",
+      "component-design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch20-004",
+    "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep volatility aligned within a component\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cp-align-component-volatility",
+        "heading": "Keep volatility aligned within a component",
+        "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 20: Component Principles, PR review rules",
+          "Keep volatility aligned within a component"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep volatility aligned within a component",
+      "Highly volatile features bundled with stable policies",
+      "ccp",
+      "volatility",
+      "component-design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch20-005",
+    "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Group modules that are reused together\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cp-common-reuse",
+        "heading": "Group modules that are reused together",
+        "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 20: Component Principles, PR review rules",
+          "Group modules that are reused together"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Group modules that are reused together",
+      "A reusable type split from the helpers, iterators, codecs, or policies it always requires",
+      "crp",
+      "reuse",
+      "component-design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch20-006",
+    "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Do not make consumers depend on unused modules\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cp-avoid-unused-component-dependencies",
+        "heading": "Do not make consumers depend on unused modules",
+        "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 20: Component Principles, PR review rules",
+          "Do not make consumers depend on unused modules"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Do not make consumers depend on unused modules",
+      "A client importing a package for one small capability while inheriting many unrelated modules",
+      "crp",
+      "dependencies",
+      "component-design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch20-007",
+    "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Balance reuse, closure, and release cost\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cp-balance-cohesion-for-context",
+        "heading": "Balance reuse, closure, and release cost",
+        "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 20: Component Principles, PR review rules",
+          "Balance reuse, closure, and release cost"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Balance reuse, closure, and release cost",
+      "A component split that improves reuse but causes routine changes across many releases",
+      "rep",
+      "ccp",
+      "component-design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch20-008",
+    "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Evolve component boundaries incrementally\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cp-evolve-component-structure",
+        "heading": "Evolve component boundaries incrementally",
+        "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 20: Component Principles, PR review rules",
+          "Evolve component boundaries incrementally"
+        ],
+        "chunk_index": 7,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Evolve component boundaries incrementally",
+      "A speculative component architecture designed before responsibilities and reuse are known",
+      "architecture",
+      "refactoring",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch20-009",
+    "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Keep the component dependency graph acyclic\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cp-acyclic-dependencies",
+        "heading": "Keep the component dependency graph acyclic",
+        "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 20: Component Principles, PR review rules",
+          "Keep the component dependency graph acyclic"
+        ],
+        "chunk_index": 8,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep the component dependency graph acyclic",
+      "A new dependency path that leads back to the originating component",
+      "adp",
+      "dependency-graph",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch20-010",
+    "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Break cycles with dependency inversion or a shared component\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cp-break-cycles-deliberately",
+        "heading": "Break cycles with dependency inversion or a shared component",
+        "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 20: Component Principles, PR review rules",
+          "Break cycles with dependency inversion or a shared component"
+        ],
+        "chunk_index": 9,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Break cycles with dependency inversion or a shared component",
+      "A cycle resolved by duplicating unstable implementation details",
+      "adp",
+      "dip",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch20-011",
+    "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Depend toward stable components\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cp-stable-dependencies",
+        "heading": "Depend toward stable components",
+        "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 20: Component Principles, PR review rules",
+          "Depend toward stable components"
+        ],
+        "chunk_index": 10,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Depend toward stable components",
+      "A difficult-to-change component depending on a highly volatile component",
+      "sdp",
+      "stability",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch20-012",
+    "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Use fan-in and fan-out as diagnostic signals\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cp-use-stability-signals",
+        "heading": "Use fan-in and fan-out as diagnostic signals",
+        "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 20: Component Principles, PR review rules",
+          "Use fan-in and fan-out as diagnostic signals"
+        ],
+        "chunk_index": 11,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Use fan-in and fan-out as diagnostic signals",
+      "A component with many incoming dependencies and many outgoing volatile dependencies",
+      "sdp",
+      "fan-in",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch20-013",
+    "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Make stable components appropriately abstract\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cp-stable-abstractions",
+        "heading": "Make stable components appropriately abstract",
+        "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 20: Component Principles, PR review rules",
+          "Make stable components appropriately abstract"
+        ],
+        "chunk_index": 12,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Make stable components appropriately abstract",
+      "A stable component containing rigid concrete policy that cannot be extended safely",
+      "sap",
+      "abstractness",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch20-014",
+    "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+    "question": "What should a code reviewer look for in a diff related to \"Treat zone-of-pain and zone-of-uselessness as review signals\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cp-review-exclusion-zones",
+        "heading": "Treat zone-of-pain and zone-of-uselessness as review signals",
+        "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 20: Component Principles, PR review rules",
+          "Treat zone-of-pain and zone-of-uselessness as review signals"
+        ],
+        "chunk_index": 13,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Treat zone-of-pain and zone-of-uselessness as review signals",
+      "A volatile concrete component with many dependents and no extension boundary",
+      "architecture",
+      "stability",
+      "architecture"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch20-015",
+    "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+    "question": "Why does the rule \"Treat components as independently deployable boundaries\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cp-independent-deployment-boundary",
+        "heading": "Treat components as independently deployable boundaries",
+        "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 20: Component Principles, PR review rules",
+          "Treat components as independently deployable boundaries"
+        ],
+        "chunk_index": 0,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Treat components as independently deployable boundaries",
+      "Components are units of deployment and development. A boundary is useful when teams can change and release it without coordinating every internal detail with the whole system.",
+      "components",
+      "deployment",
+      "architecture"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch20-016",
+    "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+    "question": "What fix does the guidance recommend for \"Group reusable code by a coherent release theme\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cp-reuse-release-equivalence",
+        "heading": "Group reusable code by a coherent release theme",
+        "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 20: Component Principles, PR review rules",
+          "Group reusable code by a coherent release theme"
+        ],
+        "chunk_index": 1,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Group reusable code by a coherent release theme",
+      "Group modules that share a reusable abstraction and release lifecycle; split unrelated capabilities into separately versioned components.",
+      "rep",
+      "reuse",
+      "component-design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch20-017",
+    "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+    "question": "How can a reviewer spot a problem related to \"Collocate code that changes for the same reason\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cp-common-closure",
+        "heading": "Collocate code that changes for the same reason",
+        "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 20: Component Principles, PR review rules",
+          "Collocate code that changes for the same reason"
+        ],
+        "chunk_index": 2,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Collocate code that changes for the same reason",
+      "A requirement change spread across many components that should evolve together",
+      "ccp",
+      "common-closure",
+      "component-design"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch20-018",
+    "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+    "question": "What review guidance applies to \"Keep volatility aligned within a component\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cp-align-component-volatility",
+        "heading": "Keep volatility aligned within a component",
+        "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 20: Component Principles, PR review rules",
+          "Keep volatility aligned within a component"
+        ],
+        "chunk_index": 3,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Keep volatility aligned within a component",
+      "Mixed volatility increases release cost and makes stable code appear risky to change. Component boundaries should reflect how often and why code evolves.",
+      "ccp",
+      "volatility",
+      "component-design"
+    ],
+    "difficulty": "synthesis"
+  },
+  {
+    "case_id": "ch20-019",
+    "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+    "question": "Why does the rule \"Group modules that are reused together\" matter in a code review?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cp-common-reuse",
+        "heading": "Group modules that are reused together",
+        "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 20: Component Principles, PR review rules",
+          "Group modules that are reused together"
+        ],
+        "chunk_index": 4,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Group modules that are reused together",
+      "The Common Reuse Principle keeps inseparable reusable abstractions together while avoiding packages that impose unrelated dependency baggage.",
+      "crp",
+      "reuse",
+      "component-design"
+    ],
+    "difficulty": "paraphrase"
+  },
+  {
+    "case_id": "ch20-020",
+    "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+    "question": "What fix does the guidance recommend for \"Do not make consumers depend on unused modules\"?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cp-avoid-unused-component-dependencies",
+        "heading": "Do not make consumers depend on unused modules",
+        "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 20: Component Principles, PR review rules",
+          "Do not make consumers depend on unused modules"
+        ],
+        "chunk_index": 5,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Do not make consumers depend on unused modules",
+      "Split unrelated modules or expose a focused component boundary; keep tightly coupled reusable modules together only when consumers need them together.",
+      "crp",
+      "dependencies",
+      "component-design"
+    ],
+    "difficulty": "direct"
+  },
+  {
+    "case_id": "ch20-021",
+    "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+    "question": "How can a reviewer spot a problem related to \"Balance reuse, closure, and release cost\" in a pull request?",
+    "answerable": true,
+    "expected_rule_sections": [
+      {
+        "rule_id": "cp-balance-cohesion-for-context",
+        "heading": "Balance reuse, closure, and release cost",
+        "source_path": "docs/Part_II_Design/chapter_20_component_principles.md",
+        "heading_path": [
+          "Clean Code, Chapter 20: Component Principles, PR review rules",
+          "Balance reuse, closure, and release cost"
+        ],
+        "chunk_index": 6,
+        "relevance": 2
+      }
+    ],
+    "relevant_concepts": [
+      "Balance reuse, closure, and release cost",
+      "A component split that improves reuse but causes routine changes across many releases",
+      "rep",
+      "ccp",
+      "component-design"
+    ],
+    "difficulty": "paraphrase"
+  }
+]
