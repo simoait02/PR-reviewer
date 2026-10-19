@@ -1,53 +1,27 @@
 import os
-from collections.abc import Awaitable, Callable
 from pathlib import Path
 from typing import Any
 
 import yaml
-from agents.mcp.config import AgentMCPServer, MCPServer
-from langchain.tools import ToolRuntime
-from langchain_core.tools import BaseTool
-from langchain_mcp_adapters.interceptors import (
-    MCPToolCallRequest,
-    MCPToolCallResult,
+from agents.internal.middleware import (
+    GithubTokenInterceptor,
+    _runtime_github_token,
+    github_token_interceptor,
 )
+from agents.mcp.config import AgentMCPServer, MCPServer
+from langchain_core.tools import BaseTool
 from langchain_mcp_adapters.tools import load_mcp_tools
 from pr_logging.core import get_logger
 
 _REGISTRY_PATH = Path(__file__).parent / "servers.yaml"
 logger = get_logger(__name__)
 
-
-def _runtime_github_token(runtime: ToolRuntime | None) -> str | None:
-    if runtime is None:
-        return None
-
-    return runtime.context.get("github_token")
-
-
-class GithubTokenInterceptor:
-    """Forward the current request's GitHub token to the MCP server."""
-
-    async def __call__(
-        self,
-        request: MCPToolCallRequest,
-        handler: Callable[
-            [MCPToolCallRequest],
-            Awaitable[MCPToolCallResult],
-        ],
-    ) -> MCPToolCallResult:
-        github_token = _runtime_github_token(request.runtime)
-        if not github_token:
-            return await handler(request)
-
-        headers = {
-            **(request.headers or {}),
-            "X-GitHub-Token": github_token,
-        }
-        return await handler(request.override(headers=headers))
-
-
-github_token_interceptor = GithubTokenInterceptor()
+__all__ = [
+    "GithubTokenInterceptor",
+    "_runtime_github_token",
+    "aload_agent_mcp_tools",
+    "github_token_interceptor",
+]
 
 
 def _load_registry() -> dict[str, MCPServer]:

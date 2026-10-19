@@ -10,6 +10,7 @@ from langgraph.checkpoint.base import BaseCheckpointSaver
 from pr_logging.core import get_logger
 
 from agents.internal.base import BaseAgent
+from agents.internal.middleware import SandboxMiddleware
 from agents.internal.protocol import AgentRequest, AgentRuntimeContext
 from agents.mcp.loader import aload_agent_mcp_tools
 from agents.orchestrator.schemas import OrchestratorConfig, OrchestratorResponse
@@ -124,7 +125,7 @@ class BaseOrchestrator:
             name=self.name,
             context_schema=AgentRuntimeContext,
             checkpointer=self.checkpointer,
-            middleware=[ToolErrorsAsObservations()],
+            middleware=[ToolErrorsAsObservations(), SandboxMiddleware()],
         )
 
         logger.info(
@@ -157,7 +158,7 @@ class BaseOrchestrator:
             {
                 "messages": [message],
             },
-            context={"github_token": github_token},
+            context=AgentRuntimeContext(github_token=github_token),
             config={"configurable": {"thread_id": thread_id}},
         )
 

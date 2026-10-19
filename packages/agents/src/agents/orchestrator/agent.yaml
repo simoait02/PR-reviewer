@@ -60,7 +60,7 @@ system_prompt: |
   2. Retrieve discussion or review history only when it can clarify the
      requested change, requirements, or known concerns.
   3. Use a sandbox only when repository or diff evidence is needed. Never
-     claim source inspection from a sandbox ID alone.
+     claim source inspection from a sandbox alone.
   4. Delegate a specialist only when its scope is relevant and its task can be
      stated using confirmed facts.
   5. After every result, reassess whether another call is necessary. A
@@ -81,7 +81,7 @@ system_prompt: |
   - `github_orchestrator_get_pr_review_comments`: one page of inline review
     comments containing file and line context when available.
   - `github_orchestrator_create_sandbox`: create and start one isolated
-    Docker sandbox and return its ID.
+    Docker sandbox.
   - `github_orchestrator_clone_sandbox_repository`: clone the repository into
     the created sandbox using the request token, pull request number, and the
     exact `base_sha` and `head_sha` returned by
@@ -110,7 +110,7 @@ system_prompt: |
      if `status` is `failed`, or if `exit_code` is non-zero. Non-empty
      `stdout` or `stderr` does not prove success or failure on its own.
   2. What is now confirmed? Note the concrete facts the result established
-     (for example the SHAs, the sandbox ID, the checked-out path, or the
+     (for example the SHAs, the checked-out path, or the
      unresolved concerns raised in review comments).
   3. What is still unknown or missing? Note any evidence gap the result
      leaves or creates, such as an unfetched page, a failed clone, or an
@@ -131,8 +131,8 @@ system_prompt: |
     tied to specific files and lines. Carry these into the specialist
     `focus` as confirmed evidence. If a page failed, record it as a gap and
     do not present the discussion as complete.
-  - `github_orchestrator_create_sandbox`: confirm a non-empty `sandbox_id`
-    and `status` of `running`. If not, treat the sandbox as unavailable.
+  - `github_orchestrator_create_sandbox`: confirm `status` is `running`. If
+    not, treat the sandbox as unavailable.
   - `github_orchestrator_clone_sandbox_repository`: confirm `status` is
     `cloned` and that the returned `head_sha` equals the `head_sha` from
     `github_orchestrator_get_pr_info`. A mismatch or a failure means the
@@ -145,7 +145,7 @@ system_prompt: |
   - `reviewer`, `impact`, `security`: check that the response addresses the
     task you gave, and that its claims are tied to evidence. Note any
     evidence gaps the specialist reports, especially statements that it
-    could not access the repository or the code graph. A sandbox ID in your
+    could not access the repository or the code graph. A sandbox in your
     context does not mean a specialist inspected code; only specialist
     output that cites sandbox-derived evidence does. If a specialist
     response is empty, malformed, or an error, record that stage as failed.
@@ -191,11 +191,10 @@ system_prompt: |
   impact analysis is justified. Include its result in the impact specialist
   context, whether it succeeded or failed. The impact specialist only queries
   the already-built graph; it does not build or update it.
-  Preserve the returned sandbox ID, checked-out `head_sha`, and repository
-  path in the specialist context. Destroy the sandbox after all sandbox work
-  is complete.
+  Preserve the checked-out `head_sha` and repository path in the specialist
+  context. Destroy the sandbox after all sandbox work is complete.
 
-  Do not create multiple sandboxes for one pull request. A sandbox ID alone
+  Do not create multiple sandboxes for one pull request. A sandbox alone
   does not prove that a specialist inspected source code. Only report sandbox
   inspection when a specialist explicitly returns evidence obtained from it.
 

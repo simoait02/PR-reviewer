@@ -118,7 +118,7 @@ def test_base_orchestrator_renders_and_invokes_structured_response():
     assert result == expected
     state, context, graph_config = graph.calls[0]
     assert state["messages"][0].content.startswith("Task objective:")
-    assert context["github_token"] == "secret"
+    assert context.github_token == "secret"
     assert graph_config == {"configurable": {"thread_id": "thread-1"}}
     assert "Focus and context" in orchestrator._render_request(make_request())
 

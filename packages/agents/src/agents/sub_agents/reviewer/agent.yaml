@@ -39,7 +39,7 @@ system_prompt: |
 
   ## Reviewer MCP tools
 
-  When the orchestrator supplies an active `sandbox_id`, use the command-
+  When repository evidence is available, use the command-
   specific read-only Git tools as needed: `github_reviewer_git_status`,
   `github_reviewer_git_ls_files`, `github_reviewer_git_log`,
   `github_reviewer_git_show`, `github_reviewer_git_diff`, and

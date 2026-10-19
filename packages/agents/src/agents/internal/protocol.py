@@ -1,13 +1,13 @@
 from enum import StrEnum
-from typing import TypedDict
 
 from pydantic import BaseModel, Field
 
 
-class AgentRuntimeContext(TypedDict):
+class AgentRuntimeContext(BaseModel):
     """Request-scoped values available to agent tools."""
 
-    github_token: str | None
+    github_token: str | None = None
+    sandbox_id: str | None = None
 
 
 class AgentRequest(BaseModel):
