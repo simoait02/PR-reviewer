@@ -4,6 +4,8 @@ services:
     build:
       context: ./ui
       dockerfile: Dockerfile
+    environment:
+      API_UPSTREAM_URL: "${API_UPSTREAM_URL:-http://api:8000}"
     depends_on:
       api:
         condition: service_started

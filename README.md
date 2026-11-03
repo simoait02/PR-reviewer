@@ -92,6 +92,12 @@ With PostgreSQL running and `.env` configured, the main development commands are
 
 The React/Vite client is built into the `frontend` Compose service and is available at <http://localhost:5173>. The container serves the production build through Nginx and proxies review requests to the API service.
 
+The frontend container reads the API communication URL from `API_UPSTREAM_URL`. It defaults to `http://api:8000` for Docker Compose. Override it in `.env` when the API is hosted at a different address:
+
+```dotenv
+API_UPSTREAM_URL=http://api:8000
+```
+
 For frontend-only development, run the Vite development server separately:
 
 ```bash
@@ -101,7 +107,7 @@ npm install
 npm run dev
 ```
 
-Set `VITE_API_BASE_URL=http://localhost:8000` in `ui/.env`. The client is served at <http://localhost:5173>.
+For frontend-only development, set `VITE_API_BASE_URL` in `ui/.env` to the API origin, for example `http://localhost:8000`. The containerized frontend leaves this value empty and uses its Nginx proxy instead.
 
 ## Architecture
 
