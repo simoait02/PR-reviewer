@@ -1,4 +1,15 @@
 services:
+  frontend:
+    image: pr-reviewer-frontend:ci
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    depends_on:
+      api:
+        condition: service_started
+    ports:
+      - "5173:80"
+
   api:
     image: pr-reviewer-api:ci
     build:

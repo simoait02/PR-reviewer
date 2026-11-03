@@ -33,10 +33,11 @@ make sandbox
 make start
 ```
 
-The startup command builds the API and MCP images, starts PostgreSQL, applies migrations, and ingests the engineering-practice documents used by retrieval. It may take a little longer the first time because ingestion calls the OpenAI embeddings API.
+The startup command builds the frontend, API, and MCP images, starts PostgreSQL, applies migrations, and ingests the engineering-practice documents used by retrieval. It may take a little longer the first time because ingestion calls the OpenAI embeddings API.
 
 Once the stack is running:
 
+- Web UI: <http://localhost:5173>
 - API: <http://localhost:8000>
 - OpenAPI documentation: <http://localhost:8000/docs>
 - Phoenix observability: <http://localhost:6006>
@@ -89,7 +90,9 @@ With PostgreSQL running and `.env` configured, the main development commands are
 | `make rag-eval` | Run the DeepEval retrieval evaluation |
 | `make sandbox` | Build the isolated review sandbox image |
 
-The optional React/Vite client is in [`ui/`](ui/). Run it separately:
+The React/Vite client is built into the `frontend` Compose service and is available at <http://localhost:5173>. The container serves the production build through Nginx and proxies review requests to the API service.
+
+For frontend-only development, run the Vite development server separately:
 
 ```bash
 cp ui/.env.example ui/.env
@@ -132,7 +135,7 @@ docs/               Engineering-practice source documents
 scripts/            Database helpers and RAG ingestion
 security-rules/     Semgrep rules for authentication and input validation
 tests/              Unit tests and retrieval evaluations
-ui/                 Optional React/Vite client
+ui/                 React/Vite client and production container
 ```
 
 ## Support and security
