@@ -1,4 +1,17 @@
 services:
+  frontend:
+    image: pr-reviewer-frontend:ci
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    environment:
+      API_UPSTREAM_URL: "${API_UPSTREAM_URL:-http://api:8000}"
+    depends_on:
+      api:
+        condition: service_started
+    ports:
+      - "5173:80"
+
   api:
     image: pr-reviewer-api:ci
     build:
