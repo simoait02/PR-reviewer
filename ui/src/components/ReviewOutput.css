@@ -1,0 +1,105 @@
+.review-content {
+  color: #f8fafc;
+}
+
+.review-content > * + * {
+  margin-top: 1.5rem;
+}
+
+.review-status {
+  color: #a7bff1;
+  font-weight: 600;
+}
+
+.review-error {
+  color: #ffb4ad;
+  font-weight: 600;
+}
+
+.review-summary,
+.finding-item,
+.limitation {
+  line-height: 1.6;
+}
+
+.finding-item {
+  margin-top: 2rem;
+}
+
+.finding-title {
+  margin: 0 0 0.5rem;
+  color: #dbe5ff;
+}
+
+.finding-severity {
+  text-transform: uppercase;
+  font-family: "ui-sans-serif", sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.finding-high .finding-severity,
+.finding-blocker .finding-severity,
+.finding-critical .finding-severity {
+  color: #ff6b81;
+}
+
+.finding-medium .finding-severity {
+  color: #ffe08a;
+}
+
+.finding-low .finding-severity {
+  color: #aff5b4;
+}
+
+.finding-info .finding-severity {
+  color: #a8c7fa;
+}
+
+.finding-location {
+  margin: 0 0 1rem;
+  color: rgb(219 229 255 / 0.7);
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.finding-item p {
+  margin: 0.5rem 0 0;
+  line-height: 1.5;
+}
+
+.limitation strong {
+  color: #ffc857;
+}
+
+.diff-block {
+  overflow-x: auto;
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: rgb(0 0 0 / 0.3);
+  color: #dbe5ff;
+  font-family: monospace;
+  line-height: 1.5;
+}
+
+.diff-block span {
+  display: block;
+  min-width: max-content;
+}
+
+.diff-added {
+  background: rgb(46 160 67 / 0.25);
+  color: #aff5b4;
+}
+
+.diff-removed {
+  background: rgb(248 81 73 / 0.25);
+  color: #ffb4ad;
+}
+
+.diff-hunk {
+  background: rgb(56 139 253 / 0.2);
+  color: #a8c7fa;
+}

@@ -1,0 +1,104 @@
+.form-group {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 3em;
+  gap: 1rem;
+}
+
+.field {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.field > label {
+  color: white;
+  font-size: 16px;
+  font-family: "ui-sans-serif", sans-serif;
+  padding: 0 0.5em;
+}
+
+.field > input,
+.field > textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgb(255 255 255 / 0.35);
+  border-radius: 1em;
+  background: rgb(255 255 255 / 0.12);
+  color: #f8fafc;
+  font: inherit;
+}
+
+.field > input {
+  height: 3em;
+  padding: 0 1em;
+}
+
+.field > textarea {
+  min-height: 8em;
+  padding: 1em;
+  resize: vertical;
+}
+
+.field > input::placeholder,
+.field > textarea::placeholder {
+  color: rgb(255 255 255 / 0.6);
+}
+
+.field > input:focus,
+.field > textarea:focus {
+  outline: none;
+  border-color: #a7bff1;
+  box-shadow: 0 0 0 3px rgb(167 191 241 / 0.3);
+}
+
+.form {
+  margin: 2em 3em;
+  padding: 1.5em;
+  border: 1px solid rgb(255 255 255 / 0.25);
+  border-radius: 1em;
+  background: rgb(255 255 255 / 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgb(0 0 0 / 0.25);
+}
+
+.form-group > input[type="submit"] {
+  align-self: flex-end;
+  width: 10em;
+  height: 3em;
+  border: none;
+  border-radius: 1em;
+  background-color: rgb(167 191 241 / 0.89);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.form-group > input[type="submit"]:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.processing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.5em 3em;
+  color: #f8fafc;
+  font-weight: 600;
+}
+
+.loader {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 3px solid rgb(255 255 255 / 0.3);
+  border-top-color: #a7bff1;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
