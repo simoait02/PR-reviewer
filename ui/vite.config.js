@@ -7,4 +7,12 @@ export default defineConfig({
     react(),
     babel({ presets: [reactCompilerPreset()] })
   ],
+  server: {
+    proxy: {
+      '/api/v1': {
+        target: 'http://localhost:8000',
+        rewrite: (path) => path.replace(/^\/api\/v1/, ''),
+      },
+    },
+  },
 })
