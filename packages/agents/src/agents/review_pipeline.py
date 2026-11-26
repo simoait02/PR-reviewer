@@ -209,9 +209,8 @@ class ReviewPipeline:
                     if isinstance(partial_response, dict)
                     else None
                 )
-                if (
-                    isinstance(partial_summary, str)
-                    and partial_summary.startswith(streamed_summary)
+                if isinstance(partial_summary, str) and partial_summary.startswith(
+                    streamed_summary
                 ):
                     token = partial_summary[len(streamed_summary) :]
                     streamed_summary = partial_summary

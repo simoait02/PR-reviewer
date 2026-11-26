@@ -18,20 +18,11 @@ def build_chat_model(config: ModelConfig) -> BaseChatModel:
         True,
     )
 
-    if config.provider != "openai":
-        logger.error(
-            "Unsupported chat model provider '{}'",
-            config.provider,
-        )
-        raise ValueError(f"Unsupported model provider: {config.provider}")
-
     model_options: dict[str, Any] = {
         "model": config.name,
         "model_provider": config.provider,
         "reasoning_effort": config.reasoning,
         "use_responses_api": True,
     }
-    if not config.name.startswith("gpt-6"):
-        model_options["temperature"] = config.temperature
 
     return init_chat_model(**model_options)

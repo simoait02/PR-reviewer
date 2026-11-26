@@ -6,12 +6,12 @@ import os
 import re
 from typing import Any
 
-from github_mcp_tools.rag.database import EMBEDDING_MODEL, get_database_url
 from langchain_core.documents import Document
 from langchain_openai import OpenAIEmbeddings
 from langchain_postgres import PGVector
 from pr_logging.core import get_logger
 
+from github_mcp_tools.rag.database import EMBEDDING_MODEL, get_database_url
 from github_mcp_tools.rag.models import BestPracticeResult
 
 logger = get_logger(__name__)
@@ -104,7 +104,9 @@ class BestPracticesRetriever:
             ),
         )[:limit]
 
-        results = [self._to_result(document, distance) for document, distance in ranked_rows]
+        results = [
+            self._to_result(document, distance) for document, distance in ranked_rows
+        ]
         logger.debug("Retrieved {} best-practices results", len(results))
         return results
 

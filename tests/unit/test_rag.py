@@ -1,14 +1,13 @@
 import asyncio
 from unittest.mock import patch
 
-from langchain_core.documents import Document
-
 from github_mcp_tools.rag import database
 from github_mcp_tools.rag import service as rag_service
 from github_mcp_tools.rag.retriever import (
     BestPracticesRetriever,
     _heading_match_score,
 )
+from langchain_core.documents import Document
 
 from scripts import ingest_rag
 
@@ -30,7 +29,12 @@ class FakeVectorStore:
 def test_retriever_search_clamps_limit_and_maps_rows():
     vector_store = FakeVectorStore()
     vector_store.rows = [
-        (Document(page_content="Testing guidance section.", metadata={"title": "Testing"}), 0.25)
+        (
+            Document(
+                page_content="Testing guidance section.", metadata={"title": "Testing"}
+            ),
+            0.25,
+        )
     ]
     retriever = BestPracticesRetriever(vector_store)
 
@@ -91,8 +95,20 @@ def test_retriever_applies_minimum_limit():
 def test_retriever_prioritizes_exact_heading_matches():
     vector_store = FakeVectorStore()
     vector_store.rows = [
-        (Document(page_content="Semantic result.", metadata={"title": "Semantic match", "heading_path": ["Other Topic"]}), 0.05),
-        (Document(page_content="Heading result.", metadata={"title": "Heading match", "heading_path": ["Exact Topic"]}), 0.50),
+        (
+            Document(
+                page_content="Semantic result.",
+                metadata={"title": "Semantic match", "heading_path": ["Other Topic"]},
+            ),
+            0.05,
+        ),
+        (
+            Document(
+                page_content="Heading result.",
+                metadata={"title": "Heading match", "heading_path": ["Exact Topic"]},
+            ),
+            0.50,
+        ),
     ]
     retriever = BestPracticesRetriever(vector_store)
 

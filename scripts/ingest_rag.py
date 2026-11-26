@@ -39,7 +39,10 @@ def load_documents() -> list[Document]:
         )
 
         for document in splitter.split_text(parsed.content):
-            if not document.metadata.get("Header 2") or not document.page_content.strip():
+            if (
+                not document.metadata.get("Header 2")
+                or not document.page_content.strip()
+            ):
                 continue
 
             document.page_content = document.page_content.strip()

@@ -54,7 +54,8 @@ def test_build_chat_model_uses_configured_model_options(monkeypatch):
 
     result = model_factory.build_chat_model(
         ModelConfig(
-            name="gpt-5.6-luna",
+            provider="anthropic",
+            name="claude-sonnet-4-5",
             temperature=0.2,
             reasoning="low",
         )
@@ -62,17 +63,11 @@ def test_build_chat_model_uses_configured_model_options(monkeypatch):
 
     assert result is not None
     assert captured == {
-        "model": "gpt-5.6-luna",
-        "model_provider": "openai",
-        "temperature": 0.2,
+        "model": "claude-sonnet-4-5",
+        "model_provider": "anthropic",
         "reasoning_effort": "low",
         "use_responses_api": True,
     }
-
-
-def test_build_chat_model_rejects_unsupported_provider():
-    with pytest.raises(ValueError, match="Unsupported model provider"):
-        model_factory.build_chat_model(ModelConfig(provider="anthropic"))
 
 
 def test_load_agent_yaml_reads_each_agent_configuration():
