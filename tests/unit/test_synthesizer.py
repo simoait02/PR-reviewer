@@ -24,8 +24,9 @@ class FakeModel:
     def __init__(self, structured_model):
         self.structured_model = structured_model
 
-    def with_structured_output(self, response_type):
+    def with_structured_output(self, response_type, *, method):
         assert response_type is SynthesizerResponse
+        assert method == "function_calling"
         return self.structured_model
 
 

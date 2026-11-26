@@ -70,8 +70,9 @@ class ReviewFinding(BaseModel):
     suggested_patch: str | None = Field(
         default=None,
         description=(
-            "Optional unified diff or focused replacement snippet proposed "
-            "for this finding."
+            "Minimal unified diff or focused replacement snippet for an "
+            "actionable code finding. Populate this whenever the supplied "
+            "source supports the exact edit; otherwise use null."
         ),
     )
 
@@ -83,7 +84,16 @@ class AgentResponse(BaseModel):
     uses it to write the final pull request review.
     """
 
-    status: AgentStatus = AgentStatus.COMPLETED
+    status: AgentStatus = Field(
+        default=AgentStatus.COMPLETED,
+        description=(
+            "Use input_required only when a specific answer or missing "
+            "user-provided information blocks progress, and state exactly "
+            "what is needed in summary. Use failed for an internal failure; "
+            "use completed when the work can conclude, including with an "
+            "evidence limitation."
+        ),
+    )
     summary: str
     findings: list[ReviewFinding] = Field(default_factory=list)
     approved: bool

@@ -11,15 +11,12 @@ const REVIEW_CHECKS = [
   { command: "synthesize", description: "One prioritized report with explanations and patches you can apply." },
 ];
 
-const EVENT_REVEAL_DELAY_MS = 900;
-const SUMMARY_TICK_MS = 18;
-const SUMMARY_CHARACTERS_PER_TICK = 2;
-
 function App() {
   const [form, setForm] = useState({ owner: "", repo: "", prNumber: "", token: "", question: "" });
   const [summary, setSummary] = useState("");
   const [findings, setFindings] = useState([]);
   const [limitations, setLimitations] = useState([]);
+  const [activityEvents, setActivityEvents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [hasRun, setHasRun] = useState(false);
   const [error, setError] = useState("");
@@ -37,43 +34,28 @@ function App() {
     setSummary("");
     setFindings([]);
     setLimitations([]);
+    setActivityEvents([]);
 
-    const revealDelay = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 1;
-    const wait = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds * revealDelay));
-
-    async function typeOutSummary(fullSummary) {
-      for (let length = SUMMARY_CHARACTERS_PER_TICK; length < fullSummary.length; length += SUMMARY_CHARACTERS_PER_TICK) {
-        setSummary(fullSummary.slice(0, length));
-        await wait(SUMMARY_TICK_MS);
-      }
-      setSummary(fullSummary);
-      await wait(EVENT_REVEAL_DELAY_MS);
-    }
-
-    async function revealEvent(eventName, data) {
-      if (eventName === "summary") await typeOutSummary(data.summary);
-      else if (eventName === "findings") {
-        setFindings((current) => [...current, data]);
-        await wait(EVENT_REVEAL_DELAY_MS);
-      } else if (eventName === "limitations") {
-        setLimitations((current) => [...current, data.limitation]);
-        await wait(EVENT_REVEAL_DELAY_MS);
-      }
-    }
-
-    // The backend sends the whole report at once; queue events so they are revealed one by one.
-    let revealQueue = Promise.resolve();
     try {
       await streamReview({
         form,
         onEvent: (eventName, data) => {
-          revealQueue = revealQueue.then(() => revealEvent(eventName, data));
+          if (eventName === "stream_event") {
+            setActivityEvents((current) => [...current, data].slice(-8));
+          } else if (eventName === "token") {
+            setSummary((current) => current + data.token);
+          } else if (eventName === "summary") {
+            setSummary(data.summary);
+          } else if (eventName === "findings") {
+            setFindings((current) => [...current, data]);
+          } else if (eventName === "limitations") {
+            setLimitations((current) => [...current, data.limitation]);
+          }
         },
       });
     } catch (requestError) {
       setError(requestError.message || "The review request failed.");
     } finally {
-      await revealQueue;
       setLoading(false);
     }
   }
@@ -108,6 +90,7 @@ function App() {
             summary={summary}
             findings={findings}
             limitations={limitations}
+            activityEvents={activityEvents}
             error={error}
             pullRequestLabel={`${form.owner}/${form.repo}#${form.prNumber}`}
           />

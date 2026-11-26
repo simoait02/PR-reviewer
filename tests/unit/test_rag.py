@@ -1,6 +1,7 @@
 import asyncio
-from types import SimpleNamespace
 from unittest.mock import patch
+
+from langchain_core.documents import Document
 
 from github_mcp_tools.rag import database
 from github_mcp_tools.rag import service as rag_service
@@ -9,73 +10,39 @@ from github_mcp_tools.rag.retriever import (
     _heading_match_score,
 )
 
-from scripts.ingest_rag import split_into_rules
+from scripts import ingest_rag
 
 
 def run(coroutine):
     return asyncio.run(coroutine)
 
 
-class FakeEmbeddingClient:
+class FakeVectorStore:
     def __init__(self):
         self.calls = []
-        self.embeddings = self
+        self.rows = []
 
-    async def create(self, *, model, input):
-        self.calls.append((model, input))
-        return SimpleNamespace(data=[SimpleNamespace(embedding=[0.1, 0.2])])
-
-
-class FakeResult:
-    def __init__(self, rows):
-        self.rows = rows
-
-    def mappings(self):
-        return self
-
-    def all(self):
+    async def asimilarity_search_with_score(self, query, *, k, **kwargs):
+        self.calls.append((query, k, kwargs["filter"]))
         return self.rows
 
 
-class FakeSession:
-    def __init__(self, rows):
-        self.rows = rows
-        self.statement = None
-
-    async def __aenter__(self):
-        return self
-
-    async def __aexit__(self, *_):
-        return None
-
-    async def execute(self, statement):
-        self.statement = statement
-        return FakeResult(self.rows)
-
-
 def test_retriever_search_clamps_limit_and_maps_rows():
-    rows = [
-        {
-            "title": "Testing",
-            "content": "Testing guidance section.",
-            "metadata_": {"section": "unit"},
-            "distance": 0.25,
-        }
+    vector_store = FakeVectorStore()
+    vector_store.rows = [
+        (Document(page_content="Testing guidance section.", metadata={"title": "Testing"}), 0.25)
     ]
-    session = FakeSession(rows)
-    embeddings = FakeEmbeddingClient()
-    retriever = BestPracticesRetriever(lambda: session, embeddings)
+    retriever = BestPracticesRetriever(vector_store)
 
     result = run(retriever.search("unit tests", limit=100))
 
     assert result[0].title == "Testing"
     assert result[0].distance == 0.25
-    assert embeddings.calls == [(database.EMBEDDING_MODEL, "unit tests")]
-    assert session.statement is not None
+    assert vector_store.calls == [("unit tests", 80, {"chunk_type": "rule"})]
 
 
-def test_ingestion_creates_one_focused_chunk_per_rule():
-    chunks = split_into_rules(
+def test_ingestion_creates_one_focused_chunk_per_rule(tmp_path, monkeypatch):
+    (tmp_path / "chapter.md").write_text(
         """# Chapter
 
 Intro
@@ -92,13 +59,18 @@ Look for this.
 
         Fix this.
 """,
+        encoding="utf-8",
     )
+    monkeypatch.setattr(ingest_rag, "DOCUMENTS_DIR", tmp_path)
 
-    assert [chunk.metadata["rule_id"] for chunk in chunks] == [
-        "first-rule",
-        "second-rule",
+    chunks = ingest_rag.load_documents()
+
+    assert [chunk.metadata["Header 2"] for chunk in chunks] == [
+        "First rule",
+        "Second rule",
     ]
     assert all(chunk.metadata["chunk_type"] == "rule" for chunk in chunks)
+    assert all(chunk.page_content.startswith("##") for chunk in chunks)
     assert all("parent" not in chunk.metadata for chunk in chunks)
     assert all(
         chunk.metadata["heading_path"] == ["Chapter", heading]
@@ -107,32 +79,22 @@ Look for this.
 
 
 def test_retriever_applies_minimum_limit():
-    session = FakeSession([])
-    retriever = BestPracticesRetriever(lambda: session, FakeEmbeddingClient())
+    vector_store = FakeVectorStore()
+    retriever = BestPracticesRetriever(vector_store)
 
     result = run(retriever.search("query", limit=0))
 
     assert result == []
-    assert session.statement is not None
+    assert vector_store.calls == []
 
 
 def test_retriever_prioritizes_exact_heading_matches():
-    rows = [
-        {
-            "title": "Semantic match",
-            "content": "Semantic result.",
-            "metadata_": {"heading_path": ["Other Topic"]},
-            "distance": 0.05,
-        },
-        {
-            "title": "Heading match",
-            "content": "Heading result.",
-            "metadata_": {"heading_path": ["Exact Topic"]},
-            "distance": 0.50,
-        },
+    vector_store = FakeVectorStore()
+    vector_store.rows = [
+        (Document(page_content="Semantic result.", metadata={"title": "Semantic match", "heading_path": ["Other Topic"]}), 0.05),
+        (Document(page_content="Heading result.", metadata={"title": "Heading match", "heading_path": ["Exact Topic"]}), 0.50),
     ]
-    session = FakeSession(rows)
-    retriever = BestPracticesRetriever(lambda: session, FakeEmbeddingClient())
+    retriever = BestPracticesRetriever(vector_store)
 
     result = run(retriever.search("Exact Topic", limit=1))
 
@@ -145,20 +107,14 @@ def test_heading_match_score_handles_invalid_metadata():
 
 
 def test_retriever_from_env_constructs_dependencies(monkeypatch):
-    session_factory = object()
-    embedding_client = object()
+    vector_store = object()
     monkeypatch.setattr(
-        "github_mcp_tools.rag.retriever.get_session_factory",
-        lambda: session_factory,
-    )
-    monkeypatch.setattr(
-        "github_mcp_tools.rag.retriever.AsyncOpenAI",
-        lambda: embedding_client,
+        "github_mcp_tools.rag.retriever.get_vector_store",
+        lambda: vector_store,
     )
 
     retriever = BestPracticesRetriever.from_env()
-    assert retriever.session_factory is session_factory
-    assert retriever.embedding_client is embedding_client
+    assert retriever.vector_store is vector_store
 
 
 def test_database_url_uses_required_and_optional_environment(monkeypatch):

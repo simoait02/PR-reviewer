@@ -2,22 +2,18 @@ import { useEffect, useRef, useState } from "react";
 import "./ReviewOutput.css";
 
 const SEVERITY_ORDER = ["blocker", "critical", "high", "medium", "low", "info"];
-const LOADING_MESSAGES = [
-  "Reading the diff",
-  "Squinting at edge cases",
-  "Following the call graph",
-  "Checking for leaked secrets",
-  "Poking at error handling",
-  "Weighing the blast radius",
-  "Cross-checking the agents",
-  "Untangling the imports",
-  "Looking for off-by-ones",
-  "Drafting the report",
-];
-const SECONDS_PER_LOADING_MESSAGE = 6;
 
 function cleanPatchText(patch) {
   return patch.replace(/^```diff\s*/i, "").replace(/```\s*$/, "");
+}
+
+function describeActivity({ type, name }) {
+  const readableName = (name ?? "review agent").replaceAll("_", " ");
+  if (type === "agent_started") return `${readableName} started`;
+  if (type === "agent_finished") return `${readableName} finished`;
+  if (type === "tool_started") return `Calling ${readableName}`;
+  if (type === "tool_finished") return `${readableName} finished`;
+  return readableName;
 }
 
 function DiffBlock({ patch }) {
@@ -89,7 +85,7 @@ function FindingEntry({ finding }) {
   );
 }
 
-function ReviewOutput({ loading, summary, findings, limitations, error, pullRequestLabel }) {
+function ReviewOutput({ loading, summary, findings, limitations, activityEvents, error, pullRequestLabel }) {
   const [severityFilter, setSeverityFilter] = useState("all");
   const elapsedSeconds = useElapsedSeconds(loading);
   const resultsRef = useRef(null);
@@ -107,7 +103,7 @@ function ReviewOutput({ loading, summary, findings, limitations, error, pullRequ
   const visibleFindings = findings
     .filter((finding) => severityFilter === "all" || String(finding.severity ?? "info").toLowerCase() === severityFilter)
     .sort((a, b) => SEVERITY_ORDER.indexOf(String(a.severity ?? "info").toLowerCase()) - SEVERITY_ORDER.indexOf(String(b.severity ?? "info").toLowerCase()));
-  const loadingMessage = summary ? "Writing up the results" : LOADING_MESSAGES[Math.floor(elapsedSeconds / SECONDS_PER_LOADING_MESSAGE) % LOADING_MESSAGES.length];
+  const recentActivity = activityEvents.slice(-4);
   const finishedClean = !loading && !error && findings.length === 0 && summary;
 
   return (
@@ -130,10 +126,25 @@ function ReviewOutput({ loading, summary, findings, limitations, error, pullRequ
         {error && <p className="error-line"><span className="error-label">error:</span> {error}</p>}
 
         {loading && (
-          <p className="progress-text">
-            <span className="spinner-dots" aria-hidden="true" />
-            <span className="loading-message" key={loadingMessage}>{loadingMessage}…</span>
-          </p>
+          <div className="progress-panel" aria-live="polite">
+            <p className="progress-text">
+              <span className="spinner-dots" aria-hidden="true" />
+              <span>
+                {recentActivity.length
+                  ? describeActivity(recentActivity[recentActivity.length - 1])
+                  : "Starting review agents"}…
+              </span>
+            </p>
+            {recentActivity.length > 0 && (
+              <ol className="activity-list">
+                {recentActivity.map((activity, index) => (
+                  <li key={`${activity.type}-${activity.name}-${activityEvents.length - recentActivity.length + index}`}>
+                    {describeActivity(activity)}
+                  </li>
+                ))}
+              </ol>
+            )}
+          </div>
         )}
 
         {summary && (

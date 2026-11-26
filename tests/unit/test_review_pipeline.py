@@ -11,16 +11,16 @@ from .helpers import (
 
 
 class FakeGraph:
-    def __init__(self, updates=None, result=None):
-        self.updates = updates or []
+    def __init__(self, events=None, result=None):
+        self.events = events or []
         self.result = result
-        self.astream_calls = []
+        self.astream_events_calls = []
         self.ainvoke_calls = []
 
-    async def astream(self, state, *, context, stream_mode):
-        self.astream_calls.append((state, context, stream_mode))
-        for update in self.updates:
-            yield update
+    async def astream_events(self, state, *, context, version):
+        self.astream_events_calls.append((state, context, version))
+        for event in self.events:
+            yield event
 
     async def ainvoke(self, state, *, context):
         self.ainvoke_calls.append((state, context))
@@ -57,9 +57,49 @@ def collect(async_iterator):
 def test_astream_exposes_only_synthesizer_fields():
     synthesizer = make_synthesizer_response()
     graph = FakeGraph(
-        updates=[
-            {"orchestrator": {"orchestrator_response": make_orchestrator_response()}},
-            {"synthesizer": synthesizer.model_dump()},
+        events=[
+            {
+                "event": "on_chain_start",
+                "name": "orchestrator",
+                "data": {},
+                "metadata": {},
+            },
+            {
+                "event": "on_chain_end",
+                "name": "orchestrator",
+                "data": {
+                    "output": {
+                        "orchestrator_response": make_orchestrator_response().model_dump(
+                            mode="json"
+                        )
+                    }
+                },
+                "metadata": {},
+            },
+            {
+                "event": "on_tool_start",
+                "name": "review_tool",
+                "data": {},
+                "metadata": {},
+            },
+            {
+                "event": "on_tool_end",
+                "name": "review_tool",
+                "data": {},
+                "metadata": {},
+            },
+            {
+                "event": "on_parser_stream",
+                "name": "synthesizer_parser",
+                "data": {"chunk": {"summary": "A summary"}},
+                "metadata": {"langgraph_node": "synthesizer"},
+            },
+            {
+                "event": "on_chain_end",
+                "name": "synthesizer",
+                "data": {"output": synthesizer.model_dump(mode="json")},
+                "metadata": {},
+            },
         ]
     )
     pipeline = ReviewPipeline(None, None)
@@ -69,22 +109,50 @@ def test_astream_exposes_only_synthesizer_fields():
         pipeline.astream(make_request(), github_token="secret", thread_id="thread-1")
     )
 
-    assert [event_name for event_name, _ in events] == [
+    response_events = [
+        event
+        for event in events
+        if event[0] in {"status", "summary", "findings", "limitations"}
+    ]
+    assert {event_name for event_name, _ in events} <= {
+        "status",
+        "summary",
+        "findings",
+        "limitations",
+        "stream_event",
+        "token",
+    }
+    assert [event_name for event_name, _ in response_events] == [
         "status",
         "summary",
         "findings",
         "limitations",
     ]
-    assert events[0] == ("status", {"status": "completed"})
-    assert events[1] == ("summary", {"summary": synthesizer.summary})
-    assert events[2][1]["severity"] == "high"
-    assert events[3] == ("limitations", {"limitation": synthesizer.limitations[0]})
-    assert graph.astream_calls[0][1] == {"github_token": "secret"}
-    assert graph.astream_calls[0][2] == "updates"
+    assert response_events[0] == ("status", {"status": "completed"})
+    assert response_events[1] == ("summary", {"summary": synthesizer.summary})
+    assert response_events[2][1]["severity"] == "high"
+    assert response_events[3] == (
+        "limitations",
+        {"limitation": synthesizer.limitations[0]},
+    )
+    assert ("stream_event", {"type": "agent_started", "name": "orchestrator"}) in events
+    assert ("stream_event", {"type": "tool_started", "name": "review_tool"}) in events
+    assert ("token", {"token": "A summary"}) in events
+    assert graph.astream_events_calls[0][1] == {"github_token": "secret"}
+    assert graph.astream_events_calls[0][2] == "v2"
 
 
-def test_astream_ignores_updates_without_synthesizer_output():
-    graph = FakeGraph(updates=[{"orchestrator": {}}])
+def test_astream_ignores_events_without_synthesizer_output():
+    graph = FakeGraph(
+        events=[
+            {
+                "event": "on_chain_end",
+                "name": "orchestrator",
+                "data": {"output": {"orchestrator_response": {}}},
+                "metadata": {},
+            }
+        ]
+    )
     pipeline = ReviewPipeline(None, None)
     pipeline._graph = graph
 

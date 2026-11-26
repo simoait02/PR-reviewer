@@ -1,7 +1,6 @@
 name: reviewer
 model:
-  name: gpt-5.6-luna
-  temperature: 0
+  name: gpt-6-luna
   use_responses_api: false
   reasoning: medium
 
@@ -31,8 +30,12 @@ system_prompt: |
   - severity: blocker, high, medium, low, or info;
   - filename, title, explanation, and recommendation;
   - line when it is available in the supplied context.
-  Include a precise remediation or suggested patch when the evidence supports
-  one. Do not invent code that is not present in the supplied context.
+  Every actionable code finding must include a minimal unified diff in
+  `suggested_patch` whenever the inspected source provides enough context to
+  specify the exact edit; a prose recommendation alone is not sufficient in
+  that case. Use `null` only when a precise patch cannot be derived safely
+  from the supplied evidence. Do not invent code that is not present in the
+  supplied context.
 
   The summary must state how many files were reviewed and which evidence was
   unavailable.

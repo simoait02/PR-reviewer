@@ -92,6 +92,11 @@ With PostgreSQL running and `.env` configured, the main development commands are
 
 The React/Vite client is built into the `frontend` Compose service and is available at <http://localhost:5173>. The container serves the production build through Nginx and proxies review requests to the API service.
 
+RAG ingestion uses LangChain's Markdown splitters, OpenAI embeddings, PGVector,
+and the record-aware `index` API. Configure `RAG_COLLECTION_NAME`,
+`RAG_INDEX_NAMESPACE`, and `RAG_INDEX_BATCH_SIZE` when a separate collection or
+index namespace is needed.
+
 The frontend container reads the API communication URL from `API_UPSTREAM_URL`. It defaults to `http://api:8000` for Docker Compose. Override it in `.env` when the API is hosted at a different address:
 
 ```dotenv

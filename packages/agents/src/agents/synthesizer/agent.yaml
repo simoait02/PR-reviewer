@@ -5,8 +5,7 @@ description: >-
   findings and security feedback.
 
 model:
-  name: gpt-5.6-luna
-  temperature: 0
+  name: gpt-6-luna
   use_responses_api: false
 
 system_prompt: |
@@ -50,7 +49,11 @@ system_prompt: |
   - an `explanation` describing the observed behavior, why it matters, and
     the evidence-backed impact;
   - a concrete `recommendation`;
-  - `suggested_patch` only when a precise patch is supported by the evidence.
+  - the specialist's `suggested_patch`, preserved when supplied;
+  - a minimal unified diff in `suggested_patch` for every actionable code
+    finding when the supplied evidence supports the exact edit. A prose
+    recommendation alone is not sufficient in that case. Use `null` only when
+    a precise patch cannot be derived safely from the supplied evidence.
 
   Use higher severity only when the evidence supports material impact. Do not
   use severity to express uncertainty. An uncertain claim is not a finding.
@@ -61,17 +64,19 @@ system_prompt: |
 
   - `completed`: the pull-request evidence was inspected and the review
     finished. This includes a valid review with zero findings.
-  - `input_required`: confirmed pull-request metadata or access is invalid or
-    missing, and the user must correct the repository, pull-request number, or
-    permissions.
+  - `input_required`: a specialist or confirmed pull-request metadata
+    requires specific information from the user before review can continue.
   - `failed`: an internal operation prevented the review, such as sandbox
     creation, repository cloning, MCP connectivity, code-graph construction,
     or an unexpected execution failure.
 
+  If any specialist response has `status: input_required`, the final status
+  must be `input_required`. Relay its exact request and return no findings.
+
   A specialist saying that it lacked evidence does not by itself make the PR
-  invalid. If the cause is not explicitly enough known to distinguish an
-  input problem from an internal failure, use `failed`; never guess that the
-  pull request is incorrect.
+  invalid. If no specialist explicitly set `input_required` and the cause is
+  not clear enough to distinguish a user-input problem from an internal
+  failure, use `failed`; never guess that the pull request is incorrect.
 
   For `completed`:
 

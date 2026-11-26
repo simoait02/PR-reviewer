@@ -43,14 +43,14 @@ def test_model_config_defaults_are_stable():
     assert config.use_responses_api is False
 
 
-def test_build_chat_model_uses_configured_openai_options(monkeypatch):
+def test_build_chat_model_uses_configured_model_options(monkeypatch):
     captured = {}
 
-    class FakeChatOpenAI:
-        def __init__(self, **kwargs):
-            captured.update(kwargs)
+    def fake_init_chat_model(**kwargs):
+        captured.update(kwargs)
+        return object()
 
-    monkeypatch.setattr(model_factory, "ChatOpenAI", FakeChatOpenAI)
+    monkeypatch.setattr(model_factory, "init_chat_model", fake_init_chat_model)
 
     result = model_factory.build_chat_model(
         ModelConfig(
@@ -60,9 +60,10 @@ def test_build_chat_model_uses_configured_openai_options(monkeypatch):
         )
     )
 
-    assert isinstance(result, FakeChatOpenAI)
+    assert result is not None
     assert captured == {
         "model": "gpt-5.6-luna",
+        "model_provider": "openai",
         "temperature": 0.2,
         "reasoning_effort": "low",
         "use_responses_api": True,

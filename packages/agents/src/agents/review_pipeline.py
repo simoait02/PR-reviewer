@@ -160,17 +160,73 @@ class ReviewPipeline:
         logger.info("Streaming review pipeline")
 
         graph = self.abuild()
-        async for update in graph.astream(
+        streamed_summary = ""
+        response_streamed = False
+
+        async for event in graph.astream_events(
             {
                 "request": request,
                 "thread_id": thread_id,
             },
             context={"github_token": github_token},
-            stream_mode="updates",
+            version="v2",
         ):
-            synthesizer_update = update.get("synthesizer")
-            if synthesizer_update is not None:
-                response = SynthesizerResponse.model_validate(synthesizer_update)
+            event_name = event.get("event")
+            name = event.get("name", "")
+            event_data = event.get("data", {})
+            metadata = event.get("metadata", {})
+
+            if event_name == "on_chain_start" and name in {
+                "orchestrator",
+                "code_review_orchestrator",
+                "reviewer",
+                "impact",
+                "security",
+                "synthesizer",
+            }:
+                yield "stream_event", {"type": "agent_started", "name": name}
+            elif event_name == "on_chain_end" and name in {
+                "orchestrator",
+                "code_review_orchestrator",
+                "reviewer",
+                "impact",
+                "security",
+                "synthesizer",
+            }:
+                yield "stream_event", {"type": "agent_finished", "name": name}
+            elif event_name == "on_tool_start":
+                yield "stream_event", {"type": "tool_started", "name": name}
+            elif event_name == "on_tool_end":
+                yield "stream_event", {"type": "tool_finished", "name": name}
+
+            if (
+                event_name == "on_parser_stream"
+                and metadata.get("langgraph_node") == "synthesizer"
+            ):
+                partial_response = event_data.get("chunk")
+                partial_summary = (
+                    partial_response.get("summary")
+                    if isinstance(partial_response, dict)
+                    else None
+                )
+                if (
+                    isinstance(partial_summary, str)
+                    and partial_summary.startswith(streamed_summary)
+                ):
+                    token = partial_summary[len(streamed_summary) :]
+                    streamed_summary = partial_summary
+                    if token:
+                        yield "token", {"token": token}
+
+            output = event_data.get("output")
+            if (
+                event_name == "on_chain_end"
+                and not response_streamed
+                and isinstance(output, dict)
+                and {"status", "summary", "findings", "limitations"}.issubset(output)
+            ):
+                response = SynthesizerResponse.model_validate(output)
+                response_streamed = True
 
                 logger.debug(
                     "Streaming pipeline update: status '{}', {} findings, "
