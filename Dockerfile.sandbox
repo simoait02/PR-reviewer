@@ -1,6 +1,23 @@
-FROM debian:bookworm-slim
+FROM debian:bookworm-slim AS builder
 
 ARG CODE_REVIEW_GRAPH_VERSION=2.3.9
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        ca-certificates \
+        python3 \
+        python3-venv \
+    && python3 -m venv /opt/sandbox \
+    && /opt/sandbox/bin/pip install \
+        --no-cache-dir \
+        --disable-pip-version-check \
+        --no-compile \
+        "code-review-graph==${CODE_REVIEW_GRAPH_VERSION}" \
+        semgrep \
+    && /opt/sandbox/bin/pip uninstall --yes pip setuptools \
+    && rm -rf /var/lib/apt/lists/*
+
+FROM debian:bookworm-slim
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -8,25 +25,16 @@ RUN apt-get update \
         ca-certificates \
         bash \
         python3 \
-        python3-venv \
-    && python3 -m venv /opt/code-review-graph \
-    && /opt/code-review-graph/bin/pip install \
-        --no-cache-dir \
-        --disable-pip-version-check \
-        "code-review-graph==${CODE_REVIEW_GRAPH_VERSION}" \
-    && python3 -m venv /opt/security-tools \
-    && /opt/security-tools/bin/pip install \
-        --no-cache-dir \
-        --disable-pip-version-check \
-        semgrep \
-    && ln -s /opt/code-review-graph/bin/code-review-graph \
-        /usr/local/bin/code-review-graph \
-    && ln -s /opt/security-tools/bin/semgrep \
-        /usr/local/bin/semgrep \
     && rm -rf /var/lib/apt/lists/* \
+    && ln -s /opt/sandbox/bin/code-review-graph \
+        /usr/local/bin/code-review-graph \
+    && ln -s /opt/sandbox/bin/semgrep \
+        /usr/local/bin/semgrep \
     && useradd --create-home --shell /bin/bash sandbox \
     && mkdir -p /workspace \
     && chown -R sandbox:sandbox /workspace
+
+COPY --from=builder /opt/sandbox /opt/sandbox
 
 WORKDIR /workspace
 

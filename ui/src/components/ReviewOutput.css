@@ -34,16 +34,30 @@
 }
 
 .progress-text {
+  display: flex;
+  align-items: center;
   color: var(--text-muted);
 }
 
-.loading-message {
-  display: inline-block;
-  animation: message-in 0.3s ease-out both;
+.progress-panel {
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
 }
 
-@keyframes message-in {
-  from { opacity: 0; transform: translateY(4px); }
+.activity-list {
+  display: grid;
+  gap: 5px;
+  margin: 10px 0 0 1.4em;
+  color: var(--text-subtle);
+  font-size: 12px;
+  list-style: none;
+}
+
+.activity-list li::before {
+  content: "↳ ";
+  color: var(--accent);
 }
 
 .spinner-dots::before {

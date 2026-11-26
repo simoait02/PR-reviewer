@@ -17,7 +17,10 @@ class Synthesizer:
         self.name = config.name
         self.model = model or build_chat_model(config.model)
         self.system_prompt = config.system_prompt
-        self.structured_model = self.model.with_structured_output(SynthesizerResponse)
+        self.structured_model = self.model.with_structured_output(
+            SynthesizerResponse,
+            method="function_calling",
+        )
 
         logger.debug(
             "Initialized synthesizer '{}'",

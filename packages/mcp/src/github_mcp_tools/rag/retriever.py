@@ -2,22 +2,21 @@
 
 from __future__ import annotations
 
+import os
 import re
+from typing import Any
 
-from openai import AsyncOpenAI
+from langchain_core.documents import Document
+from langchain_openai import OpenAIEmbeddings
+from langchain_postgres import PGVector
 from pr_logging.core import get_logger
-from sqlalchemy import select
-from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
-from github_mcp_tools.rag.database import EMBEDDING_MODEL, get_session_factory
-from github_mcp_tools.rag.models import (
-    BestPracticeResult,
-    Chunk,
-    Document,
-    Embedding,
-)
+from github_mcp_tools.rag.database import EMBEDDING_MODEL, get_database_url
+from github_mcp_tools.rag.models import BestPracticeResult
 
 logger = get_logger(__name__)
+
+DEFAULT_COLLECTION_NAME = "engineering_practices"
 
 
 def _normalize_for_matching(value: str) -> str:
@@ -45,30 +44,31 @@ def _heading_match_score(query: str, metadata: object) -> int:
     )
 
 
+def get_vector_store() -> PGVector:
+    connection = get_database_url().render_as_string(hide_password=False)
+    return PGVector(
+        embeddings=OpenAIEmbeddings(model=EMBEDDING_MODEL),
+        collection_name=os.getenv("RAG_COLLECTION_NAME", DEFAULT_COLLECTION_NAME),
+        connection=connection,
+        embedding_length=1536,
+        use_jsonb=True,
+        create_extension=False,
+        async_mode=True,
+    )
+
+
 class BestPracticesRetriever:
     """Retrieve the most relevant embedded best-practice chunks."""
 
-    def __init__(
-        self,
-        session_factory: async_sessionmaker[AsyncSession],
-        embedding_client: AsyncOpenAI,
-    ) -> None:
-        self.session_factory = session_factory
-        self.embedding_client = embedding_client
-
+    def __init__(self, vector_store: PGVector) -> None:
+        self.vector_store = vector_store
         logger.debug("Initialized best-practices retriever")
 
     @classmethod
     def from_env(cls) -> BestPracticesRetriever:
         logger.debug("Creating best-practices retriever from environment")
-
-        retriever = cls(
-            session_factory=get_session_factory(),
-            embedding_client=AsyncOpenAI(),
-        )
-
+        retriever = cls(vector_store=get_vector_store())
         logger.debug("Created best-practices retriever")
-
         return retriever
 
     async def search(
@@ -78,8 +78,10 @@ class BestPracticesRetriever:
     ) -> list[BestPracticeResult]:
         requested_limit = limit
         limit = max(1, min(limit, 8))
-        candidate_limit = min(max(limit * 10, 50), 100)
+        if requested_limit <= 0:
+            return []
 
+        candidate_limit = min(max(limit * 10, 50), 100)
         logger.info(
             "Searching best practices with limit {} (requested {}), "
             "candidate pool {}, query length {}",
@@ -89,59 +91,31 @@ class BestPracticesRetriever:
             len(query),
         )
 
-        response = await self.embedding_client.embeddings.create(
-            model=EMBEDDING_MODEL,
-            input=query,
+        rows = await self.vector_store.asimilarity_search_with_score(
+            query,
+            k=candidate_limit,
+            filter={"chunk_type": "rule"},
         )
-        query_vector = response.data[0].embedding
-
-        logger.debug(
-            "Generated query embedding with model '{}'",
-            EMBEDDING_MODEL,
-        )
-
-        distance = Embedding.embedding.cosine_distance(query_vector)
-
-        statement = (
-            select(
-                Document.title,
-                Chunk.content,
-                Chunk.metadata_.label("metadata_"),
-                distance.label("distance"),
-            )
-            .join(Chunk, Chunk.document_id == Document.id)
-            .join(Embedding, Embedding.chunk_id == Chunk.id)
-            # Older databases may still contain parent/child rows. Restrict
-            # retrieval to the focused chunks created by the new ingestion.
-            .where(Chunk.metadata_["chunk_type"].as_string() == "rule")
-            .order_by(distance)
-            .limit(candidate_limit)
-        )
-
-        async with self.session_factory() as session:
-            rows = (await session.execute(statement)).mappings().all()
-
-            ranked_rows = sorted(
-                rows,
-                key=lambda row: (
-                    -_heading_match_score(query, row["metadata_"]),
-                    float(row["distance"]),
-                ),
-            )[:limit]
+        ranked_rows = sorted(
+            rows,
+            key=lambda row: (
+                -_heading_match_score(query, row[0].metadata),
+                float(row[1]),
+            ),
+        )[:limit]
 
         results = [
-            BestPracticeResult(
-                title=row["title"],
-                content=row["content"],
-                metadata=row["metadata_"],
-                distance=float(row["distance"]),
-            )
-            for row in ranked_rows
+            self._to_result(document, distance) for document, distance in ranked_rows
         ]
-
-        logger.debug(
-            "Retrieved {} best-practices results",
-            len(results),
-        )
-
+        logger.debug("Retrieved {} best-practices results", len(results))
         return results
+
+    @staticmethod
+    def _to_result(document: Document, distance: float) -> BestPracticeResult:
+        metadata: dict[str, Any] = dict(document.metadata)
+        return BestPracticeResult(
+            title=str(metadata.get("title", "Engineering best practices")),
+            content=document.page_content,
+            metadata=metadata,
+            distance=float(distance),
+        )
