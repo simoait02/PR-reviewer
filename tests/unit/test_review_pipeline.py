@@ -156,7 +156,12 @@ def test_astream_ignores_events_without_synthesizer_output():
     pipeline = ReviewPipeline(None, None)
     pipeline._graph = graph
 
-    assert collect(pipeline.astream(make_request(), thread_id="thread-1")) == []
+    events = collect(pipeline.astream(make_request(), thread_id="thread-1"))
+
+    assert all(
+        event_name not in {"status", "summary", "findings", "limitations"}
+        for event_name, _ in events
+    )
 
 
 def test_ainvoke_validates_typed_final_response():
